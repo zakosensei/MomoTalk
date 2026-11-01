@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
-<link rel="icon" href="./resources/MomoTalk.jpg" type="image/jpeg">
-<link rel="shortcut icon" href="./resources/MomoTalk.jpg" type="image/jpeg">
 <title>MomoTalk - 自定义聊天</title>
 <link rel="stylesheet" href="./resources/momotalk.css">
 </head>
@@ -16,21 +14,21 @@
     <div id="list-page">
         <div class="header">
             <div class="header-logo">
-                <a href="./momotalk.html"> <img id="app-icon" class="logo-img" src="./resources/MomoTalk_small.jpg" alt="" referrerpolicy="no-referrer"> </a>
-                <span id="app-name">MomoTalk</span>
+                <a href="./momotalk.html"> <img id="app-icon" class="logo-img" src="" alt="" referrerpolicy="no-referrer"> </a>
+                <span id="app-name"></span>
             </div>
             <div class="header-tools">
-                <button class="tool-btn" id="btn-import" onclick="document.getElementById('file-import').click()">导入</button>
-                <button class="tool-btn" id="btn-export" onclick="exportData()">导出</button>
+                <button class="tool-btn" id="btn-import" onclick="document.getElementById('file-import').click()"></button>
+                <button class="tool-btn" id="btn-export" onclick="exportData()"></button>
             </div>
         </div>
 
         <div class="search-bar">
-            <input type="text" class="search-input" id="search-input" placeholder="搜索已添加的学生或形态..." oninput="onSearch()">
+            <input type="text" class="search-input" id="search-input" placeholder="" oninput="onSearch()">
         </div>
 
         <div class="contact-list" id="contact-list">
-            <div class="loading-tip"><div class="spinner"></div><span id="loading-text">正在读取学生资料…</span></div>
+            <div class="loading-tip"><div class="spinner"></div><span id="loading-text"></span></div>
         </div>
 
         <input type="file" id="file-import" accept=".json" style="display: none;" onchange="importData(event)">
@@ -53,10 +51,10 @@
 
         <div class="chat-input-area">
             <div class="role-switch sensei" id="role-switch" onclick="toggleRole()">
-                <span id="role-text">老师</span>
+                <span id="role-text"></span>
             </div>
             <textarea class="chat-input" id="chat-input" rows="1" onkeydown="handleKeyDown(event)"></textarea>
-            <button class="send-btn" id="send-btn" onclick="sendMessage()">发送</button>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()"></button>
         </div>
     </div>
 
@@ -67,37 +65,45 @@
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
             </div>
-            <div class="more-header-title" id="more-header-title">更多</div>
+            <div class="more-header-title" id="more-header-title"></div>
         </div>
         <div class="more-body">
             <div id="more-main" class="more-panel active">
                 <div class="more-list">
-                    <div class="more-list-item" onclick="openMoreSection('about')">
-                        <span>关于</span>
+                    <div class="more-list-item" onclick="openMoreSection('developer')">
+                        <span data-key="developerTitle" data-default="开发者"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                    <div class="more-list-item" onclick="showCoffee()">
+                        <span data-key="coffeeTitle" data-default="Buy Me a Coffee"></span>
                         <span class="more-arrow">›</span>
                     </div>
                     <div class="more-list-item" onclick="openMoreSection('general')">
-                        <span>通用设置</span>
+                        <span data-key="generalTitle" data-default="通用设置"></span>
                         <span class="more-arrow">›</span>
                     </div>
                     <div class="more-list-item" onclick="openMoreSection('students')">
-                        <span>学生设置</span>
+                        <span data-key="studentsTitle" data-default="学生设置"></span>
                         <span class="more-arrow">›</span>
                     </div>
                 </div>
             </div>
-            <div id="more-about" class="more-panel">
+            <div id="more-developer" class="more-panel">
                 <div class="about-card">
                     <div class="about-author-row">
-                        <img class="about-avatar" id="about-avatar" src="" alt="作者头像" referrerpolicy="no-referrer">
+                        <img class="about-avatar" id="dev-avatar" src="" alt="开发者头像" referrerpolicy="no-referrer">
                         <div class="about-author-info">
-                            <div class="about-author-name" id="about-author-name"></div>
-                            <a class="about-author-link" id="about-author-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+                            <div class="about-author-name" id="dev-name"></div>
+                            <a class="about-author-link" id="dev-homepage" href="#" target="_blank" rel="noopener noreferrer"></a>
                         </div>
                     </div>
                     <div class="about-version-row">
-                        <span id="about-version"></span>
+                        <span id="dev-version"></span>
                     </div>
+                </div>
+                <div class="about-card">
+                    <div class="about-section-title" data-key="contactTitle" data-default="联系我们"></div>
+                    <div id="contact-items"></div>
                 </div>
             </div>
             <div id="more-general" class="more-panel">
@@ -114,9 +120,9 @@
             <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/>
             </svg>
-            <span id="nav-messages">消息</span>
+            <span id="nav-messages"></span>
         </div>
-        <div class="nav-add" onclick="openStudentPicker()">
+        <div class="nav-add" id="nav-add-btn" onclick="openStudentPicker()">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
             </svg>
@@ -125,7 +131,7 @@
             <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z"/>
             </svg>
-            <span id="nav-more">更多</span>
+            <span id="nav-more"></span>
         </div>
     </div>
 
@@ -143,67 +149,9 @@
 const DATAS_URL = './resources/running_datas.json';
 
 const DEFAULT_CONFIG = {
-    app: {
-        name: 'MomoTalk',
-        icon: './resources/MomoTalk_small.jpg',
-        studentsUrl: './resources/students.json'
-    },
-    storage: {
-        myStudentsKey: 'momotalk_my_students_v7',
-        chatsKey: 'momotalk_chats_v7'
-    },
-    about: {
-        authorName: 'zako老师',
-        authorAvatar: './resources/head.jpg',
-        xiaohongshuUrl: 'https://xhslink.cn/o/4bRFA2sZIFh',
-        version: 'MMT.0.0.1',
-        versionLabel: '（开发版）'
-    },
-    texts: {
-        loadingLibrary: '正在读取学生资料…',
-        loadErrorTitle: '无法读取学生资料',
-        loadErrorHint: '请确认 resources/students.json 与 HTML 位于同一目录，并通过 http(s) 服务访问。',
-        reloadBtn: '重新读取',
-        emptyMyStudents: '还没有添加学生',
-        emptyHint: '点击下方 + 从学生库中选择',
-        emptySearch: '没有找到匹配的学生形态',
-        searchPlaceholder: '搜索已添加的学生或形态...',
-        pickerTitle: '选择学生形态',
-        pickerPlaceholder: '搜索学生姓名或形态…',
-        pickerEmpty: '没有匹配的学生形态',
-        pickerDone: '完成',
-        pickerAdded: '已添加',
-        pickerAdd: '＋ 添加',
-        pickerMore: '还有 {n} 个形态未显示，请输入关键字搜索',
-        chatEmpty: '与 {name} 的聊天从这里开始',
-        startChat: '开始与 {name} 聊天吧',
-        skinPreview: '暂无消息',
-        chatPlaceholder: '输入消息或图片链接...',
-        sendBtn: '发送',
-        roleSensei: '老师',
-        roleStudent: '学生',
-        senseiName: 'Sensei',
-        manageTitle: '管理会话',
-        manageSubtitle: '{name} · 共 {count} 条消息',
-        unreadPlaceholder: '未读数量（仅列表显示）',
-        manageCancel: '取消',
-        manageClear: '清空记录',
-        manageRemove: '移出列表',
-        manageSave: '保存',
-        editTitle: '编辑消息',
-        editRoleLine: '身份：{role}',
-        editCancel: '取消',
-        editDelete: '删除',
-        editSave: '保存',
-        notReadyTitle: '提示',
-        notReadyBody: '学生资料尚未加载完成，请稍候或检查 resources/students.json。',
-        notReadyOk: '知道了',
-        importBtn: '导入',
-        exportBtn: '导出',
-        navMessages: '消息',
-        navMore: '更多',
-        imageLoadFail: '图片加载失败'
-    }
+    app: { name: 'MomoTalk' },
+    storage: {},
+    texts: {}
 };
 
 let CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
@@ -439,69 +387,170 @@ async function loadConfig() {
     applyConfig();
 }
 
-function applyConfig() {
-    const appName = document.getElementById('app-name');
-    if (appName) appName.textContent = CONFIG.app.name || 'MomoTalk';
-    document.title = (CONFIG.app.name || 'MomoTalk') + ' - 自定义聊天';
+function applyFavicon() {
+    const url = (CONFIG.app && CONFIG.app.favicon) || '';
+    if (!url) return;
+    const ext = (url.split('?')[0].split('.').pop() || '').toLowerCase();
+    const typeMap = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', svg: 'image/svg+xml', ico: 'image/x-icon', webp: 'image/webp' };
+    const type = typeMap[ext] || '';
 
-    const icon = document.getElementById('app-icon');
-    if (icon) {
-        icon.src = CONFIG.app.icon || './resources/MomoTalk_small.jpg';
+    const rels = ['icon', 'shortcut icon', 'apple-touch-icon'];
+    rels.forEach(rel => {
+        let link = document.querySelector(`head link[rel="${rel}"]`);
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = rel;
+            document.head.appendChild(link);
+        }
+        if (type) link.type = type;
+        link.href = url;
+    });
+}
+
+function applyThemeColor() {
+    const color = (CONFIG.app && CONFIG.app.themeColor) || '';
+    if (!color) return;
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        document.head.appendChild(meta);
     }
+    meta.content = color;
+}
+
+function applyTexts() {
+    document.querySelectorAll('[data-key]').forEach(el => {
+        el.textContent = T(el.dataset.key, null, el.dataset.default || '');
+    });
 
     const bi = document.getElementById('btn-import');
     if (bi) bi.textContent = T('importBtn', null, '导入');
     const be = document.getElementById('btn-export');
     if (be) be.textContent = T('exportBtn', null, '导出');
-
     const nm = document.getElementById('nav-messages');
     if (nm) nm.textContent = T('navMessages', null, '消息');
     const nmo = document.getElementById('nav-more');
     if (nmo) nmo.textContent = T('navMore', null, '更多');
-
     const si = document.getElementById('search-input');
     if (si) si.placeholder = T('searchPlaceholder', null, '搜索已添加的学生或形态...');
-
     const ci = document.getElementById('chat-input');
     if (ci) ci.placeholder = T('chatPlaceholder', null, '输入消息或图片链接...');
     const sb = document.getElementById('send-btn');
     if (sb) sb.textContent = T('sendBtn', null, '发送');
-
     const lt = document.getElementById('loading-text');
     if (lt) lt.textContent = T('loadingLibrary', null, '正在读取学生资料…');
+    const mht = document.getElementById('more-header-title');
+    if (mht && !mht.textContent) mht.textContent = T('moreTitle', null, '更多');
+}
+
+function applyConfig() {
+    const appName = document.getElementById('app-name');
+    if (appName) appName.textContent = (CONFIG.app && CONFIG.app.name) || 'MomoTalk';
+    document.title = ((CONFIG.app && CONFIG.app.name) || 'MomoTalk') + ' - 自定义聊天';
+
+    const icon = document.getElementById('app-icon');
+    if (icon) {
+        const iconUrl = (CONFIG.app && CONFIG.app.icon) || '';
+        if (iconUrl) {
+            icon.dataset.fallback = '';
+            icon.src = iconUrl;
+        }
+    }
+
+    applyFavicon();
+    applyThemeColor();
+    applyTexts();
 
     updateRoleUI();
 }
 
-function fillAboutInfo() {
-    const a = CONFIG.about || {};
-    const name = a.authorName || 'zako老师';
-    const avatar = a.authorAvatar || './resources/head.jpg';
-    const url = a.xiaohongshuUrl || '';
-    const ver = a.version || 'MMT.0.0.1';
-    const verLabel = a.versionLabel || '';
+function fillDeveloperInfo() {
+    const d = CONFIG.developer || {};
+    const name = d.name || '开发者';
+    const avatar = d.avatar || '';
+    const url = d.homepageUrl || '';
+    const homepageText = d.homepageText || T('homepageText', null, '作者主页');
+    const ver = d.version || '';
+    const verLabel = d.versionLabel || '';
 
-    const avatarEl = document.getElementById('about-avatar');
+    const avatarEl = document.getElementById('dev-avatar');
     if (avatarEl) {
         avatarEl.dataset.fallback = fallbackAvatar(name);
         avatarEl.removeAttribute('data-retries');
-        avatarEl.src = avatar;
+        avatarEl.src = avatar || fallbackAvatar(name);
         avatarEl.onclick = () => {
             if (url) window.open(url, '_blank', 'noopener,noreferrer');
         };
     }
 
-    const nameEl = document.getElementById('about-author-name');
+    const nameEl = document.getElementById('dev-name');
     if (nameEl) nameEl.textContent = name;
 
-    const linkEl = document.getElementById('about-author-link');
+    const linkEl = document.getElementById('dev-homepage');
     if (linkEl) {
-        linkEl.href = url || '#';
-        linkEl.textContent = '作者主页';
+        if (url) {
+            linkEl.href = url;
+            linkEl.textContent = homepageText;
+            linkEl.style.display = '';
+        } else {
+            linkEl.style.display = 'none';
+        }
     }
 
-    const verEl = document.getElementById('about-version');
-    if (verEl) verEl.textContent = '版本：' + ver + verLabel;
+    const verEl = document.getElementById('dev-version');
+    if (verEl) {
+        verEl.textContent = ver ? ('版本：' + ver + verLabel) : '';
+    }
+
+    renderContactItems();
+}
+
+function renderContactItems() {
+    const container = document.getElementById('contact-items');
+    if (!container) return;
+    const items = (CONFIG.contact && Array.isArray(CONFIG.contact.items)) ? CONFIG.contact.items : [];
+    if (items.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+    container.innerHTML = items.map((item, i) => {
+        const label = escapeHtml(item.label || '');
+        const value = escapeHtml(item.value || '');
+        const isLink = item.type === 'link';
+        return `<div class="contact-row${isLink ? ' clickable' : ''}" data-index="${i}">
+            <span class="contact-label">${label}</span>
+            <span class="contact-value${isLink ? ' link' : ''}">${value}</span>
+        </div>`;
+    }).join('');
+
+    container.querySelectorAll('.contact-row.clickable').forEach(row => {
+        row.addEventListener('click', () => {
+            const idx = Number(row.dataset.index);
+            const item = items[idx];
+            if (item && item.type === 'link' && item.value) {
+                window.open(item.value, '_blank', 'noopener,noreferrer');
+            }
+        });
+    });
+}
+
+function showCoffee() {
+    const cfg = CONFIG.coffee || {};
+    const img = cfg.image || '';
+    const title = cfg.title || T('coffeeTitle', null, 'Buy Me a Coffee');
+    if (!img) {
+        showModal(title, '<div style="text-align:center;color:#888;font-size:14px;padding:20px 0;">未配置赞赏码图片</div>', [
+            { text: '关闭', class: 'confirm', onClick: closeModal }
+        ]);
+        return;
+    }
+    const fb = brokenImage();
+    showModal(title, `<div style="text-align:center;">
+        <img src="${escapeHtml(img)}" data-fallback="${escapeHtml(fb)}" referrerpolicy="no-referrer" alt="赞赏码" style="max-width:100%;border-radius:10px;display:block;margin:0 auto;">
+    </div>`, [
+        { text: '关闭', class: 'confirm', onClick: closeModal }
+    ]);
 }
 
 function setActiveNav(which) {
@@ -517,6 +566,7 @@ function switchToList() {
     document.getElementById('more-page').classList.remove('active');
     document.getElementById('list-page').classList.remove('hide');
     setActiveNav('messages');
+    document.querySelector('.bottom-nav').classList.remove('in-more');
     backToMoreMain();
 }
 
@@ -524,6 +574,7 @@ function switchToMore() {
     document.getElementById('list-page').classList.add('hide');
     document.getElementById('more-page').classList.add('active');
     setActiveNav('more');
+    document.querySelector('.bottom-nav').classList.add('in-more');
 }
 
 function openMoreSection(name) {
@@ -532,17 +583,21 @@ function openMoreSection(name) {
     if (!sec) return;
     sec.classList.add('active');
 
-    const titles = { about: '关于', general: '通用设置', students: '学生设置' };
-    document.getElementById('more-header-title').textContent = titles[name] || '更多';
+    const titles = {
+        developer: T('developerTitle', null, '开发者'),
+        general: T('generalTitle', null, '通用设置'),
+        students: T('studentsTitle', null, '学生设置')
+    };
+    document.getElementById('more-header-title').textContent = titles[name] || T('moreTitle', null, '更多');
     document.getElementById('more-back-btn').classList.add('show');
 
-    if (name === 'about') fillAboutInfo();
+    if (name === 'developer') fillDeveloperInfo();
 }
 
 function backToMoreMain() {
     document.querySelectorAll('.more-panel').forEach(el => el.classList.remove('active'));
     document.getElementById('more-main').classList.add('active');
-    document.getElementById('more-header-title').textContent = '更多';
+    document.getElementById('more-header-title').textContent = T('moreTitle', null, '更多');
     document.getElementById('more-back-btn').classList.remove('show');
 }
 
@@ -659,7 +714,7 @@ async function loadLibrary() {
     const list = document.getElementById('contact-list');
     list.innerHTML = `<div class="loading-tip"><div class="spinner"></div><span>${escapeHtml(T('loadingLibrary', null, '正在读取学生资料…'))}</span></div>`;
 
-    const url = CONFIG.app.studentsUrl || './resources/students.json';
+    const url = (CONFIG.app && CONFIG.app.studentsUrl) || './resources/students.json';
 
     try {
         studentsBaseUrl = new URL(url, location.href).href;
@@ -1151,8 +1206,8 @@ function editMessage(index) {
     }, 100);
 }
 
-function myKey() { return CONFIG.storage.myStudentsKey || 'momotalk_my_students_v7'; }
-function chatsKey() { return CONFIG.storage.chatsKey || 'momotalk_chats_v7'; }
+function myKey() { return (CONFIG.storage && CONFIG.storage.myStudentsKey) || 'momotalk_my_students_v7'; }
+function chatsKey() { return (CONFIG.storage && CONFIG.storage.chatsKey) || 'momotalk_chats_v7'; }
 
 function saveMyStudents() {
     try { localStorage.setItem(myKey(), JSON.stringify(myStudents)); }
