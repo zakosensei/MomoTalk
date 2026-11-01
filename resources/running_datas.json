@@ -2,6 +2,8 @@
   "app": {
     "name": "MomoTalk",
     "icon": "./resources/MomoTalk_small.jpg",
+    "favicon": "./resources/MomoTalk.jpg",
+    "appleTouchIcon": "./resources/MomoTalk.jpg",
     "studentsUrl": "./resources/students.json"
   },
   "storage": {
@@ -9,11 +11,21 @@
     "chatsKey": "momotalk_chats_v7"
   },
   "about": {
-    "authorName": "zako老师",
-    "authorAvatar": "./resources/head.jpg",
-    "xiaohongshuUrl": "https://xhslink.cn/o/4bRFA2sZIFh",
+    "developerName": "zako老师",
+    "developerAvatar": "./resources/head.jpg",
+    "developerUrl": "https://xhslink.cn/o/4bRFA2sZIFh",
     "version": "MMT.0.0.1",
     "versionLabel": "（开发版）"
+  },
+  "contact": {
+    "qqGroup": "481347017",
+    "wechatUrl": "https://work.weixin.qq.com/ca/cawcdebae254d25c39",
+    "email": "zakosensei@icloud.com"
+  },
+  "donate": {
+    "title": "赞赏 · Buy me a coffee",
+    "image": "./resources/coffe.jpg",
+    "hint": "感谢你的支持！"
   },
   "texts": {
     "loadingLibrary": "正在读取学生资料…",
@@ -34,7 +46,7 @@
     "chatEmpty": "与 {name} 的聊天从这里开始",
     "startChat": "开始与 {name} 聊天吧",
     "skinPreview": "暂无消息",
-    "chatPlaceholder": "输入消息...",
+    "chatPlaceholder": "输入消息或图片链接...",
     "sendBtn": "发送",
     "roleSensei": "老师",
     "roleStudent": "学生",
@@ -58,6 +70,21 @@
     "exportBtn": "导出",
     "navMessages": "消息",
     "navMore": "更多",
-    "imageLoadFail": "图片加载失败"
+    "imageLoadFail": "图片加载失败",
+    "closeBtn": "关闭",
+    "moreTitle": "更多",
+    "aboutTitle": "关于",
+    "generalTitle": "通用设置",
+    "studentsTitle": "学生设置",
+    "developerTag": "开发者",
+    "developerLink": "开发者主页",
+    "donateEntry": "赞赏 · Buy me a coffee",
+    "appInfoTitle": "应用信息",
+    "versionLabel": "版本",
+    "contactTitle": "联系我们",
+    "qqLabel": "QQ 交流群",
+    "wechatLabel": "企业微信",
+    "emailLabel": "邮箱",
+    "wechatTap": "点击访问 ›"
   }
 }
