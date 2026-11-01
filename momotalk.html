@@ -82,6 +82,13 @@
                         <a class="dev-link" id="developer-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none;"></a>
                     </div>
                 </div>
+                <!-- 教程（开发者卡片下一行） -->
+                <div class="more-list">
+                    <div class="more-list-item" onclick="openMoreSection('tutorial')">
+                        <span id="tutorial-entry"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                </div>
                 <div class="more-list">
                     <div class="more-list-item" onclick="openDonate()">
                         <span id="donate-entry"></span>
@@ -125,9 +132,29 @@
                         <span class="about-value" id="contact-email-value"></span>
                     </a>
                 </div>
+                <div class="about-card" id="credits-card">
+                    <div class="about-section-title" id="credits-title"></div>
+                    <div id="credits-list"></div>
+                </div>
+                <div class="privacy-note" id="privacy-note"></div>
             </div>
             <div id="more-general" class="more-panel">
-                <div class="more-placeholder" id="general-placeholder"></div>
+                <div class="about-card">
+                    <div class="about-section-title" id="general-video-title"></div>
+                    <div class="setting-row">
+                        <span class="setting-label" id="general-default-site-label"></span>
+                        <div class="segmented" id="default-site-switch">
+                            <button type="button" class="seg-btn" id="site-btn-channels" onclick="setDefaultVideoSite('channels')"></button>
+                            <button type="button" class="seg-btn" id="site-btn-xiaohongshu" onclick="setDefaultVideoSite('xiaohongshu')"></button>
+                        </div>
+                    </div>
+                    <div class="setting-hint" id="general-default-site-hint"></div>
+                </div>
+            </div>
+            <div id="more-tutorial" class="more-panel">
+                <div class="tutorial-hint" id="tutorial-hint"></div>
+                <div class="more-list" id="tutorial-list"></div>
+                <div id="tutorial-empty" class="empty-tip" style="display:none;"></div>
             </div>
             <div id="more-students" class="more-panel">
                 <div class="more-placeholder" id="students-placeholder"></div>
@@ -212,6 +239,14 @@ let studentsBaseUrl = new URL('./resources/students.json', location.href).href;
 let myStudents = [];
 let chats = {};
 
+// 教程视频（resources/video.json）与本地设置（默认跳转视频网站等）
+let videos = [];
+let videosLoaded = false;
+let videosLoading = false;
+let videosError = null;
+const VIDEO_SITES = ['channels', 'xiaohongshu'];
+let settings = { defaultVideoSite: 'channels' };
+
 let currentStudentId = null;
 let currentRole = 'sensei';
 let searchQuery = '';
@@ -257,7 +292,7 @@ function normalizeAvatar(url) {
     u = u.replace(/\\/g, '/');
     // 学生库里 615/796 个头像指向 static.kivo.fun：该域名的 HTTP 入口返回 404，
     // HTTPS 证书又与域名不匹配（浏览器会直接拦截），而同一路径在 static.kivo.wiki 上可用。
-    // 这里统一把主机名迁移到可用域名，避免 259/310 名学生头像全部退化成首字母兜底图。
+    // 这里统一把主机名迁移到可用域名，避免 259 名学生头像全部退化成首字母兜底图。
     u = u.replace(/^\/\/static\.kivo\.fun\//i, '//static.kivo.wiki/')
         .replace(/^https?:\/\/static\.kivo\.fun\//i, 'https://static.kivo.wiki/');
     if (u.startsWith('//')) {
@@ -489,8 +524,13 @@ function fillStaticTexts() {
     set('wechat-label', T('wechatLabel', null, '企业微信'));
     set('email-label', T('emailLabel', null, '邮箱'));
     set('wechat-value', T('wechatTap', null, '点击访问 ›'));
-    set('general-placeholder', T('generalPlaceholder', null, '通用设置（开发中）'));
     set('students-placeholder', T('studentsPlaceholder', null, '学生设置（开发中）'));
+    set('tutorial-entry', T('tutorialEntry', null, '教程'));
+    set('tutorial-hint', T('tutorialSubtitle', null, '点击文字介绍跳转视频'));
+    set('general-video-title', T('generalVideoTitle', null, '视频设置'));
+    set('general-default-site-label', T('generalDefaultSiteLabel', null, '默认跳转视频网站'));
+    set('general-default-site-hint', T('generalDefaultSiteHint', null, '点击教程里的文字介绍时优先打开该网站；若该视频没有这个网站的链接，会自动改用另一个。'));
+    updateGeneralUI();
 
     const si = document.getElementById('search-input');
     if (si) si.placeholder = T('searchPlaceholder', null, '搜索已添加的学生或形态...');
@@ -566,6 +606,42 @@ function fillAboutInfo() {
         if (val) val.textContent = mail || '—';
         if (!mail) email.style.display = 'none';
     }
+
+    // 致谢 & 开发团队（内容来自 running_datas.json 的 about.credits 数组）
+    const creditsTitle = document.getElementById('credits-title');
+    if (creditsTitle) creditsTitle.textContent = T('creditsTitle', null, '致谢 & 开发团队');
+    const creditsHtml = renderCredits(a.credits);
+    const creditsCard = document.getElementById('credits-card');
+    if (creditsCard) creditsCard.style.display = creditsHtml ? '' : 'none';
+    const creditsList = document.getElementById('credits-list');
+    if (creditsList) creditsList.innerHTML = creditsHtml;
+
+    // 关于页底部隐私说明（小字）
+    const note = document.getElementById('privacy-note');
+    if (note) note.textContent = T('privacyNote', null, '本站所有数据不收集、不上传，保存在本地，请做好备份或开启自动备份，避免遗失');
+}
+
+function renderCredits(credits) {
+    if (!Array.isArray(credits) || !credits.length) return '';
+    return credits.map(member => {
+        if (!member || typeof member !== 'object') return '';
+        const name = pickString(member.name || member.developerName);
+        if (!name) return '';
+        const role = pickString(member.role || member.job || member.contribution);
+        const avatar = normalizeAvatar(member.avatar || member.avatarUrl) || fallbackAvatar(name);
+        const url = safeUrl(member.url || member.link);
+        const inner = `
+            <img class="credit-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(fallbackAvatar(name))}"
+                 referrerpolicy="no-referrer" alt="">
+            <div class="credit-info">
+                <div class="credit-name">${escapeHtml(name)}</div>
+                ${role ? `<div class="credit-role">${escapeHtml(role)}</div>` : ''}
+            </div>
+            ${url ? '<span class="more-arrow">›</span>' : ''}`;
+        if (!url) return `<div class="credit-item">${inner}</div>`;
+        return `<a class="credit-item" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${inner}</a>`;
+    }).join('');
 }
 
 function openDonate() {
@@ -592,6 +668,197 @@ function openDonate() {
         </div>`;
 
     showModal(title, html, actions);
+}
+
+/* ================= 本地设置（默认跳转视频网站等） ================= */
+function settingsKey() { return (CONFIG.storage && CONFIG.storage.settingsKey) || 'momotalk_settings_v1'; }
+
+function normalizeVideoSite(v) {
+    return VIDEO_SITES.indexOf(v) >= 0 ? v : 'channels';
+}
+
+function defaultVideoSite() {
+    const d = CONFIG.tutorial && CONFIG.tutorial.defaultSite;
+    return VIDEO_SITES.indexOf(d) >= 0 ? d : 'channels';
+}
+
+function loadSettings() {
+    settings = { defaultVideoSite: defaultVideoSite() };
+    try {
+        const raw = localStorage.getItem(settingsKey());
+        if (!raw) return;
+        const obj = JSON.parse(raw);
+        if (obj && typeof obj === 'object' && obj.defaultVideoSite) {
+            settings.defaultVideoSite = normalizeVideoSite(obj.defaultVideoSite);
+        }
+    } catch (e) { console.error('读取设置失败：', e); }
+}
+
+function saveSettings() {
+    try {
+        localStorage.setItem(settingsKey(), JSON.stringify(settings));
+        return true;
+    } catch (e) {
+        console.error('保存设置失败：', e);
+        return false;
+    }
+}
+
+function siteLabel(site) {
+    return site === 'xiaohongshu'
+        ? T('siteXiaohongshu', null, '小红书')
+        : T('siteChannels', null, '视频号');
+}
+
+function updateGeneralUI() {
+    VIDEO_SITES.forEach(site => {
+        const btn = document.getElementById('site-btn-' + site);
+        if (!btn) return;
+        btn.textContent = siteLabel(site);
+        if (settings.defaultVideoSite === site) btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
+}
+
+function setDefaultVideoSite(site) {
+    const prev = settings.defaultVideoSite;
+    const next = normalizeVideoSite(site);
+    if (next === prev) return;
+    settings.defaultVideoSite = next;
+    // 写不进去（隐私模式/配额满）就回滚，避免界面显示已切换、刷新后却变回去
+    if (!saveSettings()) {
+        settings.defaultVideoSite = prev;
+        updateGeneralUI();
+        return;
+    }
+    updateGeneralUI();
+    renderTutorialList();
+}
+
+/* ================= 教程视频（resources/video.json） ================= */
+function tutorialUrl() {
+    return (CONFIG.tutorial && CONFIG.tutorial.url) || './resources/video.json';
+}
+
+// 只放行 http(s) / 协议相对链接，避免 video.json / 配置里出现 javascript: 之类的地址
+function safeUrl(u) {
+    let s = pickString(u);
+    if (!s) return '';
+    if (/^https?:\/\//i.test(s)) return s;
+    if (s.startsWith('//')) {
+        return (location.protocol === 'https:' ? 'https:' : 'http:') + s;
+    }
+    return '';
+}
+
+function normalizeVideos(data) {
+    let list = [];
+    if (Array.isArray(data)) list = data;
+    else if (data && typeof data === 'object' && Array.isArray(data.videos)) list = data.videos;
+
+    const out = [];
+    list.forEach((item, i) => {
+        if (!item || typeof item !== 'object') return;
+        const links = (item.links && typeof item.links === 'object') ? item.links : item;
+        const channels = safeUrl(links.channels || links.wechat || links.shipinhao || links.videoAccount);
+        const xhs = safeUrl(links.xiaohongshu || links.redbook || links.xhs || links.red);
+        let title = pickString(item.title || item.name);
+        let description = pickString(item.description || item.desc || item.text || item.intro);
+        if (!description) description = title;
+        // 只有 title 没有 description 时，避免同一段文字渲染两遍
+        if (title && title === description) title = '';
+        if (!description) return;
+        out.push({
+            id: pickString(item.id) || ('video-' + (i + 1)),
+            title: title,
+            description: description,
+            links: { channels: channels, xiaohongshu: xhs }
+        });
+    });
+    return out;
+}
+
+async function loadVideos(force) {
+    if (videosLoading) return;
+    if (videosLoaded && !force) return;
+    videosLoading = true;
+    videosError = null;
+    renderTutorialList();
+    try {
+        const res = await fetch(tutorialUrl(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        videos = normalizeVideos(await res.json());
+        videosLoaded = true;
+    } catch (e) {
+        console.error('video.json 加载失败：', e);
+        videos = [];
+        videosError = e;
+    } finally {
+        videosLoading = false;
+        renderTutorialList();
+    }
+}
+
+// 按「默认跳转视频网站」选链接；当前网站没有该视频时自动回退到另一个网站
+function pickVideoLink(v) {
+    const first = settings.defaultVideoSite;
+    const second = first === 'channels' ? 'xiaohongshu' : 'channels';
+    if (v.links[first]) return { url: v.links[first], site: first };
+    if (v.links[second]) return { url: v.links[second], site: second };
+    return { url: '', site: '' };
+}
+
+function renderTutorialList() {
+    const box = document.getElementById('tutorial-list');
+    const empty = document.getElementById('tutorial-empty');
+    if (!box || !empty) return;
+
+    if (videosLoading) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        empty.style.display = '';
+        empty.innerHTML = `<div class="loading-tip" style="height:auto;padding:24px 0;">
+            <div class="spinner"></div><span>${escapeHtml(T('tutorialLoading', null, '正在读取教程…'))}</span></div>`;
+        return;
+    }
+    if (videosError) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        empty.style.display = '';
+        empty.innerHTML = `
+            <div style="font-size:14px;color:#666;margin-bottom:8px;">${escapeHtml(T('tutorialErrorTitle', null, '无法读取教程内容'))}</div>
+            <div style="font-size:12px;color:#aaa;line-height:1.7;">${escapeHtml(T('tutorialErrorHint', null, '请确认 resources/video.json 存在且可访问。'))}<br>${escapeHtml(tutorialUrl())}</div>
+            <button onclick="loadVideos(true)">${escapeHtml(T('tutorialReload', null, '重新读取'))}</button>`;
+        return;
+    }
+    if (!videos.length) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        empty.style.display = '';
+        empty.innerHTML = `${escapeHtml(T('tutorialEmpty', null, '暂无教程内容'))}<br><span style="font-size:12px;color:#c4c4c4;">${escapeHtml(T('tutorialEmptyHint', null, '在 resources/video.json 中填入视频后刷新即可显示'))}</span>`;
+        return;
+    }
+
+    empty.style.display = 'none';
+    box.style.display = '';
+    const missing = escapeHtml(T('tutorialLinkMissing', null, '暂无链接'));
+    box.innerHTML = videos.map(v => {
+        const link = pickVideoLink(v);
+        const title = v.title ? `<div class="tutorial-title">${escapeHtml(v.title)}</div>` : '';
+        const desc = `<div class="tutorial-desc">${escapeHtml(v.description)}</div>`;
+        if (!link.url) {
+            return `<div class="tutorial-item disabled">
+                <div class="tutorial-info">${title}${desc}</div>
+                <span class="tutorial-site muted">${missing}</span>
+            </div>`;
+        }
+        // 只展示默认视频网站的那一个链接，点击文字介绍即跳转
+        return `<a class="tutorial-item" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+            <div class="tutorial-info">${title}${desc}</div>
+            <span class="tutorial-site">${escapeHtml(siteLabel(link.site))}</span>
+            <span class="tutorial-arrow">›</span>
+        </a>`;
+    }).join('');
 }
 
 function setActiveNav(which) {
@@ -629,12 +896,15 @@ function openMoreSection(name) {
     const titles = {
         about: T('aboutTitle', null, '关于'),
         general: T('generalTitle', null, '通用设置'),
+        tutorial: T('tutorialTitle', null, '教程'),
         students: T('studentsTitle', null, '学生设置')
     };
     document.getElementById('more-header-title').textContent = titles[name] || T('moreTitle', null, '更多');
     document.getElementById('more-back-btn').classList.add('show');
 
     if (name === 'about') fillAboutInfo();
+    else if (name === 'general') updateGeneralUI();
+    else if (name === 'tutorial') loadVideos();
 }
 
 function backToMoreMain() {
@@ -743,6 +1013,17 @@ function expandStudents(rawList) {
                 searchText: [fullName, skinName, familyCn, givenCn].filter(Boolean).join(' ').toLowerCase()
             });
         });
+    });
+
+    // 学生库里存在同名条目（例如两个「？？？」占位角色），列表/选择器里无法区分，
+    // 这里给重名的条目补上 #id 后缀（只影响重名项）。
+    const nameCount = {};
+    result.forEach(s => { nameCount[s.displayName] = (nameCount[s.displayName] || 0) + 1; });
+    result.forEach(s => {
+        if (nameCount[s.displayName] > 1) {
+            s.displayName = s.displayName + '（#' + s.id + '）';
+            s.searchText = (s.searchText + ' #' + s.id).toLowerCase();
+        }
     });
 
     return result;
@@ -1542,8 +1823,11 @@ document.addEventListener('keydown', e => {
 
 (async function boot() {
     await loadConfig();
+    loadSettings();
     loadUserData();
     updateRoleUI();
+    updateGeneralUI();
+    renderTutorialList();
 
     if (!configLoaded) {
         const list = document.getElementById('contact-list');
