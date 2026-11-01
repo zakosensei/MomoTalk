@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="./resources/MomoTalk.jpg" type="image/jpeg">
+<link rel="shortcut icon" href="./resources/MomoTalk.jpg" type="image/jpeg">
+<title>MomoTalk - 自定义聊天</title>
+<link rel="stylesheet" href="./resources/momotalk.css">
+</head>
+<body>
+
+<div class="app-container">
+
+    <div id="list-page">
+        <div class="header">
+            <div class="header-logo">
+                <a href="./momotalk.html"> <img id="app-icon" class="logo-img" src="./resources/MomoTalk_small.jpg" alt="" referrerpolicy="no-referrer"> </a>
+                <span id="app-name">MomoTalk</span>
+            </div>
+            <div class="header-tools">
+                <button class="tool-btn" id="btn-import" onclick="document.getElementById('file-import').click()">导入</button>
+                <button class="tool-btn" id="btn-export" onclick="exportData()">导出</button>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="search-input" placeholder="搜索已添加的学生或形态..." oninput="onSearch()">
+        </div>
+
+        <div class="contact-list" id="contact-list">
+            <div class="loading-tip"><div class="spinner"></div><span id="loading-text">正在读取学生资料…</span></div>
+        </div>
+
+        <input type="file" id="file-import" accept=".json" style="display: none;" onchange="importData(event)">
+    </div>
+
+    <div id="chat-page">
+        <div class="chat-header">
+            <div class="back-btn" onclick="closeChat()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </div>
+            <div class="chat-header-info">
+                <img id="chat-header-avatar" class="chat-header-avatar" src="" alt="avatar" referrerpolicy="no-referrer">
+                <div id="chat-header-name" class="chat-header-name"></div>
+            </div>
+        </div>
+
+        <div class="chat-content" id="chat-content"></div>
+
+        <div class="chat-input-area">
+            <div class="role-switch sensei" id="role-switch" onclick="toggleRole()">
+                <span id="role-text">老师</span>
+            </div>
+            <textarea class="chat-input" id="chat-input" rows="1" onkeydown="handleKeyDown(event)"></textarea>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
+    <div id="more-page">
+        <div class="more-header">
+            <div class="more-back-btn" id="more-back-btn" onclick="backToMoreMain()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </div>
+            <div class="more-header-title" id="more-header-title">更多</div>
+        </div>
+        <div class="more-body">
+            <div id="more-main" class="more-panel active">
+                <div class="more-list">
+                    <div class="more-list-item" onclick="openMoreSection('about')">
+                        <span>关于</span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                    <div class="more-list-item" onclick="openMoreSection('general')">
+                        <span>通用设置</span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                    <div class="more-list-item" onclick="openMoreSection('students')">
+                        <span>学生设置</span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                </div>
+            </div>
+            <div id="more-about" class="more-panel">
+                <div class="about-card">
+                    <div class="about-author-row">
+                        <img class="about-avatar" id="about-avatar" src="" alt="作者头像" referrerpolicy="no-referrer">
+                        <div class="about-author-info">
+                            <div class="about-author-name" id="about-author-name"></div>
+                            <a class="about-author-link" id="about-author-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+                        </div>
+                    </div>
+                    <div class="about-version-row">
+                        <span id="about-version"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="more-general" class="more-panel">
+                <div class="more-placeholder">通用设置（开发中）</div>
+            </div>
+            <div id="more-students" class="more-panel">
+                <div class="more-placeholder">学生设置（开发中）</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" id="nav-messages-btn" onclick="switchToList()">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/>
+            </svg>
+            <span id="nav-messages">消息</span>
+        </div>
+        <div class="nav-add" onclick="openStudentPicker()">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+            </svg>
+        </div>
+        <div class="nav-item" id="nav-more-btn" onclick="switchToMore()">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z"/>
+            </svg>
+            <span id="nav-more">更多</span>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title" id="modal-title">标题</div>
+            <div id="modal-body"></div>
+            <div class="modal-actions" id="modal-actions"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const DATAS_URL = './resources/running_datas.json';
+
+const DEFAULT_CONFIG = {
+    app: {
+        name: 'MomoTalk',
+        icon: './resources/MomoTalk_small.jpg',
+        studentsUrl: './resources/students.json'
+    },
+    storage: {
+        myStudentsKey: 'momotalk_my_students_v7',
+        chatsKey: 'momotalk_chats_v7'
+    },
+    about: {
+        authorName: 'zako老师',
+        authorAvatar: './resources/head.jpg',
+        xiaohongshuUrl: 'https://xhslink.cn/o/4bRFA2sZIFh',
+        version: 'MMT.0.0.1',
+        versionLabel: '（开发版）'
+    },
+    texts: {
+        loadingLibrary: '正在读取学生资料…',
+        loadErrorTitle: '无法读取学生资料',
+        loadErrorHint: '请确认 resources/students.json 与 HTML 位于同一目录，并通过 http(s) 服务访问。',
+        reloadBtn: '重新读取',
+        emptyMyStudents: '还没有添加学生',
+        emptyHint: '点击下方 + 从学生库中选择',
+        emptySearch: '没有找到匹配的学生形态',
+        searchPlaceholder: '搜索已添加的学生或形态...',
+        pickerTitle: '选择学生形态',
+        pickerPlaceholder: '搜索学生姓名或形态…',
+        pickerEmpty: '没有匹配的学生形态',
+        pickerDone: '完成',
+        pickerAdded: '已添加',
+        pickerAdd: '＋ 添加',
+        pickerMore: '还有 {n} 个形态未显示，请输入关键字搜索',
+        chatEmpty: '与 {name} 的聊天从这里开始',
+        startChat: '开始与 {name} 聊天吧',
+        skinPreview: '暂无消息',
+        chatPlaceholder: '输入消息或图片链接...',
+        sendBtn: '发送',
+        roleSensei: '老师',
+        roleStudent: '学生',
+        senseiName: 'Sensei',
+        manageTitle: '管理会话',
+        manageSubtitle: '{name} · 共 {count} 条消息',
+        unreadPlaceholder: '未读数量（仅列表显示）',
+        manageCancel: '取消',
+        manageClear: '清空记录',
+        manageRemove: '移出列表',
+        manageSave: '保存',
+        editTitle: '编辑消息',
+        editRoleLine: '身份：{role}',
+        editCancel: '取消',
+        editDelete: '删除',
+        editSave: '保存',
+        notReadyTitle: '提示',
+        notReadyBody: '学生资料尚未加载完成，请稍候或检查 resources/students.json。',
+        notReadyOk: '知道了',
+        importBtn: '导入',
+        exportBtn: '导出',
+        navMessages: '消息',
+        navMore: '更多',
+        imageLoadFail: '图片加载失败'
+    }
+};
+
+let CONFIG = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+
+function deepMerge(target, source) {
+    if (!source || typeof source !== 'object') return target;
+    Object.keys(source).forEach(k => {
+        const sv = source[k];
+        if (sv && typeof sv === 'object' && !Array.isArray(sv)) {
+            if (!target[k] || typeof target[k] !== 'object') target[k] = {};
+            deepMerge(target[k], sv);
+        } else {
+            target[k] = sv;
+        }
+    });
+    return target;
+}
+
+function T(key, vars, fallback) {
+    const t = (CONFIG.texts && CONFIG.texts[key]) || fallback || key;
+    if (vars) {
+        return String(t).replace(/\{(\w+)\}/g, (m, k) =>
+            vars[k] != null ? vars[k] : m);
+    }
+    return t;
+}
+
+let library = [];
+let libraryById = {};
+let libraryReady = false;
+
+let studentsBaseUrl = new URL('./resources/students.json', location.href).href;
+
+let myStudents = [];
+let chats = {};
+
+let currentStudentId = null;
+let currentRole = 'sensei';
+let searchQuery = '';
+let longPressFired = false;
+let pressTimer = null;
+let once_wrong = false;
+
+const reportedImageErrors = new Set();
+
+function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
+
+function pickString(v) {
+    if (v == null) return '';
+    if (typeof v === 'string') return v.trim();
+    if (typeof v === 'number') return String(v);
+    if (Array.isArray(v)) {
+        for (let i = 0; i < v.length; i++) {
+            const t = pickString(v[i]);
+            if (t) return t;
+        }
+        return '';
+    }
+    if (typeof v === 'object') {
+        const keys = ['url', 'Url', 'URL', 'src', 'path', 'cn', 'zh', 'zh_cn', 'nm', 'value', 'text'];
+        for (let i = 0; i < keys.length; i++) {
+            if (v[keys[i]] != null) {
+                const t = pickString(v[keys[i]]);
+                if (t) return t;
+            }
+        }
+    }
+    return '';
+}
+
+function normalizeAvatar(url) {
+    let u = pickString(url);
+    if (!u) return '';
+    if (u.startsWith('data:')) return u;
+    u = u.replace(/\\/g, '/');
+    if (u.startsWith('//')) {
+        return (location.protocol === 'https:' ? 'https:' : 'http:') + u;
+    }
+    if (location.protocol === 'https:' && /^http:\/\//i.test(u)) {
+        u = 'https://' + u.slice(7);
+    }
+    return u;
+}
+
+function pickAvatarUrl() {
+    for (let i = 0; i < arguments.length; i++) {
+        const u = normalizeAvatar(arguments[i]);
+        if (u) return u;
+    }
+    return '';
+}
+
+function pickDescription(raw) {
+    if (!raw || typeof raw !== 'object') return '';
+    const keys = [
+        'introduction', 'Introduction',
+        'description', 'Description',
+        'profile', 'Profile',
+        'intro', 'Intro',
+        'desc', 'Desc',
+        'bio', 'Bio'
+    ];
+    for (let i = 0; i < keys.length; i++) {
+        if (raw[keys[i]] != null) {
+            const t = pickString(raw[keys[i]]);
+            if (t) return t;
+        }
+    }
+    return '';
+}
+
+const _fallbackCache = new Map();
+function fallbackAvatar(name) {
+    const key = String(name || '?');
+    if (_fallbackCache.has(key)) return _fallbackCache.get(key);
+    const ch = key.charAt(0) || '?';
+    const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">` +
+        `<rect width="64" height="64" fill="#e8e8e8"/>` +
+        `<text x="32" y="41" text-anchor="middle" font-size="28" font-family="sans-serif" fill="#999">${escapeHtml(ch)}</text>` +
+        `</svg>`;
+    const uri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    _fallbackCache.set(key, uri);
+    return uri;
+}
+
+function brokenImage() {
+    const txt = escapeHtml(T('imageLoadFail', null, '图片加载失败'));
+    const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120">` +
+        `<rect width="200" height="120" fill="#f5f5f5"/>` +
+        `<text x="100" y="65" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#bbb">${txt}</text>` +
+        `</svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+document.addEventListener('error', function (e) {
+    const img = e.target;
+    if (!img || img.tagName !== 'IMG') return;
+
+    const curSrc = img.getAttribute('src') || '';
+    if (!curSrc || curSrc.startsWith('data:')) return;
+
+    const fallback = img.dataset.fallback;
+    if (fallback && curSrc === fallback) return;
+
+    let retries = parseInt(img.dataset.retries || '0', 10);
+
+    if (retries === 0) {
+        img.dataset.retries = '1';
+        let newSrc = curSrc;
+
+        newSrc = newSrc.replace(/\/resources\/resources\//gi, '/resources/');
+
+        if (!/^(http|\/\/|data:|blob:)/i.test(newSrc)) {
+            if (!newSrc.includes('/resources/') && !newSrc.includes('resources/')) {
+                try {
+                    newSrc = new URL(newSrc, studentsBaseUrl).href;
+                } catch (err) {}
+            }
+        }
+
+        if (newSrc !== curSrc) {
+            img.setAttribute('src', newSrc);
+            return;
+        }
+
+        const curPolicy = img.getAttribute('referrerpolicy');
+        const newPolicy = curPolicy === 'no-referrer' ? 'no-referrer-when-downgrade' : 'unsafe-url';
+        img.setAttribute('referrerpolicy', newPolicy);
+
+        img.removeAttribute('src');
+        setTimeout(() => { img.setAttribute('src', curSrc); }, 10);
+        return;
+    }
+
+    if (retries >= 1 && fallback) {
+        img.removeAttribute('data-fallback');
+        img.setAttribute('src', fallback);
+
+        if (!reportedImageErrors.has(curSrc) && !once_wrong) {
+            once_wrong = true;
+            reportedImageErrors.add(curSrc);
+
+            showModal('图片加载失败', `
+                <div style="font-size:14px;color:#d85c76;margin-bottom:12px;font-weight:bold;word-break:break-all;">
+                    错误资源：${escapeHtml(curSrc)}
+                </div>
+                <div style="font-size:13px;color:#666;line-height:1.6;text-align:left;">
+                    可能的原因：<br>
+                    1. 服务器上文件不存在或文件名大小写错误（如 Linux 下严格区分大小写）。<br>
+                    2. 路径配置错误。<br>
+                    3. 网络跨域限制或防盗链拦截。<br>
+                    4. 图片格式损坏。
+                </div>
+            `, [
+                { text: '知道了', class: 'confirm', onClick: closeModal }
+            ]);
+        }
+    }
+}, true);
+
+function isImageUrl(text) {
+    if (!text) return false;
+    const t = text.trim();
+    if (t.startsWith('data:image/')) return true;
+    if (!/^https?:\/\//i.test(t)) return false;
+    return /\.(jpe?g|gif|png|webp|svg|bmp|ico)(\?.*)?(#.*)?$/i.test(t);
+}
+
+function now() { return Date.now(); }
+
+function buildDisplayName(familyCn, givenCn) {
+    if (familyCn && givenCn) return familyCn + ' ' + givenCn;
+    return familyCn || givenCn || '';
+}
+
+async function loadConfig() {
+    try {
+        const res = await fetch(DATAS_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+            deepMerge(CONFIG, data);
+        }
+    } catch (e) {
+        console.warn('running_datas.json 加载失败，使用默认配置：', e);
+    }
+    applyConfig();
+}
+
+function applyConfig() {
+    const appName = document.getElementById('app-name');
+    if (appName) appName.textContent = CONFIG.app.name || 'MomoTalk';
+    document.title = (CONFIG.app.name || 'MomoTalk') + ' - 自定义聊天';
+
+    const icon = document.getElementById('app-icon');
+    if (icon) {
+        icon.src = CONFIG.app.icon || './resources/MomoTalk_small.jpg';
+    }
+
+    const bi = document.getElementById('btn-import');
+    if (bi) bi.textContent = T('importBtn', null, '导入');
+    const be = document.getElementById('btn-export');
+    if (be) be.textContent = T('exportBtn', null, '导出');
+
+    const nm = document.getElementById('nav-messages');
+    if (nm) nm.textContent = T('navMessages', null, '消息');
+    const nmo = document.getElementById('nav-more');
+    if (nmo) nmo.textContent = T('navMore', null, '更多');
+
+    const si = document.getElementById('search-input');
+    if (si) si.placeholder = T('searchPlaceholder', null, '搜索已添加的学生或形态...');
+
+    const ci = document.getElementById('chat-input');
+    if (ci) ci.placeholder = T('chatPlaceholder', null, '输入消息或图片链接...');
+    const sb = document.getElementById('send-btn');
+    if (sb) sb.textContent = T('sendBtn', null, '发送');
+
+    const lt = document.getElementById('loading-text');
+    if (lt) lt.textContent = T('loadingLibrary', null, '正在读取学生资料…');
+
+    updateRoleUI();
+}
+
+function fillAboutInfo() {
+    const a = CONFIG.about || {};
+    const name = a.authorName || 'zako老师';
+    const avatar = a.authorAvatar || './resources/head.jpg';
+    const url = a.xiaohongshuUrl || '';
+    const ver = a.version || 'MMT.0.0.1';
+    const verLabel = a.versionLabel || '';
+
+    const avatarEl = document.getElementById('about-avatar');
+    if (avatarEl) {
+        avatarEl.dataset.fallback = fallbackAvatar(name);
+        avatarEl.removeAttribute('data-retries');
+        avatarEl.src = avatar;
+        avatarEl.onclick = () => {
+            if (url) window.open(url, '_blank', 'noopener,noreferrer');
+        };
+    }
+
+    const nameEl = document.getElementById('about-author-name');
+    if (nameEl) nameEl.textContent = name;
+
+    const linkEl = document.getElementById('about-author-link');
+    if (linkEl) {
+        linkEl.href = url || '#';
+        linkEl.textContent = '作者主页';
+    }
+
+    const verEl = document.getElementById('about-version');
+    if (verEl) verEl.textContent = '版本：' + ver + verLabel;
+}
+
+function setActiveNav(which) {
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
+    if (which === 'messages') {
+        document.getElementById('nav-messages-btn').classList.add('active');
+    } else if (which === 'more') {
+        document.getElementById('nav-more-btn').classList.add('active');
+    }
+}
+
+function switchToList() {
+    document.getElementById('more-page').classList.remove('active');
+    document.getElementById('list-page').classList.remove('hide');
+    setActiveNav('messages');
+    backToMoreMain();
+}
+
+function switchToMore() {
+    document.getElementById('list-page').classList.add('hide');
+    document.getElementById('more-page').classList.add('active');
+    setActiveNav('more');
+}
+
+function openMoreSection(name) {
+    document.querySelectorAll('.more-panel').forEach(el => el.classList.remove('active'));
+    const sec = document.getElementById('more-' + name);
+    if (!sec) return;
+    sec.classList.add('active');
+
+    const titles = { about: '关于', general: '通用设置', students: '学生设置' };
+    document.getElementById('more-header-title').textContent = titles[name] || '更多';
+    document.getElementById('more-back-btn').classList.add('show');
+
+    if (name === 'about') fillAboutInfo();
+}
+
+function backToMoreMain() {
+    document.querySelectorAll('.more-panel').forEach(el => el.classList.remove('active'));
+    document.getElementById('more-main').classList.add('active');
+    document.getElementById('more-header-title').textContent = '更多';
+    document.getElementById('more-back-btn').classList.remove('show');
+}
+
+function expandStudents(rawList) {
+    const result = [];
+    const usedIds = new Set();
+
+    rawList.forEach(raw => {
+        const baseId = Number(raw && raw.id);
+        if (!Number.isFinite(baseId)) return;
+
+        const givenCn = (raw.givenName && (raw.givenName.cn || raw.givenName.nm)) || '';
+        const familyCn = (raw.familyName && (raw.familyName.cn || raw.familyName.nm)) || '';
+        const fullName = buildDisplayName(familyCn, givenCn) || ('学生#' + baseId);
+        const shortName = givenCn || familyCn || fullName;
+
+        const introduction = pickDescription(raw);
+
+        const familyName = raw.familyName || {};
+        const givenName = raw.givenName || {};
+
+        const baseAvatar = pickAvatarUrl(
+            raw.avatar, raw.avatarUrl, raw.avatar_url, raw.avatarURL,
+            raw.portrait, raw.portraitUrl,
+            raw.image, raw.imageUrl,
+            raw.icon, raw.iconUrl
+        );
+
+        const skinList = Array.isArray(raw.skinList) ? raw.skinList : [];
+
+        let mainSkinIndex = -1;
+        for (let i = 0; i < skinList.length; i++) {
+            const s = skinList[i];
+            const skinName = String((s && (s.skin_cn || s.skin)) || '').trim();
+            if (!skinName) { mainSkinIndex = i; break; }
+        }
+
+        let mainAvatar = baseAvatar;
+        if (mainSkinIndex >= 0) {
+            const ms = skinList[mainSkinIndex];
+            mainAvatar = pickAvatarUrl(
+                ms && ms.avatar, ms && ms.avatarUrl, ms && ms.avatar_url,
+                ms && ms.portrait, ms && ms.portraitUrl,
+                ms && ms.image, ms && ms.imageUrl,
+                baseAvatar
+            ) || baseAvatar;
+        }
+
+        let mainId = baseId;
+        while (usedIds.has(mainId)) mainId = mainId * 100 + 1;
+        usedIds.add(mainId);
+
+        result.push({
+            id: mainId,
+            baseId: baseId,
+            skinIndex: mainSkinIndex,
+            displayName: fullName,
+            shortName: shortName,
+            avatar: mainAvatar,
+            introduction: introduction,
+            familyName: familyName,
+            givenName: givenName,
+            skinName: '',
+            searchText: [fullName, familyCn, givenCn].filter(Boolean).join(' ').toLowerCase()
+        });
+
+        skinList.forEach((skin, idx) => {
+            if (idx === mainSkinIndex) return;
+            const skinName = String((skin && (skin.skin_cn || skin.skin)) || '').trim();
+            if (!skinName) return;
+
+            let entryId = baseId * 100 + idx;
+            let guard = 0;
+            while ((usedIds.has(entryId) || entryId === mainId) && guard < 20) {
+                entryId = entryId * 100 + 1;
+                guard++;
+            }
+            if (usedIds.has(entryId)) return;
+            usedIds.add(entryId);
+
+            const skinAvatar = pickAvatarUrl(
+                skin && skin.avatar, skin && skin.avatarUrl, skin && skin.avatar_url,
+                skin && skin.portrait, skin && skin.portraitUrl,
+                skin && skin.image, skin && skin.imageUrl,
+                baseAvatar
+            ) || baseAvatar;
+            const displayName = fullName + '（' + skinName + '）';
+
+            result.push({
+                id: entryId,
+                baseId: baseId,
+                skinIndex: idx,
+                displayName: displayName,
+                shortName: shortName,
+                avatar: skinAvatar,
+                introduction: introduction,
+                familyName: familyName,
+                givenName: givenName,
+                skinName: skinName,
+                searchText: [fullName, skinName, familyCn, givenCn].filter(Boolean).join(' ').toLowerCase()
+            });
+        });
+    });
+
+    return result;
+}
+
+function matchStudent(s, q) {
+    if (!q) return true;
+    return (s.searchText || '').includes(q);
+}
+
+async function loadLibrary() {
+    const list = document.getElementById('contact-list');
+    list.innerHTML = `<div class="loading-tip"><div class="spinner"></div><span>${escapeHtml(T('loadingLibrary', null, '正在读取学生资料…'))}</span></div>`;
+
+    const url = CONFIG.app.studentsUrl || './resources/students.json';
+
+    try {
+        studentsBaseUrl = new URL(url, location.href).href;
+    } catch (e) {
+        studentsBaseUrl = new URL('./resources/students.json', location.href).href;
+    }
+
+    try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('students.json 的顶层结构应为数组');
+
+        library = expandStudents(data);
+        libraryById = {};
+        library.forEach(s => { libraryById[s.id] = s; });
+        libraryReady = true;
+        renderContactList();
+    } catch (err) {
+        libraryReady = false;
+        const title = T('loadErrorTitle', null, '无法读取学生资料');
+        const hint = T('loadErrorHint', null, '请确认 resources/students.json 与 HTML 位于同一目录。');
+        const reload = T('reloadBtn', null, '重新读取');
+        list.innerHTML = `
+            <div class="empty-tip">
+                <div style="font-size:15px;color:#666;margin-bottom:10px;">${escapeHtml(title)}</div>
+                <div style="font-size:12px;color:#aaa;">
+                    ${escapeHtml(err.message || String(err))}<br>${escapeHtml(hint)}
+                </div>
+                <button onclick="loadLibrary()">${escapeHtml(reload)}</button>
+            </div>`;
+    }
+}
+
+function getLastMsg(studentId) {
+    const arr = chats[studentId];
+    if (!arr || !arr.length) return null;
+    return arr[arr.length - 1];
+}
+
+function renderContactList() {
+    const list = document.getElementById('contact-list');
+    if (!libraryReady) return;
+
+    let entries = myStudents
+        .map(entry => {
+            const stu = libraryById[entry.id];
+            if (!stu) return null;
+            return {
+                id: stu.id,
+                displayName: stu.displayName,
+                shortName: stu.shortName,
+                avatar: stu.avatar,
+                introduction: stu.introduction,
+                skinName: stu.skinName,
+                unread: entry.unread || 0,
+                addedAt: entry.addedAt || 0
+            };
+        })
+        .filter(Boolean);
+
+    if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        entries = entries.filter(s => (s.displayName + ' ' + (s.skinName || '')).toLowerCase().includes(q));
+    }
+
+    entries.sort((a, b) => {
+        const la = getLastMsg(a.id);
+        const lb = getLastMsg(b.id);
+        const ta = la ? la.time : a.addedAt;
+        const tb = lb ? lb.time : b.addedAt;
+        return tb - ta;
+    });
+
+    if (entries.length === 0) {
+        list.innerHTML = `
+            <div class="empty-tip">
+                ${searchQuery
+                    ? escapeHtml(T('emptySearch', null, '没有找到匹配的学生形态'))
+                    : `${escapeHtml(T('emptyMyStudents', null, '还没有添加学生'))}<br><span style="font-size:12px;color:#c4c4c4;">${escapeHtml(T('emptyHint', null, '点击下方 + 从学生库中选择'))}</span>`}
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = entries.map(s => {
+        const name = s.displayName;
+        const avatar = s.avatar || fallbackAvatar(name);
+        const last = getLastMsg(s.id);
+
+        let preview;
+        if (last) {
+            const isImg = isImageUrl(last.text);
+            let text = isImg ? '[图片]' : last.text.replace(/\n/g, ' ');
+            if (text.length > 40) text = text.slice(0, 40) + '…';
+            preview = last.role === 'sensei'
+                ? `<span class="prefix-sensei">[我]</span> ${escapeHtml(text)}`
+                : escapeHtml(text);
+        } else if (s.skinName) {
+            preview = `<span class="skin-tag">${escapeHtml(T('skinPreview', null, '暂无消息'))}</span>`;
+        } else {
+            const intro = (s.introduction || '').replace(/\n/g, ' ').trim();
+            preview = intro
+                ? escapeHtml(intro.length > 60 ? intro.slice(0, 60) + '…' : intro)
+                : `<span style="color:#ccc;">${escapeHtml(T('startChat', { name: s.shortName }, '开始与 {name} 聊天吧'))}</span>`;
+        }
+
+        const unreadHtml = s.unread > 0
+            ? `<div class="unread-badge">${s.unread > 99 ? '99+' : s.unread}</div>`
+            : '';
+
+        return `<div class="contact-item" data-id="${s.id}">
+            <img class="contact-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(fallbackAvatar(name))}"
+                 referrerpolicy="no-referrer" alt="" loading="lazy">
+            <div class="contact-info">
+                <div class="contact-name">${escapeHtml(name)}</div>
+                <div class="contact-preview">${preview}</div>
+            </div>
+            ${unreadHtml}
+        </div>`;
+    }).join('');
+}
+
+function onSearch() {
+    searchQuery = document.getElementById('search-input').value.trim();
+    renderContactList();
+}
+
+(function bindListEvents() {
+    const list = document.getElementById('contact-list');
+
+    const clearTimer = () => {
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+    };
+
+    list.addEventListener('pointerdown', e => {
+        const item = e.target.closest('.contact-item');
+        if (!item) return;
+        longPressFired = false;
+        const id = Number(item.dataset.id);
+        pressTimer = setTimeout(() => {
+            pressTimer = null;
+            longPressFired = true;
+            showListContextMenu(id);
+        }, 600);
+    });
+
+    ['pointerup', 'pointercancel', 'pointerleave', 'pointermove', 'scroll'].forEach(ev => {
+        list.addEventListener(ev, clearTimer, { passive: true });
+    });
+
+    list.addEventListener('click', e => {
+        if (longPressFired) { longPressFired = false; return; }
+        const item = e.target.closest('.contact-item');
+        if (item) openChat(Number(item.dataset.id));
+    });
+
+    list.addEventListener('contextmenu', e => {
+        const item = e.target.closest('.contact-item');
+        if (!item) return;
+        e.preventDefault();
+        showListContextMenu(Number(item.dataset.id));
+    });
+})();
+
+function showListContextMenu(studentId) {
+    const stu = libraryById[studentId];
+    const entry = myStudents.find(s => s.id === studentId);
+    if (!stu || !entry) return;
+
+    const msgCount = (chats[studentId] || []).length;
+    const html = `
+        <div style="font-size:13px;color:#888;margin-bottom:12px;text-align:center;">
+            ${escapeHtml(T('manageSubtitle', { name: stu.displayName, count: msgCount }, '{name} · 共 {count} 条消息'))}
+        </div>
+        <input type="number" class="modal-input" id="set-unread-input"
+               min="0" value="${entry.unread || 0}"
+               placeholder="${escapeHtml(T('unreadPlaceholder', null, '未读数量（仅列表显示）'))}">
+    `;
+
+    showModal(T('manageTitle', null, '管理会话'), html, [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: T('manageClear', null, '清空记录'), class: 'danger',
+            onClick: () => {
+                delete chats[studentId];
+                saveChats();
+                renderContactList();
+                closeModal();
+            }
+        },
+        {
+            text: T('manageRemove', null, '移出列表'), class: 'danger',
+            onClick: () => {
+                myStudents = myStudents.filter(s => s.id !== studentId);
+                saveMyStudents();
+                renderContactList();
+                closeModal();
+            }
+        },
+        {
+            text: T('manageSave', null, '保存'), class: 'confirm',
+            onClick: () => {
+                const v = parseInt(document.getElementById('set-unread-input').value, 10);
+                entry.unread = Number.isFinite(v) && v > 0 ? v : 0;
+                saveMyStudents();
+                renderContactList();
+                closeModal();
+            }
+        }
+    ]);
+}
+
+function openStudentPicker() {
+    if (!libraryReady) {
+        showModal(T('notReadyTitle', null, '提示'),
+            `<div style="text-align:center;color:#888;font-size:14px;line-height:1.8;">${escapeHtml(T('notReadyBody', null, '学生资料尚未加载完成。'))}</div>`,
+            [{ text: T('notReadyOk', null, '知道了'), class: 'confirm', onClick: closeModal }]);
+        return;
+    }
+
+    const html = `
+        <div class="picker-wrap">
+            <input type="text" class="modal-input" id="picker-search"
+                   placeholder="${escapeHtml(T('pickerPlaceholder', null, '搜索学生姓名或形态…'))}"
+                   autocomplete="off" style="margin-bottom:8px;">
+            <div class="picker-list" id="picker-list"></div>
+        </div>
+    `;
+
+    showModal(T('pickerTitle', null, '选择学生形态'), html, [
+        { text: T('pickerDone', null, '完成'), class: 'confirm', onClick: () => { closeModal(); renderContactList(); } }
+    ]);
+
+    renderPickerList('');
+
+    const input = document.getElementById('picker-search');
+    input.addEventListener('input', () => renderPickerList(input.value.trim()));
+    setTimeout(() => input.focus(), 100);
+}
+
+function renderPickerList(query) {
+    const box = document.getElementById('picker-list');
+    if (!box) return;
+
+    const addedSet = new Set(myStudents.map(s => s.id));
+    const q = query.toLowerCase();
+
+    let items = library;
+    if (q) items = items.filter(s => matchStudent(s, q));
+
+    const MAX = 400;
+    const limited = items.slice(0, MAX);
+
+    if (limited.length === 0) {
+        box.innerHTML = `<div class="picker-empty">${escapeHtml(T('pickerEmpty', null, '没有匹配的学生形态'))}</div>`;
+        return;
+    }
+
+    const addedTxt = T('pickerAdded', null, '已添加');
+    const addTxt = T('pickerAdd', null, '＋ 添加');
+
+    box.innerHTML = limited.map(s => {
+        const added = addedSet.has(s.id);
+        const avatar = s.avatar || fallbackAvatar(s.displayName);
+        return `<div class="picker-item ${added ? 'added' : ''}" data-id="${s.id}">
+            <img class="picker-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(fallbackAvatar(s.displayName))}"
+                 referrerpolicy="no-referrer" alt="" loading="lazy">
+            <div class="picker-name">${escapeHtml(s.displayName)}</div>
+            <div class="picker-status">${added ? escapeHtml(addedTxt) : escapeHtml(addTxt)}</div>
+        </div>`;
+    }).join('') + (items.length > MAX
+        ? `<div class="picker-empty">${escapeHtml(T('pickerMore', { n: items.length - MAX }, '还有 {n} 个形态未显示，请输入关键字搜索'))}</div>`
+        : '');
+
+    box.querySelectorAll('.picker-item').forEach(el => {
+        el.addEventListener('click', () => {
+            if (el.classList.contains('added')) return;
+            addStudentToMyList(Number(el.dataset.id));
+            el.classList.add('added');
+            const status = el.querySelector('.picker-status');
+            if (status) status.textContent = addedTxt;
+            renderContactList();
+        });
+    });
+}
+
+function addStudentToMyList(id) {
+    if (!libraryById[id]) return;
+    if (myStudents.some(s => s.id === id)) return;
+    myStudents.push({ id: id, unread: 0, addedAt: now() });
+    saveMyStudents();
+}
+
+function openChat(studentId) {
+    const stu = libraryById[studentId];
+    if (!stu) return;
+
+    currentStudentId = studentId;
+    currentRole = 'sensei';
+    updateRoleUI();
+
+    const headerAvatar = document.getElementById('chat-header-avatar');
+    headerAvatar.dataset.fallback = fallbackAvatar(stu.displayName);
+    headerAvatar.removeAttribute('data-retries');
+    headerAvatar.src = stu.avatar || fallbackAvatar(stu.displayName);
+    document.getElementById('chat-header-name').textContent = stu.displayName;
+
+    const entry = myStudents.find(s => s.id === studentId);
+    if (entry && entry.unread) {
+        entry.unread = 0;
+        saveMyStudents();
+    }
+
+    document.getElementById('list-page').classList.add('slide-out');
+    document.getElementById('chat-page').classList.add('slide-in');
+    document.querySelector('.bottom-nav').classList.add('hidden');
+
+    renderChat();
+}
+
+function closeChat() {
+    document.getElementById('list-page').classList.remove('slide-out');
+    document.getElementById('chat-page').classList.remove('slide-in');
+    document.querySelector('.bottom-nav').classList.remove('hidden');
+    currentStudentId = null;
+    renderContactList();
+}
+
+function renderChat() {
+    if (!currentStudentId) return;
+    const stu = libraryById[currentStudentId];
+    if (!stu) return;
+
+    const container = document.getElementById('chat-content');
+    const msgs = chats[currentStudentId] || [];
+
+    if (msgs.length === 0) {
+        const intro = (stu.introduction || '').trim();
+        container.innerHTML = `<div class="empty-tip" style="margin-top:40px;">
+            ${escapeHtml(T('chatEmpty', { name: stu.displayName }, '与 {name} 的聊天从这里开始'))}
+            ${intro ? `<div style="margin-top:12px;font-size:13px;color:#bbb;line-height:1.7;white-space:pre-wrap;">${escapeHtml(intro)}</div>` : ''}
+        </div>`;
+        return;
+    }
+
+    const studentAvatar = stu.avatar || fallbackAvatar(stu.displayName);
+    const studentAvatarFallback = fallbackAvatar(stu.displayName);
+    const senseiAvatar = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+            <rect width="40" height="40" fill="#e0ecf8"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+                  font-size="20" fill="#7a9aba" font-family="sans-serif" font-weight="bold">S</text>
+        </svg>`
+    );
+    const senseiName = T('senseiName', null, 'Sensei');
+    const broken = brokenImage();
+
+    container.innerHTML = msgs.map((msg, i) => {
+        const isSensei = msg.role === 'sensei';
+        const avatar = isSensei ? senseiAvatar : studentAvatar;
+        const avatarFallback = isSensei ? senseiAvatar : studentAvatarFallback;
+        const name = isSensei ? senseiName : stu.shortName;
+
+        let bubble;
+        if (isImageUrl(msg.text)) {
+            bubble = `<div class="msg-image-wrapper">
+                <img class="msg-image" src="${escapeHtml(msg.text.trim())}"
+                     data-fallback="${escapeHtml(broken)}"
+                     referrerpolicy="no-referrer" alt="图片" loading="lazy">
+            </div>`;
+        } else {
+            bubble = `<div class="msg-bubble">${escapeHtml(msg.text)}</div>`;
+        }
+
+        return `<div class="msg-row ${isSensei ? 'sensei' : 'student'}">
+            <img class="msg-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(avatarFallback)}"
+                 referrerpolicy="no-referrer" alt="">
+            <div class="msg-bubble-wrapper">
+                <div class="msg-name">${escapeHtml(name)}</div>
+                <div class="msg-tap-area" data-index="${i}">${bubble}</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    container.querySelectorAll('.msg-tap-area').forEach(el => {
+        el.addEventListener('click', () => editMessage(Number(el.dataset.index)));
+    });
+
+    requestAnimationFrame(() => {
+        container.scrollTop = container.scrollHeight;
+    });
+}
+
+function toggleRole() {
+    currentRole = currentRole === 'sensei' ? 'student' : 'sensei';
+    updateRoleUI();
+}
+
+function updateRoleUI() {
+    const sw = document.getElementById('role-switch');
+    const txt = document.getElementById('role-text');
+    if (!sw || !txt) return;
+    sw.classList.remove('sensei', 'student');
+    if (currentRole === 'sensei') {
+        sw.classList.add('sensei');
+        txt.textContent = T('roleSensei', null, '老师');
+    } else {
+        sw.classList.add('student');
+        txt.textContent = T('roleStudent', null, '学生');
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text || !currentStudentId) return;
+
+    if (!chats[currentStudentId]) chats[currentStudentId] = [];
+    chats[currentStudentId].push({ role: currentRole, text: text, time: now() });
+
+    input.value = '';
+    input.style.height = 'auto';
+
+    saveChats();
+    renderChat();
+}
+
+function handleKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+}
+
+document.getElementById('chat-input').addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+
+function editMessage(index) {
+    if (!currentStudentId) return;
+    const msgs = chats[currentStudentId];
+    if (!msgs || !msgs[index]) return;
+    const msg = msgs[index];
+
+    const roleLabel = msg.role === 'sensei'
+        ? T('roleSensei', null, '老师')
+        : T('roleStudent', null, '学生');
+
+    const html = `
+        <textarea class="modal-input" id="edit-msg-text">${escapeHtml(msg.text)}</textarea>
+        <div style="font-size:12px;color:#999;margin-top:-4px;margin-bottom:8px;">
+            ${escapeHtml(T('editRoleLine', { role: roleLabel }, '身份：{role}'))}
+        </div>`;
+
+    showModal(T('editTitle', null, '编辑消息'), html, [
+        { text: T('editCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: T('editDelete', null, '删除'), class: 'danger',
+            onClick: () => {
+                msgs.splice(index, 1);
+                if (msgs.length === 0) delete chats[currentStudentId];
+                saveChats();
+                renderChat();
+                closeModal();
+            }
+        },
+        {
+            text: T('editSave', null, '保存'), class: 'confirm',
+            onClick: () => {
+                const val = document.getElementById('edit-msg-text').value.trim();
+                if (val) {
+                    msgs[index].text = val;
+                    msgs[index].time = now();
+                    saveChats();
+                    renderChat();
+                }
+                closeModal();
+            }
+        }
+    ]);
+
+    setTimeout(() => {
+        const ta = document.getElementById('edit-msg-text');
+        if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    }, 100);
+}
+
+function myKey() { return CONFIG.storage.myStudentsKey || 'momotalk_my_students_v7'; }
+function chatsKey() { return CONFIG.storage.chatsKey || 'momotalk_chats_v7'; }
+
+function saveMyStudents() {
+    try { localStorage.setItem(myKey(), JSON.stringify(myStudents)); }
+    catch (e) { console.error('保存我的学生失败：', e); }
+}
+
+function saveChats() {
+    try { localStorage.setItem(chatsKey(), JSON.stringify(chats)); }
+    catch (e) { console.error('保存聊天记录失败：', e); }
+}
+
+function loadUserData() {
+    try {
+        const raw = localStorage.getItem(myKey());
+        if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+                myStudents = arr
+                    .map(x => {
+                        const id = Number(x && x.id);
+                        if (!Number.isFinite(id)) return null;
+                        return {
+                            id: id,
+                            unread: Number(x.unread) > 0 ? Number(x.unread) : 0,
+                            addedAt: Number(x.addedAt) || 0
+                        };
+                    })
+                    .filter(Boolean);
+            }
+        }
+    } catch (e) { myStudents = []; }
+
+    try {
+        const raw = localStorage.getItem(chatsKey());
+        if (raw) {
+            const obj = JSON.parse(raw);
+            if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+                chats = obj;
+            }
+        }
+    } catch (e) { chats = {}; }
+}
+
+function exportData() {
+    const data = {
+        version: 3,
+        exportedAt: new Date().toISOString(),
+        myStudents: myStudents,
+        chats: chats
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'momotalk_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            let importedIds = [];
+            let importedChats = null;
+
+            if (Array.isArray(parsed)) {
+                importedIds = parsed.map(x => Number(x && x.id)).filter(Number.isFinite);
+            } else if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.myStudents)) {
+                    importedIds = parsed.myStudents.map(x => Number(x && x.id)).filter(Number.isFinite);
+                } else if (Array.isArray(parsed.students)) {
+                    importedIds = parsed.students.map(x => Number(x && x.id)).filter(Number.isFinite);
+                }
+                if (parsed.chats && typeof parsed.chats === 'object') {
+                    importedChats = parsed.chats;
+                }
+            } else {
+                throw new Error('无法识别的文件格式');
+            }
+
+            if (!libraryReady) throw new Error('学生资料尚未加载完成');
+
+            const existing = new Set(myStudents.map(s => s.id));
+            let added = 0, missing = 0;
+            importedIds.forEach(id => {
+                if (!libraryById[id]) { missing++; return; }
+                if (existing.has(id)) return;
+                myStudents.push({ id: id, unread: 0, addedAt: now() + added });
+                existing.add(id);
+                added++;
+            });
+
+            let chatMerged = 0;
+            if (importedChats) {
+                Object.keys(importedChats).forEach(k => {
+                    const arr = importedChats[k];
+                    if (!Array.isArray(arr)) return;
+                    if (!chats[k] || chats[k].length === 0) {
+                        chats[k] = arr;
+                    } else {
+                        chats[k] = chats[k].concat(arr);
+                    }
+                    chatMerged++;
+                });
+                saveChats();
+            }
+
+            saveMyStudents();
+            renderContactList();
+            alert(`导入完成：新增 ${added} 个学生形态，合并 ${chatMerged} 个会话。` +
+                  (missing ? `\n有 ${missing} 个 id 在当前学生库中不存在，已跳过。` : ''));
+        } catch (err) {
+            alert('导入失败：' + (err.message || err));
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+const modalOverlay = document.getElementById('modal-overlay');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+const modalActions = document.getElementById('modal-actions');
+
+function showModal(title, bodyHtml, actions) {
+    modalTitle.textContent = title;
+    modalBody.innerHTML = bodyHtml;
+    modalActions.innerHTML = '';
+    (actions || []).forEach(a => {
+        const btn = document.createElement('button');
+        btn.className = 'modal-btn ' + a.class;
+        btn.textContent = a.text;
+        btn.onclick = a.onClick;
+        modalActions.appendChild(btn);
+    });
+    modalOverlay.classList.add('active');
+}
+
+function closeModal() {
+    modalOverlay.classList.remove('active');
+}
+
+modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) closeModal();
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        if (modalOverlay.classList.contains('active')) closeModal();
+        else if (currentStudentId) closeChat();
+        else if (document.getElementById('more-page').classList.contains('active')) {
+            if (document.getElementById('more-back-btn').classList.contains('show')) backToMoreMain();
+            else switchToList();
+        }
+    }
+});
+
+(async function boot() {
+    await loadConfig();
+    loadUserData();
+    updateRoleUI();
+    loadLibrary();
+})();
+</script>
+</body>
+</html>

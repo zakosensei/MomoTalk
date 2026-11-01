@@ -1,0 +1,11 @@
+Momotalk/
+├── momotalk.html
+└── structure.txt
+└── resources/             
+    ├── momotalk.css
+    ├── running_datas.json
+    ├── students.json
+    └── MomoTalk.jpg
+    └── head.jpg
+    └── MomoTalk_big.jpg
+    └── MomoTalk_small.jpg
