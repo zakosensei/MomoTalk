@@ -65,8 +65,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     color: white;
     flex-shrink: 0;
     z-index: 20;
@@ -95,7 +95,7 @@ body {
 
 .header-tools {
     position: absolute;
-    right: 12px;
+    right: calc(12px + env(safe-area-inset-right));
     top: calc(15px + env(safe-area-inset-top));
     display: flex;
     gap: 6px;
@@ -297,8 +297,8 @@ body {
     padding-top: env(safe-area-inset-top);
     display: flex;
     align-items: center;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: calc(12px + env(safe-area-inset-left));
+    padding-right: calc(12px + env(safe-area-inset-right));
     color: white;
     flex-shrink: 0;
     z-index: 20;
@@ -425,7 +425,7 @@ body {
 
 .chat-input-area {
     background: #fff;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    padding: 10px calc(12px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
     display: flex;
     align-items: flex-end;
     gap: 8px;
@@ -517,8 +517,8 @@ body {
     padding-top: env(safe-area-inset-top);
     display: flex;
     align-items: center;
-    padding-left: 12px;
-    padding-right: 16px;
+    padding-left: calc(12px + env(safe-area-inset-left));
+    padding-right: calc(16px + env(safe-area-inset-right));
     color: white;
     flex-shrink: 0;
     z-index: 20;
@@ -738,6 +738,11 @@ textarea.modal-input {
     gap: 8px;
     justify-content: space-between;
     margin-top: 6px;
+    /* 短屏 / 横屏时弹窗内容可能超出 82vh，让按钮吸底，避免"完成/保存"被挤出可见区域 */
+    position: sticky;
+    bottom: 0;
+    padding-top: 6px;
+    background: #fff;
 }
 
 .modal-btn {
@@ -868,7 +873,7 @@ textarea.modal-input {
     .chat-header { padding-left: max(12px, calc(50vw - 380px)); padding-right: max(12px, calc(50vw - 380px)); }
     .more-header { padding-left: max(12px, calc(50vw - 380px)); padding-right: max(16px, calc(50vw - 380px)); }
     .more-body { padding-left: max(0px, calc(50vw - 380px)); padding-right: max(0px, calc(50vw - 380px)); }
-    .more-dev-card,
-    .more-list,
-    .about-card { margin-left: max(12px, calc(50vw - 368px)); margin-right: max(12px, calc(50vw - 368px)); }
+    /* 注意：.more-dev-card / .more-list / .about-card 的基础样式已经自带 margin: 12px，
+       这里不能再按 50vw 加一次左右外边距，否则会和 .more-body 的居中内边距叠加，
+       桌面端卡片被压窄甚至不可见（1280px 时仅剩约 216px 宽）。 */
 }

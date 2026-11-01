@@ -67,6 +67,8 @@
     "notReadyTitle": "提示",
     "notReadyBody": "学生资料尚未加载完成，请稍候或检查 resources/students.json。",
     "notReadyOk": "知道了",
+    "storageFullTitle": "本地存储已满",
+    "storageFullBody": "浏览器本地存储空间不足，最新消息可能没有保存成功。建议先点右上角\"导出\"备份数据，再清理不再需要的会话。",
     "importBtn": "导入",
     "exportBtn": "导出",
     "navMessages": "消息",
@@ -99,8 +101,10 @@
     "importUnknown": "无法识别的文件格式",
     "importLibNotReady": "学生资料尚未加载完成",
     "importDone": "导入完成：新增 {added} 个学生形态，合并 {merged} 个会话。",
+    "importDoneTitle": "导入结果",
+    "importSkipped": "已跳过 {n} 条重复消息。",
     "importMissing": "有 {n} 个 id 在当前学生库中不存在，已跳过。",
-    "importFailPrefix": "导入失败：",
+    "importFailTitle": "导入失败",
     "configFailTitle": "无法读取配置文件",
     "configFailHint": "请确认 resources/running_datas.json 存在且可访问。"
   }
