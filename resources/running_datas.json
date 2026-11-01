@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "MomoTalk",
+    "icon": "./resources/MomoTalk_small.jpg",
+    "studentsUrl": "./resources/students.json"
+  },
+  "storage": {
+    "myStudentsKey": "momotalk_my_students_v7",
+    "chatsKey": "momotalk_chats_v7"
+  },
+  "about": {
+    "authorName": "zako老师",
+    "authorAvatar": "./resources/head.jpg",
+    "xiaohongshuUrl": "https://xhslink.cn/o/4bRFA2sZIFh",
+    "version": "MMT.0.0.1",
+    "versionLabel": "（开发版）"
+  },
+  "texts": {
+    "loadingLibrary": "正在读取学生资料…",
+    "loadErrorTitle": "无法读取学生资料",
+    "loadErrorHint": "请确认 resources/students.json 与 HTML 位于同一目录，并通过 http(s) 服务访问。",
+    "reloadBtn": "重新读取",
+    "emptyMyStudents": "还没有添加学生",
+    "emptyHint": "点击下方 + 从学生库中选择",
+    "emptySearch": "没有找到匹配的学生形态",
+    "searchPlaceholder": "搜索已添加的学生或形态...",
+    "pickerTitle": "选择学生形态",
+    "pickerPlaceholder": "搜索学生姓名或形态…",
+    "pickerEmpty": "没有匹配的学生形态",
+    "pickerDone": "完成",
+    "pickerAdded": "已添加",
+    "pickerAdd": "＋ 添加",
+    "pickerMore": "还有 {n} 个形态未显示，请输入关键字搜索",
+    "chatEmpty": "与 {name} 的聊天从这里开始",
+    "startChat": "开始与 {name} 聊天吧",
+    "skinPreview": "暂无消息",
+    "chatPlaceholder": "输入消息...",
+    "sendBtn": "发送",
+    "roleSensei": "老师",
+    "roleStudent": "学生",
+    "senseiName": "Sensei",
+    "manageTitle": "管理会话",
+    "manageSubtitle": "{name} · 共 {count} 条消息",
+    "unreadPlaceholder": "未读数量（仅列表显示）",
+    "manageCancel": "取消",
+    "manageClear": "清空记录",
+    "manageRemove": "移出列表",
+    "manageSave": "保存",
+    "editTitle": "编辑消息",
+    "editRoleLine": "身份：{role}",
+    "editCancel": "取消",
+    "editDelete": "删除",
+    "editSave": "保存",
+    "notReadyTitle": "提示",
+    "notReadyBody": "学生资料尚未加载完成，请稍候或检查 resources/students.json。",
+    "notReadyOk": "知道了",
+    "importBtn": "导入",
+    "exportBtn": "导出",
+    "navMessages": "消息",
+    "navMore": "更多",
+    "imageLoadFail": "图片加载失败"
+  }
+}
