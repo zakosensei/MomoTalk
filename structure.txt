@@ -1,4 +1,4 @@
-Momotalk/
+MomoTalk/
 ├── momotalk.html
 └── structure.txt
 └── resources/             
@@ -9,3 +9,4 @@ Momotalk/
     └── head.jpg
     └── MomoTalk_big.jpg
     └── MomoTalk_small.jpg
+    └── cofee.jpg
