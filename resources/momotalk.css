@@ -43,6 +43,7 @@ body {
     overflow: hidden;
 }
 
+/* ================= 列表页 ================= */
 #list-page {
     display: flex;
     flex-direction: column;
@@ -221,6 +222,7 @@ body {
     font-family: inherit;
 }
 
+/* ================= 底部导航 ================= */
 .bottom-nav {
     position: absolute;
     bottom: 0;
@@ -269,6 +271,12 @@ body {
 .nav-add:active { transform: scale(0.92); }
 .nav-add svg { width: 24px; height: 24px; fill: #fff; display: block; }
 
+/* 需求：在“更多”页隐藏“+”图标 */
+#more-page.active ~ .bottom-nav .nav-add {
+    display: none !important;
+}
+
+/* ================= 聊天页 ================= */
 #chat-page {
     display: flex;
     flex-direction: column;
@@ -490,6 +498,7 @@ body {
 .send-btn:hover { background: var(--momotalk-pink-dark); }
 .send-btn:active { transform: scale(0.96); }
 
+/* ================= 更多页 ================= */
 #more-page {
     display: none;
     flex-direction: column;
@@ -541,6 +550,56 @@ body {
 .more-panel { display: none; }
 .more-panel.active { display: block; }
 
+/* 开发者卡片 */
+.more-dev-card {
+    background: #fff;
+    margin: 12px;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.dev-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #eee;
+    flex-shrink: 0;
+    border: 2px solid var(--momotalk-pink); /* 粉色边框 */
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+.dev-avatar:active { transform: scale(0.94); }
+.dev-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    flex: 1;
+}
+.dev-tag {
+    font-size: 11px;
+    color: var(--momotalk-pink); /* 统一粉色 */
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.dev-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+.dev-link {
+    font-size: 12px;
+    color: var(--momotalk-pink); /* 统一粉色 */
+    text-decoration: none;
+    word-break: break-all;
+    line-height: 1.4;
+}
+.dev-link:active { opacity: 0.7; }
+
 .more-list {
     background: #fff;
     margin: 12px;
@@ -568,6 +627,7 @@ body {
     font-weight: 300;
 }
 
+/* 关于页 */
 .about-card {
     background: #fff;
     margin: 12px;
@@ -576,57 +636,37 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
-.about-author-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid #f2f2f2;
-    margin-bottom: 12px;
-}
-
-.about-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: #eee;
-    cursor: pointer;
-    flex-shrink: 0;
-    border: 2px solid #ffe3ea;
-    transition: transform 0.15s;
-}
-.about-avatar:active { transform: scale(0.94); }
-
-.about-author-info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-    flex: 1;
-}
-
-.about-author-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-}
-
-.about-author-link {
-    font-size: 12px;
-    color: #f08a9c;
-    text-decoration: none;
-    word-break: break-all;
-    line-height: 1.4;
-}
-.about-author-link:active { opacity: 0.7; }
-
-.about-version-row {
-    display: flex;
-    align-items: center;
+.about-section-title {
     font-size: 13px;
-    color: #888;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
+.about-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #f4f4f4;
+    font-size: 14px;
+    gap: 12px;
+}
+.about-row:last-child { border-bottom: none; }
+.about-label {
+    color: #666;
+    flex-shrink: 0;
+}
+.about-value {
+    color: #333;
+    word-break: break-all;
+    text-align: right;
+}
+.about-link {
+    text-decoration: none;
+    color: inherit;
+}
+.about-link:active { opacity: 0.6; }
+.about-link .about-value { color: var(--momotalk-pink); } /* 统一粉色 */
 
 .more-placeholder {
     text-align: center;
@@ -635,6 +675,7 @@ body {
     font-size: 14px;
 }
 
+/* ================= 模态框 ================= */
 .modal-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -715,6 +756,7 @@ textarea.modal-input {
 .modal-btn.confirm { background: var(--momotalk-pink); color: #fff; }
 .modal-btn.danger { background: #ff4d4f; color: #fff; }
 
+/* ================= 学生选择器 ================= */
 .picker-wrap {
     display: flex;
     flex-direction: column;
@@ -771,6 +813,28 @@ textarea.modal-input {
     padding: 26px 10px;
 }
 
+/* ================= 赞赏弹窗 ================= */
+.donate-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.donate-img {
+    width: 100%;
+    max-width: 260px;
+    border-radius: 12px;
+    display: block;
+    background: #f7f7f7;
+}
+.donate-hint {
+    font-size: 13px;
+    color: #999;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* ================= 滚动条 & 加载 ================= */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -795,6 +859,7 @@ textarea.modal-input {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ================= 桌面端居中 ================= */
 @media (min-width: 768px) {
     .contact-list { padding-left: max(0px, calc(50vw - 380px)); padding-right: max(0px, calc(50vw - 380px)); }
     .search-bar { padding-left: max(15px, calc(50vw - 380px)); padding-right: max(15px, calc(50vw - 380px)); }
@@ -803,115 +868,7 @@ textarea.modal-input {
     .chat-header { padding-left: max(12px, calc(50vw - 380px)); padding-right: max(12px, calc(50vw - 380px)); }
     .more-header { padding-left: max(12px, calc(50vw - 380px)); padding-right: max(16px, calc(50vw - 380px)); }
     .more-body { padding-left: max(0px, calc(50vw - 380px)); padding-right: max(0px, calc(50vw - 380px)); }
-    .more-list, .about-card { margin-left: max(12px, calc(50vw - 368px)); margin-right: max(12px, calc(50vw - 368px)); }
-}
-/* ===== 更多页：开发者卡片 ===== */
-.more-dev-card {
-    background: #fff;
-    margin: 12px;
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-}
-.dev-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: #eee;
-    flex-shrink: 0;
-    border: 2px solid #ffe3ea;
-    cursor: pointer;
-    transition: transform 0.15s;
-}
-.dev-avatar:active { transform: scale(0.94); }
-.dev-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 0;
-    flex: 1;
-}
-.dev-tag {
-    font-size: 11px;
-    color: #f08a9c;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-.dev-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-}
-.dev-link {
-    font-size: 12px;
-    color: #f08a9c;
-    text-decoration: none;
-    word-break: break-all;
-    line-height: 1.4;
-}
-.dev-link:active { opacity: 0.7; }
-
-/* ===== 关于页：信息行 ===== */
-.about-section-title {
-    font-size: 13px;
-    color: #999;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-.about-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid #f4f4f4;
-    font-size: 14px;
-    gap: 12px;
-}
-.about-row:last-child { border-bottom: none; }
-.about-label {
-    color: #666;
-    flex-shrink: 0;
-}
-.about-value {
-    color: #333;
-    word-break: break-all;
-    text-align: right;
-}
-.about-link {
-    text-decoration: none;
-    color: inherit;
-}
-.about-link:active { opacity: 0.6; }
-.about-link .about-value { color: #f08a9c; }
-
-/* ===== 赞赏弹窗 ===== */
-.donate-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-.donate-img {
-    width: 100%;
-    max-width: 260px;
-    border-radius: 12px;
-    display: block;
-    background: #f7f7f7;
-}
-.donate-hint {
-    font-size: 13px;
-    color: #999;
-    text-align: center;
-    line-height: 1.6;
-}
-
-@media (min-width: 768px) {
-    .more-dev-card {
-        margin-left: max(12px, calc(50vw - 368px));
-        margin-right: max(12px, calc(50vw - 368px));
-    }
+    .more-dev-card,
+    .more-list,
+    .about-card { margin-left: max(12px, calc(50vw - 368px)); margin-right: max(12px, calc(50vw - 368px)); }
 }
