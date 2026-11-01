@@ -24,10 +24,11 @@
   },
   "donate": {
     "title": "赞赏 · Buy me a coffee",
-    "image": "./resources/coffe.jpg",
+    "image": "./resources/coffee.jpg",
     "hint": "感谢你的支持！"
   },
   "texts": {
+    "docTitleSuffix": "自定义聊天",
     "loadingLibrary": "正在读取学生资料…",
     "loadErrorTitle": "无法读取学生资料",
     "loadErrorHint": "请确认 resources/students.json 与 HTML 位于同一目录，并通过 http(s) 服务访问。",
@@ -79,12 +80,28 @@
     "developerTag": "开发者",
     "developerLink": "开发者主页",
     "donateEntry": "赞赏 · Buy me a coffee",
+    "donateNoImage": "未配置赞赏图片",
     "appInfoTitle": "应用信息",
     "versionLabel": "版本",
     "contactTitle": "联系我们",
     "qqLabel": "QQ 交流群",
     "wechatLabel": "企业微信",
     "emailLabel": "邮箱",
-    "wechatTap": "点击访问 ›"
+    "wechatTap": "点击访问 ›",
+    "generalPlaceholder": "通用设置（开发中）",
+    "studentsPlaceholder": "学生设置（开发中）",
+    "imgErrorTitle": "图片加载失败",
+    "imgErrorRes": "错误资源：",
+    "imgErrorReasons": "可能的原因：服务器文件不存在、路径配置错误、跨域限制或图片损坏。",
+    "imgErrorOk": "知道了",
+    "imagePlaceholder": "[图片]",
+    "mePrefix": "[我]",
+    "importUnknown": "无法识别的文件格式",
+    "importLibNotReady": "学生资料尚未加载完成",
+    "importDone": "导入完成：新增 {added} 个学生形态，合并 {merged} 个会话。",
+    "importMissing": "有 {n} 个 id 在当前学生库中不存在，已跳过。",
+    "importFailPrefix": "导入失败：",
+    "configFailTitle": "无法读取配置文件",
+    "configFailHint": "请确认 resources/running_datas.json 存在且可访问。"
   }
 }
