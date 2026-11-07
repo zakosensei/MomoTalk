@@ -5,7 +5,8 @@ MomoTalk/
 └── resources/
     ├── momotalk.css       样式表（粉色主题、移动端优先、≥768px 时桌面端居中）
     ├── running_datas.json 全局配置：应用信息、图标路径、localStorage 键名、关于/联系方式、赞赏图、文案字典
-    ├── students.json      学生库：310 名学生、共 486 个形态（头像为站外 URL）
+    ├── students.json      学生库：309 名学生、共 486 个形态（头像为站外 URL，应用展开为 487 个可选形态）
+    ├── video.json         教程视频清单（视频号 / 小红书双链接；页面按「通用设置」里的默认网站显示其中一个）
     ├── MomoTalk.jpg       网页图标（favicon / apple-touch-icon）
     ├── MomoTalk_small.jpg 顶栏 Logo 图标
     ├── MomoTalk_big.jpg   高清图标备份（当前页面未引用）
