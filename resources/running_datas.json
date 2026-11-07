@@ -8,14 +8,23 @@
   },
   "storage": {
     "myStudentsKey": "momotalk_my_students_v7",
-    "chatsKey": "momotalk_chats_v7"
+    "chatsKey": "momotalk_chats_v7",
+    "settingsKey": "momotalk_settings_v1"
   },
   "about": {
     "developerName": "zako老师",
     "developerAvatar": "./resources/head.jpg",
     "developerUrl": "https://xhslink.cn/o/4bRFA2sZIFh",
     "version": "MMT.0.0.1",
-    "versionLabel": "（开发版）"
+    "versionLabel": "（开发版）",
+    "credits": [
+      {
+        "name": "zako老师",
+        "role": "开发 / 设计 / 文案",
+        "avatar": "./resources/head.jpg",
+        "url": "https://xhslink.cn/o/4bRFA2sZIFh"
+      }
+    ]
   },
   "contact": {
     "qqGroup": "481347017",
@@ -26,6 +35,10 @@
     "title": "赞赏 · Buy me a coffee",
     "image": "./resources/coffee.jpg",
     "hint": "感谢你的支持！"
+  },
+  "tutorial": {
+    "url": "./resources/video.json",
+    "defaultSite": "channels"
   },
   "texts": {
     "docTitleSuffix": "自定义聊天",
@@ -79,6 +92,23 @@
     "aboutTitle": "关于",
     "generalTitle": "通用设置",
     "studentsTitle": "学生设置",
+    "creditsTitle": "致谢 & 开发团队",
+    "privacyNote": "本站所有数据不收集、不上传，保存在本地，请做好备份或开启自动备份，避免遗失",
+    "tutorialEntry": "教程",
+    "tutorialTitle": "教程",
+    "tutorialSubtitle": "点击文字介绍跳转视频",
+    "tutorialLoading": "正在读取教程…",
+    "tutorialEmpty": "暂无教程内容",
+    "tutorialEmptyHint": "在 resources/video.json 中填入视频后刷新即可显示",
+    "tutorialErrorTitle": "无法读取教程内容",
+    "tutorialErrorHint": "请确认 resources/video.json 存在且可访问。",
+    "tutorialReload": "重新读取",
+    "tutorialLinkMissing": "暂无链接",
+    "generalVideoTitle": "视频设置",
+    "generalDefaultSiteLabel": "默认跳转视频网站",
+    "generalDefaultSiteHint": "点击教程里的文字介绍时优先打开该网站；若该视频没有这个网站的链接，会自动改用另一个。",
+    "siteChannels": "视频号",
+    "siteXiaohongshu": "小红书",
     "developerTag": "开发者",
     "developerLink": "开发者主页",
     "donateEntry": "赞赏 · Buy me a coffee",
@@ -90,7 +120,6 @@
     "wechatLabel": "企业微信",
     "emailLabel": "邮箱",
     "wechatTap": "点击访问 ›",
-    "generalPlaceholder": "通用设置（开发中）",
     "studentsPlaceholder": "学生设置（开发中）",
     "imgErrorTitle": "图片加载失败",
     "imgErrorRes": "错误资源：",

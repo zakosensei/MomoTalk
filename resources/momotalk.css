@@ -877,3 +877,149 @@ textarea.modal-input {
        这里不能再按 50vw 加一次左右外边距，否则会和 .more-body 的居中内边距叠加，
        桌面端卡片被压窄甚至不可见（1280px 时仅剩约 216px 宽）。 */
 }
+
+/* ================= 关于页：致谢 & 隐私说明 ================= */
+.credit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f4f4f4;
+    text-decoration: none;
+    color: inherit;
+}
+.credit-item:last-child { border-bottom: none; }
+.credit-item:active { opacity: 0.7; }
+/* 致谢行复用 .more-arrow，但原样式只作用在 .more-list-item 下，这里补一份保持箭头观感一致 */
+.credit-item .more-arrow {
+    color: #ccc;
+    font-size: 18px;
+    font-weight: 300;
+    flex-shrink: 0;
+}
+.credit-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #eee;
+    flex-shrink: 0;
+    border: 2px solid var(--momotalk-pink);
+}
+.credit-info { flex: 1; min-width: 0; }
+.credit-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.credit-role {
+    font-size: 12px;
+    color: #999;
+    margin-top: 3px;
+    line-height: 1.5;
+}
+.privacy-note {
+    padding: 14px 20px 4px;
+    font-size: 11px;
+    color: #b0b0b0;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* ================= 通用设置：分段选择 ================= */
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0 10px;
+}
+.setting-label {
+    font-size: 14px;
+    color: #333;
+}
+.segmented {
+    display: flex;
+    background: #f5f5f5;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    padding: 2px;
+    flex-shrink: 0;
+}
+.seg-btn {
+    border: none;
+    background: transparent;
+    color: #888;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s;
+}
+.seg-btn.active {
+    background: var(--momotalk-pink);
+    color: #fff;
+    font-weight: 600;
+}
+.setting-hint {
+    font-size: 11px;
+    color: #aaa;
+    line-height: 1.6;
+    padding: 2px 0 4px;
+}
+
+/* ================= 教程视频列表 ================= */
+.tutorial-hint {
+    /* 28px = 卡片外边距 12px + 卡片内边距 16px，与下方卡片文字左对齐 */
+    padding: 14px 28px 2px;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.6;
+}
+/* 教程列表直接复用 .more-list 的 12px 卡片外边距，不再单独覆盖 */
+.tutorial-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f2f2f2;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+}
+.tutorial-item:last-child { border-bottom: none; }
+.tutorial-item:active { background: #f9f9f9; }
+.tutorial-item.disabled { opacity: 0.55; cursor: default; }
+.tutorial-item.disabled:active { background: transparent; }
+.tutorial-info { flex: 1; min-width: 0; }
+.tutorial-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+.tutorial-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.55;
+    word-break: break-word;
+}
+.tutorial-site {
+    font-size: 11px;
+    color: var(--momotalk-pink);
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.tutorial-site.muted { color: #bbb; }
+.tutorial-arrow {
+    color: #ccc;
+    font-size: 18px;
+    font-weight: 300;
+    flex-shrink: 0;
+}

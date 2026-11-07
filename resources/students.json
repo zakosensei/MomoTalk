@@ -3079,7 +3079,6 @@
                 "skin_cn": ""
             },
             {
-                "id": 499,
                 "avatar": "//static.kivo.wiki/images/students/%E6%AD%8C%E4%BD%8F%20%E6%A8%B1%E5%AD%90/%E5%81%B6%E5%83%8F/Student_Portrait_CH0274_Collection.png",
                 "skin": "偶像",
                 "skin_cn": "偶像"
@@ -3586,7 +3585,6 @@
                 "skin_cn": "体操服"
             },
             {
-                "id": 498,
                 "avatar": "//static.kivo.wiki/images/students/%E4%BC%8A%E8%90%BD%20%E7%8E%9B%E4%B8%BD/%E5%81%B6%E5%83%8F/Student_Portrait_CH0273_Collection.png",
                 "skin": "偶像",
                 "skin_cn": "偶像"
@@ -3765,7 +3763,6 @@
                 "skin_cn": ""
             },
             {
-				"id": 565,
 				"avatar": "//static.kivo.wiki/images/students/%E5%AE%87%E6%B3%BD%20%E7%8E%B2%E7%BA%B1/%E9%AD%94%E6%B3%95%E5%B0%91%E5%A5%B3/Student_Portrait_CH0326_Collection.png",
 				"skin": "魔法",
 				"skin_cn": "魔法"
@@ -3968,7 +3965,6 @@
                 "skin_cn": ""
             },
             {
-                "id": 500,
                 "avatar": "//static.kivo.wiki/images/students/%E8%8B%8D%E6%A3%AE%20%E7%BE%8E%E5%BC%A5/original/mine.png",
                 "skin": "偶像",
                 "skin_cn": "偶像"
@@ -4533,7 +4529,6 @@
                 "skin_cn": ""
             },
             {
-				"id": 563,
 				"avatar": "//static.kivo.wiki/images/students/%E5%AE%88%E6%9C%88%20%E9%93%83%E7%BE%8E/%E9%AD%94%E6%B3%95/Student_Portrait_CH0325_Collection.png",
 				"skin": "魔法",
 				"skin_cn": "魔法"
@@ -14521,8 +14516,8 @@
             "请通过这里联系"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%A3%9F%E8%9C%82%20%E6%93%8D%E7%A5%88/avatar.png",
         "school": 26,
@@ -14744,8 +14739,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%20%E7%AC%91%E9%9D%A2%E6%95%99%E6%8E%88/original/avatar.png",
         "school": 0,
@@ -14835,8 +14830,8 @@
             "注：该条目存在些许剧透要素，请结合自身情况谨慎阅读"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%A0%97%E6%BB%A8%20%E6%98%8E%E7%BE%8E/original/avatar.png",
         "school": 0,
@@ -14911,8 +14906,8 @@
             "注：该条目存在些许剧透要素，请结合自身情况谨慎阅读"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%A2%A6/avatar.png",
         "school": 1,
@@ -15104,8 +15099,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%20%E3%80%8C%E9%9B%B7%E5%B8%9D%E3%80%8D/original/avatar.png",
         "school": 3,
@@ -15338,8 +15333,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%97%97%E8%A7%81%20%E8%89%BE%E4%B8%BD%E5%8D%A1/avatar.png",
         "school": 3,
@@ -15886,8 +15881,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%9B%E5%8D%8E/avatar.png",
         "school": 7,
@@ -16055,8 +16050,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%94%B3%E8%B0%B7%20%E5%BB%BB/avatar.png",
         "school": 7,
@@ -16128,8 +16123,8 @@
             "日服早期CBT内测时期解包角色"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%A3%B4/CBT/avatar.png",
         "school": 7,
@@ -16193,8 +16188,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%BC%86%E5%8E%9F%20%E8%BE%89%E5%A4%9C/original/avatar.png",
         "school": 7,
@@ -16253,7 +16248,7 @@
         ],
         "familyName": {
             "nm": "志真",
-            "cn": "",
+            "cn": "志真",
             "en": "Shima",
             "jp": "志真",
             "kr": "시마",
@@ -16261,7 +16256,7 @@
         },
         "givenName": {
             "nm": "心华",
-            "cn": "",
+            "cn": "心华",
             "en": "konoka",
             "jp": "コノカ",
             "kr": "코노카",
@@ -16548,8 +16543,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%96%B0/avatar.png",
         "school": 9,
@@ -16621,8 +16616,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%AE%AD%E5%90%B9%20%E6%A3%95%E6%A6%88/avatar.png",
         "school": 9,
@@ -16705,8 +16700,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%91%9B%E5%8F%B6/avatar.png",
         "school": 9,
@@ -16778,8 +16773,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%99%9E%E7%BE%8E%E4%BA%BA/avatar.png",
         "school": 9,
@@ -16837,7 +16832,7 @@
         ],
         "familyName": {
             "nm": "吉野",
-            "cn": "",
+            "cn": "吉野",
             "en": "Yoshino",
             "jp": "吉野",
             "kr": "요시노",
@@ -16914,7 +16909,7 @@
         ],
         "familyName": {
             "nm": "高仓",
-            "cn": "",
+            "cn": "高仓",
             "en": "Takakura",
             "jp": "高倉",
             "kr": "타카쿠라",
@@ -17065,7 +17060,7 @@
         ],
         "familyName": {
             "nm": "天神山",
-            "cn": "",
+            "cn": "天神山",
             "en": "Tenjinyama",
             "jp": "天神山",
             "kr": "텐진야마",
@@ -17166,8 +17161,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%88%9E/avatar.png",
         "school": 13,
@@ -17232,8 +17227,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B7%9D%E6%B5%81%20%E8%AF%97%E4%B9%83/avatar.png",
         "school": 13,
@@ -17300,8 +17295,8 @@
             "日服早期CBT内测时期解包角色"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%A5%88%E5%A4%AE/CBT/avatar.png",
         "school": 14,
@@ -17375,8 +17370,8 @@
             "日服早期CBT内测时期解包角色"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/Kanna/CBT/avatar.png",
         "school": 14,
@@ -17445,8 +17440,8 @@
             "日服早期CBT内测时期解包角色"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%94%B1%E5%8A%A0%E5%88%A9/CBT/avatar.png",
         "school": 14,
@@ -17513,8 +17508,8 @@
             "日服早期CBT内测时期解包角色"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%B1%B3%E8%8E%89%E4%BA%9A/CBT/avatar.png",
         "school": 14,
@@ -17582,8 +17577,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%8C%B7/avatar.png",
         "school": 14,
@@ -17654,8 +17649,8 @@
             "日服早期CBT内测时期解包角色"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%9C%B2%E9%9F%B3/CBT/avatar.png",
         "school": 14,
@@ -17727,8 +17722,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%85%B0%E8%88%9E/avatar.png",
         "school": 16,
@@ -17905,8 +17900,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%9C%9D%E9%9B%BE%20%E5%91%A8%E9%98%B2/avatar.png",
         "school": 24,
@@ -18103,8 +18098,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%B8%85%E6%BE%84%20%E6%99%B6/avatar.png",
         "school": 25,
@@ -18223,8 +18218,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%BD%A9%E6%B4%9B%E6%B4%9B/avatar.png",
         "school": 0,
@@ -18275,8 +18270,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%9C%BA%E5%99%A8%E4%BA%BA/avatar.png",
         "school": 0,
@@ -18327,8 +18322,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%AC%9B%E5%8D%A1%E5%B0%94/avatar.png",
         "school": 0,
@@ -18390,8 +18385,8 @@
             "注：该角色涉及vol1.3的剧透"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B0%8F%E9%B8%9F%E6%B8%B8%20%E6%98%9F%E9%87%8E%20%2A%E6%81%90%E6%80%96/original/avatar.png",
         "school": 1,
@@ -18453,8 +18448,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%BF%AE%E5%A5%B3%E4%BC%9A%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 2,
@@ -18520,8 +18515,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%9C%A3%E4%B8%89%E4%B8%80%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 2,
@@ -18588,8 +18583,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E5%9C%A3%E5%BE%92%E4%BC%9A-%E8%8A%AD%E8%8A%AD%E6%8B%89/avatar.png",
         "school": 2,
@@ -18647,8 +18642,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B0%A4%E6%96%AF%E8%92%82%E5%A8%85%E5%9C%A3%E5%BE%92%E4%BC%9A%E6%AD%A5%E6%9E%AA/avatar.png",
         "school": 2,
@@ -18699,8 +18694,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%AD%A3%E4%B9%89%E5%A7%94%E6%9D%82%E9%B1%BC%E9%85%B1/avatar.png",
         "school": 2,
@@ -18763,8 +18758,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%8C%B6%E4%BC%9A%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 2,
@@ -18829,8 +18824,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%8C%B6%E4%BC%9A%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F2/avatar.png",
         "school": 2,
@@ -18895,8 +18890,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%B8%87%E9%AD%94%E6%AE%BF%EF%BC%88%EF%BC%9F%EF%BC%89%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 3,
@@ -18961,8 +18956,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%95%91%E6%80%A5%E5%8C%BB%E5%AD%A6%E9%83%A8%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 3,
@@ -19028,8 +19023,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%A0%BC%E8%B5%AB%E5%A8%9C%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 3,
@@ -19096,8 +19091,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%B8%A9%E6%B3%89%E5%BC%80%E5%8F%91%E9%83%A8%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 3,
@@ -19160,8 +19155,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%A3%8E%E7%BA%AA%E5%A7%94%E5%91%98%E4%BC%9A%E6%9D%82%E9%B1%BC%E9%85%B1/avatar.png",
         "school": 3,
@@ -19226,8 +19221,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%8D%83%E7%A6%A7%20%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 4,
@@ -19291,8 +19286,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%8D%83%E7%A6%A7%E5%B7%A5%E7%A8%8B%E9%83%A8%E5%AD%A6%E7%94%9FB/avatar.png",
         "school": 4,
@@ -19377,8 +19372,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%BA%A2%E5%86%AC-%E5%8A%B3%E5%8A%A1%E9%83%A8%E5%AD%A6%E7%94%9F/avatar.png",
         "school": 5,
@@ -19438,8 +19433,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%BA%A2%E5%86%AC%E6%99%AE%E9%80%9A%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 5,
@@ -19490,8 +19485,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%99%AE%E6%8B%89%E5%A8%9C/avatar.png",
         "school": 6,
@@ -19570,8 +19565,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%98%BF%E7%BD%97%E5%A8%9C/avatar.png",
         "school": 6,
@@ -19642,8 +19637,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%20%E4%BA%AC%E5%89%A7%E9%83%A8%E5%91%98A/original/avatar.png",
         "school": 7,
@@ -19694,8 +19689,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%20%E4%BA%AC%E5%89%A7%E9%83%A8%E5%91%98B/original/avatar.png",
         "school": 7,
@@ -19746,8 +19741,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B1%B1%E6%B5%B7%E7%BB%8F%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 7,
@@ -19811,8 +19806,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B1%B1%E6%B5%B7%E7%BB%8F%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FB/avatar.png",
         "school": 7,
@@ -19877,8 +19872,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B1%B1%E6%B5%B7%E7%BB%8F%E5%BA%97%E5%91%98/avatar.png",
         "school": 7,
@@ -19944,8 +19939,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%8E%84%E9%BE%99%E9%97%A8%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 7,
@@ -20018,8 +20013,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%A5%B3%E6%AD%A6%E7%A5%9E%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 8,
@@ -20101,8 +20096,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%BA%BA%E5%8A%9B%E8%BD%A6%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 9,
@@ -20149,8 +20144,8 @@
             {
                 "kivoId": 536,
                 "avatar": "//static.kivo.wiki/images/students/%20%E7%99%BE%E9%AC%BC%E5%A4%9C%E8%A1%8C%E5%AD%A6%E7%94%9FA/%E6%B3%B3%E8%A3%85/NP0255_avatar.png",
-                "skin": "",
-                "skin_cn": ""
+                "skin": "泳装",
+                "skin_cn": "泳装"
             }
         ],
         "familyName": {
@@ -20174,8 +20169,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%99%BE%E9%AC%BC%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 9,
@@ -20254,8 +20249,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%99%BE%E9%AC%BC%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FB/avatar.png",
         "school": 9,
@@ -20319,8 +20314,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%99%BE%E9%AC%BC%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FC/avatar.png",
         "school": 9,
@@ -20385,8 +20380,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%AD%91%E9%AD%85%E4%B8%80%E5%BA%A7%20%E9%83%A8%E5%91%98/avatar.png",
         "school": 9,
@@ -20449,8 +20444,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%AD%91%E9%AD%85%E4%B8%80%E5%BA%A7%20%E9%98%9F%E9%95%BF/avatar.png",
         "school": 9,
@@ -20501,8 +20496,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%98%BF%E9%87%8C%E4%B9%8C%E6%96%AF%E4%B8%80%E8%88%AC%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 10,
@@ -20559,8 +20554,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%B8%83%E7%A5%9E%20%E5%87%9B/avatar.png",
         "school": 12,
@@ -20684,8 +20679,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%9D%8E/avatar.png",
         "school": 12,
@@ -20891,8 +20886,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B2%A9%E4%BB%93%20%E6%AD%A5%E7%BE%8E/avatar.png",
         "school": 12,
@@ -20987,8 +20982,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%81%B0%E9%9F%B3/avatar.png",
         "school": 12,
@@ -21067,8 +21062,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%81%94%E9%82%A6%E5%AD%A6%E7%94%9F%E4%BC%9A%E4%B8%80%E8%88%AC%E5%B7%A5%E4%BD%9C%E4%BA%BA%E5%91%98B/avatar.png",
         "school": 12,
@@ -21135,8 +21130,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%81%94%E9%82%A6%E5%AD%A6%E7%94%9F%E4%BC%9A%E4%B8%80%E8%88%AC%E5%B7%A5%E4%BD%9C%E4%BA%BA%E5%91%98A/avatar.png",
         "school": 12,
@@ -21203,8 +21198,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%81%94%E9%82%A6%E5%AD%A6%E7%94%9F%E4%BC%9A%E9%95%BF/avatar.png",
         "school": 12,
@@ -21287,8 +21282,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%B8%8D%E7%9F%A5%E7%81%AB%20%E8%8A%B1%E8%80%B6/avatar.png",
         "school": 12,
@@ -21368,8 +21363,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%91%B5/avatar.png",
         "school": 12,
@@ -21435,8 +21430,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%85%94%E5%A5%B3%E9%83%8E%E5%AD%A6%E7%94%9F-%E7%8B%99%E5%87%BB%E6%9E%AA/avatar.png",
         "school": 15,
@@ -21511,8 +21506,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%A9%BA/avatar.png",
         "school": 0,
@@ -21597,8 +21592,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/KAITEN%20FX%20MK.0/avatar.png",
         "school": 17,
@@ -21649,8 +21644,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%AD%A5%E6%9E%AA%E4%B8%8D%E8%89%AF/avatar.png",
         "school": 16,
@@ -21715,8 +21710,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%86%B2%E9%94%8B%E6%9E%AA%E4%B8%8D%E8%89%AF/avatar.png",
         "school": 16,
@@ -21800,8 +21795,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%87%8D%E6%9C%BA%E6%9E%AA%E4%B8%8D%E8%89%AF/avatar.png",
         "school": 16,
@@ -21886,8 +21881,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%AF%BF%E5%8F%B8%E7%B2%89/avatar.png",
         "school": 17,
@@ -21938,8 +21933,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%AF%BF%E5%8F%B8%E7%BA%A2/avatar.png",
         "school": 17,
@@ -21990,8 +21985,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%AF%BF%E5%8F%B8%E7%BB%BF/avatar.png",
         "school": 17,
@@ -22042,8 +22037,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%AF%BF%E5%8F%B8%E9%BB%84/avatar.png",
         "school": 17,
@@ -22094,8 +22089,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%AF%BF%E5%8F%B8%E9%BB%91/avatar.png",
         "school": 17,
@@ -22146,8 +22141,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%A4%B4%E7%9B%94%E5%9B%A2%E5%AD%A6%E7%94%9F-%E9%BB%91/avatar.png",
         "school": 17,
@@ -22198,8 +22193,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%A4%B4%E7%9B%94%E5%9B%A2%E5%AD%A6%E7%94%9F-%E7%BA%A2/avatar.png",
         "school": 17,
@@ -22250,8 +22245,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%BB%91%E5%B8%82%E7%BB%84%E7%BB%87%E6%88%90%E5%91%98A/avatar.png",
         "school": 17,
@@ -22304,8 +22299,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%20DJ%E7%8B%97%E7%8B%97/original/avatar.png",
         "school": 18,
@@ -22356,8 +22351,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%81%87%E6%97%A5%E5%8C%97%E6%9E%81%E7%86%8A/avatar.png",
         "school": 18,
@@ -22408,8 +22403,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%99%AE%E9%80%9A%E5%B7%A5%E7%A8%8B%E5%AD%A6%E7%94%9F1/avatar.png",
         "school": 18,
@@ -22469,8 +22464,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%BB%91%E8%89%B2%E5%92%8C%E6%9C%8D%E7%8B%97%E7%8B%97/avatar.png",
         "school": 18,
@@ -22521,8 +22516,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%92%8C%E6%9C%8D%E7%8C%AB%E7%8C%AB/avatar.png",
         "school": 18,
@@ -22573,8 +22568,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/NPC%E9%B8%9F/avatar.png",
         "school": 18,
@@ -22625,8 +22620,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%95%86%E5%BA%97%E8%80%81%E6%9D%BF/avatar.png",
         "school": 18,
@@ -22677,8 +22672,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%9F%8E%E5%B8%82%E7%8B%97%E7%8B%97/avatar.png",
         "school": 18,
@@ -22729,8 +22724,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%A4%B4%E5%B8%A6%E7%8B%97%E7%8B%97/avatar.png",
         "school": 18,
@@ -22781,8 +22776,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B7%A5%E4%BA%BA%E8%8A%B1%E6%A0%97%E9%BC%A0/avatar.png",
         "school": 18,
@@ -22833,8 +22828,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%8B%97%E7%8B%97-%E8%B7%AF%E4%BA%BA/avatar.png",
         "school": 18,
@@ -22885,8 +22880,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B8%82%E6%B0%91%E6%9C%BA%E5%99%A8%E4%BA%BA/avatar.png",
         "school": 18,
@@ -22956,8 +22951,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%8A%AC%E5%A4%A7%E5%B0%86/avatar.png",
         "school": 18,
@@ -23008,8 +23003,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%89%93%E6%B8%94%E7%8B%B8%E7%8C%AB/avatar.png",
         "school": 18,
@@ -23060,8 +23055,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/NPC%E5%81%9A%E9%A5%AD%E9%B8%9F/avatar.png",
         "school": 18,
@@ -23112,8 +23107,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%9C%BC%E7%BD%A9%E7%8C%AB%E7%8C%AB/avatar.png",
         "school": 18,
@@ -23164,8 +23159,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%BB%B7%E5%B8%A6%E7%8B%97%E7%8B%97/avatar.png",
         "school": 18,
@@ -23216,8 +23211,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%9D%B4%E8%9D%B6%E7%BB%93NPC%E9%B8%9F/avatar.png",
         "school": 18,
@@ -23268,8 +23263,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%B4%9D%E9%9B%B7%E5%B8%BDNPC%E9%B8%9F/avatar.png",
         "school": 18,
@@ -23320,8 +23315,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%B4%9D%E9%9B%B7%E5%B8%BD%E7%8B%97%E7%8B%97/avatar.png",
         "school": 18,
@@ -23372,8 +23367,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%B5%84%E6%9C%AC%E6%9C%BA%E5%99%A8%E4%BA%BA/avatar.png",
         "school": 18,
@@ -23424,8 +23419,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B0%8F%E5%AD%A6%E7%94%9FNPC%E9%B8%9F/avatar.png",
         "school": 18,
@@ -23476,8 +23471,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%BB%91%E5%B8%AE%E6%9C%BA%E5%99%A8%E4%BA%BAA/avatar.png",
         "school": 18,
@@ -23528,8 +23523,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%BB%91%E5%B8%AE%E5%AD%A6%E7%94%9FA/avatar.png",
         "school": 18,
@@ -23594,8 +23589,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%BB%91%E9%BE%9F%E7%BB%84%E6%9C%BA%E5%99%A8%E4%BA%BAA/avatar.png",
         "school": 18,
@@ -23646,8 +23641,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E6%92%92%E5%8F%B8%E4%BB%A4%E5%AE%98/avatar.png",
         "school": 19,
@@ -23698,8 +23693,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E6%92%92%E4%B8%BB%E7%AE%A1/avatar.png",
         "school": 19,
@@ -23750,8 +23745,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E6%92%92%E6%9C%BA%E5%99%A8%E4%BA%BAA/avatar.png",
         "school": 19,
@@ -23802,8 +23797,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E6%92%92PMC%E6%9C%BA%E5%99%A8%E4%BA%BA/avatar.png",
         "school": 19,
@@ -23861,8 +23856,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E6%92%92PMC%20%E7%90%86%E4%BA%8B/avatar.png",
         "school": 19,
@@ -23913,8 +23908,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%9C%B0%E4%B8%8B%E7%94%9F%E6%B4%BB%E8%80%85/avatar.png",
         "school": 20,
@@ -23974,8 +23969,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B7%A8%E5%8C%A0/avatar.png",
         "school": 20,
@@ -24026,8 +24021,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%BC%97%E6%9C%97%E8%A5%BF%E6%96%AF/avatar.png",
         "school": 20,
@@ -24078,8 +24073,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%88%88%E5%B0%94%E5%AD%94%E8%BE%BE&%E5%8D%B0%E8%8A%B1%E9%87%89%E6%B3%95/avatar.png",
         "school": 20,
@@ -24130,8 +24125,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%B4%9D%E9%98%BF%E6%9C%B5%E8%8E%89%E5%88%87/avatar.png",
         "school": 20,
@@ -24182,8 +24177,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%BB%91%E6%9C%8D/avatar.png",
         "school": 20,
@@ -24234,8 +24229,8 @@
             "『王冠』"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E7%91%9F/avatar.png",
         "school": 21,
@@ -24286,8 +24281,8 @@
             "『慈悲』"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%87%AF%E8%B5%9B%E5%BE%B7/avatar.png",
         "school": 21,
@@ -24338,8 +24333,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E3%82%AA%E3%82%A6%E3%83%AB/avatar.png",
         "school": 21,
@@ -24415,8 +24410,8 @@
             "『痛感差异的静观理解者』"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%AF%94%E7%BA%B3/avatar.png",
         "school": 21,
@@ -24467,8 +24462,8 @@
             "第五位预言者「威严」Geburah"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%9B%96%E5%B8%83%E6%8B%89/avatar.png",
         "school": 21,
@@ -24527,8 +24522,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%A5%9E%E5%90%8D%E5%8D%81%E5%AD%97%E6%9C%BA%E5%99%A8%E4%BA%BAA/avatar.png",
         "school": 21,
@@ -24579,8 +24574,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E3%82%BD%E3%83%95/avatar.png",
         "school": 21,
@@ -24652,8 +24647,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E3%82%A2%E3%82%A4%E3%83%B3/avatar.png",
         "school": 21,
@@ -24728,8 +24723,8 @@
             "『荣耀』"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E9%9C%8D%E5%BE%B7/avatar.png",
         "school": 21,
@@ -24780,8 +24775,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%88%88%E5%85%B9/avatar.png",
         "school": 22,
@@ -24832,8 +24827,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%99%BD&%E9%BB%91/avatar.png",
         "school": 22,
@@ -24884,8 +24879,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E4%BD%A9%E7%BD%97%E7%BD%97%E6%96%AF%E6%8B%89/avatar.png",
         "school": 0,
@@ -24936,8 +24931,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%88%97%E8%BD%A6%E4%B9%98%E5%8A%A1%E5%91%98A/avatar.png",
         "school": 24,
@@ -25006,8 +25001,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%88%97%E8%BD%A6%E4%B9%98%E5%8A%A1%E5%91%98B/avatar.png",
         "school": 24,
@@ -25075,8 +25070,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%88%97%E8%BD%A6%E4%B9%98%E5%8A%A1%E5%91%98C/avatar.png",
         "school": 24,
@@ -25142,8 +25137,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%88%97%E8%BD%A6%E4%B9%98%E5%8A%A1%E5%91%98D/avatar.png",
         "school": 24,
@@ -25194,8 +25189,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%AE%88%E5%8D%AB%E6%9C%BA%E5%99%A8%E4%BA%BA/avatar.png",
         "school": 25,
@@ -25246,8 +25241,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%97%A0%E5%90%8D%E5%8F%B8%E7%A5%AD/avatar.png",
         "school": 25,
@@ -25298,8 +25293,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%99%AE%E9%9B%B7%E9%82%A3%E5%B8%95%E7%89%B9%E6%96%AF/avatar.png",
         "school": 25,
@@ -25350,8 +25345,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%89%B2%E5%BD%A9/avatar.png",
         "school": 25,
@@ -25409,8 +25404,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E5%B8%8C%E7%BD%97%E5%B0%BC%E7%A9%86%E6%96%AF/avatar.png",
         "school": 27,
@@ -25461,8 +25456,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E6%A0%BC%E9%87%8C%E9%AB%98%E5%88%A9/avatar.png",
         "school": 27,
@@ -25513,8 +25508,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E7%8C%AB%E9%AC%BC%E9%BB%91%E5%BD%B1/avatar.png",
         "school": 28,
@@ -25565,8 +25560,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.fun/images/students/%E8%B5%9B%E7%89%B9/avatar.png",
         "school": 29,
@@ -25627,8 +25622,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E6%9C%AA%E6%9D%A5/original/%E6%9C%AA%E6%9D%A5.png",
         "school": 4,
@@ -25679,90 +25674,6 @@
         "release": 1
     },
     {
-        "id": 380,
-        "kivoId": 518,
-        "skinList": [
-            {
-                "kivoId": 518,
-                "avatar": "//static.kivo.wiki/images/students/%20Kei/original/kei.png",
-                "skin": "",
-                "skin_cn": ""
-            }
-        ],
-        "familyName": {
-            "nm": "",
-            "cn": "",
-            "en": "",
-            "jp": "",
-            "kr": "",
-            "tw": ""
-        },
-        "givenName": {
-            "nm": "Kei",
-            "cn": "Kei",
-            "en": "Kei",
-            "jp": "ケイ",
-            "kr": "",
-            "tw": "Kei"
-        },
-        "introduction": "「无名之神的王女」的侍女。",
-        "mosign": [
-            ""
-        ],
-        "birthday": {
-            "month": 0,
-            "day": 0
-        },
-        "avatar": "//static.kivo.wiki/images/students/%20Kei/original/kei.png",
-        "school": 4,
-        "weaponType": "",
-        "characterData": {
-            "type": "",
-            "bullet": 4,
-            "defence": 4,
-            "jobtitle": "",
-            "position": "",
-            "rarity": 0,
-            "outdoor": "",
-            "indoor": "",
-            "street": ""
-        },
-        "gallery": [
-            {
-                "title": "表情差分",
-                "images": [
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_01.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_04.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_03.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_02.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_09.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_10.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_06.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_11.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_05.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_12.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_08.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_13.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_15.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_14.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_16.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_07.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_18.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_17.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_19.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_21.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_23.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_20.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_22.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_24.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_Eye_Close_01.jpg",
-                    "//static.kivo.wiki/images/students/%20Kei/original/gallery/%E8%A1%A8%E6%83%85%E5%B7%AE%E5%88%86/J_NP0241_spr_25.jpg"
-                ]
-            }
-        ],
-        "release": 1
-    },
-    {
         "id": 381,
         "kivoId": 524,
         "skinList": [
@@ -25794,8 +25705,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E6%A3%92%E7%90%83%E7%8B%97%E7%8B%97/original/NP0247.png",
         "school": 18,
@@ -25941,8 +25852,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E6%9A%B4%E8%B5%B0%E6%97%8FA/original/NP0245.png",
         "school": 17,
@@ -26008,8 +25919,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E6%9A%B4%E8%B5%B0%E6%97%8F%E8%80%81%E5%A4%A7/original/NP0246.png",
         "school": 17,
@@ -26084,8 +25995,8 @@
             "『礼赞苦难的美丽赎罪者』"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E6%8F%90%E6%B3%95%E5%8B%92%E7%89%B9/original/Tiphareth_Avatar.png",
         "school": 21,
@@ -26130,7 +26041,7 @@
         ],
         "familyName": {
             "nm": "七稜",
-            "cn": "",
+            "cn": "七稜",
             "en": "Nanakado",
             "jp": "七稜",
             "kr": "나나카도",
@@ -26138,7 +26049,7 @@
         },
         "givenName": {
             "nm": "菖蒲",
-            "cn": "",
+            "cn": "菖蒲",
             "en": "Ayame",
             "jp": "アヤメ",
             "kr": "아야메",
@@ -26149,8 +26060,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E4%B8%83%E7%A8%9C%20%E8%8F%96%E8%92%B2/original/CH0223_spr_00.png",
         "school": 9,
@@ -26269,7 +26180,7 @@
         ],
         "familyName": {
             "nm": "土生",
-            "cn": "",
+            "cn": "土生",
             "en": "Habu",
             "jp": "土生",
             "kr": "하부",
@@ -26277,7 +26188,7 @@
         },
         "givenName": {
             "nm": "蓟",
-            "cn": "",
+            "cn": "蓟",
             "en": "Azami",
             "jp": "アザミ",
             "kr": "아자미",
@@ -26288,8 +26199,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E5%9C%9F%E7%94%9F%20%E8%93%9F/original/CH0276_spr_00.png",
         "school": 9,
@@ -26376,7 +26287,7 @@
         },
         "givenName": {
             "nm": "庚",
-            "cn": "",
+            "cn": "庚",
             "en": "Kanoe",
             "jp": "カノエ",
             "kr": "",
@@ -26471,7 +26382,7 @@
         ],
         "familyName": {
             "nm": "白尾",
-            "cn": "",
+            "cn": "白尾",
             "en": "Shirao",
             "jp": "白尾",
             "kr": "",
@@ -26479,7 +26390,7 @@
         },
         "givenName": {
             "nm": "绘里",
-            "cn": "",
+            "cn": "绘里",
             "en": "Eri",
             "jp": "エリ",
             "kr": "",
@@ -26602,7 +26513,7 @@
         ],
         "familyName": {
             "nm": "衣斐",
-            "cn": "",
+            "cn": "衣斐",
             "en": "Kinui",
             "jp": "衣斐",
             "kr": "키누이",
@@ -26610,7 +26521,7 @@
         },
         "givenName": {
             "nm": "莱娜",
-            "cn": "",
+            "cn": "莱娜",
             "en": "Rena",
             "jp": "レナ",
             "kr": "레나",
@@ -26701,7 +26612,7 @@
         },
         "givenName": {
             "nm": "舍监队成员",
-            "cn": "",
+            "cn": "舍监队成员",
             "en": "",
             "jp": "寮監隊員",
             "kr": "",
@@ -26712,8 +26623,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E8%88%8D%E7%9B%91%E9%98%9F%E6%88%90%E5%91%98A/original/%E3%82%B6%E3%82%B3A.png",
         "school": 14,
@@ -26772,7 +26683,7 @@
         },
         "givenName": {
             "nm": "舍监队成员B",
-            "cn": "",
+            "cn": "舍监队成员B",
             "en": "",
             "jp": "寮監隊員B",
             "kr": "",
@@ -26783,8 +26694,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E8%88%8D%E7%9B%91%E9%98%9F%E6%88%90%E5%91%98B/original/%E3%82%B6%E3%82%B3B.png",
         "school": 14,
@@ -26834,7 +26745,7 @@
         ],
         "familyName": {
             "nm": "樱井",
-            "cn": "",
+            "cn": "樱井",
             "en": "Sakurai",
             "jp": "桜井",
             "kr": "사쿠라이",
@@ -26842,7 +26753,7 @@
         },
         "givenName": {
             "nm": "美代",
-            "cn": "",
+            "cn": "美代",
             "en": "Miyo",
             "jp": "ミヨ",
             "kr": "미요",
@@ -26952,7 +26863,7 @@
         },
         "givenName": {
             "nm": "裕美",
-            "cn": "",
+            "cn": "裕美",
             "en": "Hiromi",
             "jp": "ヒロミ",
             "kr": "히로미",
@@ -26963,8 +26874,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E8%A3%95%E7%BE%8E/original/%E3%83%92%E3%83%AD%E3%83%9F.png",
         "school": 14,
@@ -27021,7 +26932,7 @@
         ],
         "familyName": {
             "nm": "薄叶",
-            "cn": "",
+            "cn": "薄叶",
             "en": "Usuba",
             "jp": "薄葉",
             "kr": "우스바",
@@ -27029,7 +26940,7 @@
         },
         "givenName": {
             "nm": "律",
-            "cn": "",
+            "cn": "律",
             "en": "Ritsu",
             "jp": "リツ",
             "kr": "리츠",
@@ -27040,8 +26951,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E8%96%84%E5%8F%B6%20%E5%BE%8B/original/Student_Portrait_CH0319_Collection.png",
         "school": 14,
@@ -27118,7 +27029,7 @@
         ],
         "familyName": {
             "nm": "若狭",
-            "cn": "",
+            "cn": "若狭",
             "en": "Wakasa",
             "jp": "若狭",
             "kr": "와카사",
@@ -27126,7 +27037,7 @@
         },
         "givenName": {
             "nm": "冬优",
-            "cn": "",
+            "cn": "冬优",
             "en": "Fuyu",
             "jp": "フユ",
             "kr": "후유",
@@ -27222,7 +27133,7 @@
         ],
         "familyName": {
             "nm": "梯",
-            "cn": "",
+            "cn": "梯",
             "en": "Kakehashi",
             "jp": "梯",
             "kr": "카케하시",
@@ -27230,7 +27141,7 @@
         },
         "givenName": {
             "nm": "昴",
-            "cn": "",
+            "cn": "昴",
             "en": "Subaru",
             "jp": "スバル",
             "kr": "스바루",
@@ -27241,8 +27152,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E6%A2%AF%20%E6%98%B4/original/0c09d7c7f66c8ab89c6ffcb2b41af5e4.png",
         "school": 10,
@@ -27314,7 +27225,7 @@
         ],
         "familyName": {
             "nm": "立木",
-            "cn": "",
+            "cn": "立木",
             "en": "Tachigi",
             "jp": "立木",
             "kr": "타치기",
@@ -27322,7 +27233,7 @@
         },
         "givenName": {
             "nm": "迈亚",
-            "cn": "",
+            "cn": "迈亚",
             "en": "Maia",
             "jp": "マイア",
             "kr": "마이아",
@@ -27333,8 +27244,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E7%AB%8B%E6%9C%A8%20%E8%BF%88%E4%BA%9A/original/maia.png",
         "school": 10,
@@ -27404,7 +27315,7 @@
         },
         "givenName": {
             "nm": "???",
-            "cn": "",
+            "cn": "???",
             "en": "",
             "jp": "???",
             "kr": "???",
@@ -27415,8 +27326,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E5%90%AF%E7%A4%BA%E5%BD%95%E5%A4%A9%E4%BD%BF/original/Apocalypse.png",
         "school": 25,
@@ -27456,7 +27367,7 @@
         },
         "givenName": {
             "nm": "学生",
-            "cn": "",
+            "cn": "学生",
             "en": "",
             "jp": "生徒",
             "kr": "",
@@ -27467,8 +27378,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E9%98%BF%E9%87%8C%E4%B9%8C%E6%96%AF%E5%AD%A6%E7%94%9FB/original/arius_B.png",
         "school": 10,
@@ -27525,7 +27436,7 @@
         },
         "givenName": {
             "nm": "劳工机器人A",
-            "cn": "",
+            "cn": "劳工机器人A",
             "en": "",
             "jp": "レイバー",
             "kr": "",
@@ -27536,8 +27447,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E5%8A%B3%E5%B7%A5%E6%9C%BA%E5%99%A8%E4%BA%BAA/original/labor.png",
         "school": 21,
@@ -27565,6 +27476,12 @@
                 "avatar": "//static.kivo.wiki/images/students/%20Kei/original/Student_Portrait_CH0335_Collection.png",
                 "skin": "",
                 "skin_cn": ""
+            },
+            {
+                "kivoId": 518,
+                "avatar": "//static.kivo.wiki/images/students/%20Kei/original/kei.png",
+                "skin": "机器人形态",
+                "skin_cn": "机器人形态"
             }
         ],
         "familyName": {
@@ -27794,8 +27711,8 @@
             "ΔεχαΓραμματον"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E7%A5%9E%E5%90%8D%E5%8D%81%E6%96%87%E5%AD%97/original/decagrammaton.png",
         "school": 21,
@@ -27857,7 +27774,7 @@
         },
         "givenName": {
             "nm": "达阿特",
-            "cn": "",
+            "cn": "达阿特",
             "en": "Daath",
             "jp": "ダアト",
             "kr": "다아트",
@@ -27868,8 +27785,8 @@
             "影中潜伏的深渊智慧"
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E8%BE%BE%E9%98%BF%E7%89%B9/original/daath.png",
         "school": 21,
@@ -27920,8 +27837,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E5%86%85%E5%AF%9F%E8%B5%AB/original/netzach%20%281%29.png",
         "school": 21,
@@ -27953,7 +27870,7 @@
         ],
         "familyName": {
             "nm": "羽咋",
-            "cn": "",
+            "cn": "羽咋",
             "en": "Hanemoto",
             "jp": "羽咋",
             "kr": "하네모토",
@@ -27961,7 +27878,7 @@
         },
         "givenName": {
             "nm": "翼",
-            "cn": "",
+            "cn": "翼",
             "en": "Tsubasa",
             "jp": "ツバサ",
             "kr": "츠바사",
@@ -27972,8 +27889,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E7%BE%BD%E5%92%8B%20%E7%BF%BC/original/%E5%9B%BE%E5%B1%82%201.png",
         "school": 4,
@@ -28042,7 +27959,7 @@
         ],
         "familyName": {
             "nm": "监原",
-            "cn": "",
+            "cn": "监原",
             "en": "Kanbara",
             "jp": "監原",
             "kr": "간바라",
@@ -28050,7 +27967,7 @@
         },
         "givenName": {
             "nm": "美铃",
-            "cn": "",
+            "cn": "美铃",
             "en": "Misuzu",
             "jp": "ミスズ",
             "kr": "미스즈",
@@ -28061,8 +27978,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%E7%9B%91%E5%8E%9F%20%E7%BE%8E%E9%93%83/original/%E5%9B%BE%E5%B1%82%201.png",
         "school": 8,
@@ -28125,7 +28042,7 @@
         },
         "givenName": {
             "nm": "联邦学生会长？",
-            "cn": "",
+            "cn": "联邦学生会长？",
             "en": "",
             "jp": "連邦生徒会長",
             "kr": "총학생회장",
@@ -28136,8 +28053,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%E8%81%94%E9%82%A6%E5%AD%A6%E7%94%9F%E4%BC%9A%E9%95%BF/original/fake.png",
         "school": 12,
@@ -28196,7 +28113,7 @@
         },
         "givenName": {
             "nm": "？？？",
-            "cn": "",
+            "cn": "？？？",
             "en": "",
             "jp": "くねくね",
             "kr": "",
@@ -28207,8 +28124,8 @@
             ""
         ],
         "birthday": {
-            "month": 0,
-            "day": 0
+            "month": "00",
+            "day": "00"
         },
         "avatar": "//static.kivo.wiki/images/students/%20%EF%BC%9F%EF%BC%9F%EF%BC%9F/original/%E3%81%8F%E3%81%AD%E3%81%8F%E3%81%AD.png",
         "school": 0,
