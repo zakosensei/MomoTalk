@@ -18,7 +18,7 @@
     <div id="list-page">
         <div class="header">
             <div class="header-logo">
-                <a href="./momotalk.html"> <img id="app-icon" class="logo-img" alt="" referrerpolicy="no-referrer" style="display:none;"> </a>
+                <a href="./index.html"> <img id="app-icon" class="logo-img" alt="" referrerpolicy="no-referrer" style="display:none;"> </a>
                 <span id="app-name"></span>
             </div>
             <div class="header-tools">
@@ -49,17 +49,69 @@
                 <img id="chat-header-avatar" class="chat-header-avatar" alt="avatar" referrerpolicy="no-referrer">
                 <div id="chat-header-name" class="chat-header-name"></div>
             </div>
+            <div class="chat-header-tools">
+                <button class="chat-tool-btn" id="btn-play" onclick="togglePlayback()" title="播放">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                    <span id="btn-play-text"></span>
+                </button>
+                <button class="chat-tool-btn" id="btn-screenshot" onclick="takeScreenshot()" title="截图">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 4h5.2l1.5 2H20c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2h3.9l1.5-2ZM12 8.5A4.2 4.2 0 1 0 12 16.9a4.2 4.2 0 0 0 0-8.4Zm0 1.8a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8Z"/></svg>
+                    <span id="btn-screenshot-text"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="playback-bar hidden" id="playback-bar">
+            <span class="playback-indicator"></span>
+            <span id="playback-progress"></span>
+            <button class="playback-stop" id="btn-playback-stop" onclick="stopPlayback()"></button>
         </div>
 
         <div class="chat-content" id="chat-content"></div>
 
-        <div class="chat-input-area">
-            <div class="role-switch sensei" id="role-switch" onclick="toggleRole()">
-                <span id="role-text"></span>
+        <div class="chat-input-area" id="chat-input-area">
+            <div class="input-row">
+                <div class="role-switch sensei" id="role-switch" onclick="toggleRole()">
+                    <span id="role-text"></span>
+                </div>
+                <textarea class="chat-input" id="chat-input" rows="1" onkeydown="handleKeyDown(event)"></textarea>
+                <button class="round-btn" id="btn-more" onclick="toggleMorePanel(event)" title="更多">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z"/></svg>
+                </button>
+                <button class="send-btn" id="send-btn" onclick="sendMessage('new')"></button>
+                <button class="append-btn" id="append-btn" onclick="sendMessage('append')"></button>
             </div>
-            <textarea class="chat-input" id="chat-input" rows="1" onkeydown="handleKeyDown(event)"></textarea>
-            <button class="send-btn" id="send-btn" onclick="sendMessage()"></button>
+            <div class="chat-more-panel" id="more-panel">
+                <div class="more-tiles" id="more-tiles">
+                    <button class="more-tile" data-action="emoji" onclick="onMoreAction('emoji')">
+                        <span class="more-tile-icon"><img src="./resources/emoji_icon.png" alt=""></span>
+                        <span class="more-tile-label" id="more-label-emoji"></span>
+                    </button>
+                    <button class="more-tile" data-action="image" onclick="onMoreAction('image')">
+                        <span class="more-tile-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2ZM8.5 11.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5Z"/></svg>
+                        </span>
+                        <span class="more-tile-label" id="more-label-image"></span>
+                    </button>
+                    <button class="more-tile" data-action="reply" onclick="onMoreAction('reply')">
+                        <span class="more-tile-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm-3 12H7v-2h10v2Zm0-4H7V8h10v2Z"/></svg>
+                        </span>
+                        <span class="more-tile-label" id="more-label-reply"></span>
+                    </button>
+                    <button class="more-tile" data-action="story" onclick="onMoreAction('story')">
+                        <span class="more-tile-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.7-9.3-9.2C1.2 7.7 3.6 4 7.3 4c2 0 3.6 1.1 4.7 2.6C13.1 5.1 14.7 4 16.7 4c3.7 0 6.1 3.7 4.6 7.8C19.5 16.3 12 21 12 21Z"/></svg>
+                        </span>
+                        <span class="more-tile-label" id="more-label-story"></span>
+                    </button>
+                </div>
+                <div class="emoji-panel" id="emoji-panel">
+                    <div class="emoji-grid" id="emoji-grid"></div>
+                </div>
+            </div>
         </div>
+        <input type="file" id="file-image" accept="image/*" style="display:none" onchange="onLocalImage(event)">
     </div>
 
     <div id="more-page">
@@ -150,6 +202,17 @@
                     </div>
                     <div class="setting-hint" id="general-default-site-hint"></div>
                 </div>
+                <div class="about-card">
+                    <div class="about-section-title" id="general-backup-title"></div>
+                    <div class="setting-row">
+                        <span class="setting-label" id="auto-backup-label"></span>
+                        <label class="switch">
+                            <input type="checkbox" id="auto-backup-switch" class="switch-input" onchange="setAutoBackup(this.checked)">
+                            <span class="switch-track"></span>
+                        </label>
+                    </div>
+                    <div class="setting-hint" id="auto-backup-hint"></div>
+                </div>
             </div>
             <div id="more-tutorial" class="more-panel">
                 <div class="tutorial-hint" id="tutorial-hint"></div>
@@ -157,7 +220,24 @@
                 <div id="tutorial-empty" class="empty-tip" style="display:none;"></div>
             </div>
             <div id="more-students" class="more-panel">
-                <div class="more-placeholder" id="students-placeholder"></div>
+                <div class="about-card">
+                    <div class="about-section-title" id="student-play-title"></div>
+                    <div class="setting-row">
+                        <span class="setting-label" id="anim-time-label"></span>
+                        <span class="setting-value" id="anim-time-value"></span>
+                    </div>
+                    <input type="range" class="setting-range" id="anim-time-range" min="700" max="2000" step="50" value="1000" oninput="setAnimationTime(this.value)">
+                    <div class="setting-hint" id="anim-time-hint"></div>
+                </div>
+                <div class="about-card">
+                    <div class="about-section-title" id="anim-preview-title"></div>
+                    <div class="typing-preview-row">
+                        <div class="typing-preview" id="anim-preview">
+                            <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                        </div>
+                    </div>
+                    <div class="setting-hint" id="anim-preview-hint"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -192,6 +272,7 @@
 
 </div>
 
+<script src="./resources/chat_screenshot.js"></script>
 <script>
 const DATAS_URL = './resources/running_datas.json';
 
@@ -245,7 +326,7 @@ let videosLoaded = false;
 let videosLoading = false;
 let videosError = null;
 const VIDEO_SITES = ['channels', 'xiaohongshu'];
-let settings = { defaultVideoSite: 'channels' };
+let settings = { defaultVideoSite: 'channels', animationTime: 1000, autoBackup: false };
 
 let currentStudentId = null;
 let currentRole = 'sensei';
@@ -524,13 +605,21 @@ function fillStaticTexts() {
     set('wechat-label', T('wechatLabel', null, '企业微信'));
     set('email-label', T('emailLabel', null, '邮箱'));
     set('wechat-value', T('wechatTap', null, '点击访问 ›'));
-    set('students-placeholder', T('studentsPlaceholder', null, '学生设置（开发中）'));
     set('tutorial-entry', T('tutorialEntry', null, '教程'));
     set('tutorial-hint', T('tutorialSubtitle', null, '点击文字介绍跳转视频'));
     set('general-video-title', T('generalVideoTitle', null, '视频设置'));
     set('general-default-site-label', T('generalDefaultSiteLabel', null, '默认跳转视频网站'));
     set('general-default-site-hint', T('generalDefaultSiteHint', null, '点击教程里的文字介绍时优先打开该网站；若该视频没有这个网站的链接，会自动改用另一个。'));
+    set('general-backup-title', T('generalBackupTitle', null, '数据与备份'));
+    set('auto-backup-label', T('autoBackupLabel', null, '自动备份'));
+    set('auto-backup-hint', T('autoBackupHint', null, '开启后，每次退出聊天页面会自动下载聊天内容（JSON）。默认关闭。'));
+    set('student-play-title', T('studentPlayTitle', null, '播放设置'));
+    set('anim-time-label', T('animTimeLabel', null, '打字动画时间'));
+    set('anim-time-hint', T('animTimeHint', null, '播放时，学生发送信息前会显示三个点的打字动画，时长即这里的动画时间（700ms~2000ms）。'));
+    set('anim-preview-title', T('animPreviewTitle', null, '动画预览'));
+    set('anim-preview-hint', T('animPreviewHint', null, '预览：三个点轮流变小。'));
     updateGeneralUI();
+    updateSettingsUI();
 
     const si = document.getElementById('search-input');
     if (si) si.placeholder = T('searchPlaceholder', null, '搜索已添加的学生或形态...');
@@ -538,6 +627,20 @@ function fillStaticTexts() {
     if (ci) ci.placeholder = T('chatPlaceholder', null, '输入消息或图片链接...');
     const sb = document.getElementById('send-btn');
     if (sb) sb.textContent = T('sendBtn', null, '发送');
+    const ab = document.getElementById('append-btn');
+    if (ab) ab.textContent = T('appendBtn', null, '追加');
+    const pt = document.getElementById('btn-play-text');
+    if (pt) pt.textContent = T('playBtn', null, '播放');
+    const st = document.getElementById('btn-screenshot-text');
+    if (st) st.textContent = T('screenshotBtn', null, '截图');
+    const ps = document.getElementById('btn-playback-stop');
+    if (ps) ps.textContent = T('playbackStop', null, '停止');
+    set('more-label-emoji', T('moreEmoji', null, '社团表情'));
+    set('more-label-image', T('moreImage', null, '本地图片'));
+    set('more-label-reply', T('moreReply', null, '回复框'));
+    set('more-label-story', T('moreStory', null, '好感故事'));
+    const moreBtn = document.getElementById('btn-more');
+    if (moreBtn) moreBtn.title = T('morePanelTitle', null, '更多');
 }
 
 function fillDeveloperInfo() {
@@ -682,14 +785,26 @@ function defaultVideoSite() {
     return VIDEO_SITES.indexOf(d) >= 0 ? d : 'channels';
 }
 
+function clampAnimationTime(v) {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return 1000;
+    return Math.max(700, Math.min(2000, Math.round(n / 50) * 50));
+}
+
 function loadSettings() {
-    settings = { defaultVideoSite: defaultVideoSite() };
+    settings = {
+        defaultVideoSite: defaultVideoSite(),
+        animationTime: 1000,
+        autoBackup: false
+    };
     try {
         const raw = localStorage.getItem(settingsKey());
         if (!raw) return;
         const obj = JSON.parse(raw);
-        if (obj && typeof obj === 'object' && obj.defaultVideoSite) {
-            settings.defaultVideoSite = normalizeVideoSite(obj.defaultVideoSite);
+        if (obj && typeof obj === 'object') {
+            if (obj.defaultVideoSite) settings.defaultVideoSite = normalizeVideoSite(obj.defaultVideoSite);
+            if (obj.animationTime != null) settings.animationTime = clampAnimationTime(obj.animationTime);
+            settings.autoBackup = !!obj.autoBackup;
         }
     } catch (e) { console.error('读取设置失败：', e); }
 }
@@ -702,6 +817,36 @@ function saveSettings() {
         console.error('保存设置失败：', e);
         return false;
     }
+}
+
+function updateSettingsUI() {
+    const range = document.getElementById('anim-time-range');
+    const val = document.getElementById('anim-time-value');
+    if (range) range.value = String(settings.animationTime);
+    if (val) val.textContent = settings.animationTime + 'ms';
+
+    const preview = document.getElementById('anim-preview');
+    if (preview) preview.style.setProperty('--typing-dur', settings.animationTime + 'ms');
+
+    const sw = document.getElementById('auto-backup-switch');
+    if (sw) sw.checked = !!settings.autoBackup;
+}
+
+function setAnimationTime(v) {
+    settings.animationTime = clampAnimationTime(v);
+    saveSettings();
+    updateSettingsUI();
+}
+
+function setAutoBackup(on) {
+    const prev = settings.autoBackup;
+    settings.autoBackup = !!on;
+    if (!saveSettings()) {
+        settings.autoBackup = prev;
+        updateSettingsUI();
+        return;
+    }
+    updateSettingsUI();
 }
 
 function siteLabel(site) {
@@ -873,6 +1018,7 @@ function setActiveNav(which) {
 function switchToList() {
     document.getElementById('more-page').classList.remove('active');
     document.getElementById('list-page').classList.remove('hide');
+    document.querySelector('.bottom-nav').classList.remove('hidden');
     setActiveNav('messages');
     backToMoreMain();
 }
@@ -880,6 +1026,7 @@ function switchToList() {
 function switchToMore() {
     document.getElementById('list-page').classList.add('hide');
     document.getElementById('more-page').classList.add('active');
+    document.querySelector('.bottom-nav').classList.remove('hidden');
     setActiveNav('more');
     // 若上次停留在"关于/通用设置/学生设置"子页，回到"更多"主菜单，
     // 否则点底部"更多"看起来毫无反应
@@ -892,6 +1039,8 @@ function openMoreSection(name) {
     const sec = document.getElementById('more-' + name);
     if (!sec) return;
     sec.classList.add('active');
+    // 需求：打开「更多」的栏目后隐藏下方导航栏
+    document.querySelector('.bottom-nav').classList.add('hidden');
 
     const titles = {
         about: T('aboutTitle', null, '关于'),
@@ -903,8 +1052,9 @@ function openMoreSection(name) {
     document.getElementById('more-back-btn').classList.add('show');
 
     if (name === 'about') fillAboutInfo();
-    else if (name === 'general') updateGeneralUI();
+    else if (name === 'general') { updateGeneralUI(); updateSettingsUI(); }
     else if (name === 'tutorial') loadVideos();
+    else if (name === 'students') updateSettingsUI();
 }
 
 function backToMoreMain() {
@@ -912,6 +1062,7 @@ function backToMoreMain() {
     document.getElementById('more-main').classList.add('active');
     document.getElementById('more-header-title').textContent = T('moreTitle', null, '更多');
     document.getElementById('more-back-btn').classList.remove('show');
+    document.querySelector('.bottom-nav').classList.remove('hidden');
 }
 
 function expandStudents(rawList) {
@@ -1071,12 +1222,6 @@ async function loadLibrary() {
                 <button onclick="loadLibrary()">${escapeHtml(reload)}</button>
             </div>`;
     }
-}
-
-function getLastMsg(studentId) {
-    const arr = chats[studentId];
-    if (!arr || !arr.length) return null;
-    return arr[arr.length - 1];
 }
 
 function renderContactList() {
@@ -1357,9 +1502,185 @@ function addStudentToMyList(id) {
     saveMyStudents();
 }
 
+/* ================= 信息盒子：数据模型与工具 ================= */
+
+let playback = null;
+let morePanelOpen = false;
+
+function uid(prefix) {
+    return (prefix || 'x') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+const ITEM_TYPES = ['text', 'image', 'emoji', 'reply', 'story'];
+
+function newItem(type, data) {
+    const it = { id: uid('i'), type: type };
+    data = data || {};
+    if (type === 'text' || type === 'reply' || type === 'story') {
+        it.text = String(data.text == null ? '' : data.text);
+        if (type === 'reply') it.title = String(data.title == null ? T('replyTitle', null, '回复') : data.title);
+        if (type === 'story') it.title = String(data.title == null ? T('storyTitle', null, '好感故事') : data.title);
+    }
+    if (type === 'image' || type === 'emoji') it.src = String(data.src == null ? '' : data.src);
+    return it;
+}
+
+function emptyBox(role) {
+    return { id: uid('b'), role: role === 'student' ? 'student' : 'sensei', time: now(), items: [] };
+}
+
+function itemSignature(it) {
+    return (it.type || '') + ':' + (it.text || '') + ':' + (it.src || '') + ':' + (it.title || '');
+}
+
+function boxSignature(box) {
+    return (box.role || '') + '|' + Number(box.time || 0) + '|' +
+        (box.items || []).map(itemSignature).join('\u0001');
+}
+
+function normalizeItem(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    let type = ITEM_TYPES.indexOf(raw.type) >= 0 ? raw.type : '';
+    if (!type) {
+        const src = String(raw.src || raw.url || raw.path || '');
+        type = src ? (src.indexOf('/emoji/') >= 0 ? 'emoji' : 'image') : 'text';
+    }
+    const it = { id: (typeof raw.id === 'string' && raw.id) ? raw.id : uid('i'), type: type };
+    if (type === 'text' || type === 'reply' || type === 'story') {
+        const text = pickString(raw.text != null ? raw.text : raw.content);
+        if (!text) return null;
+        it.text = text;
+        if (type === 'reply') it.title = pickString(raw.title) || T('replyTitle', null, '回复');
+        if (type === 'story') it.title = pickString(raw.title) || T('storyTitle', null, '好感故事');
+    } else {
+        const src = pickString(raw.src || raw.url || raw.path);
+        if (!src) return null;
+        it.src = src;
+    }
+    return it;
+}
+
+function normalizeBox(raw, fallbackTime) {
+    if (!raw || typeof raw !== 'object') return null;
+    const role = raw.role === 'student' ? 'student' : (raw.role === 'sensei' ? 'sensei' : '');
+    if (!role) return null;
+    const items = (Array.isArray(raw.items) ? raw.items : []).map(normalizeItem).filter(Boolean);
+    if (!items.length) return null;
+    let t = Number(raw.time);
+    if (!Number.isFinite(t) || t <= 0) t = fallbackTime || now();
+    return {
+        id: (typeof raw.id === 'string' && raw.id) ? raw.id : uid('b'),
+        role: role,
+        time: t,
+        items: items
+    };
+}
+
+// 旧版扁平消息数组 → 信息盒子（连续同角色合并）
+function legacyMessagesToBoxes(arr) {
+    const boxes = [];
+    let cur = null;
+    arr.forEach((m, i) => {
+        if (!m || typeof m !== 'object') return;
+        const role = m.role === 'student' ? 'student' : (m.role === 'sensei' ? 'sensei' : '');
+        if (!role) return;
+        const rawText = m.text == null ? '' : String(m.text);
+        const text = rawText.trim();
+        if (!text) return;
+        const item = isImageUrl(text)
+            ? { id: uid('i'), type: 'image', src: text }
+            : { id: uid('i'), type: 'text', text: rawText };
+        const rawTime = Number(m.time);
+        const time = (Number.isFinite(rawTime) && rawTime > 0) ? rawTime : now() + i;
+        if (!cur || cur.role !== role) {
+            cur = { id: uid('b'), role: role, time: time, items: [] };
+            boxes.push(cur);
+        }
+        cur.items.push(item);
+        cur.time = time;
+    });
+    return boxes;
+}
+
+function sanitizeChats(raw) {
+    const out = {};
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return out;
+    const base = now();
+    Object.keys(raw).forEach(k => {
+        const arr = raw[k];
+        if (!Array.isArray(arr)) return;
+        const looksLikeBoxes = arr.some(x => x && typeof x === 'object' && Array.isArray(x.items));
+        const boxes = looksLikeBoxes
+            ? arr.map((b, i) => normalizeBox(b, base + i)).filter(Boolean)
+            : legacyMessagesToBoxes(arr);
+        if (boxes.length) {
+            boxes.sort((a, b) => a.time - b.time);
+            out[k] = boxes;
+        }
+    });
+    return out;
+}
+
+function cloneBoxes(boxes) {
+    try { return JSON.parse(JSON.stringify(boxes || [])); }
+    catch (e) { return []; }
+}
+
+// 列表预览 / 排序
+function getLastMsg(studentId) {
+    const arr = chats[studentId];
+    if (!arr || !arr.length) return null;
+    const box = arr[arr.length - 1];
+    return { role: box.role, text: boxText(box), time: box.time };
+}
+
+function boxText(box) {
+    if (!box || !Array.isArray(box.items) || !box.items.length) return '';
+    const it = box.items[box.items.length - 1];
+    if (it.type === 'image') return T('imagePlaceholder', null, '[图片]');
+    if (it.type === 'emoji') return T('emojiPlaceholder', null, '[表情]');
+    return it.text || '';
+}
+
+function itemPreview(it) {
+    if (it.type === 'image') return T('imagePlaceholder', null, '[图片]');
+    if (it.type === 'emoji') return T('emojiPlaceholder', null, '[表情]');
+    return it.text || '';
+}
+
+function itemTypeLabel(type) {
+    const map = {
+        text: T('itemTypeText', null, '文本'),
+        image: T('itemTypeImage', null, '图片'),
+        emoji: T('itemTypeEmoji', null, '表情'),
+        reply: T('itemTypeReply', null, '回复'),
+        story: T('itemTypeStory', null, '好感')
+    };
+    return map[type] || type;
+}
+
+function canEditItem(type) {
+    return type === 'text' || type === 'reply' || type === 'story';
+}
+
+function currentStudent() {
+    return currentStudentId ? libraryById[currentStudentId] : null;
+}
+
+function chatBoxes() {
+    if (!currentStudentId) return [];
+    if (!Array.isArray(chats[currentStudentId])) chats[currentStudentId] = [];
+    return chats[currentStudentId];
+}
+
+/* ================= 聊天页渲染 ================= */
+
 function openChat(studentId) {
     const stu = libraryById[studentId];
     if (!stu) return;
+
+    stopPlayback(true);
+    closeMorePanel();
 
     currentStudentId = studentId;
     currentRole = 'sensei';
@@ -1385,9 +1706,21 @@ function openChat(studentId) {
 }
 
 function closeChat() {
+    if (!currentStudentId) return;
+
+    // 需求 6：自动备份（默认关闭）
+    if (settings.autoBackup) autoBackup();
+
+    stopPlayback(true);
+    closeMorePanel();
+    resetPlayButton();
+
+    const page = document.getElementById('chat-page');
+    page.classList.remove('slide-in');
+    page.style.transform = '';
     document.getElementById('list-page').classList.remove('slide-out');
-    document.getElementById('chat-page').classList.remove('slide-in');
     document.querySelector('.bottom-nav').classList.remove('hidden');
+
     // 清掉输入框：否则给 A 写的草稿会留在框里，打开 B 后一回车就发给了 B
     const input = document.getElementById('chat-input');
     if (input) { input.value = ''; input.style.height = 'auto'; }
@@ -1395,15 +1728,75 @@ function closeChat() {
     renderContactList();
 }
 
+function scrollChatToBottom(container) {
+    const el = container || document.getElementById('chat-content');
+    if (!el) return;
+    requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+}
+
+function boxHtml(box) {
+    const stu = currentStudent();
+    const isSensei = box.role === 'sensei';
+    const studentName = stu ? stu.displayName : '';
+    const avatar = stu ? (stu.avatar || fallbackAvatar(stu.displayName)) : fallbackAvatar('?');
+    const avatarFallback = stu ? fallbackAvatar(stu.displayName) : fallbackAvatar('?');
+
+    const itemsHtml = (box.items || []).map(it =>
+        `<div class="msg-item" data-item-id="${escapeHtml(it.id)}">${itemHtml(it)}</div>`
+    ).join('');
+
+    const avatarHtml = isSensei ? '' :
+        `<img class="box-avatar" src="${escapeHtml(avatar)}" data-fallback="${escapeHtml(avatarFallback)}"
+              referrerpolicy="no-referrer" alt="">`;
+    const nameHtml = isSensei ? '' : `<div class="box-name">${escapeHtml(studentName)}</div>`;
+
+    return `<div class="msg-box ${isSensei ? 'sensei' : 'student'}" data-box-id="${escapeHtml(box.id)}">
+        ${avatarHtml}
+        <div class="box-body">
+            ${nameHtml}
+            <div class="box-items">${itemsHtml}</div>
+        </div>
+    </div>`;
+}
+
+function itemHtml(it) {
+    if (it.type === 'image') {
+        return `<div class="msg-image-wrapper">
+            <img class="msg-image" src="${escapeHtml(it.src)}" data-fallback="${escapeHtml(brokenImage())}"
+                 referrerpolicy="no-referrer" alt="img" loading="lazy">
+        </div>`;
+    }
+    if (it.type === 'emoji') {
+        return `<div class="emoji-bubble">
+            <img class="emoji-img" src="${escapeHtml(it.src)}" data-fallback="${escapeHtml(brokenImage())}"
+                 referrerpolicy="no-referrer" alt="" loading="lazy">
+        </div>`;
+    }
+    if (it.type === 'reply') {
+        return `<div class="reply-panel">
+            <div class="reply-label"><span class="reply-bar"></span>${escapeHtml(it.title || T('replyTitle', null, '回复'))}</div>
+            <div class="reply-inner">${escapeHtml(it.text)}</div>
+        </div>`;
+    }
+    if (it.type === 'story') {
+        return `<div class="story-panel">
+            <div class="story-label"><span class="story-bar"></span>${escapeHtml(it.title || T('storyTitle', null, '好感故事'))}</div>
+            <div class="story-btn">${escapeHtml(it.text)}</div>
+        </div>`;
+    }
+    return `<div class="msg-bubble">${escapeHtml(it.text)}</div>`;
+}
+
 function renderChat() {
     if (!currentStudentId) return;
-    const stu = libraryById[currentStudentId];
+    if (playback) return;
+    const stu = currentStudent();
     if (!stu) return;
 
     const container = document.getElementById('chat-content');
-    const msgs = Array.isArray(chats[currentStudentId]) ? chats[currentStudentId] : [];
+    const boxes = chatBoxes();
 
-    if (msgs.length === 0) {
+    if (!boxes.length) {
         const intro = (stu.introduction || '').trim();
         container.innerHTML = `<div class="empty-tip" style="margin-top:40px;">
             ${escapeHtml(T('chatEmpty', { name: stu.displayName }, '与 {name} 的聊天从这里开始'))}
@@ -1412,57 +1805,28 @@ function renderChat() {
         return;
     }
 
-    const studentAvatar = stu.avatar || fallbackAvatar(stu.displayName);
-    const studentAvatarFallback = fallbackAvatar(stu.displayName);
-    const senseiAvatar = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-            <rect width="40" height="40" fill="#e0ecf8"/>
-            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
-                  font-size="20" fill="#7a9aba" font-family="sans-serif" font-weight="bold">S</text>
-        </svg>`
-    );
-    const senseiName = T('senseiName', null, 'Sensei');
-    const broken = brokenImage();
+    container.innerHTML = boxes.map(boxHtml).join('');
+    bindImageAutoScroll(container);
+    scrollChatToBottom(container);
+}
 
-    container.innerHTML = msgs.map((msg, i) => {
-        const text = typeof msg.text === 'string' ? msg.text : String(msg.text == null ? '' : msg.text);
-        const isSensei = msg.role === 'sensei';
-        const avatar = isSensei ? senseiAvatar : studentAvatar;
-        const avatarFallback = isSensei ? senseiAvatar : studentAvatarFallback;
-        const name = isSensei ? senseiName : stu.shortName;
-
-        let bubble;
-        if (isImageUrl(text)) {
-            bubble = `<div class="msg-image-wrapper">
-                <img class="msg-image" src="${escapeHtml(text.trim())}"
-                     data-fallback="${escapeHtml(broken)}"
-                     referrerpolicy="no-referrer" alt="img" loading="lazy">
-            </div>`;
-        } else {
-            bubble = `<div class="msg-bubble">${escapeHtml(text)}</div>`;
-        }
-
-        return `<div class="msg-row ${isSensei ? 'sensei' : 'student'}">
-            <img class="msg-avatar" src="${escapeHtml(avatar)}"
-                 data-fallback="${escapeHtml(avatarFallback)}"
-                 referrerpolicy="no-referrer" alt="">
-            <div class="msg-bubble-wrapper">
-                <div class="msg-name">${escapeHtml(name)}</div>
-                <div class="msg-tap-area" data-index="${i}">${bubble}</div>
-            </div>
-        </div>`;
-    }).join('');
-
-    container.querySelectorAll('.msg-tap-area').forEach(el => {
-        el.addEventListener('click', () => editMessage(Number(el.dataset.index)));
-    });
-
-    requestAnimationFrame(() => {
-        container.scrollTop = container.scrollHeight;
+// 图片是懒加载/异步加载的：加载完成后如果用户仍在底部附近，就继续贴底，
+// 否则（用户正在往上翻）不要打扰。
+function bindImageAutoScroll(container) {
+    container.querySelectorAll('img').forEach(img => {
+        if (img.complete) return;
+        img.addEventListener('load', () => {
+            if (!currentStudentId || playback) return;
+            const remain = container.scrollHeight - container.scrollTop - container.clientHeight;
+            if (remain < 200) container.scrollTop = container.scrollHeight;
+        }, { once: true });
     });
 }
 
+/* ================= 身份切换 ================= */
+
 function toggleRole() {
+    if (playback) return;
     currentRole = currentRole === 'sensei' ? 'student' : 'sensei';
     updateRoleUI();
 }
@@ -1481,19 +1845,76 @@ function updateRoleUI() {
     }
 }
 
-function sendMessage() {
+/* ================= 发送 / 追加 ================= */
+
+function commitSendText(text, append) {
+    if (!currentStudentId) return;
+    const boxes = chatBoxes();
+    if (append && boxes.length) {
+        const box = boxes[boxes.length - 1];
+        box.items.push(newItem('text', { text: text }));
+        box.time = now();
+    } else {
+        const box = emptyBox(currentRole);
+        box.items.push(newItem('text', { text: text }));
+        boxes.push(box);
+    }
+    saveChats();
+    renderChat();
+}
+
+function sendMessage(mode) {
+    if (!currentStudentId || playback) return;
     const input = document.getElementById('chat-input');
     const text = input.value.trim();
-    if (!text || !currentStudentId) return;
+    if (!text) return;
+    closeMorePanel();
 
-    if (!chats[currentStudentId]) chats[currentStudentId] = [];
-    chats[currentStudentId].push({ role: currentRole, text: text, time: now() });
+    const boxes = chatBoxes();
+    const append = mode === 'append';
+
+    if (append && boxes.length) {
+        const last = boxes[boxes.length - 1];
+        if (last.role !== currentRole) {
+            const stu = currentStudent();
+            const lastLabel = last.role === 'sensei'
+                ? T('roleSensei', null, '老师')
+                : (stu ? stu.shortName : T('roleStudent', null, '学生'));
+            const curLabel = currentRole === 'sensei'
+                ? T('roleSensei', null, '老师')
+                : (stu ? stu.shortName : T('roleStudent', null, '学生'));
+            showModal(T('appendMismatchTitle', null, '发送者不一致'),
+                `<div style="font-size:13px;color:#666;line-height:1.8;text-align:left;">
+                    ${escapeHtml(T('appendMismatchBody', { last: lastLabel, cur: curLabel },
+                        '上一个信息盒子来自 {last}，当前身份是 {cur}。要怎么做？'))}
+                </div>`, [
+                    {
+                        text: T('appendNewBox', null, '新建盒子'), class: 'cancel',
+                        onClick: () => {
+                            closeModal();
+                            input.value = '';
+                            input.style.height = 'auto';
+                            commitSendText(text, false);
+                        }
+                    },
+                    {
+                        text: T('appendConvert', null, '改身份并追加'), class: 'confirm',
+                        onClick: () => {
+                            closeModal();
+                            last.role = currentRole;
+                            input.value = '';
+                            input.style.height = 'auto';
+                            commitSendText(text, true);
+                        }
+                    }
+                ]);
+            return;
+        }
+    }
 
     input.value = '';
     input.style.height = 'auto';
-
-    saveChats();
-    renderChat();
+    commitSendText(text, append && boxes.length > 0);
 }
 
 function handleKeyDown(e) {
@@ -1501,7 +1922,7 @@ function handleKeyDown(e) {
     if (e.isComposing || e.keyCode === 229) return;
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        sendMessage();
+        sendMessage('new');
     }
 }
 
@@ -1510,41 +1931,396 @@ document.getElementById('chat-input').addEventListener('input', function () {
     this.style.height = Math.min(this.scrollHeight, 100) + 'px';
 });
 
-function editMessage(index) {
-    if (!currentStudentId) return;
-    const msgs = chats[currentStudentId];
-    if (!msgs || !msgs[index]) return;
-    const msg = msgs[index];
+/* ================= 更多栏：表情 / 本地图片 / 回复框 / 好感故事框 ================= */
 
-    const roleLabel = msg.role === 'sensei'
+function setMorePanel(open, sub) {
+    morePanelOpen = !!open;
+    const panel = document.getElementById('more-panel');
+    const btn = document.getElementById('btn-more');
+    if (!panel || !btn) return;
+    panel.classList.toggle('open', morePanelOpen);
+    btn.classList.toggle('open', morePanelOpen);
+    if (!morePanelOpen) {
+        panel.classList.remove('emoji-open');
+        return;
+    }
+    if (sub === 'emoji') {
+        panel.classList.add('emoji-open');
+        renderEmojiGrid();
+    } else {
+        panel.classList.remove('emoji-open');
+    }
+}
+
+function closeMorePanel() {
+    if (morePanelOpen) setMorePanel(false);
+}
+
+function toggleMorePanel(ev) {
+    if (ev) ev.stopPropagation();
+    if (!currentStudentId || playback) return;
+    if (morePanelOpen) {
+        closeMorePanel();
+    } else {
+        setMorePanel(true);
+    }
+}
+
+function onMoreAction(action) {
+    if (!currentStudentId || playback) return;
+    const panel = document.getElementById('more-panel');
+    if (action === 'emoji') {
+        if (!panel.classList.contains('open')) {
+            setMorePanel(true, 'emoji');
+            return;
+        }
+        const opened = panel.classList.toggle('emoji-open');
+        if (opened) renderEmojiGrid();
+        return;
+    }
+    if (action === 'image') {
+        const fileInput = document.getElementById('file-image');
+        if (fileInput) fileInput.click();
+        return;
+    }
+    if (action === 'reply') { openReplyEditor(); return; }
+    if (action === 'story') { openStoryEditor(); return; }
+}
+
+const EMOJI_COUNT = 183;
+
+function renderEmojiGrid() {
+    const grid = document.getElementById('emoji-grid');
+    if (!grid || grid.dataset.rendered) return;
+    let html = '';
+    for (let i = 0; i < EMOJI_COUNT; i++) {
+        html += `<button class="emoji-cell" type="button" data-emoji="${i}">
+            <img src="./resources/emoji/${i}.png" alt="" loading="lazy">
+        </button>`;
+    }
+    grid.innerHTML = html;
+    grid.dataset.rendered = '1';
+}
+
+function sendEmoji(index) {
+    if (!currentStudentId || playback) return;
+    const n = Number(index);
+    if (!Number.isFinite(n) || n < 0 || n >= EMOJI_COUNT) return;
+    const box = emptyBox(currentRole);
+    box.items.push(newItem('emoji', { src: './resources/emoji/' + n + '.png' }));
+    chatBoxes().push(box);
+    saveChats();
+    renderChat();
+}
+
+function compressImage(dataUrl, maxSide, quality) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            try {
+                let w = img.naturalWidth || img.width;
+                let h = img.naturalHeight || img.height;
+                if (!w || !h) throw new Error('图片尺寸无效');
+                const scale = Math.min(1, maxSide / Math.max(w, h));
+                w = Math.max(1, Math.round(w * scale));
+                h = Math.max(1, Math.round(h * scale));
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, w, h);
+                ctx.drawImage(img, 0, 0, w, h);
+                resolve(canvas.toDataURL('image/jpeg', quality));
+            } catch (err) { reject(err); }
+        };
+        img.onerror = () => reject(new Error('图片解析失败'));
+        img.src = dataUrl;
+    });
+}
+
+function onLocalImage(event) {
+    const file = event.target.files && event.target.files[0];
+    event.target.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type || '')) {
+        showToast(T('localImageInvalid', null, '请选择图片文件'));
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        compressImage(String(e.target.result), 800, 0.72).then(dataUrl => {
+            if (!currentStudentId) return;
+            const box = emptyBox(currentRole);
+            box.items.push(newItem('image', { src: dataUrl }));
+            chatBoxes().push(box);
+            saveChats();
+            renderChat();
+            closeMorePanel();
+        }).catch(err => {
+            console.error('图片处理失败：', err);
+            showToast(T('localImageFail', null, '图片处理失败'));
+        });
+    };
+    reader.onerror = () => showToast(T('localImageFail', null, '图片读取失败'));
+    reader.readAsDataURL(file);
+}
+
+function sendSpecialItem(type, data) {
+    if (!currentStudentId) return;
+    const box = emptyBox(currentRole);
+    box.items.push(newItem(type, data));
+    chatBoxes().push(box);
+    saveChats();
+    renderChat();
+}
+
+function openReplyEditor(boxId, itemId) {
+    const stu = currentStudent();
+    const editing = !!(boxId && itemId);
+    let box = null, item = null;
+    if (editing) {
+        box = findBox(boxId);
+        item = box ? findItem(box, itemId) : null;
+        if (!box || !item) return;
+    }
+    const defaultTitle = T('replyTitle', null, '回复');
+    const defaultText = T('replyDefault', null, '嗯？还好吧……');
+    const html = `
+        <div class="form-field">
+            <label class="form-label" for="reply-title-input">${escapeHtml(T('replyTitleLabel', null, '标题'))}</label>
+            <input class="form-input" id="reply-title-input" type="text"
+                   value="${escapeHtml(item ? item.title : defaultTitle)}">
+        </div>
+        <div class="form-field">
+            <label class="form-label" for="reply-text-input">${escapeHtml(T('replyContentLabel', null, '内容'))}</label>
+            <textarea class="form-input" id="reply-text-input">${escapeHtml(item ? item.text : defaultText)}</textarea>
+        </div>`;
+    const actions = [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: editing ? T('editSave', null, '保存') : T('sendBtn', null, '发送'),
+            class: 'confirm',
+            onClick: () => {
+                const title = document.getElementById('reply-title-input').value.trim() || defaultTitle;
+                const text = document.getElementById('reply-text-input').value.trim();
+                if (!text) { showToast(T('replyEmpty', null, '内容不能为空')); return; }
+                closeModal();
+                if (editing) {
+                    item.title = title;
+                    item.text = text;
+                    box.time = now();
+                    saveChats();
+                    renderChat();
+                } else {
+                    sendSpecialItem('reply', { title: title, text: text });
+                    closeMorePanel();
+                }
+            }
+        }
+    ];
+    showModal(editing ? T('replyEditTitle', null, '编辑回复框') : T('replySendTitle', null, '发送回复框'), html, actions);
+    if (stu) setTimeout(() => focusFormInput('reply-text-input'), 120);
+}
+
+function openStoryEditor(boxId, itemId) {
+    const stu = currentStudent();
+    const editing = !!(boxId && itemId);
+    let box = null, item = null;
+    if (editing) {
+        box = findBox(boxId);
+        item = box ? findItem(box, itemId) : null;
+        if (!box || !item) return;
+    }
+    const defaultTitle = T('storyTitle', null, '好感故事');
+    const defaultBtn = T('storyDefaultBtn', { name: stu ? stu.displayName : '' }, '进入{name}的好感故事');
+    const html = `
+        <div class="form-field">
+            <label class="form-label" for="story-title-input">${escapeHtml(T('replyTitleLabel', null, '标题'))}</label>
+            <input class="form-input" id="story-title-input" type="text"
+                   value="${escapeHtml(item ? item.title : defaultTitle)}">
+        </div>
+        <div class="form-field">
+            <label class="form-label" for="story-text-input">${escapeHtml(T('storyBtnLabel', null, '按钮文字'))}</label>
+            <textarea class="form-input" id="story-text-input">${escapeHtml(item ? item.text : defaultBtn)}</textarea>
+        </div>`;
+    const actions = [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: editing ? T('editSave', null, '保存') : T('sendBtn', null, '发送'),
+            class: 'confirm',
+            onClick: () => {
+                const title = document.getElementById('story-title-input').value.trim() || defaultTitle;
+                const text = document.getElementById('story-text-input').value.trim();
+                if (!text) { showToast(T('replyEmpty', null, '内容不能为空')); return; }
+                closeModal();
+                if (editing) {
+                    item.title = title;
+                    item.text = text;
+                    box.time = now();
+                    saveChats();
+                    renderChat();
+                } else {
+                    sendSpecialItem('story', { title: title, text: text });
+                    closeMorePanel();
+                }
+            }
+        }
+    ];
+    showModal(editing ? T('storyEditTitle', null, '编辑好感故事框') : T('storySendTitle', null, '发送好感故事框'), html, actions);
+    setTimeout(() => focusFormInput('story-text-input'), 120);
+}
+
+function focusFormInput(id) {
+    if (!modalOverlay.classList.contains('active')) return;
+    const el = document.getElementById(id);
+    if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+}
+
+/* ================= 长按信息盒子：编辑面板 ================= */
+
+function findBox(boxId) {
+    return chatBoxes().find(b => b.id === boxId) || null;
+}
+
+function findItem(box, itemId) {
+    return box ? (box.items.find(it => it.id === itemId) || null) : null;
+}
+
+function openBoxEditor(boxId) {
+    if (!currentStudentId || playback) return;
+    const boxes = chatBoxes();
+    const idx = boxes.findIndex(b => b.id === boxId);
+    if (idx < 0) return;
+    const box = boxes[idx];
+    const stu = currentStudent();
+    const isSensei = box.role === 'sensei';
+    const senderName = isSensei
         ? T('roleSensei', null, '老师')
-        : T('roleStudent', null, '学生');
+        : (stu ? stu.displayName : T('roleStudent', null, '学生'));
+
+    const itemsHtml = box.items.map((it, i) => `
+        <div class="box-edit-row" data-item-id="${escapeHtml(it.id)}">
+            <span class="box-edit-type">${escapeHtml(itemTypeLabel(it.type))}</span>
+            <span class="box-edit-preview">${escapeHtml(itemPreview(it))}</span>
+            ${canEditItem(it.type)
+                ? `<button class="box-edit-op" type="button" data-op="edit" data-index="${i}">${escapeHtml(T('itemEdit', null, '编辑'))}</button>`
+                : ''}
+            <button class="box-edit-op danger" type="button" data-op="del" data-index="${i}">${escapeHtml(T('itemDelete', null, '删除'))}</button>
+        </div>
+    `).join('');
 
     const html = `
-        <textarea class="modal-input" id="edit-msg-text">${escapeHtml(msg.text)}</textarea>
-        <div style="font-size:12px;color:#999;margin-top:-4px;margin-bottom:8px;">
-            ${escapeHtml(T('editRoleLine', { role: roleLabel }, '身份：{role}'))}
+        <div class="box-edit-meta">
+            ${escapeHtml(senderName)} · ${escapeHtml(T('boxItemCount', { n: box.items.length }, '共 {n} 条信息'))}
+        </div>
+        <div class="box-edit-list" id="box-edit-list">${itemsHtml}</div>
+        <div class="box-edit-actions">
+            <button class="box-action-btn" type="button" data-action="append">＋ ${escapeHtml(T('boxAppend', null, '追加信息'))}</button>
+            <button class="box-action-btn" type="button" data-action="sender">${escapeHtml(T('boxChangeSender', null, '更换发送者'))}</button>
+            <button class="box-action-btn" type="button" data-action="up" ${idx === 0 ? 'disabled' : ''}>↑ ${escapeHtml(T('boxMoveUp', null, '上移'))}</button>
+            <button class="box-action-btn" type="button" data-action="down" ${idx === boxes.length - 1 ? 'disabled' : ''}>↓ ${escapeHtml(T('boxMoveDown', null, '下移'))}</button>
+            <button class="box-action-btn danger" type="button" data-action="delete" style="grid-column:1 / -1;">${escapeHtml(T('boxDelete', null, '删除信息盒子'))}</button>
         </div>`;
 
-    showModal(T('editTitle', null, '编辑消息'), html, [
-        { text: T('editCancel', null, '取消'), class: 'cancel', onClick: closeModal },
-        {
-            text: T('editDelete', null, '删除'), class: 'danger',
-            onClick: () => {
-                msgs.splice(index, 1);
-                if (msgs.length === 0) delete chats[currentStudentId];
+    showModal(T('boxEditTitle', null, '信息盒子'), html, [
+        { text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }
+    ]);
+
+    const body = document.getElementById('modal-body');
+    body.querySelectorAll('[data-op]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const i = Number(btn.dataset.index);
+            const it = box.items[i];
+            if (!it) return;
+            if (btn.dataset.op === 'edit') {
+                if (it.type === 'reply') openReplyEditor(box.id, it.id);
+                else if (it.type === 'story') openStoryEditor(box.id, it.id);
+                else openTextItemEditor(box.id, it.id);
+            } else {
+                confirmModal(T('itemDeleteTitle', null, '删除信息'),
+                    escapeHtml(T('itemDeleteConfirm', null, '确定删除这条信息吗？')),
+                    () => {
+                        const realBox = findBox(box.id);
+                        if (!realBox) { closeModal(); return; }
+                        const at = realBox.items.findIndex(x => x.id === it.id);
+                        if (at >= 0) realBox.items.splice(at, 1);
+                        if (!realBox.items.length) {
+                            const arr = chatBoxes();
+                            const bi = arr.findIndex(b => b.id === realBox.id);
+                            if (bi >= 0) arr.splice(bi, 1);
+                            saveChats();
+                            renderChat();
+                            closeModal();
+                            return;
+                        }
+                        realBox.time = now();
+                        saveChats();
+                        renderChat();
+                        openBoxEditor(realBox.id);
+                    });
+            }
+        });
+    });
+    body.querySelectorAll('[data-action]').forEach(btn => {
+        const action = btn.dataset.action;
+        if (btn.disabled) return;
+        btn.addEventListener('click', () => {
+            const arr = chatBoxes();
+            const bi = arr.findIndex(b => b.id === box.id);
+            if (bi < 0) { closeModal(); return; }
+            const b = arr[bi];
+            if (action === 'append') {
+                openAppendEditor(b.id);
+            } else if (action === 'sender') {
+                b.role = b.role === 'sensei' ? 'student' : 'sensei';
+                b.time = now();
                 saveChats();
                 renderChat();
-                closeModal();
+                openBoxEditor(b.id);
+            } else if (action === 'up' && bi > 0) {
+                arr.splice(bi - 1, 0, arr.splice(bi, 1)[0]);
+                saveChats();
+                renderChat();
+                openBoxEditor(b.id);
+            } else if (action === 'down' && bi < arr.length - 1) {
+                arr.splice(bi + 1, 0, arr.splice(bi, 1)[0]);
+                saveChats();
+                renderChat();
+                openBoxEditor(b.id);
+            } else if (action === 'delete') {
+                confirmModal(T('boxDeleteTitle', null, '删除信息盒子'),
+                    escapeHtml(T('boxDeleteConfirm', null, '确定删除这个信息盒子吗？')),
+                    () => {
+                        const realArr = chatBoxes();
+                        const at = realArr.findIndex(x => x.id === box.id);
+                        if (at >= 0) realArr.splice(at, 1);
+                        saveChats();
+                        renderChat();
+                        closeModal();
+                    });
             }
-        },
+        });
+    });
+}
+
+function openTextItemEditor(boxId, itemId) {
+    const box = findBox(boxId);
+    const item = box ? findItem(box, itemId) : null;
+    if (!box || !item) return;
+    const html = `<textarea class="modal-input" id="item-text-input">${escapeHtml(item.text || '')}</textarea>`;
+    showModal(T('itemEditTitle', null, '编辑信息'), html, [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: () => openBoxEditor(boxId) },
         {
             text: T('editSave', null, '保存'), class: 'confirm',
             onClick: () => {
-                const val = document.getElementById('edit-msg-text').value.trim();
-                if (val) {
-                    msgs[index].text = val;
-                    // 不改 time：编辑旧消息不应让它跳到列表最上面、也不该改写排序依据
+                const val = document.getElementById('item-text-input').value.trim();
+                if (!val) { showToast(T('replyEmpty', null, '内容不能为空')); return; }
+                const realBox = findBox(boxId);
+                const realItem = realBox ? findItem(realBox, itemId) : null;
+                if (realItem) {
+                    realItem.text = val;
+                    realBox.time = now();
                     saveChats();
                     renderChat();
                 }
@@ -1552,16 +2328,548 @@ function editMessage(index) {
             }
         }
     ]);
+    setTimeout(() => focusFormInput('item-text-input'), 100);
+}
 
-    setTimeout(() => {
-        if (!modalOverlay.classList.contains('active')) return;
-        const ta = document.getElementById('edit-msg-text');
-        if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
-    }, 100);
+function openAppendEditor(boxId) {
+    const box = findBox(boxId);
+    if (!box) return;
+    const html = `<textarea class="modal-input" id="append-text-input" placeholder="${escapeHtml(T('chatPlaceholder', null, '输入消息或图片链接...'))}"></textarea>`;
+    showModal(T('boxAppend', null, '追加信息'), html, [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: () => openBoxEditor(boxId) },
+        {
+            text: T('boxAppendConfirm', null, '追加'), class: 'confirm',
+            onClick: () => {
+                const val = document.getElementById('append-text-input').value.trim();
+                if (!val) { showToast(T('replyEmpty', null, '内容不能为空')); return; }
+                const realBox = findBox(boxId);
+                if (realBox) {
+                    realBox.items.push(newItem('text', { text: val }));
+                    realBox.time = now();
+                    saveChats();
+                    renderChat();
+                }
+                closeModal();
+            }
+        }
+    ]);
+    setTimeout(() => focusFormInput('append-text-input'), 100);
+}
+
+/* ================= 播放（打字动画） ================= */
+
+function updatePlaybackProgress() {
+    const el = document.getElementById('playback-progress');
+    if (!el || !playback) return;
+    const total = playback.boxes.length;
+    const current = Math.min(playback.index + 1, total);
+    el.textContent = T('playbackProgress', { current: current, total: total }, '播放中 {current}/{total}');
+}
+
+function resetPlayButton() {
+    const btn = document.getElementById('btn-play');
+    const txt = document.getElementById('btn-play-text');
+    if (btn) btn.classList.remove('playing');
+    if (txt) txt.textContent = T('playBtn', null, '播放');
+    const bar = document.getElementById('playback-bar');
+    if (bar) bar.classList.add('hidden');
+    const area = document.getElementById('chat-input-area');
+    if (area) area.classList.remove('disabled');
+    const input = document.getElementById('chat-input');
+    if (input) input.disabled = false;
+    ['send-btn', 'append-btn', 'btn-more'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = false;
+    });
+}
+
+function typingBoxHtml() {
+    const stu = currentStudent();
+    const name = stu ? stu.displayName : '';
+    const avatar = stu ? (stu.avatar || fallbackAvatar(stu.displayName)) : '';
+    return `<div class="msg-box student typing-box" style="--typing-dur:${settings.animationTime}ms">
+        <img class="box-avatar" src="${escapeHtml(avatar)}" referrerpolicy="no-referrer" alt="">
+        <div class="box-body">
+            <div class="box-name">${escapeHtml(name)}</div>
+            <div class="box-items">
+                <div class="msg-bubble typing-bubble">
+                    <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function startPlayback() {
+    if (!currentStudentId || playback) return;
+    const boxes = chatBoxes();
+    if (!boxes.length) {
+        showToast(T('playEmpty', null, '还没有聊天内容可以播放'));
+        return;
+    }
+    closeMorePanel();
+    playback = { boxes: copyBoxes(boxes), index: 0, timer: null };
+
+    const container = document.getElementById('chat-content');
+    container.innerHTML = '';
+    document.getElementById('playback-bar').classList.remove('hidden');
+    document.getElementById('btn-play').classList.add('playing');
+    document.getElementById('btn-play-text').textContent = T('playStopBtn', null, '停止');
+    document.getElementById('chat-input-area').classList.add('disabled');
+    document.getElementById('chat-input').disabled = true;
+    document.getElementById('send-btn').disabled = true;
+    document.getElementById('append-btn').disabled = true;
+    document.getElementById('btn-more').disabled = true;
+    updatePlaybackProgress();
+    playbackNext();
+}
+
+function copyBoxes(boxes) {
+    return boxes.map(b => ({
+        id: b.id,
+        role: b.role,
+        time: b.time,
+        items: b.items.map(it => Object.assign({}, it))
+    }));
+}
+
+function appendPlaybackBox(box) {
+    const container = document.getElementById('chat-content');
+    const wrap = document.createElement('div');
+    wrap.innerHTML = boxHtml(box);
+    container.appendChild(wrap.firstElementChild);
+    scrollChatToBottom(container);
+}
+
+function playbackNext() {
+    if (!playback) return;
+    const pb = playback;
+    if (pb.index >= pb.boxes.length) {
+        finishPlayback();
+        return;
+    }
+    const box = pb.boxes[pb.index];
+    updatePlaybackProgress();
+
+    if (box.role === 'student') {
+        const container = document.getElementById('chat-content');
+        const old = container.querySelector('.typing-box');
+        if (old) old.remove();
+        const wrap = document.createElement('div');
+        wrap.innerHTML = typingBoxHtml();
+        container.appendChild(wrap.firstElementChild);
+        scrollChatToBottom(container);
+        pb.timer = setTimeout(() => {
+            if (!playback) return;
+            const t = document.querySelector('#chat-content .typing-box');
+            if (t) t.remove();
+            appendPlaybackBox(box);
+            pb.index++;
+            updatePlaybackProgress();
+            pb.timer = setTimeout(playbackNext, 240);
+        }, settings.animationTime);
+    } else {
+        appendPlaybackBox(box);
+        pb.index++;
+        updatePlaybackProgress();
+        pb.timer = setTimeout(playbackNext, 240);
+    }
+}
+
+function finishPlayback() {
+    stopPlayback(false);
+}
+
+function stopPlayback(silent) {
+    if (playback) {
+        if (playback.timer) clearTimeout(playback.timer);
+        playback = null;
+    }
+    const old = document.querySelector('#chat-content .typing-box');
+    if (old) old.remove();
+    resetPlayButton();
+    if (!silent) renderChat();
+}
+
+function togglePlayback() {
+    if (playback) {
+        stopPlayback(false);
+    } else {
+        startPlayback();
+    }
+}
+
+/* ================= 截图 ================= */
+
+function screenshotFilename() {
+    return 'momotalk_chat_' + timestampForFile(new Date()) + '.png';
+}
+
+function takeScreenshot() {
+    if (!currentStudentId) return;
+    if (playback) stopPlayback(false);
+    const stu = currentStudent();
+    if (!stu) return;
+    const boxes = chatBoxes();
+    if (!boxes.length) {
+        showToast(T('playEmpty', null, '还没有聊天内容可以截图'));
+        return;
+    }
+    if (!window.ChatScreenshot || typeof window.ChatScreenshot.generate !== 'function') {
+        showToast(T('screenshotUnavailable', null, '截图模块未加载，请检查 resources/chat_screenshot.js'));
+        return;
+    }
+    const content = document.getElementById('chat-content');
+    const width = Math.max(300, Math.min(460, (content ? content.clientWidth : 360)));
+    showModal(T('screenshotTitle', null, '聊天截图'),
+        `<div class="screenshot-loading"><div class="spinner"></div><span>${escapeHtml(T('screenshotCreating', null, '正在生成截图…'))}</span></div>`, []);
+
+    window.ChatScreenshot.generate({
+        boxes: copyBoxes(boxes),
+        student: { name: stu.displayName, avatar: stu.avatar || fallbackAvatar(stu.displayName) },
+        width: width,
+        dpr: 2,
+        texts: {
+            reply: T('replyTitle', null, '回复'),
+            story: T('storyTitle', null, '好感故事'),
+            imageFail: T('imageLoadFail', null, '图片加载失败')
+        }
+    }).then(res => {
+        const canvas = res && res.canvas ? res.canvas : res;
+        if (!canvas || typeof canvas.toDataURL !== 'function') throw new Error('截图模块返回格式错误');
+        const dataUrl = canvas.toDataURL('image/png');
+        const html = `<div class="screenshot-wrap"><img id="screenshot-preview-img" src="${dataUrl}" alt=""></div>`;
+        showModal(T('screenshotTitle', null, '聊天截图'), html, [
+            {
+                text: T('screenshotSave', null, '保存图片'), class: 'confirm',
+                onClick: () => { downloadDataUrl(dataUrl, screenshotFilename()); closeModal(); }
+            },
+            { text: T('closeBtn', null, '关闭'), class: 'cancel', onClick: closeModal }
+        ]);
+    }).catch(err => {
+        console.error('截图失败：', err);
+        showModal(T('screenshotFailTitle', null, '截图失败'),
+            `<div style="font-size:13px;color:#666;line-height:1.7;text-align:center;word-break:break-all;">
+                ${escapeHtml(err && err.message ? err.message : String(err))}
+            </div>`, [{ text: T('notReadyOk', null, '知道了'), class: 'confirm', onClick: closeModal }]);
+    });
+}
+
+/* ================= 通用 UI 工具 ================= */
+
+let toastTimer = null;
+
+function showToast(msg) {
+    let el = document.getElementById('app-toast');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'app-toast';
+        el.className = 'toast';
+        document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    requestAnimationFrame(() => el.classList.add('show'));
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 1900);
+}
+
+function confirmModal(title, bodyHtml, onConfirm) {
+    showModal(title, `<div style="font-size:13px;color:#666;line-height:1.8;text-align:center;">${bodyHtml}</div>`, [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: T('confirmDeleteBtn', null, '删除'), class: 'danger',
+            onClick: () => { closeModal(); onConfirm(); }
+        }
+    ]);
+}
+
+function openImagePreview(src) {
+    if (!src) return;
+    showModal(T('imagePreviewTitle', null, '查看图片'),
+        `<div class="screenshot-wrap" style="background:#f4f6f8;"><img src="${escapeHtml(src)}" alt=""></div>`,
+        [{ text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }]);
+}
+
+function timestampForFile(d) {
+    const p = n => String(n).padStart(2, '0');
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '_' +
+        p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds());
+}
+
+function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function downloadDataUrl(dataUrl, filename) {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+function autoBackup() {
+    if (!settings.autoBackup) return;
+    if (!myStudents.length && !Object.keys(chats).length) return;
+    try {
+        const data = buildExportData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        downloadBlob(blob, 'momotalk_autobackup_' + timestampForFile(new Date()) + '.json');
+    } catch (e) {
+        console.error('自动备份失败：', e);
+    }
+}
+
+/* ================= 长按 / 点击绑定（一次性） ================= */
+
+function initChatInteractions() {
+    const container = document.getElementById('chat-content');
+    if (!container || container.dataset.bound) return;
+    container.dataset.bound = '1';
+
+    let press = null;
+    let pressTimer = null;
+
+    const clearPress = () => {
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        press = null;
+    };
+
+    container.addEventListener('pointerdown', e => {
+        if (playback) return;
+        if (e.button !== undefined && e.button !== 0) return;
+        if (morePanelOpen) { closeMorePanel(); return; }
+        const boxEl = e.target.closest('.msg-box[data-box-id]');
+        if (!boxEl) return;
+        clearPress();
+        longPressFired = false;
+        press = { x: e.clientX, y: e.clientY, boxId: boxEl.dataset.boxId };
+        pressTimer = setTimeout(() => {
+            pressTimer = null;
+            const id = press ? press.boxId : null;
+            press = null;
+            if (!id) return;
+            longPressFired = true;
+            openBoxEditor(id);
+        }, 550);
+    });
+
+    container.addEventListener('pointermove', e => {
+        if (!press) return;
+        const dx = e.clientX - press.x;
+        const dy = e.clientY - press.y;
+        if (dx * dx + dy * dy > 64) clearPress();
+    }, { passive: true });
+
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => {
+        container.addEventListener(ev, clearPress, { passive: true });
+    });
+
+    container.addEventListener('click', e => {
+        if (longPressFired) { longPressFired = false; return; }
+        const wrap = e.target.closest('.msg-image-wrapper');
+        if (wrap) {
+            const img = wrap.querySelector('img');
+            if (img) openImagePreview(img.getAttribute('src'));
+        }
+    });
+
+    container.addEventListener('contextmenu', e => {
+        const boxEl = e.target.closest('.msg-box[data-box-id]');
+        if (!boxEl) return;
+        e.preventDefault();
+        openBoxEditor(boxEl.dataset.boxId);
+    });
+}
+
+function initMorePanelEvents() {
+    const grid = document.getElementById('emoji-grid');
+    if (grid && !grid.dataset.bound) {
+        grid.dataset.bound = '1';
+        grid.addEventListener('click', e => {
+            const cell = e.target.closest('.emoji-cell');
+            if (!cell) return;
+            sendEmoji(cell.dataset.emoji);
+        });
+    }
+    document.addEventListener('pointerdown', e => {
+        if (!morePanelOpen) return;
+        if (e.target.closest('.chat-input-area')) return;
+        if (e.target.closest('.modal-content')) return;
+        closeMorePanel();
+    }, true);
+}
+
+/* ================= 下拉刷新 ================= */
+
+function initPullRefresh() {
+    const list = document.getElementById('contact-list');
+    if (!list || list.dataset.pullBound) return;
+    list.dataset.pullBound = '1';
+
+    const indicator = document.createElement('div');
+    indicator.className = 'pull-refresh';
+    indicator.innerHTML = '<div class="spinner"></div><span id="pull-refresh-text"></span>';
+    list.appendChild(indicator);
+    const textEl = indicator.querySelector('span');
+
+    let startY = 0;
+    let pull = 0;
+    let tracking = false;
+    let refreshing = false;
+
+    const setText = t => { if (textEl) textEl.textContent = t; };
+
+    list.addEventListener('touchstart', e => {
+        if (refreshing) return;
+        if (document.getElementById('chat-page').classList.contains('slide-in')) return;
+        if (list.scrollTop > 0) return;
+        if (!e.touches || !e.touches.length) return;
+        // 列表每次渲染都会重写 innerHTML，刷新指示器要重新挂回
+        if (!indicator.isConnected) list.appendChild(indicator);
+        startY = e.touches[0].clientY;
+        pull = 0;
+        tracking = true;
+        indicator.classList.add('visible');
+        indicator.style.transform = 'translateY(-52px)';
+        setText(T('pullRefresh', null, '下拉刷新'));
+    }, { passive: true });
+
+    list.addEventListener('touchmove', e => {
+        if (!tracking) return;
+        if (list.scrollTop > 0) { tracking = false; indicator.classList.remove('visible'); indicator.style.transform = ''; return; }
+        const dy = e.touches[0].clientY - startY;
+        if (dy <= 0) {
+            pull = 0;
+            indicator.style.transform = 'translateY(-52px)';
+            setText(T('pullRefresh', null, '下拉刷新'));
+            return;
+        }
+        pull = Math.min(dy * 0.5, 82);
+        indicator.style.transform = 'translateY(' + Math.round(pull - 52) + 'px)';
+        setText(pull >= 52 ? T('releaseRefresh', null, '释放以刷新') : T('pullRefresh', null, '下拉刷新'));
+    }, { passive: true });
+
+    const finish = () => {
+        if (!tracking) return;
+        tracking = false;
+        indicator.classList.remove('visible');
+        if (pull < 52) {
+            indicator.style.transform = '';
+            pull = 0;
+            return;
+        }
+        refreshing = true;
+        indicator.style.transform = 'translateY(0)';
+        setText(T('refreshing', null, '刷新中…'));
+        const started = Date.now();
+        Promise.resolve(loadLibrary()).then(() => {
+            renderContactList();
+            const wait = Math.max(0, 500 - (Date.now() - started));
+            setTimeout(() => {
+                refreshing = false;
+                pull = 0;
+                indicator.style.transform = '';
+                setText(T('refreshDone', null, '刷新完成'));
+                showToast(T('refreshDone', null, '刷新完成'));
+            }, wait);
+        }).catch(() => {
+            refreshing = false;
+            pull = 0;
+            indicator.style.transform = '';
+        });
+    };
+
+    list.addEventListener('touchend', finish);
+    list.addEventListener('touchcancel', finish);
+}
+
+/* ================= 右滑返回 ================= */
+
+function bindSwipeBack(pageEl, onBack) {
+    if (!pageEl || pageEl.dataset.swipeBound) return;
+    pageEl.dataset.swipeBound = '1';
+
+    let startX = 0, startY = 0, tracking = false, dx = 0, active = false;
+
+    const ignoreTarget = target => !!(target && target.closest &&
+        target.closest('textarea, input, .setting-range, .emoji-grid, .more-tiles, .screenshot-wrap, .box-edit-list'));
+
+    pageEl.addEventListener('touchstart', e => {
+        if (!e.touches || !e.touches.length) return;
+        if (ignoreTarget(e.target)) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        dx = 0;
+        tracking = true;
+        active = false;
+    }, { passive: true });
+
+    pageEl.addEventListener('touchmove', e => {
+        if (!tracking) return;
+        const x = e.touches[0].clientX;
+        const y = e.touches[0].clientY;
+        dx = x - startX;
+        const dy = y - startY;
+        if (!active) {
+            if (Math.abs(dx) < 12 && Math.abs(dy) < 12) return;
+            if (Math.abs(dy) > Math.abs(dx)) { tracking = false; return; }
+            if (dx <= 0) { tracking = false; return; }
+            active = true;
+            pageEl.classList.add('swiping');
+        }
+        const offset = Math.max(0, Math.min(dx, 200));
+        pageEl.style.transform = 'translateX(' + offset + 'px)';
+    }, { passive: true });
+
+    const finish = () => {
+        if (!tracking && !active) return;
+        tracking = false;
+        const moved = dx;
+        pageEl.classList.remove('swiping');
+        if (active && moved > 80) {
+            pageEl.style.transform = '';
+            onBack();
+        } else {
+            pageEl.style.transform = '';
+        }
+        active = false;
+        dx = 0;
+    };
+
+    pageEl.addEventListener('touchend', finish);
+    pageEl.addEventListener('touchcancel', finish);
+}
+
+function initSwipeGestures() {
+    const chatPage = document.getElementById('chat-page');
+    bindSwipeBack(chatPage, () => {
+        if (modalOverlay.classList.contains('active')) return;
+        if (morePanelOpen) { closeMorePanel(); return; }
+        if (playback) { stopPlayback(false); return; }
+        closeChat();
+    });
+
+    const morePage = document.getElementById('more-page');
+    bindSwipeBack(morePage, () => {
+        if (modalOverlay.classList.contains('active')) return;
+        const backBtn = document.getElementById('more-back-btn');
+        if (backBtn && backBtn.classList.contains('show')) backToMoreMain();
+        else switchToList();
+    });
 }
 
 function myKey() { return CONFIG.storage.myStudentsKey || 'momotalk_my_students_v7'; }
-function chatsKey() { return CONFIG.storage.chatsKey || 'momotalk_chats_v7'; }
+function chatsKey() { return CONFIG.storage.chatsKey || 'momotalk_chats_v8'; }
+function legacyChatsKey() { return CONFIG.storage.legacyChatsKey || 'momotalk_chats_v7'; }
 
 function saveMyStudents() {
     try { localStorage.setItem(myKey(), JSON.stringify(myStudents)); }
@@ -1591,47 +2899,6 @@ function saveChats() {
     }
 }
 
-/* ---------- 聊天数据校验 ----------
-   localStorage 或导入文件里可能残留旧版本/被手工改坏的数据（例如 chats[id] 不是数组、
-   消息元素为 null、缺少 text/role）。不校验的话 renderChat 会在 .map / msg.role 上抛异常，
-   整个聊天页白屏且无法恢复。这里统一做净化，坏的条目直接丢弃。 */
-function isValidMessage(m) {
-    return !!m && typeof m === 'object'
-        && (m.role === 'sensei' || m.role === 'student')
-        && (typeof m.text === 'string' || typeof m.text === 'number');
-}
-
-function normalizeMessage(m, fallbackTime) {
-    if (!isValidMessage(m)) return null;
-    const text = String(m.text).trim();
-    if (!text) return null;
-    const t = Number(m.time);
-    return {
-        role: m.role,
-        text: text,
-        time: Number.isFinite(t) && t > 0 ? t : fallbackTime
-    };
-}
-
-function msgSignature(m) {
-    return (m.role || '') + '\u0001' + (m.text || '') + '\u0001' + (m.time || 0);
-}
-
-function sanitizeChats(raw) {
-    const out = {};
-    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return out;
-    const base = now();
-    Object.keys(raw).forEach(k => {
-        const arr = raw[k];
-        if (!Array.isArray(arr)) return;
-        const msgs = arr
-            .map((m, i) => normalizeMessage(m, base + i))
-            .filter(Boolean);
-        if (msgs.length) out[k] = msgs;
-    });
-    return out;
-}
-
 function loadUserData() {
     try {
         const raw = localStorage.getItem(myKey());
@@ -1657,27 +2924,33 @@ function loadUserData() {
     } catch (e) { myStudents = []; }
 
     try {
-        const raw = localStorage.getItem(chatsKey());
+        let raw = localStorage.getItem(chatsKey());
+        let migrated = false;
+        if (!raw) {
+            raw = localStorage.getItem(legacyChatsKey());
+            migrated = !!raw;
+        }
         if (raw) chats = sanitizeChats(JSON.parse(raw));
+        // 旧版扁平数据迁移后立刻写入新 key，旧 key 保留不删
+        if (migrated && Object.keys(chats).length) saveChats();
     } catch (e) { chats = {}; }
 }
 
-function exportData() {
-    const data = {
-        version: 3,
+/* ---------- 导出 / 导入 ---------- */
+
+function buildExportData() {
+    return {
+        version: 4,
         exportedAt: new Date().toISOString(),
         myStudents: myStudents,
         chats: chats
     };
+}
+
+function exportData() {
+    const data = buildExportData();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'momotalk_backup_' + new Date().toISOString().slice(0, 10) + '.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    downloadBlob(blob, 'momotalk_backup_' + timestampForFile(new Date()) + '.json');
 }
 
 function importData(event) {
@@ -1705,8 +2978,8 @@ function importData(event) {
                 } else if (Array.isArray(parsed.students)) {
                     importedIds = parsed.students.map(toStudentId).filter(Number.isFinite);
                 }
-                if (parsed.chats && typeof parsed.chats === 'object') {
-                    importedChats = parsed.chats;
+                if (parsed.chats && typeof parsed.chats === 'object' && !Array.isArray(parsed.chats)) {
+                    importedChats = sanitizeChats(parsed.chats);
                 }
             } else {
                 throw new Error(T('importUnknown', null, '无法识别的文件格式'));
@@ -1725,31 +2998,25 @@ function importData(event) {
             });
 
             let chatMerged = 0;
-            let skippedMsgs = 0;
+            let addedBoxes = 0;
             if (importedChats) {
                 Object.keys(importedChats).forEach(k => {
-                    const arr = importedChats[k];
-                    if (!Array.isArray(arr)) return;
-
+                    const incoming = importedChats[k];
                     const existingChat = Array.isArray(chats[k]) ? chats[k] : [];
-                    // 按 role+text+time 去重：同一份备份重复导入时不会把消息再追加一遍
-                    const seen = new Set(existingChat.map(msgSignature));
-                    const incoming = [];
-                    arr.forEach((m, i) => {
-                        const norm = normalizeMessage(m, now() + i);
-                        if (!norm) return;
-                        const sig = msgSignature(norm);
-                        if (seen.has(sig)) { skippedMsgs++; return; }
+                    // 按盒子内容签名去重：同一份备份重复导入时不会把消息再追加一遍
+                    const seen = new Set(existingChat.map(boxSignature));
+                    const incomingNew = [];
+                    incoming.forEach(b => {
+                        const sig = boxSignature(b);
+                        if (seen.has(sig)) return;
                         seen.add(sig);
-                        incoming.push(norm);
+                        incomingNew.push(b);
                     });
-
-                    if (incoming.length || existingChat.length) {
-                        // 合并后按时间重排：否则备份里的旧消息会被追加到最新消息之后
-                        chats[k] = existingChat.concat(incoming).sort((a, b) => a.time - b.time);
-                        // 学生库里已不存在的 id 照旧保留数据（日后库更新还能恢复），但不计入"合并会话"，
-                        // 避免提示"合并了 N 个会话"却在列表里看不到的情况
-                        if (libraryById[k]) chatMerged++;
+                    if (incomingNew.length || existingChat.length) {
+                        chats[k] = existingChat.concat(incomingNew).sort((a, b) => a.time - b.time);
+                        addedBoxes += incomingNew.length;
+                        // 学生库里已不存在的 id 照旧保留数据（日后库更新还能恢复），但不计入"合并会话"
+                        if (libraryById[k] && incomingNew.length) chatMerged++;
                     }
                 });
                 saveChats();
@@ -1761,9 +3028,9 @@ function importData(event) {
             let doneHtml = `<div style="font-size:14px;color:#333;line-height:1.8;">${escapeHtml(
                 T('importDone', { added: added, merged: chatMerged },
                     `导入完成：新增 ${added} 个学生形态，合并 ${chatMerged} 个会话。`))}</div>`;
-            if (skippedMsgs) {
+            if (addedBoxes) {
                 doneHtml += `<div style="font-size:13px;color:#999;margin-top:6px;">${escapeHtml(
-                    T('importSkipped', { n: skippedMsgs }, `已跳过 ${skippedMsgs} 条重复消息。`))}</div>`;
+                    T('importBoxes', { n: addedBoxes }, `新增 ${addedBoxes} 个信息盒子。`))}</div>`;
             }
             if (missing) {
                 doneHtml += `<div style="font-size:13px;color:#d85c76;margin-top:6px;">${escapeHtml(
@@ -1813,6 +3080,8 @@ modalOverlay.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         if (modalOverlay.classList.contains('active')) closeModal();
+        else if (morePanelOpen) closeMorePanel();
+        else if (playback) stopPlayback(false);
         else if (currentStudentId) closeChat();
         else if (document.getElementById('more-page').classList.contains('active')) {
             if (document.getElementById('more-back-btn').classList.contains('show')) backToMoreMain();
@@ -1821,13 +3090,44 @@ document.addEventListener('keydown', e => {
     }
 });
 
+/* ================= 调试 / 测试钩子 ================= */
+window.__mm = {
+    chats: () => chats,
+    settings: () => settings,
+    myStudents: () => myStudents,
+    student: () => currentStudent(),
+    openChat: openChat,
+    closeChat: closeChat,
+    renderChat: renderChat,
+    sendMessage: sendMessage,
+    startPlayback: startPlayback,
+    stopPlayback: stopPlayback,
+    boxText: boxText,
+    saveChats: saveChats,
+    saveSettings: saveSettings,
+    exportData: exportData,
+    buildExportData: buildExportData,
+    autoBackup: autoBackup,
+    takeScreenshot: takeScreenshot,
+    openBoxEditor: openBoxEditor,
+    openMoreSection: openMoreSection,
+    isImageUrl: isImageUrl,
+    escapeHtml: escapeHtml,
+    setAnimationTime: setAnimationTime,
+    setAutoBackup: setAutoBackup
+};
+
 (async function boot() {
     await loadConfig();
     loadSettings();
     loadUserData();
     updateRoleUI();
     updateGeneralUI();
+    updateSettingsUI();
     renderTutorialList();
+    initChatInteractions();
+    initMorePanelEvents();
+    initSwipeGestures();
 
     if (!configLoaded) {
         const list = document.getElementById('contact-list');
@@ -1841,6 +3141,7 @@ document.addEventListener('keydown', e => {
     }
 
     loadLibrary();
+    initPullRefresh();
 })();
 </script>
 </body>
