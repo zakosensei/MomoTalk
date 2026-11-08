@@ -1,0 +1,445 @@
+﻿{
+    "scenario":  "more",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:17:02.586Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  39,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "#btn-more（+ 按钮）存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "btn-more":  true,
+                                      "more-panel":  true,
+                                      "file-image":  true
+                                  }
+                   },
+                   {
+                       "name":  "打开更多栏前 #more-panel 未打开",
+                       "ok":  true,
+                       "actual":  "chat-more-panel"
+                   },
+                   {
+                       "name":  "点击 + 打开更多栏（#more-panel.open）",
+                       "ok":  true,
+                       "actual":  "chat-more-panel open"
+                   },
+                   {
+                       "name":  "+ 按钮带 open 类",
+                       "ok":  true,
+                       "actual":  "round-btn open"
+                   },
+                   {
+                       "name":  "+ 图标旋转 45°",
+                       "ok":  true,
+                       "actual":  {
+                                      "transform":  "matrix(0.707107, 0.707107, -0.707107, 0.707107, 0, 0)",
+                                      "deg":  45
+                                  }
+                   },
+                   {
+                       "name":  "打开更多栏后输入区上移（顶部减少 ≥40px）",
+                       "ok":  true,
+                       "actual":  {
+                                      "beforeTop":  784,
+                                      "afterTop":  679
+                                  }
+                   },
+                   {
+                       "name":  "更多栏含 4 个入口（表情/图片/回复/好感故事）",
+                       "ok":  true,
+                       "actual":  [
+                                      "emoji",
+                                      "image",
+                                      "reply",
+                                      "story"
+                                  ]
+                   },
+                   {
+                       "name":  "点击表情入口展开表情面板",
+                       "ok":  true,
+                       "actual":  "chat-more-panel open emoji-open"
+                   },
+                   {
+                       "name":  "社团表情数量为 183",
+                       "ok":  true,
+                       "actual":  183
+                   },
+                   {
+                       "name":  "第一个表情图指向 resources/emoji/0.png",
+                       "ok":  true,
+                       "actual":  "./resources/emoji/0.png"
+                   },
+                   {
+                       "name":  "表情网格为 6 列",
+                       "ok":  true,
+                       "actual":  {
+                                      "gridTemplateColumns":  "53.6562px 53.6719px 53.6719px 53.6562px 53.6719px 53.6719px",
+                                      "cols":  6
+                                  }
+                   },
+                   {
+                       "name":  "表情面板纵向滚动",
+                       "ok":  true,
+                       "actual":  {
+                                      "overflowY":  "auto",
+                                      "height":  "218px"
+                                  }
+                   },
+                   {
+                       "name":  "存在 data-emoji=\"12\" 的表情格",
+                       "ok":  true,
+                       "actual":  [
+                                      "0",
+                                      "1",
+                                      "2"
+                                  ]
+                   },
+                   {
+                       "name":  "点击表情立即发送（新建盒子 + emoji item）",
+                       "ok":  true,
+                       "actual":  {
+                                      "id":  "b_mw7fwlllg6n5s6",
+                                      "role":  "sensei",
+                                      "time":  1794118623321,
+                                      "items":  [
+                                                    {
+                                                        "id":  "i_mw7fwllljd6p1h",
+                                                        "type":  "emoji",
+                                                        "src":  "./resources/emoji/12.png"
+                                                    }
+                                                ]
+                                  }
+                   },
+                   {
+                       "name":  "emoji item.src 指向 resources/emoji/12.png",
+                       "ok":  true,
+                       "actual":  "./resources/emoji/12.png"
+                   },
+                   {
+                       "name":  "DOM 中出现 .emoji-bubble 图片",
+                       "ok":  true,
+                       "actual":  "./resources/emoji/12.png"
+                   },
+                   {
+                       "name":  "本地图片 input 存在且 accept=\"image/*\"",
+                       "ok":  true,
+                       "actual":  {
+                                      "exists":  true,
+                                      "type":  "file",
+                                      "accept":  "image/*"
+                                  }
+                   },
+                   {
+                       "name":  "本地图片压缩为 dataURL 后发送 image item",
+                       "ok":  true,
+                       "actual":  {
+                                      "type":  "image",
+                                      "src":  "data:image/jpeg;base64,/9j/4AAQSkZJRgABA"
+                                  }
+                   },
+                   {
+                       "name":  "DOM 中出现 .msg-image",
+                       "ok":  true,
+                       "actual":  true
+                   },
+                   {
+                       "name":  "回复框编辑弹窗出现",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  true,
+                                      "title":  "发送回复框",
+                                      "body":  "回复选项（可添加多个） 1 删除 2 删除 ＋ 添加选项 玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
+                                      "buttons":  [
+                                                      "取消",
+                                                      "发送"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "回复标题不可编辑（无标题输入框）",
+                       "ok":  true,
+                       "actual":  false
+                   },
+                   {
+                       "name":  "回复框默认提供多个选项",
+                       "ok":  true,
+                       "actual":  [
+                                      "嗯？还好吧……",
+                                      "确实突然有点饿了……"
+                                  ]
+                   },
+                   {
+                       "name":  "回复框默认选项包含“嗯？还好吧……”",
+                       "ok":  true,
+                       "actual":  "嗯？还好吧……"
+                   },
+                   {
+                       "name":  "发送回复框（新建盒子 + reply item）",
+                       "ok":  true,
+                       "actual":  {
+                                      "id":  "b_mw7fwlmfpmr656",
+                                      "role":  "sensei",
+                                      "time":  1794118623351,
+                                      "items":  [
+                                                    {
+                                                        "id":  "i_mw7fwlmfs747nf",
+                                                        "type":  "reply",
+                                                        "title":  "回复",
+                                                        "options":  [
+                                                                        "测试回复内容",
+                                                                        "确实突然有点饿了……"
+                                                                    ]
+                                                    }
+                                                ]
+                                  }
+                   },
+                   {
+                       "name":  "reply item 标题固定、选项正确",
+                       "ok":  true,
+                       "actual":  {
+                                      "id":  "i_mw7fwlmfs747nf",
+                                      "type":  "reply",
+                                      "title":  "回复",
+                                      "options":  [
+                                                      "测试回复内容",
+                                                      "确实突然有点饿了……"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "DOM 出现 .reply-panel（.reply-label/.reply-bar/.reply-option）",
+                       "ok":  true,
+                       "actual":  {
+                                      "label":  "回复",
+                                      "options":  [
+                                                      "测试回复内容",
+                                                      "确实突然有点饿了……"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "回复面板标题固定为“回复”",
+                       "ok":  true,
+                       "actual":  "回复"
+                   },
+                   {
+                       "name":  "点击回复选项后作为消息输出",
+                       "ok":  true,
+                       "actual":  {
+                                      "id":  "i_mw7fwlmfs747nf",
+                                      "type":  "text",
+                                      "title":  "回复",
+                                      "text":  "测试回复内容"
+                                  }
+                   },
+                   {
+                       "name":  "点击好感故事直接发送（无编辑弹窗）",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  false,
+                                      "title":  "发送回复框",
+                                      "body":  "回复选项（可添加多个） 1 删除 2 删除 ＋ 添加选项 玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
+                                      "buttons":  [
+                                                      "取消",
+                                                      "发送"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "story item 标题/文案固定",
+                       "ok":  true,
+                       "actual":  {
+                                      "id":  "i_mw7fwlmfzstte8",
+                                      "type":  "story",
+                                      "title":  "好感故事",
+                                      "text":  "进入小鸟游 星野的好感故事"
+                                  }
+                   },
+                   {
+                       "name":  "DOM 出现 .story-panel（.story-label/.story-btn/.story-bar）",
+                       "ok":  true,
+                       "actual":  {
+                                      "label":  "好感故事",
+                                      "btn":  "进入小鸟游 星野的好感故事"
+                                  }
+                   },
+                   {
+                       "name":  "好感故事按钮文案为固定格式",
+                       "ok":  true,
+                       "actual":  "进入小鸟游 星野的好感故事"
+                   },
+                   {
+                       "name":  "好感故事自动新建盒子",
+                       "ok":  true,
+                       "actual":  {
+                                      "before":  4,
+                                      "after":  5
+                                  }
+                   },
+                   {
+                       "name":  "特殊消息各新建一个盒子（共 5 盒）",
+                       "ok":  true,
+                       "actual":  [
+                                      "text",
+                                      "emoji",
+                                      "image",
+                                      "text",
+                                      "story"
+                                  ]
+                   },
+                   {
+                       "name":  "长按好感故事盒子打开编辑面板",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  true,
+                                      "title":  "信息盒子",
+                                      "body":  "老师 · 共 1 条信息 好感 进入小鸟游 星野的好感故事 删除 ＋ 追加信息 更换发送者 ↑ 上移 ↓ 下移 删除信息盒子",
+                                      "buttons":  [
+                                                      "关闭"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "好感故事不可编辑（无编辑按钮，仅有删除）",
+                       "ok":  true,
+                       "actual":  "好感 进入小鸟游 星野的好感故事 删除"
+                   },
+                   {
+                       "name":  "点击聊天区关闭更多栏",
+                       "ok":  true,
+                       "actual":  "chat-more-panel"
+                   },
+                   {
+                       "name":  "再次点击 + 关闭更多栏且图标回正",
+                       "ok":  true,
+                       "actual":  {
+                                      "open":  false,
+                                      "transform":  "none"
+                                  }
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+                  "本地图片选择方式: {\"ok\":true,\"mode\":\"files+change\"}"
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  114,
+                    "totalMs":  1984
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118612586
+                                    }
+                                ],
+                 "chats":  {
+                               "1001":  [
+                                            {
+                                                "id":  "b_more_t",
+                                                "role":  "sensei",
+                                                "time":  1794118621586,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_m1",
+                                                                  "type":  "text",
+                                                                  "text":  "开场消息"
+                                                              }
+                                                          ]
+                                            }
+                                        ]
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  true,
+                                 "chatPageClass":  "slide-in",
+                                 "listPageClass":  "slide-out",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav hidden",
+                                 "modalActive":  false,
+                                 "modalTitle":  "信息盒子",
+                                 "msgBoxes":  5,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  183,
+                                 "contactListText":  "小鸟游 星野 [我] 开场消息"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_more_t\",\"role\":\"sensei\",\"time\":1794118621586,\"items\":[{\"id\":\"i_m1\",\"type\":\"text\",\"text\":\"开场消息\"}]},{\"id\":\"b_mw7fwlllg6n5s6\",\"role\":\"sensei\",\"time\":1794118623321,\"items\":[{\"id\":\"i_mw7fwllljd6p1h\",\"type\":\"emoji\",\"src\":\"./resources/emoji/12.png\"}]},{\"id\":\"b_mw7fwllvahwcx8\",\"role\":\"sensei\",\"time\":1794118623331,\"items\":[{\"id\":\"i_mw7fwllvdaayh2\",\"type\":\"image\",\"src\":\"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAABv/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKGAOir/2Q==\"}]},{\"id\":\"b_mw7fwlmfpmr656\",\"role\":\"sensei\",\"time\":1794118623351,\"items\":[{\"id\":\"i_mw7fwlmfs747nf\",\"type\":\"text\",\"title\":\"回复\",\"text\":\"测试回复内容\"}]},{\"id\":\"b_mw7fwlmfbmqnx4\",\"role\":\"sensei\",\"time\":1794118623351,\"items\":[{\"id\":\"i_mw7fwlmfzstte8\",\"type\":\"story\",\"title\":\"好感故事\",\"text\":\"进入小鸟游 星野的好感故事\"}]}]}",
+                                     "settingsRaw":  null,
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118612586}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118622671
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118622681
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_more_t\",\"role\":\"sensei\",\"time\":1794118621586,\"items\":[{\"id\":\"i_m1\",\"type\":\"text\",\"text\":\"开场消息\"}]}]}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 [我] 开场消息",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

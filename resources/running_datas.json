@@ -10,7 +10,8 @@
     "myStudentsKey": "momotalk_my_students_v7",
     "chatsKey": "momotalk_chats_v8",
     "settingsKey": "momotalk_settings_v1",
-    "legacyChatsKey": "momotalk_chats_v7"
+    "legacyChatsKey": "momotalk_chats_v7",
+    "customStudentsKey": "momotalk_custom_students_v1"
   },
   "about": {
     "developerName": "zako老师",
@@ -207,6 +208,33 @@
     "releaseRefresh": "释放以刷新",
     "refreshing": "刷新中…",
     "refreshDone": "刷新完成",
-    "importBoxes": "新增 {n} 个信息盒子。"
+    "importBoxes": "新增 {n} 个信息盒子。",
+    "moreDiff": "表情差分",
+    "diffTitle": "表情差分 · {name}",
+    "diffUntitled": "立绘差分",
+    "noDiff": "该学生暂无表情差分",
+    "onlyStudentDiff": "「表情差分」只有学生可以发送",
+    "onlySenseiReply": "「回复框」只有老师可以发送",
+    "onlySenseiStory": "「好感故事框」只有老师可以发送",
+    "onlySenseiTip": "只有老师可以发送",
+    "replyDefault2": "确实突然有点饿了……",
+    "replyOptionsLabel": "回复选项（可添加多个）",
+    "replyAddOption": "＋ 添加选项",
+    "replyOptionsHint": "玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
+    "replyOptionPlaceholder": "输入一个回复选项…",
+    "replyAtLeastOne": "至少保留一个回复选项",
+    "replyMaxOptions": "最多添加 6 个选项",
+    "playSelectReply": "请选择一个回复以继续",
+    "animTimeInputLabel": "键盘输入",
+    "customStudentTitle": "添加自定义学生",
+    "customStudentIdLabel": "唯一编号：",
+    "customStudentAddBtn": "＋ 添加学生",
+    "customStudentNamePlaceholder": "学生姓名",
+    "customStudentNameRequired": "请输入学生姓名",
+    "customStudentAdded": "已添加学生：{name}",
+    "customStudentSaveFail": "自定义学生保存失败，本地存储空间可能不足",
+    "customStudentDeleteTitle": "删除自定义学生",
+    "customStudentDeleteConfirm": "确定删除学生「{name}」吗？该学生的聊天记录也会一起删除。",
+    "customStudentEmpty": "还没有自定义学生"
   }
 }

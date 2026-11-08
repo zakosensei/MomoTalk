@@ -521,6 +521,7 @@
       w: width,
       h: height,
       lines: lines,
+      role: role,
       color: role === 'sensei' ? COLORS.senseiBubble : COLORS.studentBubble
     };
   }
@@ -562,40 +563,56 @@
     };
   }
 
-  /** 回复框 item（浅蓝面板 + 白色内框） */
+  /** 回复框 item（浅蓝面板 + 多个白色选项内框） */
   function measureReply(ctx, item, cfg, role, texts, bodyLeft, right) {
     var panelWidth = panelWidthFor(cfg, role, bodyLeft, right);
-    var title = item.title == null || item.title === '' ? texts.reply : String(item.title);
-    var innerWidth = panelWidth - cfg.panelPad * 2 - cfg.innerPadX * 2;
-    ctx.font = cfg.fontText;
-    var lines = wrapText(function (s) {
-      return ctx.measureText(s).width;
-    }, item.text == null ? '' : String(item.text), Math.max(20, innerWidth));
-    if (!lines.length) lines = [''];
+    var title = texts.reply;
+    var innerWidth = panelWidth - cfg.panelPad * 2;
+    var rawOptions = Array.isArray(item.options) && item.options.length
+      ? item.options
+      : [item.text == null ? '' : item.text];
+    var options = rawOptions.map(function (t) { return String(t == null ? '' : t); }).filter(function (t) { return t !== ''; });
+    if (!options.length) options = [''];
 
-    var innerHeight = lines.length * cfg.lineHeight + cfg.innerPadY * 2;
+    ctx.font = cfg.fontText;
+    var optGap = 6;
+    var optNodes = options.map(function (text) {
+      var lines = wrapText(function (s) {
+        return ctx.measureText(s).width;
+      }, text, Math.max(20, innerWidth - cfg.innerPadX * 2));
+      if (!lines.length) lines = [''];
+      return {
+        lines: lines,
+        h: lines.length * cfg.lineHeight + cfg.innerPadY * 2
+      };
+    });
+
+    var innerBlockH = 0;
+    optNodes.forEach(function (n, i) {
+      innerBlockH += n.h + (i < optNodes.length - 1 ? optGap : 0);
+    });
     var innerY = cfg.panelPad + cfg.panelTitleHeight + cfg.panelGap;
-    var height = innerY + innerHeight + cfg.panelPad;
+    var height = innerY + innerBlockH + cfg.panelPad;
 
     return {
       kind: 'reply',
       w: panelWidth,
       h: height,
       title: title,
-      lines: lines,
+      options: optNodes,
+      optGap: optGap,
       rel: {
         innerX: cfg.panelPad,
         innerY: innerY,
-        innerW: panelWidth - cfg.panelPad * 2,
-        innerH: innerHeight
+        innerW: panelWidth - cfg.panelPad * 2
       }
     };
   }
 
-  /** 好感故事框 item（粉色面板 + 渐变按钮） */
+  /** 好感故事框 item（粉色面板 + 渐变按钮，标题固定） */
   function measureStory(ctx, item, cfg, role, texts, bodyLeft, right) {
     var panelWidth = panelWidthFor(cfg, role, bodyLeft, right);
-    var title = item.title == null || item.title === '' ? texts.story : String(item.title);
+    var title = texts.story;
     var btnWidth = panelWidth - cfg.panelPad * 2;
     var btnTextWidth = Math.max(20, btnWidth - 24);
     ctx.font = cfg.fontText;
@@ -700,7 +717,13 @@
       var itemY = bodyTop;
       measured.forEach(function (node, index) {
         node.y = itemY;
-        node.x = isStudent ? bodyLeft : right - node.w;
+        if (node.kind === 'reply' || node.kind === 'story') {
+          // 回复框 / 好感故事框在聊天页与截图里都居中显示
+          node.x = Math.max(cfg.padding, Math.round((cfg.width - node.w) / 2));
+        } else {
+          node.x = isStudent ? bodyLeft : right - node.w;
+        }
+        node.isFirstItem = index === 0;
         nodes.push(node);
         itemY += node.h + (index < measured.length - 1 ? cfg.itemGap : 0);
       });
@@ -789,6 +812,24 @@
   }
 
   function drawTextBubble(ctx, node, cfg) {
+    // 信息盒子里的第一条文本气泡带一个小尖角，后续气泡不带（与聊天页样式一致）
+    if (node.isFirstItem && node.role) {
+      var tailTop = node.y + Math.min(9, Math.max(4, node.h * 0.24));
+      ctx.beginPath();
+      if (node.role === 'sensei') {
+        ctx.moveTo(node.x + node.w, tailTop);
+        ctx.lineTo(node.x + node.w + 7, tailTop + 6);
+        ctx.lineTo(node.x + node.w, tailTop + 12);
+      } else {
+        ctx.moveTo(node.x, tailTop);
+        ctx.lineTo(node.x - 7, tailTop + 6);
+        ctx.lineTo(node.x, tailTop + 12);
+      }
+      ctx.closePath();
+      ctx.fillStyle = node.color;
+      ctx.fill();
+    }
+
     roundRectPath(ctx, node.x, node.y, node.w, node.h, cfg.bubbleRadius);
     ctx.fillStyle = node.color;
     ctx.fill();
@@ -879,7 +920,7 @@
     ctx.stroke();
   }
 
-  /** 回复框：浅蓝渐变面板 + 蓝色竖条标题 + 白色内框文字 */
+  /** 回复框：浅蓝渐变面板 + 蓝色竖条标题 + 多个白色选项内框 */
   function drawReplyPanel(ctx, node, cfg) {
     var rel = node.rel;
 
@@ -896,26 +937,28 @@
     drawPanelTitle(ctx, node, cfg, COLORS.replyBar, COLORS.replyLabel);
     drawPanelDivider(ctx, node, cfg, 'rgba(75,138,201,0.25)');
 
-    // 白色内框
     var innerX = node.x + rel.innerX;
-    var innerY = node.y + rel.innerY;
-    roundRectPath(ctx, innerX, innerY, rel.innerW, rel.innerH, cfg.innerRadius);
-    ctx.fillStyle = COLORS.replyInnerBg;
-    ctx.fill();
-    ctx.strokeStyle = COLORS.replyInnerBorder;
-    ctx.stroke();
-
+    var y = node.y + rel.innerY;
     ctx.font = cfg.fontText;
     ctx.fillStyle = COLORS.replyInnerText;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    for (var i = 0; i < node.lines.length; i++) {
-      ctx.fillText(
-        node.lines[i],
-        innerX + rel.innerW / 2,
-        innerY + cfg.innerPadY + cfg.lineHeight / 2 + i * cfg.lineHeight
-      );
-    }
+    (node.options || []).forEach(function (opt, i) {
+      roundRectPath(ctx, innerX, y, rel.innerW, opt.h, cfg.innerRadius);
+      ctx.fillStyle = COLORS.replyInnerBg;
+      ctx.fill();
+      ctx.strokeStyle = COLORS.replyInnerBorder;
+      ctx.stroke();
+      ctx.fillStyle = COLORS.replyInnerText;
+      for (var k = 0; k < opt.lines.length; k++) {
+        ctx.fillText(
+          opt.lines[k],
+          innerX + rel.innerW / 2,
+          y + cfg.innerPadY + cfg.lineHeight / 2 + k * cfg.lineHeight
+        );
+      }
+      y += opt.h + (i < node.options.length - 1 ? (node.optGap || 6) : 0);
+    });
   }
 
   /** 好感故事框：粉色渐变面板 + 粉色竖条标题 + 粉红渐变按钮 */

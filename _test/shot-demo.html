@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>截图模块自测 · shot-demo</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f2f6f9;
+    color: #2c3e4f;
+    font: 14px/1.6 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 20px 16px 40px; }
+  h1 { font-size: 18px; margin: 0 0 6px; }
+  .hint { color: #6b7c8c; font-size: 13px; margin: 0 0 16px; }
+  .hint code { background: #e7eef4; border-radius: 4px; padding: 1px 5px; }
+  #stage {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(38, 66, 96, 0.12);
+    padding: 12px;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+  }
+  #stage canvas { max-width: 100%; height: auto !important; border-radius: 8px; }
+  #stage .loading { color: #8a9aa8; align-self: center; }
+  h2 { font-size: 14px; margin: 22px 0 8px; color: #40566b; }
+  #result {
+    margin: 0;
+    background: #0e1a24;
+    color: #a8e6b8;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font: 12px/1.65 ui-monospace, Consolas, "Courier New", monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow: auto;
+    max-height: 340px;
+  }
+  #result.error { color: #ffb3b3; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>MomoTalk 截图模块自测</h1>
+  <p class="hint">
+    本页通过 <code>../resources/chat_screenshot.js</code> 把样例聊天渲染成长图；
+    请通过本地 HTTP 服务访问（如 <code>http://127.0.0.1:8765/_test/shot-demo.html</code>），
+    直接双击打开 file:// 时图片可能因跨域策略回退为占位。
+  </p>
+
+  <div id="stage"><div class="loading">渲染中…</div></div>
+
+  <h2>generate() 结果</h2>
+  <pre id="result">running…</pre>
+</div>
+
+<script src="../resources/chat_screenshot.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var TIMEOUT_MS = 12000;
+
+  var stageEl = document.getElementById('stage');
+  var resultEl = document.getElementById('result');
+  var finished = false;
+
+  function showJson(data) {
+    resultEl.textContent = JSON.stringify(data, null, 2);
+  }
+
+  function fail(error) {
+    if (finished) return;
+    finished = true;
+    var message = error && error.stack ? String(error.stack) : String(error);
+    window.__shotError = message;
+    stageEl.innerHTML = '<div class="loading">渲染失败，见下方错误信息</div>';
+    resultEl.className = 'error';
+    showJson({ success: false, error: message });
+  }
+
+  // ---- 样例数据：覆盖 5 种 item 类型 + 学生/老师盒子 ----
+  function sampleBoxes() {
+    return [
+      {
+        id: 'b_1',
+        role: 'student',
+        time: 1710000001000,
+        items: [
+          { id: 'i_1', type: 'text', text: '老师，你肚子饿不饿？' },
+          { id: 'i_2', type: 'image', src: '../resources/coffee.jpg' },
+          { id: 'i_3', type: 'emoji', src: '../resources/emoji/12.png' },
+          { id: 'i_4', type: 'reply', title: '回复', text: '嗯？还好吧……' }
+        ]
+      },
+      {
+        id: 'b_2',
+        role: 'sensei',
+        time: 1710000002000,
+        items: [
+          { id: 'i_5', type: 'text', text: '好，好像是有点……？' },
+          {
+            id: 'i_6',
+            type: 'text',
+            text: 'MomoTalk screenshot test: The quick brown fox jumps over the lazy dog. 中英文混排换行测试。'
+          }
+        ]
+      },
+      {
+        id: 'b_3',
+        role: 'student',
+        time: 1710000003000,
+        items: [
+          { id: 'i_7', type: 'text', text: '嘿嘿' },
+          { id: 'i_8', type: 'text', text: '那我带便当过来！\n（第二行：测试 \\n 显式换行）' },
+          { id: 'i_9', type: 'story', title: '好感故事', text: '进入未花（泳装）的好感故事' }
+        ]
+      },
+      {
+        id: 'b_4',
+        role: 'sensei',
+        time: 1710000004000,
+        items: [
+          { id: 'i_10', type: 'text', text: '未花的……便当？' },
+          // 故意使用不存在的图片，验证 onerror 占位回退不会 reject、不会污染 canvas
+          { id: 'i_11', type: 'image', src: '../resources/__not_found_for_shot_demo__.png' }
+        ]
+      },
+      {
+        id: 'b_5',
+        role: 'student',
+        time: 1710000005000,
+        items: [
+          { id: 'i_12', type: 'emoji', src: '../resources/emoji/12.png' }
+        ]
+      }
+    ];
+  }
+
+  function wrapSample() {
+    // 用离屏 canvas 验证导出纯函数 _wrapText
+    try {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.font = '15px "Microsoft YaHei", sans-serif';
+      return window.ChatScreenshot._wrapText(
+        ctx,
+        '中文按字符换行，English wraps by word. 混排 abc def ghi',
+        120
+      );
+    } catch (error) {
+      return ['_wrapText 调用失败: ' + error];
+    }
+  }
+
+  function run() {
+    var startedAt = Date.now();
+
+    if (!window.ChatScreenshot || typeof window.ChatScreenshot.generate !== 'function') {
+      fail(new Error('window.ChatScreenshot.generate 未加载（请检查 ../resources/chat_screenshot.js）'));
+      return;
+    }
+
+    var options = {
+      boxes: sampleBoxes(),
+      student: { name: '未花（泳装）', avatar: '../resources/head.jpg' },
+      width: 360,
+      dpr: 2,
+      texts: { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+    };
+
+    var promise;
+    try {
+      promise = window.ChatScreenshot.generate(options);
+    } catch (error) {
+      fail(error);
+      return;
+    }
+
+    Promise.resolve(promise).then(function (result) {
+      if (finished) return;
+      try {
+        if (!result || !result.canvas) throw new Error('generate 返回值缺少 canvas');
+
+        // 关键验收点：canvas 未被跨域污染，可以 toDataURL
+        var dataUrl = result.canvas.toDataURL('image/png');
+        var toDataUrlOk = /^data:image\/png;base64,/.test(dataUrl) && dataUrl.length > 100;
+        if (!toDataUrlOk) throw new Error('canvas.toDataURL 未返回有效 PNG（可能被跨域污染）');
+
+        stageEl.innerHTML = '';
+        stageEl.appendChild(result.canvas);
+
+        var info = {
+          success: true,
+          width: result.width,
+          height: result.height,
+          canvasWidth: result.canvas.width,
+          canvasHeight: result.canvas.height,
+          dpr: options.dpr,
+          toDataURL: 'ok',
+          dataUrlLength: dataUrl.length,
+          boxCount: options.boxes.length,
+          itemTypes: ['text', 'image', 'emoji', 'reply', 'story'],
+          elapsedMs: Date.now() - startedAt,
+          wrapSample: wrapSample()
+        };
+
+        resultEl.className = '';
+        showJson(info);
+        window.__shotResult = info;
+        window.__shotDone = true;
+        finished = true;
+      } catch (error) {
+        fail(error);
+      }
+    }, fail);
+  }
+
+  // 防卡死：超时未完成时输出错误，方便自动化测试判断
+  setTimeout(function () {
+    if (!finished && !window.__shotDone) {
+      fail(new Error('超时：' + TIMEOUT_MS + 'ms 内未完成截图渲染'));
+    }
+  }, TIMEOUT_MS);
+
+  try {
+    run();
+  } catch (error) {
+    fail(error);
+  }
+})();
+</script>
+</body>
+</html>

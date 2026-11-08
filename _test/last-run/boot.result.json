@@ -1,0 +1,166 @@
+﻿{
+    "scenario":  "boot",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:16:53.436Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  5,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "iframe 应用文档已写入（存在 #list-page）",
+                       "ok":  true,
+                       "actual":  {
+                                      "hasDoc":  true,
+                                      "title":  "MomoTalk Test - 自定义聊天",
+                                      "readyState":  "complete"
+                                  }
+                   },
+                   {
+                       "name":  "配置文件 fetch 被改写为 fixture",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "url":  "./resources/running_datas.json",
+                                          "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                          "at":  1794118613681
+                                      },
+                                      {
+                                          "url":  "./_test/fixtures/students.json",
+                                          "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                          "at":  1794118613691
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "学生资料 fetch 被改写为 fixture",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "url":  "./resources/running_datas.json",
+                                          "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                          "at":  1794118613681
+                                      },
+                                      {
+                                          "url":  "./_test/fixtures/students.json",
+                                          "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                          "at":  1794118613691
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "学生资料加载并渲染联系人列表",
+                       "ok":  true,
+                       "actual":  {
+                                      "items":  1,
+                                      "seeded":  1,
+                                      "listText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。"
+                                  }
+                   },
+                   {
+                       "name":  "应用脚本无未捕获异常（window.__test.errors）",
+                       "ok":  true,
+                       "actual":  [
+
+                                  ]
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+                  "window.__mm 缺失钩子: []"
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  273,
+                    "totalMs":  273
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118603436
+                                    }
+                                ],
+                 "chats":  {
+
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  false,
+                                 "chatPageClass":  "",
+                                 "listPageClass":  "",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav",
+                                 "modalActive":  false,
+                                 "modalTitle":  "",
+                                 "msgBoxes":  0,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{}",
+                                     "settingsRaw":  null,
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118603436}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118613681
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118613691
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

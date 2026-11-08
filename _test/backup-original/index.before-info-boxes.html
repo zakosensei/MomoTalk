@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" id="favicon" type="image/jpeg">
+<link rel="shortcut icon" id="favicon-shortcut" type="image/jpeg">
+<link rel="apple-touch-icon" id="apple-touch-icon">
+<meta name="theme-color" content="#f08a9c">
+<title>MomoTalk - 自定义聊天</title>
+<link rel="stylesheet" href="./resources/momotalk.css">
+</head>
+<body>
+
+<div class="app-container">
+
+    <div id="list-page">
+        <div class="header">
+            <div class="header-logo">
+                <a href="./momotalk.html"> <img id="app-icon" class="logo-img" alt="" referrerpolicy="no-referrer" style="display:none;"> </a>
+                <span id="app-name"></span>
+            </div>
+            <div class="header-tools">
+                <button class="tool-btn" id="btn-import" onclick="document.getElementById('file-import').click()"></button>
+                <button class="tool-btn" id="btn-export" onclick="exportData()"></button>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="search-input" placeholder="" oninput="onSearch()">
+        </div>
+
+        <div class="contact-list" id="contact-list">
+            <div class="loading-tip"><div class="spinner"></div><span id="loading-text"></span></div>
+        </div>
+
+        <input type="file" id="file-import" accept=".json" style="display: none;" onchange="importData(event)">
+    </div>
+
+    <div id="chat-page">
+        <div class="chat-header">
+            <div class="back-btn" onclick="closeChat()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </div>
+            <div class="chat-header-info">
+                <img id="chat-header-avatar" class="chat-header-avatar" alt="avatar" referrerpolicy="no-referrer">
+                <div id="chat-header-name" class="chat-header-name"></div>
+            </div>
+        </div>
+
+        <div class="chat-content" id="chat-content"></div>
+
+        <div class="chat-input-area">
+            <div class="role-switch sensei" id="role-switch" onclick="toggleRole()">
+                <span id="role-text"></span>
+            </div>
+            <textarea class="chat-input" id="chat-input" rows="1" onkeydown="handleKeyDown(event)"></textarea>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()"></button>
+        </div>
+    </div>
+
+    <div id="more-page">
+        <div class="more-header">
+            <div class="more-back-btn" id="more-back-btn" onclick="backToMoreMain()">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </div>
+            <div class="more-header-title" id="more-header-title"></div>
+        </div>
+        <div class="more-body">
+            <div id="more-main" class="more-panel active">
+                <!-- 开发者卡片（顶端） -->
+                <div class="more-dev-card">
+                    <img class="dev-avatar" id="developer-avatar" alt="" referrerpolicy="no-referrer" style="display:none;">
+                    <div class="dev-info">
+                        <div class="dev-tag" id="dev-tag"></div>
+                        <div class="dev-name" id="developer-name"></div>
+                        <a class="dev-link" id="developer-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none;"></a>
+                    </div>
+                </div>
+                <!-- 教程（开发者卡片下一行） -->
+                <div class="more-list">
+                    <div class="more-list-item" onclick="openMoreSection('tutorial')">
+                        <span id="tutorial-entry"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                </div>
+                <div class="more-list">
+                    <div class="more-list-item" onclick="openDonate()">
+                        <span id="donate-entry"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                    <div class="more-list-item" onclick="openMoreSection('about')">
+                        <span id="about-entry"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                    <div class="more-list-item" onclick="openMoreSection('general')">
+                        <span id="general-entry"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                    <div class="more-list-item" onclick="openMoreSection('students')">
+                        <span id="students-entry"></span>
+                        <span class="more-arrow">›</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 关于页 -->
+            <div id="more-about" class="more-panel">
+                <div class="about-card">
+                    <div class="about-section-title" id="appinfo-title"></div>
+                    <div class="about-row">
+                        <span class="about-label" id="version-label"></span>
+                        <span class="about-value" id="about-version"></span>
+                    </div>
+                </div>
+                <div class="about-card">
+                    <div class="about-section-title" id="contact-title"></div>
+                    <div class="about-row">
+                        <span class="about-label" id="qq-label"></span>
+                        <span class="about-value" id="contact-qq"></span>
+                    </div>
+                    <a class="about-row about-link" id="contact-wechat" href="#" target="_blank" rel="noopener noreferrer">
+                        <span class="about-label" id="wechat-label"></span>
+                        <span class="about-value" id="wechat-value"></span>
+                    </a>
+                    <a class="about-row about-link" id="contact-email" href="#">
+                        <span class="about-label" id="email-label"></span>
+                        <span class="about-value" id="contact-email-value"></span>
+                    </a>
+                </div>
+                <div class="about-card" id="credits-card">
+                    <div class="about-section-title" id="credits-title"></div>
+                    <div id="credits-list"></div>
+                </div>
+                <div class="privacy-note" id="privacy-note"></div>
+            </div>
+            <div id="more-general" class="more-panel">
+                <div class="about-card">
+                    <div class="about-section-title" id="general-video-title"></div>
+                    <div class="setting-row">
+                        <span class="setting-label" id="general-default-site-label"></span>
+                        <div class="segmented" id="default-site-switch">
+                            <button type="button" class="seg-btn" id="site-btn-channels" onclick="setDefaultVideoSite('channels')"></button>
+                            <button type="button" class="seg-btn" id="site-btn-xiaohongshu" onclick="setDefaultVideoSite('xiaohongshu')"></button>
+                        </div>
+                    </div>
+                    <div class="setting-hint" id="general-default-site-hint"></div>
+                </div>
+            </div>
+            <div id="more-tutorial" class="more-panel">
+                <div class="tutorial-hint" id="tutorial-hint"></div>
+                <div class="more-list" id="tutorial-list"></div>
+                <div id="tutorial-empty" class="empty-tip" style="display:none;"></div>
+            </div>
+            <div id="more-students" class="more-panel">
+                <div class="more-placeholder" id="students-placeholder"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" id="nav-messages-btn" onclick="switchToList()">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/>
+            </svg>
+            <span id="nav-messages"></span>
+        </div>
+        <div class="nav-add" onclick="openStudentPicker()">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+            </svg>
+        </div>
+        <div class="nav-item" id="nav-more-btn" onclick="switchToMore()">
+            <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z"/>
+            </svg>
+            <span id="nav-more"></span>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title" id="modal-title"></div>
+            <div id="modal-body"></div>
+            <div class="modal-actions" id="modal-actions"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const DATAS_URL = './resources/running_datas.json';
+
+let CONFIG = {
+    app: {}, storage: {}, about: {}, contact: {}, donate: {}, texts: {}
+};
+let configLoaded = false;
+
+function deepMerge(target, source) {
+    if (!source || typeof source !== 'object') return target;
+    Object.keys(source).forEach(k => {
+        const sv = source[k];
+        if (sv && typeof sv === 'object' && !Array.isArray(sv)) {
+            if (!target[k] || typeof target[k] !== 'object') target[k] = {};
+            deepMerge(target[k], sv);
+        } else {
+            target[k] = sv;
+        }
+    });
+    return target;
+}
+
+function normalizeConfig() {
+    const a = CONFIG.about || (CONFIG.about = {});
+    if (!a.developerName && a.authorName) a.developerName = a.authorName;
+    if (!a.developerAvatar && a.authorAvatar) a.developerAvatar = a.authorAvatar;
+    if (!a.developerUrl && a.xiaohongshuUrl) a.developerUrl = a.xiaohongshuUrl;
+}
+
+function T(key, vars, fallback) {
+    const t = (CONFIG.texts && CONFIG.texts[key]) || fallback || key;
+    if (vars) {
+        return String(t).replace(/\{(\w+)\}/g, (m, k) =>
+            vars[k] != null ? vars[k] : m);
+    }
+    return t;
+}
+
+let library = [];
+let libraryById = {};
+let libraryReady = false;
+
+let studentsBaseUrl = new URL('./resources/students.json', location.href).href;
+
+let myStudents = [];
+let chats = {};
+
+// 教程视频（resources/video.json）与本地设置（默认跳转视频网站等）
+let videos = [];
+let videosLoaded = false;
+let videosLoading = false;
+let videosError = null;
+const VIDEO_SITES = ['channels', 'xiaohongshu'];
+let settings = { defaultVideoSite: 'channels' };
+
+let currentStudentId = null;
+let currentRole = 'sensei';
+let searchQuery = '';
+let longPressFired = false;
+let pressTimer = null;
+let once_wrong = false;
+
+const reportedImageErrors = new Set();
+
+function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
+
+function pickString(v) {
+    if (v == null) return '';
+    if (typeof v === 'string') return v.trim();
+    if (typeof v === 'number') return String(v);
+    if (Array.isArray(v)) {
+        for (let i = 0; i < v.length; i++) {
+            const t = pickString(v[i]);
+            if (t) return t;
+        }
+        return '';
+    }
+    if (typeof v === 'object') {
+        const keys = ['url', 'Url', 'URL', 'src', 'path', 'cn', 'zh', 'zh_cn', 'nm', 'value', 'text'];
+        for (let i = 0; i < keys.length; i++) {
+            if (v[keys[i]] != null) {
+                const t = pickString(v[keys[i]]);
+                if (t) return t;
+            }
+        }
+    }
+    return '';
+}
+
+function normalizeAvatar(url) {
+    let u = pickString(url);
+    if (!u) return '';
+    if (u.startsWith('data:')) return u;
+    u = u.replace(/\\/g, '/');
+    // 学生库里 615/796 个头像指向 static.kivo.fun：该域名的 HTTP 入口返回 404，
+    // HTTPS 证书又与域名不匹配（浏览器会直接拦截），而同一路径在 static.kivo.wiki 上可用。
+    // 这里统一把主机名迁移到可用域名，避免 259 名学生头像全部退化成首字母兜底图。
+    u = u.replace(/^\/\/static\.kivo\.fun\//i, '//static.kivo.wiki/')
+        .replace(/^https?:\/\/static\.kivo\.fun\//i, 'https://static.kivo.wiki/');
+    if (u.startsWith('//')) {
+        return (location.protocol === 'https:' ? 'https:' : 'http:') + u;
+    }
+    if (location.protocol === 'https:' && /^http:\/\//i.test(u)) {
+        u = 'https://' + u.slice(7);
+    }
+    return u;
+}
+
+// 学生库里有 3 条 introduction 带 HTML（<br>、<span class="md-hover-text">），
+// 直接 escapeHtml 会把标签原样显示成文字，这里先转成纯文本。
+function stripHtml(s) {
+    return String(s == null ? '' : s)
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<\/p\s*>/gi, '\n')
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&quot;/gi, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&amp;/gi, '&');
+}
+
+function pickAvatarUrl() {
+    for (let i = 0; i < arguments.length; i++) {
+        const u = normalizeAvatar(arguments[i]);
+        if (u) return u;
+    }
+    return '';
+}
+
+function pickDescription(raw) {
+    if (!raw || typeof raw !== 'object') return '';
+    const keys = [
+        'introduction', 'Introduction',
+        'description', 'Description',
+        'profile', 'Profile',
+        'intro', 'Intro',
+        'desc', 'Desc',
+        'bio', 'Bio'
+    ];
+    for (let i = 0; i < keys.length; i++) {
+        if (raw[keys[i]] != null) {
+            const t = pickString(raw[keys[i]]);
+            if (t) return stripHtml(t);
+        }
+    }
+    return '';
+}
+
+const _fallbackCache = new Map();
+function fallbackAvatar(name) {
+    const key = String(name || '?');
+    if (_fallbackCache.has(key)) return _fallbackCache.get(key);
+    const ch = key.charAt(0) || '?';
+    const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">` +
+        `<rect width="64" height="64" fill="#e8e8e8"/>` +
+        `<text x="32" y="41" text-anchor="middle" font-size="28" font-family="sans-serif" fill="#999">${escapeHtml(ch)}</text>` +
+        `</svg>`;
+    const uri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    _fallbackCache.set(key, uri);
+    return uri;
+}
+
+function brokenImage() {
+    const txt = escapeHtml(T('imageLoadFail', null, '图片加载失败'));
+    const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120">` +
+        `<rect width="200" height="120" fill="#f5f5f5"/>` +
+        `<text x="100" y="65" text-anchor="middle" font-size="13" font-family="sans-serif" fill="#bbb">${txt}</text>` +
+        `</svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+document.addEventListener('error', function (e) {
+    const img = e.target;
+    if (!img || img.tagName !== 'IMG') return;
+
+    const curSrc = img.getAttribute('src') || '';
+    if (!curSrc || curSrc.startsWith('data:')) return;
+
+    const fallback = img.dataset.fallback;
+    if (fallback && curSrc === fallback) return;
+
+    let retries = parseInt(img.dataset.retries || '0', 10);
+
+    if (retries === 0) {
+        img.dataset.retries = '1';
+        let newSrc = curSrc;
+
+        newSrc = newSrc.replace(/\/resources\/resources\//gi, '/resources/');
+
+        if (!/^(http|\/\/|data:|blob:)/i.test(newSrc)) {
+            if (!newSrc.includes('/resources/') && !newSrc.includes('resources/')) {
+                try {
+                    newSrc = new URL(newSrc, studentsBaseUrl).href;
+                } catch (err) {}
+            }
+        }
+
+        if (newSrc !== curSrc) {
+            img.setAttribute('src', newSrc);
+            return;
+        }
+
+        const curPolicy = img.getAttribute('referrerpolicy');
+        const newPolicy = curPolicy === 'no-referrer' ? 'no-referrer-when-downgrade' : 'unsafe-url';
+        img.setAttribute('referrerpolicy', newPolicy);
+
+        img.removeAttribute('src');
+        setTimeout(() => { img.setAttribute('src', curSrc); }, 10);
+        return;
+    }
+
+    if (retries >= 1 && fallback) {
+        img.removeAttribute('data-fallback');
+        img.setAttribute('src', fallback);
+
+        if (!reportedImageErrors.has(curSrc) && !once_wrong) {
+            once_wrong = true;
+            reportedImageErrors.add(curSrc);
+
+            showModal(T('imgErrorTitle', null, '图片加载失败'), `
+                <div style="font-size:14px;color:#d85c76;margin-bottom:12px;font-weight:bold;word-break:break-all;">
+                    ${escapeHtml(T('imgErrorRes', null, '错误资源：'))}${escapeHtml(curSrc)}
+                </div>
+                <div style="font-size:13px;color:#666;line-height:1.6;text-align:left;">
+                    ${escapeHtml(T('imgErrorReasons', null, '可能的原因：服务器文件不存在、路径配置错误、跨域限制或图片损坏。'))}
+                </div>
+            `, [
+                { text: T('imgErrorOk', null, '知道了'), class: 'confirm', onClick: closeModal }
+            ]);
+        }
+    }
+}, true);
+
+function isImageUrl(text) {
+    if (!text) return false;
+    let t = text.trim();
+    if (t.startsWith('data:image/')) return true;
+    // students.json 里的头像大量使用协议相对 URL（//host/path.png），
+    // 这里与 normalizeAvatar 保持一致：先补全协议再判断，否则粘贴这类链接会被当成纯文本。
+    if (t.startsWith('//')) t = 'https:' + t;
+    if (!/^https?:\/\//i.test(t)) return false;
+    return /\.(jpe?g|gif|png|webp|svg|bmp|ico)(\?.*)?(#.*)?$/i.test(t);
+}
+
+function now() { return Date.now(); }
+
+function buildDisplayName(familyCn, givenCn) {
+    if (familyCn && givenCn) return familyCn + ' ' + givenCn;
+    return familyCn || givenCn || '';
+}
+
+async function loadConfig() {
+    try {
+        const res = await fetch(DATAS_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (!data || typeof data !== 'object') throw new Error('running_datas.json 格式错误');
+        deepMerge(CONFIG, data);
+        configLoaded = true;
+    } catch (e) {
+        console.error('running_datas.json 加载失败：', e);
+    }
+    normalizeConfig();
+    applyConfig();
+}
+
+function applyFavicons() {
+    const fav = CONFIG.app.favicon;
+    const touch = CONFIG.app.appleTouchIcon || fav;
+
+    const a = document.getElementById('favicon');
+    if (a && fav) a.href = fav;
+    const b = document.getElementById('favicon-shortcut');
+    if (b && fav) b.href = fav;
+    const c = document.getElementById('apple-touch-icon');
+    if (c && touch) c.href = touch;
+}
+
+function applyConfig() {
+    const appName = document.getElementById('app-name');
+    if (appName && CONFIG.app.name) appName.textContent = CONFIG.app.name;
+    if (CONFIG.app.name) document.title = CONFIG.app.name + ' - ' + T('docTitleSuffix', null, '自定义聊天');
+
+    const icon = document.getElementById('app-icon');
+    if (icon) {
+        if (CONFIG.app.icon) {
+            icon.src = CONFIG.app.icon;
+            icon.style.display = '';
+        } else {
+            icon.style.display = 'none';
+        }
+    }
+
+    applyFavicons();
+    fillStaticTexts();
+    updateRoleUI();
+    fillDeveloperInfo();
+    fillAboutInfo();
+}
+
+function fillStaticTexts() {
+    const set = (id, txt) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+    };
+
+    set('btn-import', T('importBtn', null, '导入'));
+    set('btn-export', T('exportBtn', null, '导出'));
+    set('nav-messages', T('navMessages', null, '消息'));
+    set('nav-more', T('navMore', null, '更多'));
+    set('more-header-title', T('moreTitle', null, '更多'));
+    set('loading-text', T('loadingLibrary', null, '正在读取学生资料…'));
+    set('dev-tag', T('developerTag', null, '开发者'));
+    set('donate-entry', T('donateEntry', null, '赞赏 · Buy me a coffee'));
+    set('about-entry', T('aboutTitle', null, '关于'));
+    set('general-entry', T('generalTitle', null, '通用设置'));
+    set('students-entry', T('studentsTitle', null, '学生设置'));
+    set('appinfo-title', T('appInfoTitle', null, '应用信息'));
+    set('version-label', T('versionLabel', null, '版本'));
+    set('contact-title', T('contactTitle', null, '联系我们'));
+    set('qq-label', T('qqLabel', null, 'QQ 交流群'));
+    set('wechat-label', T('wechatLabel', null, '企业微信'));
+    set('email-label', T('emailLabel', null, '邮箱'));
+    set('wechat-value', T('wechatTap', null, '点击访问 ›'));
+    set('students-placeholder', T('studentsPlaceholder', null, '学生设置（开发中）'));
+    set('tutorial-entry', T('tutorialEntry', null, '教程'));
+    set('tutorial-hint', T('tutorialSubtitle', null, '点击文字介绍跳转视频'));
+    set('general-video-title', T('generalVideoTitle', null, '视频设置'));
+    set('general-default-site-label', T('generalDefaultSiteLabel', null, '默认跳转视频网站'));
+    set('general-default-site-hint', T('generalDefaultSiteHint', null, '点击教程里的文字介绍时优先打开该网站；若该视频没有这个网站的链接，会自动改用另一个。'));
+    updateGeneralUI();
+
+    const si = document.getElementById('search-input');
+    if (si) si.placeholder = T('searchPlaceholder', null, '搜索已添加的学生或形态...');
+    const ci = document.getElementById('chat-input');
+    if (ci) ci.placeholder = T('chatPlaceholder', null, '输入消息或图片链接...');
+    const sb = document.getElementById('send-btn');
+    if (sb) sb.textContent = T('sendBtn', null, '发送');
+}
+
+function fillDeveloperInfo() {
+    const a = CONFIG.about || {};
+    const name = a.developerName || '';
+    const avatar = a.developerAvatar || '';
+    const url = a.developerUrl || '';
+
+    const avatarEl = document.getElementById('developer-avatar');
+    if (avatarEl) {
+        if (avatar) {
+            avatarEl.dataset.fallback = fallbackAvatar(name || '?');
+            avatarEl.removeAttribute('data-retries');
+            avatarEl.src = avatar;
+            avatarEl.style.display = '';
+        } else {
+            avatarEl.style.display = 'none';
+        }
+        avatarEl.onclick = () => {
+            if (url) window.open(url, '_blank', 'noopener,noreferrer');
+        };
+    }
+
+    const nameEl = document.getElementById('developer-name');
+    if (nameEl) nameEl.textContent = name;
+
+    const linkEl = document.getElementById('developer-link');
+    if (linkEl) {
+        if (url) {
+            linkEl.href = url;
+            linkEl.textContent = T('developerLink', null, '开发者主页');
+            linkEl.style.display = '';
+        } else {
+            linkEl.style.display = 'none';
+        }
+    }
+}
+
+function fillAboutInfo() {
+    const a = CONFIG.about || {};
+    const ver = a.version || '';
+    const verLabel = a.versionLabel || '';
+    const verEl = document.getElementById('about-version');
+    if (verEl) verEl.textContent = ver + verLabel;
+
+    const c = CONFIG.contact || {};
+
+    const qq = document.getElementById('contact-qq');
+    if (qq) qq.textContent = c.qqGroup || '—';
+
+    const wechat = document.getElementById('contact-wechat');
+    if (wechat) {
+        if (c.wechatUrl) {
+            wechat.href = c.wechatUrl;
+            wechat.style.display = '';
+        } else {
+            wechat.style.display = 'none';
+        }
+    }
+
+    const email = document.getElementById('contact-email');
+    if (email) {
+        const mail = c.email || '';
+        email.href = mail ? 'mailto:' + mail : '#';
+        const val = document.getElementById('contact-email-value');
+        if (val) val.textContent = mail || '—';
+        if (!mail) email.style.display = 'none';
+    }
+
+    // 致谢 & 开发团队（内容来自 running_datas.json 的 about.credits 数组）
+    const creditsTitle = document.getElementById('credits-title');
+    if (creditsTitle) creditsTitle.textContent = T('creditsTitle', null, '致谢 & 开发团队');
+    const creditsHtml = renderCredits(a.credits);
+    const creditsCard = document.getElementById('credits-card');
+    if (creditsCard) creditsCard.style.display = creditsHtml ? '' : 'none';
+    const creditsList = document.getElementById('credits-list');
+    if (creditsList) creditsList.innerHTML = creditsHtml;
+
+    // 关于页底部隐私说明（小字）
+    const note = document.getElementById('privacy-note');
+    if (note) note.textContent = T('privacyNote', null, '本站所有数据不收集、不上传，保存在本地，请做好备份或开启自动备份，避免遗失');
+}
+
+function renderCredits(credits) {
+    if (!Array.isArray(credits) || !credits.length) return '';
+    return credits.map(member => {
+        if (!member || typeof member !== 'object') return '';
+        const name = pickString(member.name || member.developerName);
+        if (!name) return '';
+        const role = pickString(member.role || member.job || member.contribution);
+        const avatar = normalizeAvatar(member.avatar || member.avatarUrl) || fallbackAvatar(name);
+        const url = safeUrl(member.url || member.link);
+        const inner = `
+            <img class="credit-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(fallbackAvatar(name))}"
+                 referrerpolicy="no-referrer" alt="">
+            <div class="credit-info">
+                <div class="credit-name">${escapeHtml(name)}</div>
+                ${role ? `<div class="credit-role">${escapeHtml(role)}</div>` : ''}
+            </div>
+            ${url ? '<span class="more-arrow">›</span>' : ''}`;
+        if (!url) return `<div class="credit-item">${inner}</div>`;
+        return `<a class="credit-item" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${inner}</a>`;
+    }).join('');
+}
+
+function openDonate() {
+    const d = CONFIG.donate || {};
+    const img = d.image || '';
+    const title = d.title || T('donateEntry', null, '赞赏');
+    const hint = d.hint || '';
+
+    const actions = [
+        { text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }
+    ];
+
+    if (!img) {
+        showModal(title, `<div class="donate-hint">${escapeHtml(T('donateNoImage', null, '未配置赞赏图片'))}</div>`, actions);
+        return;
+    }
+
+    const html = `
+        <div class="donate-box">
+            <img class="donate-img" src="${escapeHtml(img)}"
+                 data-fallback="${escapeHtml(brokenImage())}"
+                 referrerpolicy="no-referrer" alt="coffee">
+            ${hint ? `<div class="donate-hint">${escapeHtml(hint)}</div>` : ''}
+        </div>`;
+
+    showModal(title, html, actions);
+}
+
+/* ================= 本地设置（默认跳转视频网站等） ================= */
+function settingsKey() { return (CONFIG.storage && CONFIG.storage.settingsKey) || 'momotalk_settings_v1'; }
+
+function normalizeVideoSite(v) {
+    return VIDEO_SITES.indexOf(v) >= 0 ? v : 'channels';
+}
+
+function defaultVideoSite() {
+    const d = CONFIG.tutorial && CONFIG.tutorial.defaultSite;
+    return VIDEO_SITES.indexOf(d) >= 0 ? d : 'channels';
+}
+
+function loadSettings() {
+    settings = { defaultVideoSite: defaultVideoSite() };
+    try {
+        const raw = localStorage.getItem(settingsKey());
+        if (!raw) return;
+        const obj = JSON.parse(raw);
+        if (obj && typeof obj === 'object' && obj.defaultVideoSite) {
+            settings.defaultVideoSite = normalizeVideoSite(obj.defaultVideoSite);
+        }
+    } catch (e) { console.error('读取设置失败：', e); }
+}
+
+function saveSettings() {
+    try {
+        localStorage.setItem(settingsKey(), JSON.stringify(settings));
+        return true;
+    } catch (e) {
+        console.error('保存设置失败：', e);
+        return false;
+    }
+}
+
+function siteLabel(site) {
+    return site === 'xiaohongshu'
+        ? T('siteXiaohongshu', null, '小红书')
+        : T('siteChannels', null, '视频号');
+}
+
+function updateGeneralUI() {
+    VIDEO_SITES.forEach(site => {
+        const btn = document.getElementById('site-btn-' + site);
+        if (!btn) return;
+        btn.textContent = siteLabel(site);
+        if (settings.defaultVideoSite === site) btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
+}
+
+function setDefaultVideoSite(site) {
+    const prev = settings.defaultVideoSite;
+    const next = normalizeVideoSite(site);
+    if (next === prev) return;
+    settings.defaultVideoSite = next;
+    // 写不进去（隐私模式/配额满）就回滚，避免界面显示已切换、刷新后却变回去
+    if (!saveSettings()) {
+        settings.defaultVideoSite = prev;
+        updateGeneralUI();
+        return;
+    }
+    updateGeneralUI();
+    renderTutorialList();
+}
+
+/* ================= 教程视频（resources/video.json） ================= */
+function tutorialUrl() {
+    return (CONFIG.tutorial && CONFIG.tutorial.url) || './resources/video.json';
+}
+
+// 只放行 http(s) / 协议相对链接，避免 video.json / 配置里出现 javascript: 之类的地址
+function safeUrl(u) {
+    let s = pickString(u);
+    if (!s) return '';
+    if (/^https?:\/\//i.test(s)) return s;
+    if (s.startsWith('//')) {
+        return (location.protocol === 'https:' ? 'https:' : 'http:') + s;
+    }
+    return '';
+}
+
+function normalizeVideos(data) {
+    let list = [];
+    if (Array.isArray(data)) list = data;
+    else if (data && typeof data === 'object' && Array.isArray(data.videos)) list = data.videos;
+
+    const out = [];
+    list.forEach((item, i) => {
+        if (!item || typeof item !== 'object') return;
+        const links = (item.links && typeof item.links === 'object') ? item.links : item;
+        const channels = safeUrl(links.channels || links.wechat || links.shipinhao || links.videoAccount);
+        const xhs = safeUrl(links.xiaohongshu || links.redbook || links.xhs || links.red);
+        let title = pickString(item.title || item.name);
+        let description = pickString(item.description || item.desc || item.text || item.intro);
+        if (!description) description = title;
+        // 只有 title 没有 description 时，避免同一段文字渲染两遍
+        if (title && title === description) title = '';
+        if (!description) return;
+        out.push({
+            id: pickString(item.id) || ('video-' + (i + 1)),
+            title: title,
+            description: description,
+            links: { channels: channels, xiaohongshu: xhs }
+        });
+    });
+    return out;
+}
+
+async function loadVideos(force) {
+    if (videosLoading) return;
+    if (videosLoaded && !force) return;
+    videosLoading = true;
+    videosError = null;
+    renderTutorialList();
+    try {
+        const res = await fetch(tutorialUrl(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        videos = normalizeVideos(await res.json());
+        videosLoaded = true;
+    } catch (e) {
+        console.error('video.json 加载失败：', e);
+        videos = [];
+        videosError = e;
+    } finally {
+        videosLoading = false;
+        renderTutorialList();
+    }
+}
+
+// 按「默认跳转视频网站」选链接；当前网站没有该视频时自动回退到另一个网站
+function pickVideoLink(v) {
+    const first = settings.defaultVideoSite;
+    const second = first === 'channels' ? 'xiaohongshu' : 'channels';
+    if (v.links[first]) return { url: v.links[first], site: first };
+    if (v.links[second]) return { url: v.links[second], site: second };
+    return { url: '', site: '' };
+}
+
+function renderTutorialList() {
+    const box = document.getElementById('tutorial-list');
+    const empty = document.getElementById('tutorial-empty');
+    if (!box || !empty) return;
+
+    if (videosLoading) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        empty.style.display = '';
+        empty.innerHTML = `<div class="loading-tip" style="height:auto;padding:24px 0;">
+            <div class="spinner"></div><span>${escapeHtml(T('tutorialLoading', null, '正在读取教程…'))}</span></div>`;
+        return;
+    }
+    if (videosError) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        empty.style.display = '';
+        empty.innerHTML = `
+            <div style="font-size:14px;color:#666;margin-bottom:8px;">${escapeHtml(T('tutorialErrorTitle', null, '无法读取教程内容'))}</div>
+            <div style="font-size:12px;color:#aaa;line-height:1.7;">${escapeHtml(T('tutorialErrorHint', null, '请确认 resources/video.json 存在且可访问。'))}<br>${escapeHtml(tutorialUrl())}</div>
+            <button onclick="loadVideos(true)">${escapeHtml(T('tutorialReload', null, '重新读取'))}</button>`;
+        return;
+    }
+    if (!videos.length) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        empty.style.display = '';
+        empty.innerHTML = `${escapeHtml(T('tutorialEmpty', null, '暂无教程内容'))}<br><span style="font-size:12px;color:#c4c4c4;">${escapeHtml(T('tutorialEmptyHint', null, '在 resources/video.json 中填入视频后刷新即可显示'))}</span>`;
+        return;
+    }
+
+    empty.style.display = 'none';
+    box.style.display = '';
+    const missing = escapeHtml(T('tutorialLinkMissing', null, '暂无链接'));
+    box.innerHTML = videos.map(v => {
+        const link = pickVideoLink(v);
+        const title = v.title ? `<div class="tutorial-title">${escapeHtml(v.title)}</div>` : '';
+        const desc = `<div class="tutorial-desc">${escapeHtml(v.description)}</div>`;
+        if (!link.url) {
+            return `<div class="tutorial-item disabled">
+                <div class="tutorial-info">${title}${desc}</div>
+                <span class="tutorial-site muted">${missing}</span>
+            </div>`;
+        }
+        // 只展示默认视频网站的那一个链接，点击文字介绍即跳转
+        return `<a class="tutorial-item" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+            <div class="tutorial-info">${title}${desc}</div>
+            <span class="tutorial-site">${escapeHtml(siteLabel(link.site))}</span>
+            <span class="tutorial-arrow">›</span>
+        </a>`;
+    }).join('');
+}
+
+function setActiveNav(which) {
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
+    if (which === 'messages') {
+        document.getElementById('nav-messages-btn').classList.add('active');
+    } else if (which === 'more') {
+        document.getElementById('nav-more-btn').classList.add('active');
+    }
+}
+
+function switchToList() {
+    document.getElementById('more-page').classList.remove('active');
+    document.getElementById('list-page').classList.remove('hide');
+    setActiveNav('messages');
+    backToMoreMain();
+}
+
+function switchToMore() {
+    document.getElementById('list-page').classList.add('hide');
+    document.getElementById('more-page').classList.add('active');
+    setActiveNav('more');
+    // 若上次停留在"关于/通用设置/学生设置"子页，回到"更多"主菜单，
+    // 否则点底部"更多"看起来毫无反应
+    backToMoreMain();
+    fillDeveloperInfo();
+}
+
+function openMoreSection(name) {
+    document.querySelectorAll('.more-panel').forEach(el => el.classList.remove('active'));
+    const sec = document.getElementById('more-' + name);
+    if (!sec) return;
+    sec.classList.add('active');
+
+    const titles = {
+        about: T('aboutTitle', null, '关于'),
+        general: T('generalTitle', null, '通用设置'),
+        tutorial: T('tutorialTitle', null, '教程'),
+        students: T('studentsTitle', null, '学生设置')
+    };
+    document.getElementById('more-header-title').textContent = titles[name] || T('moreTitle', null, '更多');
+    document.getElementById('more-back-btn').classList.add('show');
+
+    if (name === 'about') fillAboutInfo();
+    else if (name === 'general') updateGeneralUI();
+    else if (name === 'tutorial') loadVideos();
+}
+
+function backToMoreMain() {
+    document.querySelectorAll('.more-panel').forEach(el => el.classList.remove('active'));
+    document.getElementById('more-main').classList.add('active');
+    document.getElementById('more-header-title').textContent = T('moreTitle', null, '更多');
+    document.getElementById('more-back-btn').classList.remove('show');
+}
+
+function expandStudents(rawList) {
+    const result = [];
+    const usedIds = new Set();
+
+    rawList.forEach(raw => {
+        const baseId = Number(raw && raw.id);
+        if (!Number.isFinite(baseId)) return;
+
+        const givenCn = (raw.givenName && (raw.givenName.cn || raw.givenName.nm)) || '';
+        const familyCn = (raw.familyName && (raw.familyName.cn || raw.familyName.nm)) || '';
+        const fullName = buildDisplayName(familyCn, givenCn) || ('学生#' + baseId);
+        const shortName = givenCn || familyCn || fullName;
+
+        const introduction = pickDescription(raw);
+
+        const familyName = raw.familyName || {};
+        const givenName = raw.givenName || {};
+
+        const baseAvatar = pickAvatarUrl(
+            raw.avatar, raw.avatarUrl, raw.avatar_url, raw.avatarURL,
+            raw.portrait, raw.portraitUrl,
+            raw.image, raw.imageUrl,
+            raw.icon, raw.iconUrl
+        );
+
+        const skinList = Array.isArray(raw.skinList) ? raw.skinList : [];
+
+        let mainSkinIndex = -1;
+        for (let i = 0; i < skinList.length; i++) {
+            const s = skinList[i];
+            const skinName = String((s && (s.skin_cn || s.skin)) || '').trim();
+            if (!skinName) { mainSkinIndex = i; break; }
+        }
+
+        let mainAvatar = baseAvatar;
+        if (mainSkinIndex >= 0) {
+            const ms = skinList[mainSkinIndex];
+            mainAvatar = pickAvatarUrl(
+                ms && ms.avatar, ms && ms.avatarUrl, ms && ms.avatar_url,
+                ms && ms.portrait, ms && ms.portraitUrl,
+                ms && ms.image, ms && ms.imageUrl,
+                baseAvatar
+            ) || baseAvatar;
+        }
+
+        let mainId = baseId;
+        while (usedIds.has(mainId)) mainId = mainId * 100 + 1;
+        usedIds.add(mainId);
+
+        result.push({
+            id: mainId,
+            baseId: baseId,
+            skinIndex: mainSkinIndex,
+            displayName: fullName,
+            shortName: shortName,
+            avatar: mainAvatar,
+            introduction: introduction,
+            familyName: familyName,
+            givenName: givenName,
+            skinName: '',
+            searchText: [fullName, familyCn, givenCn].filter(Boolean).join(' ').toLowerCase()
+        });
+
+        skinList.forEach((skin, idx) => {
+            if (idx === mainSkinIndex) return;
+            const skinName = String((skin && (skin.skin_cn || skin.skin)) || '').trim();
+            if (!skinName) return;
+
+            let entryId = baseId * 100 + idx;
+            let guard = 0;
+            while ((usedIds.has(entryId) || entryId === mainId) && guard < 20) {
+                entryId = entryId * 100 + 1;
+                guard++;
+            }
+            if (usedIds.has(entryId)) return;
+            usedIds.add(entryId);
+
+            const skinAvatar = pickAvatarUrl(
+                skin && skin.avatar, skin && skin.avatarUrl, skin && skin.avatar_url,
+                skin && skin.portrait, skin && skin.portraitUrl,
+                skin && skin.image, skin && skin.imageUrl,
+                baseAvatar
+            ) || baseAvatar;
+            const displayName = fullName + '（' + skinName + '）';
+
+            result.push({
+                id: entryId,
+                baseId: baseId,
+                skinIndex: idx,
+                displayName: displayName,
+                shortName: shortName,
+                avatar: skinAvatar,
+                introduction: introduction,
+                familyName: familyName,
+                givenName: givenName,
+                skinName: skinName,
+                searchText: [fullName, skinName, familyCn, givenCn].filter(Boolean).join(' ').toLowerCase()
+            });
+        });
+    });
+
+    // 学生库里存在同名条目（例如两个「？？？」占位角色），列表/选择器里无法区分，
+    // 这里给重名的条目补上 #id 后缀（只影响重名项）。
+    const nameCount = {};
+    result.forEach(s => { nameCount[s.displayName] = (nameCount[s.displayName] || 0) + 1; });
+    result.forEach(s => {
+        if (nameCount[s.displayName] > 1) {
+            s.displayName = s.displayName + '（#' + s.id + '）';
+            s.searchText = (s.searchText + ' #' + s.id).toLowerCase();
+        }
+    });
+
+    return result;
+}
+
+function matchStudent(s, q) {
+    if (!q) return true;
+    return (s.searchText || '').includes(q);
+}
+
+async function loadLibrary() {
+    const list = document.getElementById('contact-list');
+    list.innerHTML = `<div class="loading-tip"><div class="spinner"></div><span>${escapeHtml(T('loadingLibrary', null, '正在读取学生资料…'))}</span></div>`;
+
+    const url = CONFIG.app.studentsUrl || './resources/students.json';
+
+    try {
+        studentsBaseUrl = new URL(url, location.href).href;
+    } catch (e) {
+        studentsBaseUrl = new URL('./resources/students.json', location.href).href;
+    }
+
+    try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('students.json 的顶层结构应为数组');
+
+        library = expandStudents(data);
+        libraryById = {};
+        library.forEach(s => { libraryById[s.id] = s; });
+        libraryReady = true;
+        renderContactList();
+    } catch (err) {
+        libraryReady = false;
+        const title = T('loadErrorTitle', null, '无法读取学生资料');
+        const hint = T('loadErrorHint', null, '请确认 resources/students.json 与 HTML 位于同一目录。');
+        const reload = T('reloadBtn', null, '重新读取');
+        list.innerHTML = `
+            <div class="empty-tip">
+                <div style="font-size:15px;color:#666;margin-bottom:10px;">${escapeHtml(title)}</div>
+                <div style="font-size:12px;color:#aaa;">
+                    ${escapeHtml(err.message || String(err))}<br>${escapeHtml(hint)}
+                </div>
+                <button onclick="loadLibrary()">${escapeHtml(reload)}</button>
+            </div>`;
+    }
+}
+
+function getLastMsg(studentId) {
+    const arr = chats[studentId];
+    if (!arr || !arr.length) return null;
+    return arr[arr.length - 1];
+}
+
+function renderContactList() {
+    const list = document.getElementById('contact-list');
+    if (!libraryReady) return;
+
+    let entries = myStudents
+        .map(entry => {
+            const stu = libraryById[entry.id];
+            if (!stu) return null;
+            return {
+                id: stu.id,
+                displayName: stu.displayName,
+                shortName: stu.shortName,
+                avatar: stu.avatar,
+                introduction: stu.introduction,
+                skinName: stu.skinName,
+                unread: entry.unread || 0,
+                addedAt: entry.addedAt || 0
+            };
+        })
+        .filter(Boolean);
+
+    if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        entries = entries.filter(s => (s.displayName + ' ' + (s.skinName || '')).toLowerCase().includes(q));
+    }
+
+    entries.sort((a, b) => {
+        const la = getLastMsg(a.id);
+        const lb = getLastMsg(b.id);
+        // 缺少/非法的 time 要回退到 addedAt，否则 tb - ta 得到 NaN，列表顺序会随机跳动
+        const ta = (la && Number(la.time)) || a.addedAt || 0;
+        const tb = (lb && Number(lb.time)) || b.addedAt || 0;
+        return tb - ta;
+    });
+
+    if (entries.length === 0) {
+        list.innerHTML = `
+            <div class="empty-tip">
+                ${searchQuery
+                    ? escapeHtml(T('emptySearch', null, '没有找到匹配的学生形态'))
+                    : `${escapeHtml(T('emptyMyStudents', null, '还没有添加学生'))}<br><span style="font-size:12px;color:#c4c4c4;">${escapeHtml(T('emptyHint', null, '点击下方 + 从学生库中选择'))}</span>`}
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = entries.map(s => {
+        const name = s.displayName;
+        const avatar = s.avatar || fallbackAvatar(name);
+        const last = getLastMsg(s.id);
+
+        let preview;
+        if (last) {
+            // 兜底：即使数据被外部改坏，也保证这里拿到的是字符串
+            const rawText = typeof last.text === 'string' ? last.text : String(last.text == null ? '' : last.text);
+            const isImg = isImageUrl(rawText);
+            let text = isImg ? T('imagePlaceholder', null, '[图片]') : rawText.replace(/\n/g, ' ');
+            if (text.length > 40) text = text.slice(0, 40) + '…';
+            preview = last.role === 'sensei'
+                ? `<span class="prefix-sensei">${escapeHtml(T('mePrefix', null, '[我]'))}</span> ${escapeHtml(text)}`
+                : escapeHtml(text);
+        } else if (s.skinName) {
+            preview = `<span class="skin-tag">${escapeHtml(T('skinPreview', null, '暂无消息'))}</span>`;
+        } else {
+            const intro = (s.introduction || '').replace(/\n/g, ' ').trim();
+            preview = intro
+                ? escapeHtml(intro.length > 60 ? intro.slice(0, 60) + '…' : intro)
+                : `<span style="color:#ccc;">${escapeHtml(T('startChat', { name: s.shortName }, '开始与 {name} 聊天吧'))}</span>`;
+        }
+
+        const unreadHtml = s.unread > 0
+            ? `<div class="unread-badge">${s.unread > 99 ? '99+' : s.unread}</div>`
+            : '';
+
+        return `<div class="contact-item" data-id="${s.id}">
+            <img class="contact-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(fallbackAvatar(name))}"
+                 referrerpolicy="no-referrer" alt="" loading="lazy">
+            <div class="contact-info">
+                <div class="contact-name">${escapeHtml(name)}</div>
+                <div class="contact-preview">${preview}</div>
+            </div>
+            ${unreadHtml}
+        </div>`;
+    }).join('');
+}
+
+function onSearch() {
+    searchQuery = document.getElementById('search-input').value.trim();
+    renderContactList();
+}
+
+(function bindListEvents() {
+    const list = document.getElementById('contact-list');
+
+    const clearTimer = () => {
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+    };
+
+    let pressStart = null;
+
+    list.addEventListener('pointerdown', e => {
+        const item = e.target.closest('.contact-item');
+        if (!item) return;
+        // 只响应鼠标左键 / 触摸主指针
+        if (e.button !== undefined && e.button !== 0) return;
+        // 多指同时按下时先清掉上一个计时器，否则会对上一个学生误弹菜单
+        clearTimer();
+        longPressFired = false;
+        pressStart = { x: e.clientX, y: e.clientY };
+        const id = Number(item.dataset.id);
+        pressTimer = setTimeout(() => {
+            pressTimer = null;
+            pressStart = null;
+            longPressFired = true;
+            showListContextMenu(id);
+        }, 600);
+    });
+
+    ['pointerup', 'pointercancel', 'pointerleave', 'scroll'].forEach(ev => {
+        list.addEventListener(ev, clearTimer, { passive: true });
+    });
+
+    // 原来的 pointermove 有任何抖动就取消长按，导致长按几乎按不出来；改为超过阈值才取消
+    list.addEventListener('pointermove', e => {
+        if (!pressStart) return;
+        const dx = e.clientX - pressStart.x;
+        const dy = e.clientY - pressStart.y;
+        if (dx * dx + dy * dy > 100) clearTimer();
+    }, { passive: true });
+
+    list.addEventListener('click', e => {
+        if (longPressFired) { longPressFired = false; return; }
+        const item = e.target.closest('.contact-item');
+        if (item) openChat(Number(item.dataset.id));
+    });
+
+    list.addEventListener('contextmenu', e => {
+        const item = e.target.closest('.contact-item');
+        if (!item) return;
+        e.preventDefault();
+        showListContextMenu(Number(item.dataset.id));
+    });
+})();
+
+function showListContextMenu(studentId) {
+    const stu = libraryById[studentId];
+    const entry = myStudents.find(s => s.id === studentId);
+    if (!stu || !entry) return;
+
+    const msgCount = (chats[studentId] || []).length;
+    const html = `
+        <div style="font-size:13px;color:#888;margin-bottom:12px;text-align:center;">
+            ${escapeHtml(T('manageSubtitle', { name: stu.displayName, count: msgCount }, '{name} · 共 {count} 条消息'))}
+        </div>
+        <input type="number" class="modal-input" id="set-unread-input"
+               min="0" value="${entry.unread || 0}"
+               placeholder="${escapeHtml(T('unreadPlaceholder', null, '未读数量（仅列表显示）'))}">
+    `;
+
+    showModal(T('manageTitle', null, '管理会话'), html, [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: T('manageClear', null, '清空记录'), class: 'danger',
+            onClick: () => {
+                delete chats[studentId];
+                entry.unread = 0; // 消息都清空了，未读角标不应该还留着
+                saveMyStudents();
+                saveChats();
+                renderContactList();
+                closeModal();
+            }
+        },
+        {
+            text: T('manageRemove', null, '移出列表'), class: 'danger',
+            onClick: () => {
+                myStudents = myStudents.filter(s => s.id !== studentId);
+                saveMyStudents();
+                renderContactList();
+                closeModal();
+            }
+        },
+        {
+            text: T('manageSave', null, '保存'), class: 'confirm',
+            onClick: () => {
+                const v = parseInt(document.getElementById('set-unread-input').value, 10);
+                entry.unread = Number.isFinite(v) && v > 0 ? v : 0;
+                saveMyStudents();
+                renderContactList();
+                closeModal();
+            }
+        }
+    ]);
+}
+
+function openStudentPicker() {
+    if (!libraryReady) {
+        showModal(T('notReadyTitle', null, '提示'),
+            `<div style="text-align:center;color:#888;font-size:14px;line-height:1.8;">${escapeHtml(T('notReadyBody', null, '学生资料尚未加载完成。'))}</div>`,
+            [{ text: T('notReadyOk', null, '知道了'), class: 'confirm', onClick: closeModal }]);
+        return;
+    }
+
+    const html = `
+        <div class="picker-wrap">
+            <input type="text" class="modal-input" id="picker-search"
+                   placeholder="${escapeHtml(T('pickerPlaceholder', null, '搜索学生姓名或形态…'))}"
+                   autocomplete="off" style="margin-bottom:8px;">
+            <div class="picker-list" id="picker-list"></div>
+        </div>
+    `;
+
+    showModal(T('pickerTitle', null, '选择学生形态'), html, [
+        { text: T('pickerDone', null, '完成'), class: 'confirm', onClick: () => { closeModal(); renderContactList(); } }
+    ]);
+
+    renderPickerList('');
+
+    const input = document.getElementById('picker-search');
+    input.addEventListener('input', () => renderPickerList(input.value.trim()));
+    setTimeout(() => {
+        if (modalOverlay.classList.contains('active')) input.focus();
+    }, 100);
+}
+
+function renderPickerList(query) {
+    const box = document.getElementById('picker-list');
+    if (!box) return;
+
+    const addedSet = new Set(myStudents.map(s => s.id));
+    const q = query.toLowerCase();
+
+    let items = library;
+    if (q) items = items.filter(s => matchStudent(s, q));
+
+    const MAX = 400;
+    const limited = items.slice(0, MAX);
+
+    if (limited.length === 0) {
+        box.innerHTML = `<div class="picker-empty">${escapeHtml(T('pickerEmpty', null, '没有匹配的学生形态'))}</div>`;
+        return;
+    }
+
+    const addedTxt = T('pickerAdded', null, '已添加');
+    const addTxt = T('pickerAdd', null, '＋ 添加');
+
+    box.innerHTML = limited.map(s => {
+        const added = addedSet.has(s.id);
+        const avatar = s.avatar || fallbackAvatar(s.displayName);
+        return `<div class="picker-item ${added ? 'added' : ''}" data-id="${s.id}">
+            <img class="picker-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(fallbackAvatar(s.displayName))}"
+                 referrerpolicy="no-referrer" alt="" loading="lazy">
+            <div class="picker-name">${escapeHtml(s.displayName)}</div>
+            <div class="picker-status">${added ? escapeHtml(addedTxt) : escapeHtml(addTxt)}</div>
+        </div>`;
+    }).join('') + (items.length > MAX
+        ? `<div class="picker-empty">${escapeHtml(T('pickerMore', { n: items.length - MAX }, '还有 {n} 个形态未显示，请输入关键字搜索'))}</div>`
+        : '');
+
+    box.querySelectorAll('.picker-item').forEach(el => {
+        el.addEventListener('click', () => {
+            if (el.classList.contains('added')) return;
+            addStudentToMyList(Number(el.dataset.id));
+            el.classList.add('added');
+            const status = el.querySelector('.picker-status');
+            if (status) status.textContent = addedTxt;
+            renderContactList();
+        });
+    });
+}
+
+function addStudentToMyList(id) {
+    if (!libraryById[id]) return;
+    if (myStudents.some(s => s.id === id)) return;
+    myStudents.push({ id: id, unread: 0, addedAt: now() });
+    saveMyStudents();
+}
+
+function openChat(studentId) {
+    const stu = libraryById[studentId];
+    if (!stu) return;
+
+    currentStudentId = studentId;
+    currentRole = 'sensei';
+    updateRoleUI();
+
+    const headerAvatar = document.getElementById('chat-header-avatar');
+    headerAvatar.dataset.fallback = fallbackAvatar(stu.displayName);
+    headerAvatar.removeAttribute('data-retries');
+    headerAvatar.src = stu.avatar || fallbackAvatar(stu.displayName);
+    document.getElementById('chat-header-name').textContent = stu.displayName;
+
+    const entry = myStudents.find(s => s.id === studentId);
+    if (entry && entry.unread) {
+        entry.unread = 0;
+        saveMyStudents();
+    }
+
+    document.getElementById('list-page').classList.add('slide-out');
+    document.getElementById('chat-page').classList.add('slide-in');
+    document.querySelector('.bottom-nav').classList.add('hidden');
+
+    renderChat();
+}
+
+function closeChat() {
+    document.getElementById('list-page').classList.remove('slide-out');
+    document.getElementById('chat-page').classList.remove('slide-in');
+    document.querySelector('.bottom-nav').classList.remove('hidden');
+    // 清掉输入框：否则给 A 写的草稿会留在框里，打开 B 后一回车就发给了 B
+    const input = document.getElementById('chat-input');
+    if (input) { input.value = ''; input.style.height = 'auto'; }
+    currentStudentId = null;
+    renderContactList();
+}
+
+function renderChat() {
+    if (!currentStudentId) return;
+    const stu = libraryById[currentStudentId];
+    if (!stu) return;
+
+    const container = document.getElementById('chat-content');
+    const msgs = Array.isArray(chats[currentStudentId]) ? chats[currentStudentId] : [];
+
+    if (msgs.length === 0) {
+        const intro = (stu.introduction || '').trim();
+        container.innerHTML = `<div class="empty-tip" style="margin-top:40px;">
+            ${escapeHtml(T('chatEmpty', { name: stu.displayName }, '与 {name} 的聊天从这里开始'))}
+            ${intro ? `<div style="margin-top:12px;font-size:13px;color:#bbb;line-height:1.7;white-space:pre-wrap;">${escapeHtml(intro)}</div>` : ''}
+        </div>`;
+        return;
+    }
+
+    const studentAvatar = stu.avatar || fallbackAvatar(stu.displayName);
+    const studentAvatarFallback = fallbackAvatar(stu.displayName);
+    const senseiAvatar = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+            <rect width="40" height="40" fill="#e0ecf8"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+                  font-size="20" fill="#7a9aba" font-family="sans-serif" font-weight="bold">S</text>
+        </svg>`
+    );
+    const senseiName = T('senseiName', null, 'Sensei');
+    const broken = brokenImage();
+
+    container.innerHTML = msgs.map((msg, i) => {
+        const text = typeof msg.text === 'string' ? msg.text : String(msg.text == null ? '' : msg.text);
+        const isSensei = msg.role === 'sensei';
+        const avatar = isSensei ? senseiAvatar : studentAvatar;
+        const avatarFallback = isSensei ? senseiAvatar : studentAvatarFallback;
+        const name = isSensei ? senseiName : stu.shortName;
+
+        let bubble;
+        if (isImageUrl(text)) {
+            bubble = `<div class="msg-image-wrapper">
+                <img class="msg-image" src="${escapeHtml(text.trim())}"
+                     data-fallback="${escapeHtml(broken)}"
+                     referrerpolicy="no-referrer" alt="img" loading="lazy">
+            </div>`;
+        } else {
+            bubble = `<div class="msg-bubble">${escapeHtml(text)}</div>`;
+        }
+
+        return `<div class="msg-row ${isSensei ? 'sensei' : 'student'}">
+            <img class="msg-avatar" src="${escapeHtml(avatar)}"
+                 data-fallback="${escapeHtml(avatarFallback)}"
+                 referrerpolicy="no-referrer" alt="">
+            <div class="msg-bubble-wrapper">
+                <div class="msg-name">${escapeHtml(name)}</div>
+                <div class="msg-tap-area" data-index="${i}">${bubble}</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    container.querySelectorAll('.msg-tap-area').forEach(el => {
+        el.addEventListener('click', () => editMessage(Number(el.dataset.index)));
+    });
+
+    requestAnimationFrame(() => {
+        container.scrollTop = container.scrollHeight;
+    });
+}
+
+function toggleRole() {
+    currentRole = currentRole === 'sensei' ? 'student' : 'sensei';
+    updateRoleUI();
+}
+
+function updateRoleUI() {
+    const sw = document.getElementById('role-switch');
+    const txt = document.getElementById('role-text');
+    if (!sw || !txt) return;
+    sw.classList.remove('sensei', 'student');
+    if (currentRole === 'sensei') {
+        sw.classList.add('sensei');
+        txt.textContent = T('roleSensei', null, '老师');
+    } else {
+        sw.classList.add('student');
+        txt.textContent = T('roleStudent', null, '学生');
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text || !currentStudentId) return;
+
+    if (!chats[currentStudentId]) chats[currentStudentId] = [];
+    chats[currentStudentId].push({ role: currentRole, text: text, time: now() });
+
+    input.value = '';
+    input.style.height = 'auto';
+
+    saveChats();
+    renderChat();
+}
+
+function handleKeyDown(e) {
+    // 中文/日文输入法组字过程中按回车是"确认候选词"，不能当作发送
+    if (e.isComposing || e.keyCode === 229) return;
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+}
+
+document.getElementById('chat-input').addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+
+function editMessage(index) {
+    if (!currentStudentId) return;
+    const msgs = chats[currentStudentId];
+    if (!msgs || !msgs[index]) return;
+    const msg = msgs[index];
+
+    const roleLabel = msg.role === 'sensei'
+        ? T('roleSensei', null, '老师')
+        : T('roleStudent', null, '学生');
+
+    const html = `
+        <textarea class="modal-input" id="edit-msg-text">${escapeHtml(msg.text)}</textarea>
+        <div style="font-size:12px;color:#999;margin-top:-4px;margin-bottom:8px;">
+            ${escapeHtml(T('editRoleLine', { role: roleLabel }, '身份：{role}'))}
+        </div>`;
+
+    showModal(T('editTitle', null, '编辑消息'), html, [
+        { text: T('editCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: T('editDelete', null, '删除'), class: 'danger',
+            onClick: () => {
+                msgs.splice(index, 1);
+                if (msgs.length === 0) delete chats[currentStudentId];
+                saveChats();
+                renderChat();
+                closeModal();
+            }
+        },
+        {
+            text: T('editSave', null, '保存'), class: 'confirm',
+            onClick: () => {
+                const val = document.getElementById('edit-msg-text').value.trim();
+                if (val) {
+                    msgs[index].text = val;
+                    // 不改 time：编辑旧消息不应让它跳到列表最上面、也不该改写排序依据
+                    saveChats();
+                    renderChat();
+                }
+                closeModal();
+            }
+        }
+    ]);
+
+    setTimeout(() => {
+        if (!modalOverlay.classList.contains('active')) return;
+        const ta = document.getElementById('edit-msg-text');
+        if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    }, 100);
+}
+
+function myKey() { return CONFIG.storage.myStudentsKey || 'momotalk_my_students_v7'; }
+function chatsKey() { return CONFIG.storage.chatsKey || 'momotalk_chats_v7'; }
+
+function saveMyStudents() {
+    try { localStorage.setItem(myKey(), JSON.stringify(myStudents)); }
+    catch (e) { console.error('保存我的学生失败：', e); }
+}
+
+let quotaWarned = false;
+
+function isQuotaError(e) {
+    return !!e && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+        || e.code === 22 || e.code === 1014);
+}
+
+function saveChats() {
+    try { localStorage.setItem(chatsKey(), JSON.stringify(chats)); }
+    catch (e) {
+        console.error('保存聊天记录失败：', e);
+        // 配额写满时原实现只写 console，界面照常显示、刷新后消息却消失；这里明确提示一次
+        if (isQuotaError(e) && !quotaWarned) {
+            quotaWarned = true;
+            showModal(T('storageFullTitle', null, '本地存储已满'), `
+                <div style="font-size:13px;color:#666;line-height:1.7;text-align:left;">
+                    ${escapeHtml(T('storageFullBody', null, '浏览器本地存储空间不足，最新消息可能没有保存成功。建议先点右上角"导出"备份数据，再清理不再需要的会话。'))}
+                </div>
+            `, [{ text: T('notReadyOk', null, '知道了'), class: 'confirm', onClick: closeModal }]);
+        }
+    }
+}
+
+/* ---------- 聊天数据校验 ----------
+   localStorage 或导入文件里可能残留旧版本/被手工改坏的数据（例如 chats[id] 不是数组、
+   消息元素为 null、缺少 text/role）。不校验的话 renderChat 会在 .map / msg.role 上抛异常，
+   整个聊天页白屏且无法恢复。这里统一做净化，坏的条目直接丢弃。 */
+function isValidMessage(m) {
+    return !!m && typeof m === 'object'
+        && (m.role === 'sensei' || m.role === 'student')
+        && (typeof m.text === 'string' || typeof m.text === 'number');
+}
+
+function normalizeMessage(m, fallbackTime) {
+    if (!isValidMessage(m)) return null;
+    const text = String(m.text).trim();
+    if (!text) return null;
+    const t = Number(m.time);
+    return {
+        role: m.role,
+        text: text,
+        time: Number.isFinite(t) && t > 0 ? t : fallbackTime
+    };
+}
+
+function msgSignature(m) {
+    return (m.role || '') + '\u0001' + (m.text || '') + '\u0001' + (m.time || 0);
+}
+
+function sanitizeChats(raw) {
+    const out = {};
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return out;
+    const base = now();
+    Object.keys(raw).forEach(k => {
+        const arr = raw[k];
+        if (!Array.isArray(arr)) return;
+        const msgs = arr
+            .map((m, i) => normalizeMessage(m, base + i))
+            .filter(Boolean);
+        if (msgs.length) out[k] = msgs;
+    });
+    return out;
+}
+
+function loadUserData() {
+    try {
+        const raw = localStorage.getItem(myKey());
+        if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+                myStudents = arr
+                    .map(x => {
+                        // null / 非对象条目不能直接读 x.id：Number(null)=0 会通过校验，
+                        // 随后读 x.unread 抛 TypeError，被外层 catch 捕获后整份列表被清空。
+                        if (!x || typeof x !== 'object') return null;
+                        const id = Number(x.id);
+                        if (!Number.isFinite(id) || id <= 0) return null;
+                        return {
+                            id: id,
+                            unread: Number(x.unread) > 0 ? Number(x.unread) : 0,
+                            addedAt: Number(x.addedAt) || 0
+                        };
+                    })
+                    .filter(Boolean);
+            }
+        }
+    } catch (e) { myStudents = []; }
+
+    try {
+        const raw = localStorage.getItem(chatsKey());
+        if (raw) chats = sanitizeChats(JSON.parse(raw));
+    } catch (e) { chats = {}; }
+}
+
+function exportData() {
+    const data = {
+        version: 3,
+        exportedAt: new Date().toISOString(),
+        myStudents: myStudents,
+        chats: chats
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'momotalk_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            let importedIds = [];
+            let importedChats = null;
+
+            const toStudentId = x => {
+                if (typeof x === 'number') return x;
+                if (typeof x === 'string') return Number(x);
+                return Number(x && x.id);
+            };
+
+            if (Array.isArray(parsed)) {
+                importedIds = parsed.map(toStudentId).filter(Number.isFinite);
+            } else if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.myStudents)) {
+                    importedIds = parsed.myStudents.map(toStudentId).filter(Number.isFinite);
+                } else if (Array.isArray(parsed.students)) {
+                    importedIds = parsed.students.map(toStudentId).filter(Number.isFinite);
+                }
+                if (parsed.chats && typeof parsed.chats === 'object') {
+                    importedChats = parsed.chats;
+                }
+            } else {
+                throw new Error(T('importUnknown', null, '无法识别的文件格式'));
+            }
+
+            if (!libraryReady) throw new Error(T('importLibNotReady', null, '学生资料尚未加载完成'));
+
+            const existing = new Set(myStudents.map(s => s.id));
+            let added = 0, missing = 0;
+            importedIds.forEach(id => {
+                if (!libraryById[id]) { missing++; return; }
+                if (existing.has(id)) return;
+                myStudents.push({ id: id, unread: 0, addedAt: now() + added });
+                existing.add(id);
+                added++;
+            });
+
+            let chatMerged = 0;
+            let skippedMsgs = 0;
+            if (importedChats) {
+                Object.keys(importedChats).forEach(k => {
+                    const arr = importedChats[k];
+                    if (!Array.isArray(arr)) return;
+
+                    const existingChat = Array.isArray(chats[k]) ? chats[k] : [];
+                    // 按 role+text+time 去重：同一份备份重复导入时不会把消息再追加一遍
+                    const seen = new Set(existingChat.map(msgSignature));
+                    const incoming = [];
+                    arr.forEach((m, i) => {
+                        const norm = normalizeMessage(m, now() + i);
+                        if (!norm) return;
+                        const sig = msgSignature(norm);
+                        if (seen.has(sig)) { skippedMsgs++; return; }
+                        seen.add(sig);
+                        incoming.push(norm);
+                    });
+
+                    if (incoming.length || existingChat.length) {
+                        // 合并后按时间重排：否则备份里的旧消息会被追加到最新消息之后
+                        chats[k] = existingChat.concat(incoming).sort((a, b) => a.time - b.time);
+                        // 学生库里已不存在的 id 照旧保留数据（日后库更新还能恢复），但不计入"合并会话"，
+                        // 避免提示"合并了 N 个会话"却在列表里看不到的情况
+                        if (libraryById[k]) chatMerged++;
+                    }
+                });
+                saveChats();
+            }
+
+            saveMyStudents();
+            renderContactList();
+
+            let doneHtml = `<div style="font-size:14px;color:#333;line-height:1.8;">${escapeHtml(
+                T('importDone', { added: added, merged: chatMerged },
+                    `导入完成：新增 ${added} 个学生形态，合并 ${chatMerged} 个会话。`))}</div>`;
+            if (skippedMsgs) {
+                doneHtml += `<div style="font-size:13px;color:#999;margin-top:6px;">${escapeHtml(
+                    T('importSkipped', { n: skippedMsgs }, `已跳过 ${skippedMsgs} 条重复消息。`))}</div>`;
+            }
+            if (missing) {
+                doneHtml += `<div style="font-size:13px;color:#d85c76;margin-top:6px;">${escapeHtml(
+                    T('importMissing', { n: missing }, `有 ${missing} 个 id 在当前学生库中不存在，已跳过。`))}</div>`;
+            }
+            showModal(T('importDoneTitle', null, '导入结果'), doneHtml, [
+                { text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }
+            ]);
+        } catch (err) {
+            const detail = (err && err.message) ? err.message : String(err);
+            showModal(T('importFailTitle', null, '导入失败'),
+                `<div style="font-size:13px;color:#666;line-height:1.7;word-break:break-all;">${escapeHtml(detail)}</div>`,
+                [{ text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }]);
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+const modalOverlay = document.getElementById('modal-overlay');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+const modalActions = document.getElementById('modal-actions');
+
+function showModal(title, bodyHtml, actions) {
+    modalTitle.textContent = title;
+    modalBody.innerHTML = bodyHtml;
+    modalActions.innerHTML = '';
+    (actions || []).forEach(a => {
+        const btn = document.createElement('button');
+        btn.className = 'modal-btn ' + a.class;
+        btn.textContent = a.text;
+        btn.onclick = a.onClick;
+        modalActions.appendChild(btn);
+    });
+    modalOverlay.classList.add('active');
+}
+
+function closeModal() {
+    modalOverlay.classList.remove('active');
+}
+
+modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) closeModal();
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        if (modalOverlay.classList.contains('active')) closeModal();
+        else if (currentStudentId) closeChat();
+        else if (document.getElementById('more-page').classList.contains('active')) {
+            if (document.getElementById('more-back-btn').classList.contains('show')) backToMoreMain();
+            else switchToList();
+        }
+    }
+});
+
+(async function boot() {
+    await loadConfig();
+    loadSettings();
+    loadUserData();
+    updateRoleUI();
+    updateGeneralUI();
+    renderTutorialList();
+
+    if (!configLoaded) {
+        const list = document.getElementById('contact-list');
+        list.innerHTML = `<div class="empty-tip">
+            <div style="font-size:15px;color:#666;margin-bottom:10px;">${escapeHtml(T('configFailTitle', null, '无法读取配置文件'))}</div>
+            <div style="font-size:12px;color:#aaa;line-height:1.7;">
+                ${escapeHtml(T('configFailHint', null, '请确认 resources/running_datas.json 存在且可访问。'))}<br>${escapeHtml(DATAS_URL)}
+            </div>
+        </div>`;
+        return;
+    }
+
+    loadLibrary();
+})();
+</script>
+</body>
+</html>

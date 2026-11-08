@@ -1,0 +1,85 @@
+[
+  {
+    "id": 1001,
+    "skinList": [],
+    "familyName": {
+      "nm": "小鸟游",
+      "cn": "小鸟游",
+      "en": "Takanashi",
+      "jp": "小鳥遊",
+      "kr": "타카나시",
+      "tw": "小鳥遊"
+    },
+    "givenName": {
+      "nm": "星野",
+      "cn": "星野",
+      "en": "Hoshino",
+      "jp": "ホシノ",
+      "kr": "호시노",
+      "tw": "星野"
+    },
+    "avatar": "./resources/head.jpg",
+    "introduction": "测试用学生：小鸟游星野（无皮肤形态）。",
+    "mosign": [],
+    "gallery": [],
+    "birthday": { "month": "01", "day": "02" },
+    "release": 4
+  },
+  {
+    "id": 1002,
+    "skinList": [
+      {
+        "skin": "泳装",
+        "skin_cn": "泳装",
+        "avatar": "./resources/head.jpg"
+      }
+    ],
+    "familyName": {
+      "nm": "圣园",
+      "cn": "圣园",
+      "en": "Misono",
+      "jp": "聖園",
+      "kr": "미소노",
+      "tw": "聖園"
+    },
+    "givenName": {
+      "nm": "未花",
+      "cn": "未花",
+      "en": "Mika",
+      "jp": "ミカ",
+      "kr": "미카",
+      "tw": "未花"
+    },
+    "avatar": "./resources/head.jpg",
+    "introduction": "测试用学生：圣园未花（含泳装皮肤）。",
+    "mosign": [],
+    "gallery": [],
+    "birthday": { "month": "05", "day": "08" },
+    "release": 4
+  },
+  {
+    "id": 1003,
+    "familyName": {
+      "nm": "阿慈谷",
+      "cn": "阿慈谷",
+      "en": "Ajitani",
+      "jp": "阿慈谷",
+      "kr": "아지타니",
+      "tw": "阿慈谷"
+    },
+    "givenName": {
+      "nm": "日富美",
+      "cn": "日富美",
+      "en": "Hifumi",
+      "jp": "ヒフミ",
+      "kr": "히후미",
+      "tw": "日富美"
+    },
+    "avatar": "./resources/head.jpg",
+    "introduction": "测试用学生：阿慈谷日富美。",
+    "mosign": [],
+    "gallery": [],
+    "birthday": { "month": "06", "day": "06" },
+    "release": 4
+  }
+]

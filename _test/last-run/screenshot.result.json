@@ -1,0 +1,266 @@
+﻿{
+    "scenario":  "screenshot",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:17:06.576Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  15,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "#btn-screenshot（截图按钮）存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "btn-screenshot":  true,
+                                      "btn-screenshot-text":  true
+                                  }
+                   },
+                   {
+                       "name":  "window.ChatScreenshot 已加载且暴露 generate()",
+                       "ok":  true,
+                       "actual":  "object"
+                   },
+                   {
+                       "name":  "ChatScreenshot.generate 成功返回",
+                       "ok":  true,
+                       "actual":  {
+                                      "error":  null
+                                  }
+                   },
+                   {
+                       "name":  "返回对象包含 HTMLCanvasElement",
+                       "ok":  true,
+                       "actual":  "CANVAS"
+                   },
+                   {
+                       "name":  "canvas 宽度 = 360 × dpr2 = 720",
+                       "ok":  true,
+                       "actual":  {
+                                      "width":  720,
+                                      "height":  388
+                                  }
+                   },
+                   {
+                       "name":  "canvas 高度 \u003e 100",
+                       "ok":  true,
+                       "actual":  388
+                   },
+                   {
+                       "name":  "canvas.toDataURL(\"image/png\") 可用且非空",
+                       "ok":  true,
+                       "actual":  {
+                                      "prefix":  "data:image/png;base64,iVBORw0K",
+                                      "length":  136738
+                                  }
+                   },
+                   {
+                       "name":  "点击截图后出现截图模态框",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  true,
+                                      "title":  "聊天截图",
+                                      "body":  "正在生成截图…",
+                                      "buttons":  [
+
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "截图生成后出现预览图 #screenshot-preview-img",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  true,
+                                      "title":  "聊天截图",
+                                      "body":  "",
+                                      "buttons":  [
+                                                      "保存图片",
+                                                      "关闭"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "预览图为 data:image/png",
+                       "ok":  true,
+                       "actual":  {
+                                      "prefix":  "data:image/png;base64,iVBORw0K",
+                                      "length":  145182
+                                  }
+                   },
+                   {
+                       "name":  "预览图可正常解码",
+                       "ok":  true,
+                       "actual":  {
+                                      "complete":  true,
+                                      "naturalWidth":  780
+                                  }
+                   },
+                   {
+                       "name":  "截图预览含“保存图片”与“关闭”按钮",
+                       "ok":  true,
+                       "actual":  [
+                                      "保存图片",
+                                      "关闭"
+                                  ]
+                   },
+                   {
+                       "name":  "“保存图片”触发下载且文件名 momotalk_chat_YYYYMMDD_HHmmss.png",
+                       "ok":  true,
+                       "actual":  {
+                                      "download":  "momotalk_chat_20261108_141706.png",
+                                      "href":  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAw",
+                                      "at":  1794118626911
+                                  }
+                   },
+                   {
+                       "name":  "保存后截图模态框关闭",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  false,
+                                      "title":  "聊天截图",
+                                      "body":  "",
+                                      "buttons":  [
+                                                      "保存图片",
+                                                      "关闭"
+                                                  ]
+                                  }
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  94,
+                    "totalMs":  534
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118616576
+                                    }
+                                ],
+                 "chats":  {
+                               "1001":  [
+                                            {
+                                                "id":  "b_s1",
+                                                "role":  "student",
+                                                "time":  1794118624576,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_s1",
+                                                                  "type":  "text",
+                                                                  "text":  "截图测试：学生消息"
+                                                              },
+                                                              {
+                                                                  "id":  "i_s2",
+                                                                  "type":  "text",
+                                                                  "text":  "第二条学生消息"
+                                                              }
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "b_s2",
+                                                "role":  "sensei",
+                                                "time":  1794118625576,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_s3",
+                                                                  "type":  "text",
+                                                                  "text":  "截图测试：老师消息"
+                                                              }
+                                                          ]
+                                            }
+                                        ]
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  true,
+                                 "chatPageClass":  "slide-in",
+                                 "listPageClass":  "slide-out",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav hidden",
+                                 "modalActive":  false,
+                                 "modalTitle":  "聊天截图",
+                                 "msgBoxes":  2,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 [我] 截图测试：老师消息"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_s1\",\"role\":\"student\",\"time\":1794118624576,\"items\":[{\"id\":\"i_s1\",\"type\":\"text\",\"text\":\"截图测试：学生消息\"},{\"id\":\"i_s2\",\"type\":\"text\",\"text\":\"第二条学生消息\"}]},{\"id\":\"b_s2\",\"role\":\"sensei\",\"time\":1794118625576,\"items\":[{\"id\":\"i_s3\",\"type\":\"text\",\"text\":\"截图测试：老师消息\"}]}]}",
+                                     "settingsRaw":  null,
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118616576}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118626641
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118626651
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_s1\",\"role\":\"student\",\"time\":1794118624576,\"items\":[{\"id\":\"i_s1\",\"type\":\"text\",\"text\":\"截图测试：学生消息\"},{\"id\":\"i_s2\",\"type\":\"text\",\"text\":\"第二条学生消息\"}]},{\"id\":\"b_s2\",\"role\":\"sensei\",\"time\":1794118625576,\"items\":[{\"id\":\"i_s3\",\"type\":\"text\",\"text\":\"截图测试：老师消息\"}]}]}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 [我] 截图测试：老师消息",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

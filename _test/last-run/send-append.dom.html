@@ -1,0 +1,1999 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MomoTalk Test Harness</title>
+<style>
+    html, body { margin: 0; padding: 0; background: #15181c; color: #d7dde3; }
+    body { font-family: Consolas, "Courier New", monospace; font-size: 12px; }
+    body.normal { padding: 10px; }
+    body.normal #app-frame { display: block; width: 390px; height: 844px; border: 1px solid #39424d; background: #fff; }
+    body.normal #result { margin-top: 10px; max-width: 1400px; white-space: pre-wrap; word-break: break-all; background: #0d1014; border: 1px solid #2a323b; padding: 10px; max-height: 60vh; overflow: auto; }
+    body.shot { overflow: hidden; }
+    body.shot #app-frame { display: block; position: fixed; left: 0; top: 0; width: 390px; height: 844px; border: 0; background: #fff; }
+    body.shot #result { display: none; }
+</style>
+</head>
+<body class="normal">
+<iframe id="app-frame" title="MomoTalk app under test" src="./test-harness.html?frame=1"></iframe>
+<pre id="result">{
+  "scenario": "send-append",
+  "shot": false,
+  "phase": "done",
+  "startedAt": "2026-11-08T06:16:57.717Z",
+  "ready": true,
+  "done": true,
+  "pass": 24,
+  "fail": 0,
+  "checks": [
+    {
+      "name": "打开聊天页（学生 1001）",
+      "ok": true,
+      "actual": {
+        "chat": "slide-in",
+        "list": "slide-out",
+        "nav": "bottom-nav hidden",
+        "more": ""
+      }
+    },
+    {
+      "name": "#send-btn 存在",
+      "ok": true,
+      "actual": {
+        "send-btn": true,
+        "append-btn": true,
+        "btn-more": true,
+        "chat-input": true,
+        "role-switch": true
+      }
+    },
+    {
+      "name": "#append-btn 存在",
+      "ok": true,
+      "actual": {
+        "append-btn": true
+      }
+    },
+    {
+      "name": "初始会话为空",
+      "ok": true,
+      "actual": {
+        "1001": []
+      }
+    },
+    {
+      "name": "点“发送”新建 1 个盒子",
+      "ok": true,
+      "actual": [
+        {
+          "id": "b_mw7fwhip6asqah",
+          "role": "sensei",
+          "items": [
+            "老师消息A"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "默认身份 sensei 的盒子 role=sensei",
+      "ok": true,
+      "actual": "sensei"
+    },
+    {
+      "name": "盒子内 text item 内容正确",
+      "ok": true,
+      "actual": [
+        {
+          "id": "i_mw7fwhipdu6ytd",
+          "type": "text",
+          "text": "老师消息A"
+        }
+      ]
+    },
+    {
+      "name": "发送后输入框清空",
+      "ok": true,
+      "actual": ""
+    },
+    {
+      "name": "DOM：老师盒子无头像无名字",
+      "ok": true,
+      "actual": {
+        "avatars": 0,
+        "names": 0
+      }
+    },
+    {
+      "name": "切换身份后 #role-text 显示“学生”",
+      "ok": true,
+      "actual": "学生"
+    },
+    {
+      "name": "#role-switch 带 student 类",
+      "ok": true,
+      "actual": "role-switch student"
+    },
+    {
+      "name": "学生身份发送后盒子数为 2",
+      "ok": true,
+      "actual": [
+        "sensei",
+        "student"
+      ]
+    },
+    {
+      "name": "第二个盒子 role=student",
+      "ok": true,
+      "actual": "student"
+    },
+    {
+      "name": "学生盒子头像/名字各出现一次",
+      "ok": true,
+      "actual": {
+        "avatars": 1,
+        "names": 1
+      }
+    },
+    {
+      "name": "同身份追加不新建盒子",
+      "ok": true,
+      "actual": 2
+    },
+    {
+      "name": "同身份追加把消息加入上一个盒子",
+      "ok": true,
+      "actual": [
+        {
+          "id": "i_mw7fwhkxl97jhk",
+          "type": "text",
+          "text": "学生消息B"
+        },
+        {
+          "id": "i_mw7fwhkxykusif",
+          "type": "text",
+          "text": "追加学生C"
+        }
+      ]
+    },
+    {
+      "name": "追加后输入框清空",
+      "ok": true,
+      "actual": ""
+    },
+    {
+      "name": "DOM：最后一个学生盒子含 2 条消息",
+      "ok": true,
+      "actual": 2
+    },
+    {
+      "name": "身份不一致时弹出确认弹窗",
+      "ok": true,
+      "actual": {
+        "active": true,
+        "title": "发送者不一致",
+        "body": "上一个信息盒子来自 星野，当前身份是 老师。要怎么做？",
+        "buttons": [
+          "新建盒子",
+          "改身份并追加"
+        ]
+      }
+    },
+    {
+      "name": "弹窗说明上一个盒子与当前身份不一致",
+      "ok": true,
+      "actual": "发送者不一致 | 上一个信息盒子来自 星野，当前身份是 老师。要怎么做？"
+    },
+    {
+      "name": "弹窗提供“新建盒子”与“改身份并追加”选项",
+      "ok": true,
+      "actual": [
+        "新建盒子",
+        "改身份并追加"
+      ]
+    },
+    {
+      "name": "选择“新建盒子”后出现第 3 个盒子（sensei）",
+      "ok": true,
+      "actual": [
+        "sensei",
+        "student",
+        "sensei"
+      ]
+    },
+    {
+      "name": "选择“新建盒子”后弹窗关闭",
+      "ok": true,
+      "actual": {
+        "active": false,
+        "title": "发送者不一致",
+        "body": "上一个信息盒子来自 星野，当前身份是 老师。要怎么做？",
+        "buttons": [
+          "新建盒子",
+          "改身份并追加"
+        ]
+      }
+    },
+    {
+      "name": "发送/追加后写入 localStorage chatsKey",
+      "ok": true,
+      "actual": "{\"1001\":[{\"id\":\"b_mw7fwhip6asqah\",\"role\":\"sensei\",\"time\":1794118618033,\"items\":[{\"id\":\"i_mw7fwhipdu6ytd\",\"type\":\"text\",\"text\":\"老师消息A\"}]},{\"id\":\"b_mw7fwhkx81fhrf\",\"role\":\"student\",\"time\":1794118618113,\"items\":[{\"id\":\"i_mw7fwhkxl97jhk\",\"type\":\"text\",\"text\":\"学生消息B\"},{\"id\":\"i_mw7fwhkxykusif\",\"type\":\"tex"
+    }
+  ],
+  "failures": [],
+  "notes": [],
+  "errors": [],
+  "timings": {
+    "scenarioStart": 115,
+    "totalMs": 475
+  },
+  "seed": {
+    "myStudents": [
+      {
+        "id": 1001,
+        "unread": 0,
+        "addedAt": 1794118607717
+      }
+    ],
+    "chats": {}
+  },
+  "fixture": {
+    "studentsUrl": "./_test/fixtures/students.json",
+    "keys": {
+      "myStudentsKey": "mm_test_my_students",
+      "chatsKey": "mm_test_chats",
+      "legacyChatsKey": "mm_test_chats_legacy",
+      "settingsKey": "mm_test_settings"
+    }
+  },
+  "snapshot": {
+    "hasWindow": true,
+    "mm": true,
+    "dom": {
+      "contactItems": 1,
+      "chatOpen": true,
+      "chatPageClass": "slide-in",
+      "listPageClass": "slide-out",
+      "morePageClass": "",
+      "navClass": "bottom-nav hidden",
+      "modalActive": false,
+      "modalTitle": "发送者不一致",
+      "msgBoxes": 3,
+      "typingBoxes": 0,
+      "morePanelOpen": false,
+      "emojiCells": 0,
+      "contactListText": "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。"
+    },
+    "storage": {
+      "chatsRaw": "{\"1001\":[{\"id\":\"b_mw7fwhip6asqah\",\"role\":\"sensei\",\"time\":1794118618033,\"items\":[{\"id\":\"i_mw7fwhipdu6ytd\",\"type\":\"text\",\"text\":\"老师消息A\"}]},{\"id\":\"b_mw7fwhkx81fhrf\",\"role\":\"student\",\"time\":1794118618113,\"items\":[{\"id\":\"i_mw7fwhkxl97jhk\",\"type\":\"text\",\"text\":\"学生消息B\"},{\"id\":\"i_mw7fwhkxykusif\",\"type\":\"text\",\"text\":\"追加学生C\"}]},{\"id\":\"b_mw7fwhn5dfn275\",\"role\":\"sensei\",\"time\":1794118618193,\"items\":[{\"id\":\"i_mw7fwhn5ooksv3\",\"type\":\"text\",\"text\":\"老师追加D\"}]}]}",
+      "settingsRaw": null,
+      "myStudentsRaw": "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118607717}]"
+    },
+    "testLog": {
+      "fetch": [
+        {
+          "url": "./resources/running_datas.json",
+          "mapped": "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+          "at": 1794118617803
+        },
+        {
+          "url": "./_test/fixtures/students.json",
+          "mapped": "http://127.0.0.1:8765/_test/fixtures/students.json",
+          "at": 1794118617813
+        }
+      ],
+      "confirms": [],
+      "errors": []
+    },
+    "href": "http://127.0.0.1:8765/test-harness.html?frame=1",
+    "title": "MomoTalk Test - 自定义聊天",
+    "readyState": "complete"
+  },
+  "appHtmlLength": 148763,
+  "storageAfterSeed": {
+    "chatsKey": "{}",
+    "legacyChatsKey": null
+  },
+  "readyInfo": {
+    "hasApp": true,
+    "hasMm": true,
+    "items": 1,
+    "readyState": "complete",
+    "listText": "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。",
+    "scriptErrors": []
+  },
+  "testOverrides": true
+}</pre>
+<script>
+/* =====================================================================
+ * MomoTalk QA harness (test-only; never modifies application sources)
+ *
+ * Normal mode : /test-harness.html?scenario=<name>[&shot=1]
+ *   - fetches /index.html and injects a fetch-rewrite prelude, then runs
+ *     the app inside a same-origin iframe that document.write()s the html.
+ *   - scenarios assert against DOM / computed styles / window.__mm /
+ *     localStorage and write a JSON report into <pre id="result">.
+ * Frame  mode: /test-harness.html?frame=1
+ *   - real URL under the server root (so the app's `new URL(..., location.href)`
+ *     calls work); it waits for the parent to post the rewritten app html and
+ *     then document.write()s it. This is what makes relative URLs resolve.
+ * ===================================================================== */
+(function () {
+    'use strict';
+
+    var PARAMS = new URLSearchParams(location.search);
+
+    /* ------------------------------------------------------------------
+     * frame mode (loaded inside the iframe by normal mode)
+     * ------------------------------------------------------------------ */
+    if (PARAMS.get('frame') === '1') {
+        (function frameMode() {
+            function post(msg) { try { parent.postMessage(msg, '*'); } catch (e) { /* ignore */ } }
+            window.addEventListener('message', function (ev) {
+                var d = ev.data;
+                if (!d || d.type !== 'mm_app_html') return;
+                try {
+                    document.open();
+                    document.write(String(d.html || ''));
+                    document.close();
+                    post({ type: 'mm_app_written' });
+                } catch (err) {
+                    post({ type: 'mm_app_error', message: String((err && err.stack) || err) });
+                }
+            });
+            post({ type: 'mm_frame_ready' });
+        })();
+        return;
+    }
+
+    /* ------------------------------------------------------------------
+     * normal (harness) mode
+     * ------------------------------------------------------------------ */
+    var FRAME = document.getElementById('app-frame');
+    var RESULT_EL = document.getElementById('result');
+
+    var SCENARIO = PARAMS.get('scenario') || 'boot';
+    var SHOT = PARAMS.get('shot') === '1';
+    var APP_BASE = location.origin + '/';
+    var FIXTURE_BASE = location.origin + '/_test/fixtures/';
+    var T0 = Date.now();
+
+    var HC = { fx: null, keys: null };
+
+    var STATE = {
+        scenario: SCENARIO,
+        shot: SHOT,
+        phase: 'init',
+        startedAt: new Date().toISOString(),
+        ready: false,
+        done: false,
+        pass: 0,
+        fail: 0,
+        checks: [],
+        failures: [],
+        notes: [],
+        errors: [],
+        timings: {},
+        seed: null,
+        fixture: null,
+        snapshot: null
+    };
+    window.__testResult = STATE;
+    window.__testDone = false;
+
+    /* ------------------------------------------------------------------
+     * report helpers
+     * ------------------------------------------------------------------ */
+    function slim(v) {
+        try {
+            if (v === null || v === undefined) return v;
+            if (typeof v === 'string') return v.length > 600 ? v.slice(0, 600) + '…' : v;
+            if (typeof v === 'number' || typeof v === 'boolean') return v;
+            if (v.nodeType === 1) return '<' + v.tagName.toLowerCase() + ' class="' + (v.className || '') + '">' + ('outerHTML' in v ? String(v.outerHTML).slice(0, 400) : '');
+            if (Array.isArray(v)) {
+                var arr = v.slice(0, 15).map(slim);
+                if (v.length > 15) arr.push('…(' + v.length + ' total)');
+                return arr;
+            }
+            if (typeof v === 'object') {
+                var out = {};
+                var keys = Object.keys(v).slice(0, 20);
+                keys.forEach(function (k) { out[k] = slim(v[k]); });
+                if (Object.keys(v).length > 20) out['…'] = Object.keys(v).length + ' keys';
+                var s = JSON.stringify(out);
+                return s && s.length > 1200 ? s.slice(0, 1200) + '…' : out;
+            }
+            return String(v);
+        } catch (e) { return '[unserializable]'; }
+    }
+
+    function publish() {
+        try { RESULT_EL.textContent = JSON.stringify(STATE, null, 2); } catch (e) { /* ignore */ }
+    }
+
+    function check(name, ok, actual) {
+        var rec = { name: name, ok: !!ok };
+        if (actual !== undefined) rec.actual = slim(actual);
+        STATE.checks.push(rec);
+        if (ok) { STATE.pass++; }
+        else { STATE.fail++; STATE.failures.push(rec); }
+        publish();
+        return !!ok;
+    }
+
+    function note(msg) { STATE.notes.push(String(msg)); publish(); }
+
+    function safeGet(fn, fallback) {
+        try { return fn(); } catch (e) { return fallback; }
+    }
+
+    /* ------------------------------------------------------------------
+     * DOM helpers (everything is evaluated inside the iframe realm)
+     * ------------------------------------------------------------------ */
+    function W() { return FRAME.contentWindow; }
+    function D() { try { return FRAME.contentDocument || FRAME.contentWindow.document; } catch (e) { return null; } }
+    function q(sel, root) { var r = root || D(); return r ? r.querySelector(sel) : null; }
+    function qa(sel, root) { var r = root || D(); return r ? Array.prototype.slice.call(r.querySelectorAll(sel)) : []; }
+    function css(el, prop) {
+        if (!el) return null;
+        try { return el.ownerDocument.defaultView.getComputedStyle(el)[prop]; } catch (e) { return null; }
+    }
+    function rect(el) {
+        if (!el) return null;
+        try {
+            var r = el.getBoundingClientRect();
+            return { top: r.top, left: r.left, right: r.right, bottom: r.bottom, width: r.width, height: r.height, x: r.x, y: r.y };
+        } catch (e) { return null; }
+    }
+    function text(el) { return el ? String(el.textContent || '').replace(/\s+/g, ' ').trim() : ''; }
+    function attr(el, name) { return el ? el.getAttribute(name) : null; }
+    function visible(el) {
+        if (!el) return false;
+        try {
+            if (css(el, 'display') === 'none') return false;
+            if (css(el, 'visibility') === 'hidden') return false;
+            var r = rect(el);
+            return !!r && r.width > 0 && r.height > 0;
+        } catch (e) { return false; }
+    }
+    function norm(t) { return String(t == null ? '' : t).replace(/\s+/g, ''); }
+    function btnByText(label, root) {
+        var n = norm(label);
+        var list = qa('button, .modal-btn, .box-edit-op, .box-action-btn, .more-tile, .seg-btn, [role="button"]', root);
+        return list.find(function (b) { return norm(b.textContent).indexOf(n) >= 0; }) || null;
+    }
+    function clickText(label, root) {
+        var b = btnByText(label, root);
+        if (b) { b.click(); return true; }
+        return false;
+    }
+    function allTexts(root) {
+        return qa('button, .modal-btn, .box-edit-op, .box-action-btn', root).map(function (b) { return norm(b.textContent); }).filter(Boolean);
+    }
+    function idsPresent(ids) {
+        var out = {};
+        ids.forEach(function (id) { out[id] = !!q('#' + id); });
+        return out;
+    }
+    function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+    async function waitFor(fn, timeout, label) {
+        timeout = timeout || 4000;
+        var start = Date.now();
+        var lastErr = null;
+        while (Date.now() - start < timeout) {
+            try {
+                var v = fn();
+                if (v) return v;
+            } catch (e) { lastErr = e; }
+            await sleep(30);
+        }
+        if (label) note('waitFor timeout: ' + label + (lastErr ? (' / lastErr=' + lastErr) : ''));
+        return null;
+    }
+    async function waitModal(timeout) {
+        return waitFor(function () { return modalActive(); }, timeout || 3000, 'modal');
+    }
+    function withTimeout(promise, ms, label) {
+        return Promise.race([
+            Promise.resolve(promise),
+            new Promise(function (_, rej) { setTimeout(function () { rej(new Error('timeout ' + ms + 'ms' + (label ? ' (' + label + ')' : ''))); }, ms); })
+        ]);
+    }
+
+    /* ------------------------------------------------------------------
+     * modal helpers (app uses #modal-overlay / #modal-title / #modal-body /
+     * #modal-actions with .modal-btn buttons)
+     * ------------------------------------------------------------------ */
+    function overlay() { return q('#modal-overlay'); }
+    function modalActive() { var o = overlay(); return !!o && o.classList.contains('active'); }
+    function modalTitle() { return text(q('#modal-title')); }
+    function modalBodyText() { return text(q('#modal-body')); }
+    function modalInfo() { return { active: modalActive(), title: modalTitle(), body: modalBodyText().slice(0, 240), buttons: allTexts(q('#modal-actions')) }; }
+    function modalButtons() { return qa('#modal-actions .modal-btn, #modal-actions button'); }
+    function clickModalBtn(label) {
+        var n = norm(label);
+        var btns = modalButtons();
+        var b = btns.find(function (x) { return norm(x.textContent) === n; }) || btns.find(function (x) { return norm(x.textContent).indexOf(n) >= 0; });
+        if (!b) {
+            if (/删除|确定|确认|是/.test(label)) b = q('#modal-actions .modal-btn.danger, #modal-actions .modal-btn.confirm') || btns[0];
+        }
+        if (b) { b.click(); return true; }
+        return false;
+    }
+    async function closeModalIfOpen() {
+        if (!modalActive()) return true;
+        if (!clickModalBtn('关闭')) clickModalBtn('取消');
+        await waitFor(function () { return !modalActive(); }, 1500);
+        return !modalActive();
+    }
+
+    /* ------------------------------------------------------------------
+     * event helpers
+     * ------------------------------------------------------------------ */
+    function pointerEvent(el, type, x, y, extra) {
+        var w = el.ownerDocument.defaultView;
+        var opts = {
+            bubbles: true, cancelable: true, clientX: x, clientY: y,
+            pointerId: 1, pointerType: 'touch', isPrimary: true,
+            button: 0, buttons: type === 'pointerup' ? 0 : 1
+        };
+        for (var k in (extra || {})) opts[k] = extra[k];
+        return new w.PointerEvent(type, opts);
+    }
+    function mouseEvent(el, type, x, y, extra) {
+        var w = el.ownerDocument.defaultView;
+        var opts = { bubbles: true, cancelable: true, clientX: x, clientY: y, button: 0, buttons: type === 'mouseup' ? 0 : 1 };
+        for (var k in (extra || {})) opts[k] = extra[k];
+        return new w.MouseEvent(type, opts);
+    }
+    function touchEvent(el, type, x, y) {
+        var w = el.ownerDocument.defaultView;
+        var ev = new w.Event(type, { bubbles: true, cancelable: true });
+        var t = { identifier: 1, target: el, clientX: x, clientY: y, pageX: x, pageY: y, screenX: x, screenY: y, radiusX: 1, radiusY: 1, rotationAngle: 0, force: 1 };
+        var list = (type === 'touchend' || type === 'touchcancel') ? [] : [t];
+        Object.defineProperty(ev, 'touches', { value: list });
+        Object.defineProperty(ev, 'targetTouches', { value: list });
+        Object.defineProperty(ev, 'changedTouches', { value: [t] });
+        return ev;
+    }
+
+    async function longPress(el, duration) {
+        if (!el) return false;
+        var r = rect(el);
+        if (!r) return false;
+        var x = r.left + Math.max(8, Math.min(r.width / 2, 40));
+        var y = r.top + r.height / 2;
+        el.dispatchEvent(pointerEvent(el, 'pointerdown', x, y));
+        el.dispatchEvent(mouseEvent(el, 'mousedown', x, y));
+        await sleep(duration || 750);
+        el.dispatchEvent(pointerEvent(el, 'pointerup', x, y));
+        el.dispatchEvent(mouseEvent(el, 'mouseup', x, y));
+        await sleep(120);
+        return true;
+    }
+
+    async function swipeRight(el, fromX, toX, y) {
+        var w = el.ownerDocument.defaultView;
+        el.dispatchEvent(touchEvent(el, 'touchstart', fromX, y));
+        await sleep(20);
+        var steps = 5;
+        for (var i = 1; i <= steps; i++) {
+            var x = fromX + (toX - fromX) * i / steps;
+            el.dispatchEvent(touchEvent(el, 'touchmove', x, y));
+            await sleep(20);
+        }
+        await sleep(30);
+        el.dispatchEvent(touchEvent(el, 'touchend', toX, y));
+        await sleep(250);
+    }
+
+    async function pullGesture(list, startY, endY) {
+        var w = list.ownerDocument.defaultView;
+        var x = 100;
+        list.dispatchEvent(touchEvent(list, 'touchstart', x, startY));
+        await sleep(30);
+        list.dispatchEvent(touchEvent(list, 'touchmove', x, startY + 30));
+        await sleep(30);
+        list.dispatchEvent(touchEvent(list, 'touchmove', x, endY));
+        await sleep(150);
+        return function release() {
+            list.dispatchEvent(touchEvent(list, 'touchend', x, endY));
+        };
+    }
+
+    /* ------------------------------------------------------------------
+     * app interaction helpers
+     * ------------------------------------------------------------------ */
+    function mm() { return safeGet(function () { return W().__mm; }, null); }
+    function isChatOpen() {
+        var p = q('#chat-page');
+        return !!p && p.classList.contains('slide-in');
+    }
+    function isChatClosed() {
+        var p = q('#chat-page');
+        var l = q('#list-page');
+        return !!p && !p.classList.contains('slide-in') && !!l && !l.classList.contains('slide-out');
+    }
+    function chatClasses() {
+        return safeGet(function () {
+            return {
+                chat: (q('#chat-page') || {}).className,
+                list: (q('#list-page') || {}).className,
+                nav: (q('.bottom-nav') || {}).className,
+                more: (q('#more-page') || {}).className
+            };
+        }, null);
+    }
+    async function openChatById(id) {
+        var w = W();
+        var invoked = false;
+        try {
+            if (w.__mm && typeof w.__mm.openChat === 'function') { w.__mm.openChat(id); invoked = true; }
+        } catch (e) { note('__mm.openChat threw: ' + e); }
+        var ok = invoked ? await waitFor(function () { return isChatOpen(); }, 1500) : null;
+        if (!ok) {
+            // fallback: click the contact item (also covers __mm being absent/broken)
+            var item = q('.contact-item[data-id="' + id + '"]') || q('.contact-item');
+            if (item) { item.click(); invoked = true; }
+            ok = await waitFor(function () { return isChatOpen(); }, 4000, 'openChat');
+        }
+        await sleep(100);
+        return !!(invoked && ok);
+    }
+    async function closeChatByUI() {
+        var btn = q('.back-btn');
+        if (btn) btn.click();
+        else safeGet(function () { W().__mm.closeChat(); }, null);
+        return !!(await waitFor(function () { return isChatClosed(); }, 4000, 'closeChat'));
+    }
+    async function ensureChatPage(id) {
+        var opened = await openChatById(id);
+        check('打开聊天页（学生 ' + id + '）', opened, chatClasses());
+        await sleep(100);
+        return opened;
+    }
+    function setInputValue(sel, value) {
+        var el = typeof sel === 'string' ? q(sel) : sel;
+        if (!el) return false;
+        el.value = value;
+        el.dispatchEvent(new (W().Event)('input', { bubbles: true }));
+        return true;
+    }
+    function getChats() {
+        var m = mm();
+        if (m && typeof m.chats === 'function') {
+            var v = safeGet(function () { return m.chats(); }, null);
+            if (v && typeof v === 'object') return v;
+        }
+        var raw = safeGet(function () { return localStorage.getItem(HC.keys.chatsKey); }, null);
+        return safeGet(function () { return JSON.parse(raw || '{}'); }, {});
+    }
+    function getSettings() {
+        var m = mm();
+        if (m && typeof m.settings === 'function') {
+            var v = safeGet(function () { return m.settings(); }, null);
+            if (v && typeof v === 'object') return v;
+        }
+        var raw = safeGet(function () { return localStorage.getItem(HC.keys.settingsKey); }, null);
+        if (raw) return safeGet(function () { return JSON.parse(raw); }, {});
+        return {};
+    }
+    function getMyStudents() {
+        var m = mm();
+        if (m && typeof m.myStudents === 'function') {
+            var v = safeGet(function () { return m.myStudents(); }, null);
+            if (Array.isArray(v)) return v;
+        }
+        return safeGet(function () { return JSON.parse(localStorage.getItem(HC.keys.myStudentsKey) || '[]'); }, []);
+    }
+    function chatBoxesOf(id) { var c = getChats(); return Array.isArray(c[id]) ? c[id] : []; }
+    function lastBoxOf(id) { var arr = chatBoxesOf(id); return arr.length ? arr[arr.length - 1] : null; }
+    function fetchCount(suffix) {
+        var log = safeGet(function () { return (W().__test && W().__test.fetchLog) || []; }, []);
+        return log.filter(function (l) { return String(l.url || '').indexOf(suffix) >= 0; }).length;
+    }
+    function parseMatrixAngleDeg(tf) {
+        if (!tf || tf === 'none') return 0;
+        var m = String(tf).match(/matrix\(([^)]+)\)/);
+        if (m) {
+            var vals = m[1].split(',').map(Number);
+            if (vals.length >= 2) return Math.round(Math.atan2(vals[1], vals[0]) * 180 / Math.PI);
+        }
+        m = String(tf).match(/rotate\(([-\d.]+)deg\)/);
+        return m ? parseFloat(m[1]) : NaN;
+    }
+    function durationToMs(v) {
+        if (!v) return NaN;
+        v = String(v).trim();
+        if (/ms$/.test(v)) return parseFloat(v);
+        if (/s$/.test(v)) return parseFloat(v) * 1000;
+        return parseFloat(v);
+    }
+    function readStorageJSON(key) { return safeGet(function () { return JSON.parse(localStorage.getItem(key) || 'null'); }, null); }
+    function patchDownloadCapture() {
+        var w = W();
+        if (w.__testDownloads) return w.__testDownloads;
+        w.__testDownloads = [];
+        var orig = w.HTMLAnchorElement.prototype.click;
+        w.HTMLAnchorElement.prototype.click = function () {
+            if (this.download) {
+                w.__testDownloads.push({ download: String(this.download), href: String(this.href || '').slice(0, 48), at: Date.now() });
+            } else {
+                orig.call(this);
+            }
+        };
+        return w.__testDownloads;
+    }
+    function installBlobCapture() {
+        var w = W();
+        if (w.__testBlobs) return w.__testBlobs;
+        w.__testBlobs = [];
+        var OrigBlob = w.Blob;
+        function PatchedBlob(parts, opts) {
+            var b = new OrigBlob(parts, opts);
+            try { b.__testParts = parts; } catch (e) { /* ignore */ }
+            w.__testBlobs.push(b);
+            return b;
+        }
+        PatchedBlob.prototype = OrigBlob.prototype;
+        try {
+            Object.getOwnPropertyNames(OrigBlob).forEach(function (k) {
+                try { PatchedBlob[k] = OrigBlob[k]; } catch (e) { /* ignore */ }
+            });
+        } catch (e) { /* ignore */ }
+        w.Blob = PatchedBlob;
+        return w.__testBlobs;
+    }
+    async function blobText(blob) {
+        try {
+            if (blob && blob.__testParts) {
+                var joined = blob.__testParts.map(function (p) { return typeof p === 'string' ? p : ''; }).join('');
+                return JSON.parse(joined);
+            }
+            if (blob && typeof blob.text === 'function') {
+                var t = await blob.text();
+                return JSON.parse(t);
+            }
+            var w = W();
+            return await new Promise(function (resolve) {
+                var fr = new w.FileReader();
+                fr.onload = function () { try { resolve(JSON.parse(fr.result)); } catch (e) { resolve(null); } };
+                fr.onerror = function () { resolve(null); };
+                fr.readAsText(blob);
+            });
+        } catch (e) { return null; }
+    }
+    async function closeChatByUIandWait() { return closeChatByUI(); }
+
+    /* ------------------------------------------------------------------
+     * fixtures
+     * ------------------------------------------------------------------ */
+    var PNG_1PX_B64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    var ID1 = 1001;            // 小鸟游星野（无皮肤）
+    var ID2_SKIN = 100200;     // 圣园未花（泳装）—— 1002*100+0
+    var NAME1 = '小鸟游星野';
+    var SHORT1 = '星野';
+
+    function box(id, role, items, time) { return { id: id, role: role, time: time || T0, items: items || [] }; }
+    function tItem(id, value) { return { id: id, type: 'text', text: value }; }
+    function iItem(id, src) { return { id: id, type: 'image', src: src }; }
+    function eItem(id, src) { return { id: id, type: 'emoji', src: src || './resources/emoji/12.png' }; }
+    function rItem(id, title, value) {
+        return { id: id, type: 'reply', title: '回复', options: Array.isArray(value) ? value : [value == null ? '嗯？还好吧……' : String(value)] };
+    }
+    function sItem(id, title, value) { return { id: id, type: 'story', title: '好感故事', text: value || '' }; }
+    function myStudent(id, unread) { return { id: id, unread: unread || 0, addedAt: T0 - 10000 }; }
+
+    var FIXTURES = {
+        render: {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_render_s', 'student', [tItem('i_r1', '第一条学生消息'), tItem('i_r2', '第二条学生消息')], T0 - 2000),
+                    box('b_render_t', 'sensei', [tItem('i_r3', '老师的回复')], T0 - 1000)
+                ]
+            }
+        },
+        'send-append': { myStudents: [myStudent(ID1)], chats: {} },
+        'box-edit': {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_edit_s', 'student', [tItem('i_e1', '第一条学生消息'), tItem('i_e2', '第二条学生消息'), iItem('i_e3', 'data:image/png;base64,' + PNG_1PX_B64)], T0 - 2000),
+                    box('b_edit_t', 'sensei', [tItem('i_e4', '老师的消息')], T0 - 1000)
+                ]
+            }
+        },
+        more: {
+            myStudents: [myStudent(ID1)],
+            chats: { 1001: [box('b_more_t', 'sensei', [tItem('i_m1', '开场消息')], T0 - 1000)] }
+        },
+        playback: {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_p1', 'student', [tItem('i_p1', '学生第一句'), tItem('i_p2', '学生第二句')], T0 - 3000),
+                    box('b_p2', 'sensei', [tItem('i_p3', '老师回复')], T0 - 2000),
+                    box('b_p3', 'student', [tItem('i_p4', '学生再说一句')], T0 - 1000)
+                ]
+            }
+        },
+        screenshot: {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_s1', 'student', [tItem('i_s1', '截图测试：学生消息'), tItem('i_s2', '第二条学生消息')], T0 - 2000),
+                    box('b_s2', 'sensei', [tItem('i_s3', '截图测试：老师消息')], T0 - 1000)
+                ]
+            }
+        },
+        backup: {
+            myStudents: [myStudent(ID1)],
+            chats: { 1001: [box('b_b1', 'sensei', [tItem('i_b1', '备份测试消息')], T0 - 1000)] }
+        },
+        details: {
+            myStudents: [myStudent(ID1), myStudent(ID2_SKIN)],
+            chats: { 1001: [box('b_d1', 'sensei', [tItem('i_d1', '页面细节测试')], T0 - 1000)] }
+        },
+        // 旧版（扁平 [{role,text,time}]）数据：只给 legacyChatsKey，新 chatsKey 不存在
+        migration: {
+            myStudents: [myStudent(ID1)],
+            legacyChats: {
+                1001: [
+                    { role: 'student', text: '旧消息一', time: T0 - 4000 },
+                    { role: 'student', text: '旧消息二', time: T0 - 3000 },
+                    { role: 'sensei', text: '旧的老师回复', time: T0 - 2000 }
+                ]
+            }
+        },
+        'import-export': { myStudents: [myStudent(ID1)], chats: {} }
+    };
+    FIXTURES.boot = { myStudents: [myStudent(ID1)], chats: {} };
+
+    /* ------------------------------------------------------------------
+     * localStorage seeding
+     * ------------------------------------------------------------------ */
+    function clearTestStorage() {
+        var keys = HC.keys || {};
+        Object.keys(keys).forEach(function (k) { if (keys[k]) safeGet(function () { localStorage.removeItem(keys[k]); }, null); });
+        for (var i = localStorage.length - 1; i >= 0; i--) {
+            var k = localStorage.key(i);
+            if (k && k.indexOf('mm_test_') === 0) safeGet(function () { localStorage.removeItem(k); }, null);
+        }
+    }
+    function seedLocalStorage(seed) {
+        clearTestStorage();
+        seed = seed || {};
+        if (seed.myStudents !== undefined) localStorage.setItem(HC.keys.myStudentsKey, JSON.stringify(seed.myStudents));
+        if (seed.chats !== undefined) localStorage.setItem(HC.keys.chatsKey, JSON.stringify(seed.chats));
+        if (seed.legacyChats !== undefined) localStorage.setItem(HC.keys.legacyChatsKey, JSON.stringify(seed.legacyChats));
+        if (seed.settings !== undefined) localStorage.setItem(HC.keys.settingsKey, JSON.stringify(seed.settings));
+    }
+    function normalizeStorageKeys(storage) {
+        storage = storage || {};
+        return {
+            myStudentsKey: storage.myStudentsKey || 'mm_test_my_students',
+            chatsKey: storage.chatsKey || 'mm_test_chats',
+            legacyChatsKey: storage.legacyChatsKey || 'mm_test_chats_legacy',
+            settingsKey: storage.settingsKey || 'mm_test_settings'
+        };
+    }
+
+    /* ------------------------------------------------------------------
+     * html rewriting + app boot
+     * ------------------------------------------------------------------ */
+    function INJECT_FN(cfg) {
+        var log = window.__test = {
+            fetchLog: [], confirms: [], alerts: [], prompts: [], errors: [],
+            appBase: cfg.appBase, fixtureBase: cfg.fixtureBase, startedAt: Date.now()
+        };
+        function fixture(p) { return cfg.fixtureBase + p; }
+        function rewrite(u) {
+            var s = String(u == null ? '' : u);
+            if (/running_datas\.json(?:[?#]|$)/.test(s)) return fixture('running_datas.json');
+            if (/students\.json(?:[?#]|$)/.test(s)) return fixture('students.json');
+            return s;
+        }
+        var orig = window.fetch ? window.fetch.bind(window) : null;
+        window.fetch = function (input, init) {
+            var raw = (typeof input === 'string') ? input : ((input && input.url) || String(input));
+            var mapped = rewrite(raw);
+            log.fetchLog.push({ url: raw, mapped: mapped, at: Date.now() });
+            if (!orig) return Promise.reject(new Error('fetch unavailable'));
+            return orig(mapped, init);
+        };
+        window.confirm = function (msg) { log.confirms.push(String(msg)); return window.__testConfirmResult !== false; };
+        window.alert = function (msg) { log.alerts.push(String(msg)); };
+        window.prompt = function (msg, def) {
+            log.prompts.push(String(msg));
+            return window.__testPromptResult !== undefined ? window.__testPromptResult : (def == null ? '' : def);
+        };
+        window.addEventListener('error', function (e) {
+            log.errors.push({ type: 'error', message: e.message, filename: e.filename, lineno: e.lineno, stack: e.error && e.error.stack });
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+            log.errors.push({ type: 'unhandledrejection', message: String((e.reason && (e.reason.message || e.reason)) || e.reason), stack: e.reason && e.reason.stack });
+        });
+        window.__testFrameBooted = true;
+    }
+
+    function injectPrelude(html) {
+        var prelude = '<script>(' + INJECT_FN.toString() + ')(' + JSON.stringify({ appBase: APP_BASE, fixtureBase: FIXTURE_BASE }) + ');' + '<\/script>';
+        if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, prelude + '</head>');
+        if (/<body[^>]*>/i.test(html)) return html.replace(/<body[^>]*>/i, function (m) { return m + prelude; });
+        return prelude + html;
+    }
+
+    function startFrame() {        return new Promise(function (resolve, reject) {
+            var timer = setTimeout(function () {
+                reject(new Error('iframe frame-ready 超时（/test-harness.html?frame=1 未响应）'));
+            }, 8000);
+            function onMsg(ev) {
+                if (ev.source !== FRAME.contentWindow) return;
+                var d = ev.data || {};
+                if (d.type === 'mm_frame_ready') {
+                    clearTimeout(timer);
+                    window.removeEventListener('message', onMsg);
+                    resolve();
+                } else if (d.type === 'mm_app_error') {
+                    STATE.errors.push('frame document.write 失败: ' + d.message);
+                }
+            }
+            window.addEventListener('message', onMsg);
+            FRAME.src = './test-harness.html?frame=1';
+        });
+    }
+
+    /* Virtual time (--virtual-time-budget) fast-forwards timers but does not
+     * tick the compositor, so CSS *transitions* stay at their start value.
+     * Inject test-only overrides (transitions only, never keyframe animations)
+     * so layout/transform assertions are deterministic and match a real browser. */
+    function injectTestOverrides() {
+        var d = D();
+        if (!d) return false;
+        if (d.getElementById('harness-test-overrides')) return true;
+        var style = d.createElement('style');
+        style.id = 'harness-test-overrides';
+        style.textContent = [
+            '/* harness-only: virtual time does not advance compositor transitions */',
+            '.round-btn svg { transition: none !important; }',
+            '#more-panel, .chat-more-panel { transition: none !important; }',
+            '#more-panel.open, .chat-more-panel.open { height: 106px !important; }',
+            '#more-panel.open.emoji-open, .chat-more-panel.open.emoji-open { height: 324px !important; }',
+            '.chat-input-area { transition: none !important; }'
+        ].join('\n');
+        (d.head || d.documentElement).appendChild(style);
+        return true;
+    }
+
+    async function waitAppReady() {
+        var start = Date.now();
+        var info = {};
+        var seededCount = STATE.seed && Array.isArray(STATE.seed.myStudents) ? STATE.seed.myStudents.length : 0;
+        while (Date.now() - start < 12000) {
+            var w = safeGet(function () { return FRAME.contentWindow; }, null);
+            var d = safeGet(function () { return FRAME.contentDocument; }, null);
+            if (w && d && d.getElementById('list-page')) {
+                var hasMm = !!safeGet(function () { return w.__mm; }, null);
+                var items = d.querySelectorAll('.contact-item').length;
+                var list = d.getElementById('contact-list');
+                var listText = list ? String(list.textContent || '').replace(/\s+/g, ' ').trim() : '';
+                var errorList = /无法读取|读取失败|HTTP \d|配置/.test(listText);
+                info = {
+                    hasApp: true, hasMm: hasMm, items: items,
+                    readyState: d.readyState, listText: listText.slice(0, 160),
+                    scriptErrors: safeGet(function () { return (w.__test && w.__test.errors) || []; }, []).slice(0, 3)
+                };
+                if (items > 0 || errorList || (seededCount === 0 && listText.length > 0)) return info;
+            } else if (w && d) {
+                info = { hasApp: false, readyState: d.readyState };
+            }
+            await sleep(50);
+        }
+        return info;
+    }
+
+    /* ------------------------------------------------------------------
+     * snapshot
+     * ------------------------------------------------------------------ */
+    function snapshotState() {
+        var out = { hasWindow: !!safeGet(function () { return W(); }, null), mm: false, dom: {}, storage: {}, testLog: null };
+        try {
+            var w = W();
+            var d = D();
+            out.href = String(w.location.href);
+            out.title = d ? d.title : null;
+            out.readyState = d ? d.readyState : null;
+            out.mm = !!safeGet(function () { return w.__mm; }, null);
+            out.dom = {
+                contactItems: qa('.contact-item').length,
+                chatOpen: isChatOpen(),
+                chatPageClass: (q('#chat-page') || {}).className,
+                listPageClass: (q('#list-page') || {}).className,
+                morePageClass: (q('#more-page') || {}).className,
+                navClass: (q('.bottom-nav') || {}).className,
+                modalActive: modalActive(),
+                modalTitle: modalTitle(),
+                msgBoxes: qa('#chat-content .msg-box').length,
+                typingBoxes: qa('#chat-content .typing-box').length,
+                morePanelOpen: !!(q('#more-panel') && q('#more-panel').classList.contains('open')),
+                emojiCells: qa('.emoji-cell').length,
+                contactListText: text(q('#contact-list')).slice(0, 200)
+            };
+            if (HC.keys) {
+                out.storage.chatsRaw = safeGet(function () { return localStorage.getItem(HC.keys.chatsKey); }, null);
+                out.storage.settingsRaw = safeGet(function () { return localStorage.getItem(HC.keys.settingsKey); }, null);
+                out.storage.myStudentsRaw = safeGet(function () { return localStorage.getItem(HC.keys.myStudentsKey); }, null);
+            }
+            out.testLog = {
+                fetch: safeGet(function () { return (w.__test.fetchLog || []).slice(-10); }, null),
+                confirms: safeGet(function () { return (w.__test.confirms || []).slice(-5); }, null),
+                errors: safeGet(function () { return (w.__test.errors || []).slice(0, 5); }, null)
+            };
+        } catch (e) {
+            out.error = String(e);
+        }
+        return out;
+    }
+
+    /* ==================================================================
+     * SCENARIOS
+     * ================================================================== */
+
+    /* ---------------- boot / framework self-check ---------------- */
+    async function runBoot() {
+        var w = W();
+        var d = D();
+        check('iframe 应用文档已写入（存在 #list-page）', !!d && !!d.getElementById('list-page'), { hasDoc: !!d, title: d && d.title, readyState: d && d.readyState });
+        var fetchLog = safeGet(function () { return w.__test.fetchLog; }, []) || [];
+        check('配置文件 fetch 被改写为 fixture', fetchLog.some(function (l) { return /running_datas\.json/.test(l.url) && /_test\/fixtures/.test(l.mapped); }), fetchLog.slice(0, 5));
+        check('学生资料 fetch 被改写为 fixture', fetchLog.some(function (l) { return /students\.json/.test(l.url) && /_test\/fixtures/.test(l.mapped); }), fetchLog.slice(0, 5));
+        check('学生资料加载并渲染联系人列表', qa('.contact-item').length === (STATE.seed.myStudents || []).length, {
+            items: qa('.contact-item').length, seeded: (STATE.seed.myStudents || []).length, listText: text(q('#contact-list')).slice(0, 200)
+        });
+        var appErrors = safeGet(function () {
+            return (w.__test.errors || []).filter(function (e) {
+                return !/chat_screenshot|favicon|Failed to load resource|net::ERR/.test(String((e && e.message) || ''));
+            });
+        }, []);
+        check('应用脚本无未捕获异常（window.__test.errors）', appErrors.length === 0, appErrors.slice(0, 3));
+        var mmObj = safeGet(function () { return w.__mm; }, null);
+        var required = ['chats', 'settings', 'myStudents', 'student', 'openChat', 'closeChat', 'renderChat', 'sendMessage', 'startPlayback', 'stopPlayback', 'boxText', 'saveChats', 'saveSettings', 'isImageUrl', 'escapeHtml'];
+        var missing = required.filter(function (k) { return typeof (mmObj || {})[k] !== 'function'; });
+        note('window.__mm 缺失钩子: ' + JSON.stringify(missing));
+    }
+
+    /* ---------------- render ---------------- */
+    async function runRender() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return q('#chat-content .msg-box.student') && q('#chat-content .msg-box.sensei'); }, 4000, 'msg-boxes');
+
+        var sBox = q('#chat-content .msg-box.student');
+        var tBox = q('#chat-content .msg-box.sensei');
+        check('聊天内容中出现学生盒子 .msg-box.student', !!sBox, chatClasses());
+        check('聊天内容中出现老师盒子 .msg-box.sensei', !!tBox, chatClasses());
+        if (!sBox || !tBox) return;
+
+        // student box: avatar + name exactly once
+        check('学生盒子只显示 1 个头像 .box-avatar', sBox.querySelectorAll('.box-avatar').length === 1, sBox.querySelectorAll('.box-avatar').length);
+        check('学生盒子只显示 1 个名字 .box-name', sBox.querySelectorAll('.box-name').length === 1, sBox.querySelectorAll('.box-name').length);
+        var avatar = sBox.querySelector('.box-avatar');
+        check('学生头像 src 非空且指向学生头像', !!attr(avatar, 'src') && /head\.jpg|data:image/.test(attr(avatar, 'src')), attr(avatar, 'src'));
+        check('学生头像 40px 圆形', css(avatar, 'width') === '40px' && css(avatar, 'height') === '40px' && css(avatar, 'borderRadius') === '50%', { width: css(avatar, 'width'), height: css(avatar, 'height'), radius: css(avatar, 'borderRadius') });
+        var nameEl = sBox.querySelector('.box-name');
+        check('学生名字包含“星野”', text(nameEl).indexOf('星野') >= 0, text(nameEl));
+        check('学生名字 13px 深灰加粗', css(nameEl, 'fontSize') === '13px' && parseInt(css(nameEl, 'fontWeight'), 10) >= 600 && css(nameEl, 'color') === 'rgb(51, 59, 71)', { fontSize: css(nameEl, 'fontSize'), fontWeight: css(nameEl, 'fontWeight'), color: css(nameEl, 'color') });
+
+        // sensei box: no avatar / no name / no img
+        check('老师盒子无头像 .box-avatar', tBox.querySelectorAll('.box-avatar').length === 0, tBox.querySelectorAll('.box-avatar').length);
+        check('老师盒子无名字 .box-name', tBox.querySelectorAll('.box-name').length === 0, tBox.querySelectorAll('.box-name').length);
+        check('老师盒子内没有 img（不显示 Sensei 字样/头像）', tBox.querySelectorAll('img').length === 0, tBox.querySelectorAll('img').length);
+        check('老师盒子文本中不含“Sensei”', text(tBox).indexOf('Sensei') < 0, text(tBox));
+
+        // bubbles
+        var sBubbles = sBox.querySelectorAll('.msg-bubble');
+        var tBubbles = tBox.querySelectorAll('.msg-bubble');
+        check('学生盒子有 2 条气泡（多消息聚合到一个盒子）', sBubbles.length === 2, sBubbles.length);
+        check('老师盒子有 1 条气泡', tBubbles.length === 1, tBubbles.length);
+        check('学生气泡背景 #4C5A6E', css(sBubbles[0], 'backgroundColor') === 'rgb(76, 90, 110)', css(sBubbles[0], 'backgroundColor'));
+        check('老师气泡背景 #4B8AC9', css(tBubbles[0], 'backgroundColor') === 'rgb(75, 138, 201)', css(tBubbles[0], 'backgroundColor'));
+        check('气泡文字为白色', css(sBubbles[0], 'color') === 'rgb(255, 255, 255)' && css(tBubbles[0], 'color') === 'rgb(255, 255, 255)', { student: css(sBubbles[0], 'color'), sensei: css(tBubbles[0], 'color') });
+        check('气泡圆角 14px', css(sBubbles[0], 'borderRadius') === '14px', css(sBubbles[0], 'borderRadius'));
+        check('气泡内边距 8px 14px', css(sBubbles[0], 'paddingTop') === '8px' && css(sBubbles[0], 'paddingLeft') === '14px' && css(sBubbles[0], 'paddingRight') === '14px', { top: css(sBubbles[0], 'paddingTop'), left: css(sBubbles[0], 'paddingLeft'), right: css(sBubbles[0], 'paddingRight') });
+        check('气泡字号 15px / 行高 1.45', css(sBubbles[0], 'fontSize') === '15px' && Math.abs(parseFloat(css(sBubbles[0], 'lineHeight')) - 21.75) < 0.6, { fontSize: css(sBubbles[0], 'fontSize'), lineHeight: css(sBubbles[0], 'lineHeight') });
+
+        // gaps
+        var contentGap = css(q('#chat-content'), 'gap') || css(q('#chat-content'), 'rowGap');
+        var boxA = rect(qa('#chat-content .msg-box[data-box-id]')[0]);
+        var boxB = rect(qa('#chat-content .msg-box[data-box-id]')[1]);
+        var boxGap = (boxA && boxB) ? boxB.top - boxA.bottom : null;
+        check('盒子间距约 18px', (contentGap === '18px') || (boxGap !== null && boxGap >= 14 && boxGap <= 22), { contentGap: contentGap, measured: boxGap });
+        var itemsEl = sBox.querySelector('.box-items');
+        var itemGap = css(itemsEl, 'gap') || css(itemsEl, 'rowGap');
+        var iRects = Array.prototype.slice.call(sBox.querySelectorAll('.msg-item')).map(rect);
+        var measuredItemGap = iRects.length >= 2 ? iRects[1].top - iRects[0].bottom : null;
+        check('同一盒子内气泡间距约 6px', (itemGap === '6px') || (measuredItemGap !== null && measuredItemGap >= 3 && measuredItemGap <= 9), { itemGap: itemGap, measured: measuredItemGap });
+
+        // background (chat-content itself may be transparent -> fall back to #chat-page)
+        var contentBg = css(q('#chat-content'), 'backgroundImage');
+        var pageBg = css(q('#chat-page'), 'backgroundImage');
+        var bg = (contentBg && contentBg !== 'none') ? contentBg : pageBg;
+        check('聊天背景为浅色渐变', /linear-gradient/.test(bg || '') && /238, 244, 248|248, 250, 252|247, 249, 251/.test(bg || ''), { contentBg: contentBg, pageBg: pageBg });
+        var contentRect = rect(q('#chat-content'));
+        var sRect = rect(sBox);
+        var tRect = rect(tBox);
+        check('学生盒子左对齐 / 老师盒子右对齐', !!(contentRect && sRect && tRect) && sRect.left < contentRect.left + contentRect.width / 2 && tRect.right > contentRect.left + contentRect.width / 2, { content: contentRect, student: sRect, sensei: tRect });
+
+        // item ids from fixture all rendered
+        var renderedIds = qa('#chat-content .msg-item[data-item-id]').map(function (el) { return attr(el, 'data-item-id'); });
+        check('3 条消息的 data-item-id 与夹具一致', ['i_r1', 'i_r2', 'i_r3'].every(function (id) { return renderedIds.indexOf(id) >= 0; }), renderedIds);
+
+        // header
+        check('聊天页头部显示学生名与头像', text(q('#chat-header-name')).indexOf('星野') >= 0 && !!attr(q('#chat-header-avatar'), 'src'), { name: text(q('#chat-header-name')), avatar: attr(q('#chat-header-avatar'), 'src') });
+    }
+
+    /* ---------------- send / append ---------------- */
+    async function runSendAppend() {
+        await ensureChatPage(ID1);
+        check('#send-btn 存在', !!q('#send-btn'), idsPresent(['send-btn', 'append-btn', 'btn-more', 'chat-input', 'role-switch']));
+        check('#append-btn 存在', !!q('#append-btn'), idsPresent(['append-btn']));
+        check('初始会话为空', chatBoxesOf(ID1).length === 0, getChats());
+
+        // send as sensei -> new box
+        setInputValue('#chat-input', '老师消息A');
+        q('#send-btn').click();
+        await waitFor(function () { return chatBoxesOf(ID1).length === 1; }, 3000, 'first-box');
+        var boxes = chatBoxesOf(ID1);
+        check('点“发送”新建 1 个盒子', boxes.length === 1, boxes.map(function (b) { return { id: b.id, role: b.role, items: (b.items || []).map(function (i) { return i.text || i.type; }) }; }));
+        check('默认身份 sensei 的盒子 role=sensei', boxes[0] && boxes[0].role === 'sensei', boxes[0] && boxes[0].role);
+        check('盒子内 text item 内容正确', !!(boxes[0] && (boxes[0].items || []).some(function (i) { return i.type === 'text' && i.text === '老师消息A'; })), boxes[0] && boxes[0].items);
+        check('发送后输入框清空', q('#chat-input').value === '', q('#chat-input').value);
+        check('DOM：老师盒子无头像无名字', qa('#chat-content .msg-box.sensei .box-avatar').length === 0 && qa('#chat-content .msg-box.sensei .box-name').length === 0, { avatars: qa('#chat-content .msg-box.sensei .box-avatar').length, names: qa('#chat-content .msg-box.sensei .box-name').length });
+
+        // switch role -> send student box
+        q('#role-switch').click();
+        await sleep(80);
+        check('切换身份后 #role-text 显示“学生”', text(q('#role-text')).indexOf('学生') >= 0, text(q('#role-text')));
+        check('#role-switch 带 student 类', q('#role-switch').classList.contains('student'), q('#role-switch').className);
+        setInputValue('#chat-input', '学生消息B');
+        q('#send-btn').click();
+        await waitFor(function () { return chatBoxesOf(ID1).length === 2; }, 3000, 'second-box');
+        boxes = chatBoxesOf(ID1);
+        check('学生身份发送后盒子数为 2', boxes.length === 2, boxes.map(function (b) { return b.role; }));
+        check('第二个盒子 role=student', boxes[1] && boxes[1].role === 'student', boxes[1] && boxes[1].role);
+        check('学生盒子头像/名字各出现一次', qa('#chat-content .msg-box.student .box-avatar').length === 1 && qa('#chat-content .msg-box.student .box-name').length === 1, { avatars: qa('#chat-content .msg-box.student .box-avatar').length, names: qa('#chat-content .msg-box.student .box-name').length });
+
+        // append same role -> append into last box
+        setInputValue('#chat-input', '追加学生C');
+        q('#append-btn').click();
+        await waitFor(function () { return chatBoxesOf(ID1).length === 2 && (chatBoxesOf(ID1)[1].items || []).length === 2; }, 3000, 'append-same-role');
+        boxes = chatBoxesOf(ID1);
+        check('同身份追加不新建盒子', boxes.length === 2, boxes.length);
+        check('同身份追加把消息加入上一个盒子', (boxes[1].items || []).length === 2 && boxes[1].items.some(function (i) { return i.text === '追加学生C'; }), boxes[1].items);
+        check('追加后输入框清空', q('#chat-input').value === '', q('#chat-input').value);
+        var lastStudentBox = qa('#chat-content .msg-box.student').slice(-1)[0];
+        check('DOM：最后一个学生盒子含 2 条消息', !!lastStudentBox && lastStudentBox.querySelectorAll('.msg-item').length === 2, lastStudentBox && lastStudentBox.querySelectorAll('.msg-item').length);
+
+        // mismatch -> confirm dialog
+        q('#role-switch').click();
+        await sleep(80);
+        setInputValue('#chat-input', '老师追加D');
+        q('#append-btn').click();
+        var shown = await waitModal(3000);
+        check('身份不一致时弹出确认弹窗', shown, modalInfo());
+        var mtext = modalTitle() + ' | ' + modalBodyText();
+        check('弹窗说明上一个盒子与当前身份不一致', /不一致|上一个|发送者/.test(mtext), mtext);
+        check('弹窗提供“新建盒子”与“改身份并追加”选项', !!btnByText('新建盒子', q('#modal-actions')) && (!!btnByText('改身份并追加', q('#modal-actions')) || !!btnByText('改身份', q('#modal-actions'))), allTexts(q('#modal-actions')));
+        clickText('新建盒子', q('#modal-actions'));
+        await waitFor(function () { return chatBoxesOf(ID1).length === 3; }, 3000, 'mismatch-new-box');
+        boxes = chatBoxesOf(ID1);
+        check('选择“新建盒子”后出现第 3 个盒子（sensei）', boxes.length === 3 && boxes[2].role === 'sensei', boxes.map(function (b) { return b.role; }));
+        check('选择“新建盒子”后弹窗关闭', !modalActive(), modalInfo());
+
+        // persisted
+        var raw = localStorage.getItem(HC.keys.chatsKey);
+        var parsed = safeGet(function () { return JSON.parse(raw); }, null);
+        check('发送/追加后写入 localStorage chatsKey', !!parsed && Array.isArray(parsed[ID1]) && parsed[ID1].length === 3, raw ? raw.slice(0, 300) : null);
+    }
+
+    /* ---------------- long-press box editor ---------------- */
+    function editRow(itemId) { return q('.box-edit-row[data-item-id="' + itemId + '"]'); }
+    function rowOp(itemId, op) {
+        var row = editRow(itemId);
+        return row ? row.querySelector('[data-op="' + op + '"]') : null;
+    }
+    function actionBtn(action) { return q('.box-action-btn[data-action="' + action + '"]') || btnByText({ append: '追加信息', sender: '更换发送者', up: '上移', down: '下移', delete: '删除信息盒子' }[action], q('#modal-body')); }
+    async function openEditorByLongPress(boxId) {
+        var el = q('.msg-box[data-box-id="' + boxId + '"]');
+        if (!el) return false;
+        await longPress(el, 750);
+        return !!(await waitFor(function () { return modalActive() && q('.box-edit-list'); }, 3000, 'box-editor'));
+    }
+    function editorMeta() { return text(q('.box-edit-meta')); }
+    function editorRows() { return qa('.box-edit-row'); }
+
+    async function runBoxEdit() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 3000, 'two-boxes');
+
+        // plain click must not open the editor
+        var boxEl = q('.msg-box[data-box-id="b_edit_s"]');
+        if (boxEl) boxEl.click();
+        await sleep(150);
+        check('单击盒子不会打开编辑面板', !modalActive(), modalInfo());
+
+        var opened = await openEditorByLongPress('b_edit_s');
+        check('长按学生盒子打开“信息盒子”编辑面板', opened && /信息盒子/.test(modalTitle()), modalInfo());
+        check('编辑面板显示发送者与消息条数', /星野|学生/.test(editorMeta()) && /3/.test(editorMeta()), editorMeta());
+        check('编辑面板每条消息一行', editorRows().length === 3, editorRows().length);
+        var rowsText = editorRows().map(function (r) { return text(r); });
+        check('消息行显示类型标签（文本/图片）', rowsText.join('|').indexOf('文本') >= 0 && rowsText.join('|').indexOf('图片') >= 0, rowsText);
+        check('消息行显示内容预览', rowsText.join('|').indexOf('第一条学生消息') >= 0, rowsText);
+        check('文本消息行有“编辑”按钮', !!rowOp('i_e1', 'edit'), !!rowOp('i_e1', 'edit'));
+        check('图片消息行没有“编辑”按钮（只能删除）', !rowOp('i_e3', 'edit'), !!rowOp('i_e3', 'edit'));
+        check('每条消息行都有“删除”按钮', ['i_e1', 'i_e2', 'i_e3'].every(function (id) { return !!rowOp(id, 'del'); }), ['i_e1', 'i_e2', 'i_e3'].map(function (id) { return !!rowOp(id, 'del'); }));
+        check('操作按钮：追加信息/更换发送者/上移/下移/删除信息盒子/关闭',
+            !!actionBtn('append') && !!actionBtn('sender') && !!actionBtn('up') && !!actionBtn('down') && !!actionBtn('delete') && !!btnByText('关闭', q('#modal-actions')),
+            allTexts(q('#modal-body')).concat(allTexts(q('#modal-actions'))));
+        check('上移按钮在第一个盒子时禁用、下移可用', !!actionBtn('up') && actionBtn('up').disabled === true && !!actionBtn('down') && actionBtn('down').disabled === false, { upDisabled: actionBtn('up') && actionBtn('up').disabled, downDisabled: actionBtn('down') && actionBtn('down').disabled });
+
+        // delete one message
+        rowOp('i_e2', 'del').click();
+        await waitModal(2000);
+        check('删除某条信息时弹出确认', modalActive(), modalInfo());
+        clickModalBtn('删除');
+        var deleted = await waitFor(function () { var b = chatBoxesOf(ID1).find(function (x) { return x.id === 'b_edit_s'; }); return b && (b.items || []).length === 2; }, 3000, 'delete-item');
+        check('删除消息后盒子 items 减 1', !!deleted, (chatBoxesOf(ID1).find(function (x) { return x.id === 'b_edit_s'; }) || {}).items);
+        await waitFor(function () { return modalActive() && editRow('i_e1'); }, 2000);
+        check('删除消息后编辑面板刷新', editorRows().length === 2, editorRows().length);
+        check('DOM 中该盒子同步为 2 条消息', (q('.msg-box[data-box-id="b_edit_s"]') || { querySelectorAll: function () { return []; } }).querySelectorAll('.msg-item').length === 2, (q('.msg-box[data-box-id="b_edit_s"]') || { querySelectorAll: function () { return []; } }).querySelectorAll('.msg-item').length);
+
+        // append info
+        actionBtn('append').click();
+        await waitFor(function () { return !!q('#append-text-input'); }, 2000, 'append-editor');
+        setInputValue('#append-text-input', '追加的信息');
+        clickModalBtn('追加');
+        var appended = await waitFor(function () { var b = chatBoxesOf(ID1).find(function (x) { return x.id === 'b_edit_s'; }); return b && (b.items || []).length === 3; }, 3000, 'append-info');
+        check('“追加信息”给盒子增加一条消息', !!appended, (chatBoxesOf(ID1).find(function (x) { return x.id === 'b_edit_s'; }) || {}).items);
+        check('DOM 中该盒子同步为 3 条消息', qa('.msg-box[data-box-id="b_edit_s"] .msg-item').length === 3, qa('.msg-box[data-box-id="b_edit_s"] .msg-item').length);
+
+        // change sender
+        opened = await openEditorByLongPress('b_edit_s');
+        check('再次长按打开编辑面板', opened, modalInfo());
+        actionBtn('sender').click();
+        var flipped = await waitFor(function () { var b = chatBoxesOf(ID1).find(function (x) { return x.id === 'b_edit_s'; }); return b && b.role === 'sensei'; }, 3000, 'change-sender');
+        check('“更换发送者”切换盒子 role', !!flipped, (chatBoxesOf(ID1).find(function (x) { return x.id === 'b_edit_s'; }) || {}).role);
+        check('更换发送者后面板元信息变为老师', /老师/.test(editorMeta()), editorMeta());
+        check('更换发送者后 DOM 盒子变为 sensei（无头像/名字）', !!q('.msg-box[data-box-id="b_edit_s"].sensei') && qa('.msg-box[data-box-id="b_edit_s"] .box-avatar').length === 0, { sensei: !!q('.msg-box[data-box-id="b_edit_s"].sensei'), avatars: qa('.msg-box[data-box-id="b_edit_s"] .box-avatar').length });
+        // close button
+        clickModalBtn('关闭');
+        await waitFor(function () { return !modalActive(); }, 2000);
+        check('“关闭”按钮关闭编辑面板', !modalActive(), modalInfo());
+
+        // move down / up
+        opened = await openEditorByLongPress('b_edit_s');
+        check('移动前学生盒子在第 1 位', chatBoxesOf(ID1)[0] && chatBoxesOf(ID1)[0].id === 'b_edit_s', chatBoxesOf(ID1).map(function (b) { return b.id; }));
+        actionBtn('down').click();
+        var movedDown = await waitFor(function () { return chatBoxesOf(ID1)[0] && chatBoxesOf(ID1)[0].id === 'b_edit_t'; }, 3000, 'move-down');
+        check('“下移”交换盒子顺序（学生盒子到第 2 位）', !!movedDown, chatBoxesOf(ID1).map(function (b) { return b.id; }));
+        await waitFor(function () { return modalActive() && editorMeta(); }, 2000);
+        actionBtn('up').click();
+        var movedUp = await waitFor(function () { return chatBoxesOf(ID1)[0] && chatBoxesOf(ID1)[0].id === 'b_edit_s'; }, 3000, 'move-up');
+        check('“上移”交换盒子顺序（恢复第 1 位）', !!movedUp, chatBoxesOf(ID1).map(function (b) { return b.id; }));
+        await waitFor(function () { return modalActive() && actionBtn('delete'); }, 2000);
+
+        // delete box
+        actionBtn('delete').click();
+        await waitModal(2000);
+        check('删除信息盒子时弹出确认', modalActive(), modalInfo());
+        clickModalBtn('删除');
+        var boxDeleted = await waitFor(function () { return chatBoxesOf(ID1).length === 1; }, 3000, 'delete-box');
+        check('删除信息盒子后会话只剩 1 个盒子', !!boxDeleted, chatBoxesOf(ID1).map(function (b) { return b.id; }));
+        await sleep(150);
+        check('DOM 同步为 1 个盒子', qa('#chat-content .msg-box[data-box-id]').length === 1, qa('#chat-content .msg-box[data-box-id]').length);
+        check('操作后 chats 已保存到 localStorage', (readStorageJSON(HC.keys.chatsKey) || {})[ID1] && (readStorageJSON(HC.keys.chatsKey) || {})[ID1].length === 1, readStorageJSON(HC.keys.chatsKey));
+    }
+
+    /* ---------------- more panel ---------------- */
+    function moreTile(action) { return q('.more-tile[data-action="' + action + '"]'); }
+    function morePanel() { return q('#more-panel'); }
+    async function openMorePanelForTest() {
+        if (morePanel() && morePanel().classList.contains('open')) return true;
+        var btn = q('#btn-more');
+        if (!btn) return false;
+        btn.click();
+        return !!(await waitFor(function () { return morePanel() && morePanel().classList.contains('open'); }, 3000, 'more-panel'));
+    }
+    async function chooseLocalImage() {
+        var w = W();
+        var input = q('#file-image');
+        if (!input) return { ok: false, error: 'no #file-image' };
+        try {
+            var bin = w.atob(PNG_1PX_B64);
+            var bytes = new w.Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            var file = new w.File([bytes], 'qa-test.png', { type: 'image/png' });
+            var dt = new w.DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            input.dispatchEvent(new w.Event('change', { bubbles: true }));
+            return { ok: true, mode: 'files+change' };
+        } catch (e) {
+            try {
+                var bin2 = w.atob(PNG_1PX_B64);
+                var arr = new w.Uint8Array(bin2.length);
+                for (var j = 0; j < bin2.length; j++) arr[j] = bin2.charCodeAt(j);
+                var f2 = new w.File([arr], 'qa-test.png', { type: 'image/png' });
+                w.onLocalImage({ target: { files: [f2], value: '' } });
+                return { ok: true, mode: 'direct-call', error: String(e) };
+            } catch (e2) {
+                return { ok: false, error: String(e) + ' / ' + String(e2) };
+            }
+        }
+    }
+
+    async function runMore() {
+        await ensureChatPage(ID1);
+        var inputArea = q('#chat-input-area');
+        var before = rect(inputArea);
+        var moreBtn = q('#btn-more');
+        check('#btn-more（+ 按钮）存在', !!moreBtn, idsPresent(['btn-more', 'more-panel', 'file-image']));
+        check('打开更多栏前 #more-panel 未打开', !!morePanel() && !morePanel().classList.contains('open'), morePanel() && morePanel().className);
+
+        moreBtn.click();
+        var opened = await waitFor(function () { return morePanel() && morePanel().classList.contains('open'); }, 3000, 'more-open');
+        await sleep(320);
+        check('点击 + 打开更多栏（#more-panel.open）', !!opened, morePanel() && morePanel().className);
+        check('+ 按钮带 open 类', moreBtn.classList.contains('open'), moreBtn.className);
+        var deg = parseMatrixAngleDeg(css(moreBtn.querySelector('svg'), 'transform'));
+        check('+ 图标旋转 45°', Math.abs(deg - 45) <= 8, { transform: css(moreBtn.querySelector('svg'), 'transform'), deg: deg });
+        var after = rect(inputArea);
+        check('打开更多栏后输入区上移（顶部减少 ≥40px）', !!(before && after) && (before.top - after.top) >= 40, { beforeTop: before && before.top, afterTop: after && after.top });
+        var actions = qa('.more-tile').map(function (el) { return attr(el, 'data-action'); });
+        check('更多栏含 4 个入口（表情/图片/回复/好感故事）', qa('.more-tile').length === 4 && ['emoji', 'image', 'reply', 'story'].every(function (a) { return actions.indexOf(a) >= 0; }), actions);
+
+        // emoji
+        moreTile('emoji').click();
+        await waitFor(function () { return morePanel().classList.contains('emoji-open') && qa('.emoji-cell').length >= 183; }, 4000, 'emoji-grid');
+        await sleep(100);
+        check('点击表情入口展开表情面板', morePanel().classList.contains('emoji-open'), morePanel().className);
+        check('社团表情数量为 183', qa('.emoji-cell').length === 183, qa('.emoji-cell').length);
+        var firstEmojiSrc = attr(q('.emoji-cell img'), 'src') || '';
+        check('第一个表情图指向 resources/emoji/0.png', firstEmojiSrc.indexOf('resources/emoji/0.png') >= 0, firstEmojiSrc);
+        var cols = String(css(q('.emoji-grid'), 'gridTemplateColumns') || '').split(' ').filter(Boolean).length;
+        check('表情网格为 6 列', cols === 6, { gridTemplateColumns: css(q('.emoji-grid'), 'gridTemplateColumns'), cols: cols });
+        var ep = q('#emoji-panel');
+        check('表情面板纵向滚动', css(ep, 'overflowY') === 'auto' && parseFloat(css(ep, 'height')) > 100, { overflowY: css(ep, 'overflowY'), height: css(ep, 'height') });
+        var beforeEmoji = chatBoxesOf(ID1).length;
+        var cell12 = q('.emoji-cell[data-emoji="12"]');
+        check('存在 data-emoji="12" 的表情格', !!cell12, qa('.emoji-cell').slice(0, 3).map(function (c) { return attr(c, 'data-emoji'); }));
+        if (cell12) cell12.click();
+        var emojiSent = await waitFor(function () { return chatBoxesOf(ID1).length === beforeEmoji + 1; }, 3000, 'emoji-send');
+        var emojiBox = lastBoxOf(ID1);
+        check('点击表情立即发送（新建盒子 + emoji item）', !!emojiSent && !!emojiBox && emojiBox.items[0] && emojiBox.items[0].type === 'emoji', emojiBox);
+        check('emoji item.src 指向 resources/emoji/12.png', !!(emojiBox && emojiBox.items[0] && /resources\/emoji\/12\.png$/.test(emojiBox.items[0].src || '')), emojiBox && emojiBox.items[0] && emojiBox.items[0].src);
+        await waitFor(function () { return q('.emoji-bubble img.emoji-img'); }, 2000);
+        check('DOM 中出现 .emoji-bubble 图片', !!q('.emoji-bubble img.emoji-img'), q('.emoji-bubble img.emoji-img') && attr(q('.emoji-bubble img.emoji-img'), 'src'));
+
+        // local image
+        var fileInput = q('#file-image');
+        check('本地图片 input 存在且 accept="image/*"', !!fileInput && fileInput.type === 'file' && /image\//.test(fileInput.accept || ''), { exists: !!fileInput, type: fileInput && fileInput.type, accept: fileInput && fileInput.accept });
+        var beforeImg = chatBoxesOf(ID1).length;
+        var pick = await chooseLocalImage();
+        note('本地图片选择方式: ' + JSON.stringify(pick));
+        var imgSent = await waitFor(function () { return chatBoxesOf(ID1).length === beforeImg + 1; }, 6000, 'image-send');
+        var imgBox = lastBoxOf(ID1);
+        check('本地图片压缩为 dataURL 后发送 image item', !!imgSent && !!imgBox && imgBox.items[0] && imgBox.items[0].type === 'image' && /^data:image\//.test(imgBox.items[0].src || ''), imgBox && imgBox.items[0] ? { type: imgBox.items[0].type, src: String(imgBox.items[0].src).slice(0, 40) } : { pick: pick });
+        await waitFor(function () { return q('.msg-image'); }, 2000);
+        check('DOM 中出现 .msg-image', !!q('.msg-image'), !!q('.msg-image'));
+
+        // reply editor（多选项：标题固定，选项可编辑）
+        await openMorePanelForTest();
+        moreTile('reply').click();
+        await waitFor(function () { return !!q('#reply-option-editor'); }, 3000, 'reply-editor');
+        check('回复框编辑弹窗出现', !!q('#reply-option-editor'), modalInfo());
+        check('回复标题不可编辑（无标题输入框）', !q('#reply-title-input'), !!q('#reply-title-input'));
+        var replyInputs = qa('#reply-option-editor .reply-option-input');
+        check('回复框默认提供多个选项', replyInputs.length >= 2, replyInputs.map(function (el) { return el.value; }));
+        check('回复框默认选项包含“嗯？还好吧……”', replyInputs.length > 0 && /嗯？还好吧/.test(replyInputs[0].value), replyInputs[0] && replyInputs[0].value);
+        setInputValue('#reply-option-editor .reply-option-input', '测试回复内容');
+        clickModalBtn('发送');
+        var replySent = await waitFor(function () { var last = lastBoxOf(ID1); return last && last.items[0] && last.items[0].type === 'reply'; }, 3000, 'reply-send');
+        var replyBox = lastBoxOf(ID1);
+        check('发送回复框（新建盒子 + reply item）', !!replySent, replyBox);
+        check('reply item 标题固定、选项正确', !!(replyBox && replyBox.items[0] && replyBox.items[0].title === '回复' && Array.isArray(replyBox.items[0].options) && replyBox.items[0].options.indexOf('测试回复内容') >= 0), replyBox && replyBox.items[0]);
+        await waitFor(function () { return q('.reply-panel .reply-option'); }, 2000);
+        check('DOM 出现 .reply-panel（.reply-label/.reply-bar/.reply-option）', !!q('.reply-panel .reply-label') && !!q('.reply-panel .reply-bar') && qa('.reply-panel .reply-option').length >= 2, { label: text(q('.reply-panel .reply-label')), options: qa('.reply-panel .reply-option').map(function (el) { return text(el); }) });
+        check('回复面板标题固定为“回复”', text(q('.reply-panel .reply-label')).trim() === '回复', text(q('.reply-panel .reply-label')));
+        var replyOpts = qa('.reply-panel .reply-option');
+        var firstOptText = replyOpts[0] ? text(replyOpts[0]) : '';
+        replyOpts[0].click();
+        var replied = await waitFor(function () {
+            var b = chatBoxesOf(ID1).filter(function (x) { return x.items[0] && x.items[0].id === replyBox.items[0].id; })[0];
+            return b && b.items[0].type === 'text' ? b : null;
+        }, 3000, 'reply-choice');
+        check('点击回复选项后作为消息输出', !!replied && replied.items[0].text === firstOptText, replied && replied.items[0]);
+
+        // story：固定标题与文案，直接发送，不允许编辑
+        await openMorePanelForTest();
+        var boxesBeforeStory = chatBoxesOf(ID1).length;
+        moreTile('story').click();
+        var storySent = await waitFor(function () { var last = lastBoxOf(ID1); return last && last.items[0] && last.items[0].type === 'story'; }, 3000, 'story-send');
+        var storyBox = lastBoxOf(ID1);
+        check('点击好感故事直接发送（无编辑弹窗）', !!storySent && !modalActive(), modalInfo());
+        check('story item 标题/文案固定', !!(storyBox && storyBox.items[0] && storyBox.items[0].title === '好感故事' && /^进入.*星野.*的好感故事$/.test(storyBox.items[0].text || '')), storyBox && storyBox.items[0]);
+        await waitFor(function () { return q('.story-panel'); }, 2000);
+        check('DOM 出现 .story-panel（.story-label/.story-btn/.story-bar）', !!q('.story-panel .story-label') && !!q('.story-panel .story-btn') && !!q('.story-panel .story-bar'), { label: text(q('.story-panel .story-label')), btn: text(q('.story-panel .story-btn')) });
+        check('好感故事按钮文案为固定格式', /^进入.*星野.*的好感故事$/.test(text(q('.story-panel .story-btn'))), text(q('.story-panel .story-btn')));
+        check('好感故事自动新建盒子', chatBoxesOf(ID1).length === boxesBeforeStory + 1, { before: boxesBeforeStory, after: chatBoxesOf(ID1).length });
+
+        // 特殊消息各新建一个盒子（reply 选择后变文本，因此共 5 盒）
+        var finalBoxes = chatBoxesOf(ID1);
+        check('特殊消息各新建一个盒子（共 5 盒）', finalBoxes.length === 5, finalBoxes.map(function (b) { return (b.items[0] || {}).type; }));
+
+        // 长按好感故事盒子：不可编辑，只能删除
+        var storyBoxObj = chatBoxesOf(ID1).filter(function (b) { return b.items[0] && b.items[0].type === 'story'; })[0];
+        if (storyBoxObj) {
+            var storyOpened = await openEditorByLongPress(storyBoxObj.id);
+            check('长按好感故事盒子打开编辑面板', storyOpened, modalInfo());
+            var storyRow = q('.box-edit-row[data-item-id="' + storyBoxObj.items[0].id + '"]');
+            check('好感故事不可编辑（无编辑按钮，仅有删除）', !!storyRow && !storyRow.querySelector('[data-op="edit"]') && !!storyRow.querySelector('[data-op="del"]'), storyRow ? text(storyRow) : null);
+            await closeModalIfOpen();
+        }
+
+        // close panel: click outside / + toggle
+        await openMorePanelForTest();
+        await sleep(100);
+        var chatContent = q('#chat-content');
+        chatContent.dispatchEvent(pointerEvent(chatContent, 'pointerdown', 10, 300));
+        await waitFor(function () { return !morePanel().classList.contains('open'); }, 2000);
+        check('点击聊天区关闭更多栏', !morePanel().classList.contains('open'), morePanel().className);
+        moreBtn.click();
+        await waitFor(function () { return morePanel().classList.contains('open'); }, 2000);
+        moreBtn.click();
+        await waitFor(function () { return !morePanel().classList.contains('open'); }, 2000);
+        await sleep(250);
+        check('再次点击 + 关闭更多栏且图标回正', !morePanel().classList.contains('open') && Math.abs(parseMatrixAngleDeg(css(moreBtn.querySelector('svg'), 'transform'))) <= 2, { open: morePanel().classList.contains('open'), transform: css(moreBtn.querySelector('svg'), 'transform') });
+    }
+
+    /* ---------------- playback ---------------- */
+    function durationText(sample) {
+        return { dotDur: sample && sample.dotDur, dotAnim: sample && sample.dotAnim, typingDurVar: sample && sample.typingDurVar };
+    }
+    function installTypingObserver() {
+        var w = W();
+        var samples = [];
+        var seen = typeof WeakSet !== 'undefined' ? new WeakSet() : null;
+        function scan() {
+            qa('#chat-content .typing-box').forEach(function (el) {
+                if (seen && seen.has(el)) return;
+                if (seen) seen.add(el);
+                var dots = el.querySelectorAll('.typing-dot');
+                var bubble = el.querySelector('.typing-bubble');
+                samples.push({
+                    dots: dots.length,
+                    bubbleBg: css(bubble, 'backgroundColor'),
+                    dotAnim: css(dots[0], 'animationName'),
+                    dotDur: css(dots[0], 'animationDuration'),
+                    typingDurVar: el.style.getPropertyValue('--typing-dur'),
+                    hasAvatar: !!el.querySelector('.box-avatar'),
+                    hasName: !!el.querySelector('.box-name'),
+                    html: String(el.outerHTML).slice(0, 160)
+                });
+            });
+        }
+        try {
+            var obs = new w.MutationObserver(scan);
+            obs.observe(q('#chat-content'), { childList: true, subtree: true });
+            scan();
+            w.__testTypingSamples = samples;
+        } catch (e) {
+            note('MutationObserver 安装失败: ' + e);
+        }
+        return samples;
+    }
+    function playbackSnapshot() {
+        return {
+            barHidden: q('#playback-bar') && q('#playback-bar').classList.contains('hidden'),
+            progress: text(q('#playback-progress')),
+            boxes: qa('#chat-content .msg-box[data-box-id]').length,
+            typing: qa('#chat-content .typing-box').length,
+            playText: text(q('#btn-play-text')),
+            inputDisabled: q('#chat-input') && q('#chat-input').disabled
+        };
+    }
+
+    async function runPlayback() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 3; }, 3000, 'playback-seed');
+        var samples = installTypingObserver();
+        var playBtn = q('#btn-play');
+        check('#btn-play（播放按钮）存在', !!playBtn, idsPresent(['btn-play', 'btn-play-text', 'playback-bar', 'btn-playback-stop']));
+        check('播放前按钮文字为“播放”', /播放/.test(text(q('#btn-play-text'))), text(q('#btn-play-text')));
+
+        playBtn.click();
+        await waitFor(function () { return samples.length >= 1; }, 4000, 'typing-sample');
+        await sleep(120);
+        check('播放开始显示 #playback-bar', !!q('#playback-bar') && !q('#playback-bar').classList.contains('hidden'), playbackSnapshot());
+        check('输入区被禁用（textarea disabled）', !!q('#chat-input') && q('#chat-input').disabled === true, playbackSnapshot());
+        check('播放按钮变为“停止”', /停止/.test(text(q('#btn-play-text'))), text(q('#btn-play-text')));
+        var progress = text(q('#playback-progress'));
+        check('播放进度显示 播放中 1/3', /1\s*\/\s*3/.test(progress), progress);
+
+        var s0 = samples[0];
+        check('学生盒子出现前显示 .typing-box', !!s0, samples.length);
+        check('打字动画包含 3 个 .typing-dot', !!(s0 && s0.dots === 3), s0 && s0.dots);
+        check('打字气泡为深色学生气泡 (#4C5A6E)', !!(s0 && s0.bubbleBg === 'rgb(76, 90, 110)'), s0 && s0.bubbleBg);
+        check('打字框带学生头像和名字', !!(s0 && s0.hasAvatar && s0.hasName), s0 && { hasAvatar: s0.hasAvatar, hasName: s0.hasName });
+        check('打字动画时长与 settings.animationTime(1000ms) 一致', !!(s0 && (durationToMs(s0.dotDur) === 1000 || /1s/.test(s0.dotDur || ''))) && !!(s0 && s0.typingDurVar === '1000ms'), durationText(s0));
+        check('打字点有循环动画', !!(s0 && s0.dotAnim && s0.dotAnim !== 'none'), s0 && { dotAnim: s0.dotAnim, dotDur: s0.dotDur });
+
+        var finished = await waitFor(function () {
+            return qa('#chat-content .msg-box[data-box-id]').length === 3 && qa('#chat-content .typing-box').length === 0 &&
+                q('#playback-bar') && q('#playback-bar').classList.contains('hidden');
+        }, 12000, 'playback-finish');
+        check('播放自动结束并恢复完整聊天', !!finished, playbackSnapshot());
+        check('播放结束后按钮文字恢复为“播放”', /播放/.test(text(q('#btn-play-text'))), text(q('#btn-play-text')));
+        check('播放结束后输入区恢复可用', !!q('#chat-input') && q('#chat-input').disabled === false && q('#send-btn').disabled === false && q('#btn-more').disabled === false, { input: q('#chat-input') && q('#chat-input').disabled, send: q('#send-btn') && q('#send-btn').disabled });
+        check('2 个学生盒子各出现一次打字动画', samples.length >= 2, samples.map(function (s) { return s.dots + 'dots/' + s.dotDur; }));
+
+        // stop mid playback
+        playBtn.click();
+        await waitFor(function () { return samples.length >= 3; }, 4000, 'typing-sample-2');
+        var stopBtn = q('#btn-playback-stop');
+        check('#btn-playback-stop（停止按钮）存在', !!stopBtn, idsPresent(['btn-playback-stop']));
+        if (stopBtn) stopBtn.click();
+        var stopped = await waitFor(function () {
+            return qa('#chat-content .typing-box').length === 0 && qa('#chat-content .msg-box[data-box-id]').length === 3 &&
+                q('#playback-bar') && q('#playback-bar').classList.contains('hidden');
+        }, 4000, 'playback-stop');
+        check('播放中点击停止立即结束并恢复', !!stopped, playbackSnapshot());
+
+        // animationTime setting
+        var range = q('#anim-time-range');
+        check('动画时间滑杆存在且范围 700~2000', !!range && range.min === '700' && range.max === '2000', range ? { min: range.min, max: range.max, step: range.step, value: range.value } : null);
+        if (range) {
+            range.value = '1500';
+            range.dispatchEvent(new (W().Event)('input', { bubbles: true }));
+            await sleep(150);
+        }
+        var st = getSettings();
+        check('滑杆修改后 settings.animationTime=1500', Number(st.animationTime) === 1500, st.animationTime);
+        check('#anim-time-value 显示 1500ms', /1500ms/.test(text(q('#anim-time-value'))), text(q('#anim-time-value')));
+        var persisted = readStorageJSON(HC.keys.settingsKey) || {};
+        check('动画时间立即持久化到 localStorage', Number(persisted.animationTime) === 1500, persisted);
+        var previewDur = safeGet(function () { return q('#anim-preview').style.getPropertyValue('--typing-dur'); }, null);
+        check('学生设置预览使用 animationTime', previewDur === '1500ms', previewDur);
+
+        playBtn.click();
+        await waitFor(function () { return samples.length >= 4; }, 4000, 'typing-sample-3');
+        await sleep(80);
+        var s1 = samples[samples.length - 1];
+        check('播放时打字动画时长跟随 animationTime（1.5s）', !!(s1 && (durationToMs(s1.dotDur) === 1500 || /1\.5s/.test(s1.dotDur || ''))) && !!(s1 && s1.typingDurVar === '1500ms'), durationText(s1));
+        var stop2 = q('#btn-playback-stop');
+        if (stop2) stop2.click();
+        await waitFor(function () { return qa('#chat-content .typing-box').length === 0; }, 3000, 'stop-2');
+    }
+
+    /* ---------------- screenshot ---------------- */
+    async function runScreenshot() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 3000, 'screenshot-seed');
+        var w = W();
+        check('#btn-screenshot（截图按钮）存在', !!q('#btn-screenshot'), idsPresent(['btn-screenshot', 'btn-screenshot-text']));
+        check('window.ChatScreenshot 已加载且暴露 generate()', !!w.ChatScreenshot && typeof w.ChatScreenshot.generate === 'function', typeof w.ChatScreenshot);
+
+        var gen = null;
+        var genErr = null;
+        if (w.ChatScreenshot && typeof w.ChatScreenshot.generate === 'function') {
+            try {
+                gen = await withTimeout(w.ChatScreenshot.generate({
+                    boxes: JSON.parse(JSON.stringify(chatBoxesOf(ID1))),
+                    student: { name: NAME1, avatar: './resources/head.jpg' },
+                    width: 360,
+                    dpr: 2,
+                    texts: { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+                }), 9000, 'ChatScreenshot.generate');
+            } catch (e) {
+                genErr = String((e && e.message) || e);
+            }
+        }
+        check('ChatScreenshot.generate 成功返回', !!gen, { error: genErr });
+        var canvas = gen && gen.canvas ? gen.canvas : gen;
+        check('返回对象包含 HTMLCanvasElement', !!canvas && canvas.tagName === 'CANVAS', gen && (canvas && canvas.tagName));
+        if (canvas && canvas.tagName === 'CANVAS') {
+            check('canvas 宽度 = 360 × dpr2 = 720', canvas.width === 720, { width: canvas.width, height: canvas.height });
+            check('canvas 高度 > 100', canvas.height > 100, canvas.height);
+            var dataUrl = safeGet(function () { return canvas.toDataURL('image/png'); }, '');
+            check('canvas.toDataURL("image/png") 可用且非空', /^data:image\/png;base64,/.test(dataUrl) && dataUrl.length > 1000, { prefix: String(dataUrl).slice(0, 30), length: String(dataUrl).length });
+        }
+
+        // UI: click -> preview modal
+        q('#btn-screenshot').click();
+        var loadingModal = await waitModal(3000);
+        check('点击截图后出现截图模态框', loadingModal, modalInfo());
+        var preview = await waitFor(function () { return q('#screenshot-preview-img'); }, 12000, 'screenshot-preview');
+        check('截图生成后出现预览图 #screenshot-preview-img', !!preview, modalInfo());
+        if (preview) {
+            var src = attr(preview, 'src') || '';
+            check('预览图为 data:image/png', /^data:image\/png;base64,/.test(src) && src.length > 1000, { prefix: src.slice(0, 30), length: src.length });
+            await waitFor(function () { return preview.complete && preview.naturalWidth > 0; }, 5000);
+            check('预览图可正常解码', preview.naturalWidth > 0, { complete: preview.complete, naturalWidth: preview.naturalWidth });
+        } else {
+            note('截图预览缺失；当前模态框内容: ' + JSON.stringify(modalInfo()));
+        }
+        check('截图预览含“保存图片”与“关闭”按钮', !!btnByText('保存图片', q('#modal-actions')) && !!btnByText('关闭', q('#modal-actions')), allTexts(q('#modal-actions')));
+
+        patchDownloadCapture();
+        clickModalBtn('保存图片');
+        await sleep(200);
+        var downloads = safeGet(function () { return w.__testDownloads || []; }, []);
+        var dl = downloads[downloads.length - 1];
+        check('“保存图片”触发下载且文件名 momotalk_chat_YYYYMMDD_HHmmss.png', !!dl && /^momotalk_chat_\d{8}_\d{6}\.png$/.test(dl.download || ''), dl || downloads);
+        check('保存后截图模态框关闭', !modalActive(), modalInfo());
+    }
+
+    /* ---------------- auto backup ---------------- */
+    async function runBackup() {
+        await ensureChatPage(ID1);
+        var st = getSettings();
+        check('自动备份默认关闭（settings.autoBackup === false）', st.autoBackup === false || st.autoBackup === undefined, st);
+        var sw = q('#auto-backup-switch');
+        check('#auto-backup-switch 开关存在', !!sw, idsPresent(['auto-backup-switch']));
+        check('开关初始为未勾选', !!sw && sw.checked === false, sw && sw.checked);
+        check('默认未写入 autoBackup=true 的设置', (readStorageJSON(HC.keys.settingsKey) || {}).autoBackup !== true, readStorageJSON(HC.keys.settingsKey));
+
+        // negative path: default off -> closeChat must not download
+        patchDownloadCapture();
+        var dl = W().__testDownloads;
+        var before0 = dl.length;
+        await closeChatByUI();
+        await sleep(400);
+        check('自动备份关闭时退出聊天不触发下载', dl.length === before0, { before: before0, captures: dl.slice() });
+
+        // enable
+        await ensureChatPage(ID1);
+        var sw2 = q('#auto-backup-switch');
+        sw2.click();
+        await sleep(200);
+        var st2 = getSettings();
+        if (st2.autoBackup !== true) {
+            note('原生 click 未生效，改为设置 checked + dispatch change');
+            sw2.checked = true;
+            sw2.dispatchEvent(new (W().Event)('change', { bubbles: true }));
+            await sleep(150);
+            st2 = getSettings();
+        }
+        check('开关打开后 settings.autoBackup === true', st2.autoBackup === true, st2);
+        var persisted = readStorageJSON(HC.keys.settingsKey) || {};
+        check('开关状态立即持久化到 localStorage', persisted.autoBackup === true, persisted);
+        check('开关 UI 已勾选', q('#auto-backup-switch').checked === true, q('#auto-backup-switch').checked);
+
+        // positive path: closeChat -> auto download JSON
+        installBlobCapture();
+        var beforeEnable = dl.length;
+        await closeChatByUI();
+        var captured = await waitFor(function () { return dl.length > beforeEnable; }, 5000, 'auto-backup-download');
+        check('开启自动备份后退出聊天自动下载备份', !!captured, dl.slice());
+        var last = dl[dl.length - 1];
+        check('自动备份文件名 momotalk_autobackup_YYYYMMDD_HHmmss.json', !!last && /^momotalk_autobackup_\d{8}_\d{6}\.json$/.test(last.download || ''), last);
+        var blobs = safeGet(function () { return W().__testBlobs || []; }, []);
+        var content = null;
+        if (blobs.length) content = await blobText(blobs[blobs.length - 1]);
+        check('自动备份内容为 version 4 完整数据（myStudents + chats）', !!content && content.version === 4 && !!content.chats && Array.isArray(content.myStudents) && (content.chats[ID1] || content.chats[String(ID1)]), content ? { version: content.version, chatsKeys: Object.keys(content.chats || {}), myStudents: (content.myStudents || []).length } : { blobs: blobs.length });
+
+        // disable again -> no download
+        await ensureChatPage(ID1);
+        var sw3 = q('#auto-backup-switch');
+        sw3.click();
+        await sleep(200);
+        var st3 = getSettings();
+        check('再次点击开关后 autoBackup=false', st3.autoBackup === false, st3);
+        var beforeOff = dl.length;
+        await closeChatByUI();
+        await sleep(400);
+        check('关闭自动备份后退出聊天不再下载', dl.length === beforeOff, { before: beforeOff, after: dl.length });
+    }
+
+    /* ---------------- page details ---------------- */
+    async function runDetails() {
+        // 1) bottom nav visibility rules
+        var navMore = q('#nav-more-btn');
+        check('底部导航“更多”入口存在', !!navMore, idsPresent(['nav-more-btn', 'nav-messages-btn', 'more-page', 'bottom-nav']));
+        navMore.click();
+        var moreOpen = await waitFor(function () { return q('#more-page').classList.contains('active'); }, 3000, 'more-page');
+        check('点击“更多”进入更多页', !!moreOpen, chatClasses());
+        check('更多主页显示底部导航栏', !q('.bottom-nav').classList.contains('hidden'), q('.bottom-nav').className);
+        check('更多页有进入动画（pageIn）', (css(q('#more-page'), 'animationName') || 'none') !== 'none' || (css(q('#more-page'), 'animationDuration') || '0s') !== '0s', { animationName: css(q('#more-page'), 'animationName'), duration: css(q('#more-page'), 'animationDuration') });
+
+        // 2) open sub section -> nav hidden
+        var aboutItem = qa('#more-main .more-list-item').find(function (el) { return /关于/.test(text(el)); });
+        if (aboutItem) aboutItem.click();
+        else safeGet(function () { W().openMoreSection('about'); }, null);
+        var aboutOpen = await waitFor(function () { return q('#more-about') && q('#more-about').classList.contains('active'); }, 3000, 'more-about');
+        check('打开“关于”子栏目', !!aboutOpen, chatClasses());
+        check('打开更多子栏目后 .bottom-nav 隐藏', q('.bottom-nav').classList.contains('hidden'), q('.bottom-nav').className);
+        check('子栏目显示返回按钮', q('#more-back-btn').classList.contains('show'), q('#more-back-btn').className);
+        check('更多子面板有进入动画（panelIn）', (css(q('#more-about'), 'animationName') || 'none') !== 'none', { animationName: css(q('#more-about'), 'animationName'), duration: css(q('#more-about'), 'animationDuration') });
+
+        // 3) back to more main -> nav restored
+        q('#more-back-btn').click();
+        var backMain = await waitFor(function () { return q('#more-main').classList.contains('active') && !q('.bottom-nav').classList.contains('hidden'); }, 3000, 'more-main');
+        check('返回更多主页后底部导航恢复', !!backMain, chatClasses());
+
+        // 3b) swipe right on more sub-section -> back to more main
+        var aboutItem2 = qa('#more-main .more-list-item').find(function (el) { return /关于/.test(text(el)); });
+        if (aboutItem2) aboutItem2.click();
+        await waitFor(function () { return q('#more-about') && q('#more-about').classList.contains('active'); }, 3000, 'more-about-2');
+        await swipeRight(q('#more-page'), 20, 180, 300);
+        var swipeBackMain = await waitFor(function () { return q('#more-main').classList.contains('active'); }, 3000, 'swipe-more-back');
+        check('更多子页右滑返回更多主页', !!swipeBackMain, chatClasses());
+        check('从更多子页右滑返回后底部导航恢复', !q('.bottom-nav').classList.contains('hidden'), q('.bottom-nav').className);
+
+        // 3c) swipe right on more main -> list page
+        await swipeRight(q('#more-page'), 20, 180, 300);
+        var swipeToList = await waitFor(function () { return !q('#more-page').classList.contains('active'); }, 3000, 'swipe-to-list');
+        check('更多主页右滑回到列表页', !!swipeToList && !q('#list-page').classList.contains('hide') && !q('.bottom-nav').classList.contains('hidden'), chatClasses());
+
+        // 4) swipe right on chat page -> closeChat
+        await ensureChatPage(ID1);
+        check('聊天页有滑入过渡（transform 过渡）', /transform/.test(css(q('#chat-page'), 'transitionProperty') || '') && (css(q('#chat-page'), 'transitionDuration') || '0s') !== '0s', { property: css(q('#chat-page'), 'transitionProperty'), duration: css(q('#chat-page'), 'transitionDuration') });
+        check('打开聊天时隐藏底部导航', q('.bottom-nav').classList.contains('hidden'), q('.bottom-nav').className);
+        await swipeRight(q('#chat-page'), 20, 180, 320);
+        var swipeClosed = await waitFor(function () { return isChatClosed(); }, 3000, 'swipe-close');
+        check('聊天页右滑 >80px 退出聊天', !!swipeClosed, chatClasses());
+
+        // 5) pull-to-refresh on contact list
+        var list = q('#contact-list');
+        check('#contact-list 存在', !!list, idsPresent(['contact-list']));
+        list.scrollTop = 0;
+        var beforeFetch = fetchCount('students.json');
+        var release = await pullGesture(list, 100, 240);
+        var indicator = q('.pull-refresh');
+        check('下拉时出现刷新指示器 .pull-refresh', !!indicator && indicator.classList.contains('visible'), { exists: !!indicator, className: indicator && indicator.className, text: indicator && text(indicator) });
+        var pullText = indicator ? text(indicator) : '';
+        check('下拉超过阈值时提示“释放以刷新”', /释放|松手/.test(pullText), pullText);
+        release();
+        var refetched = await waitFor(function () { return fetchCount('students.json') > beforeFetch; }, 5000, 'pull-refresh-fetch');
+        check('松手后重新读取学生资料（loadLibrary）', !!refetched, { before: beforeFetch, after: fetchCount('students.json') });
+        await sleep(300);
+
+        // 6) message pop-in animation
+        await ensureChatPage(ID1);
+        await waitFor(function () { return q('#chat-content .msg-box'); }, 3000, 'popin-box');
+        var boxAnim = css(q('#chat-content .msg-box'), 'animationName');
+        check('消息盒子出现时有 popIn 动画', (boxAnim || 'none') !== 'none' && /popIn/.test(boxAnim || ''), { animationName: boxAnim, duration: css(q('#chat-content .msg-box'), 'animationDuration') });
+        check('聊天页滑入类 slide-in 存在', q('#chat-page').classList.contains('slide-in'), q('#chat-page').className);
+    }
+
+    /* ==================================================================
+     * scenario registry
+     * ================================================================== */
+    /* ---------------- migration (legacy flat chats -> boxes) ---------------- */
+    async function runMigration() {
+        var seeded = STATE.storageAfterSeed || {};
+        check('夹具预置了旧版 legacyChatsKey 且未预置新 chatsKey', !!seeded.legacyChatsKey && !seeded.chatsKey, {
+            legacySeeded: !!seeded.legacyChatsKey, newKeySeeded: !!seeded.chatsKey
+        });
+        var newRaw = await waitFor(function () { return localStorage.getItem(HC.keys.chatsKey); }, 6000, 'migrated-new-key');
+        check('启动后迁移写入新 chatsKey', !!newRaw, newRaw ? newRaw.slice(0, 160) : null);
+        var parsed = safeGet(function () { return JSON.parse(newRaw); }, null);
+        var arr = parsed && parsed['1001'];
+        check('迁移后 chats 为「学生 id → 盒子数组」结构', Array.isArray(arr) && arr.length === 2, arr && arr.map(function (b) { return { id: b.id, role: b.role, items: (b.items || []).length }; }));
+        if (!Array.isArray(arr) || !arr.length) return;
+        check('连续同角色的旧消息合并为一个学生盒子', arr[0].role === 'student' && (arr[0].items || []).length === 2, { role: arr[0].role, items: (arr[0].items || []).map(function (i) { return i.type + ':' + i.text; }) });
+        check('旧文本消息转换为 text item', (arr[0].items || []).every(function (i) { return i.type === 'text'; }) && (arr[0].items || []).map(function (i) { return i.text; }).join('|') === '旧消息一|旧消息二', (arr[0].items || []).map(function (i) { return i.text; }));
+        check('老师消息形成独立盒子', !!arr[1] && arr[1].role === 'sensei' && (arr[1].items || []).length === 1 && arr[1].items[0].text === '旧的老师回复', arr[1]);
+        check('盒子结构含 id/role/time/items，item 含 id/type', arr.every(function (b) {
+            return typeof b.id === 'string' && b.id.length > 0 && (b.role === 'student' || b.role === 'sensei') && Number.isFinite(Number(b.time)) && Array.isArray(b.items) &&
+                b.items.every(function (i) { return typeof i.id === 'string' && i.id.length > 0 && typeof i.type === 'string'; });
+        }), arr);
+        check('旧 key 保留不删（可重复迁移）', !!localStorage.getItem(HC.keys.legacyChatsKey), null);
+        var mmChats = getChats();
+        check('__mm.chats() 与迁移后结果一致', Array.isArray(mmChats['1001']) && mmChats['1001'].length === arr.length, mmChats['1001'] && mmChats['1001'].map(function (b) { return b.role; }));
+
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 3000, 'migrated-dom');
+        check('迁移后聊天页渲染出 2 个信息盒子', qa('#chat-content .msg-box[data-box-id]').length === 2, qa('#chat-content .msg-box[data-box-id]').length);
+        var sBox = q('#chat-content .msg-box.student');
+        check('迁移后学生盒子聚合 2 条消息且头像/名字只显示一次', !!sBox && sBox.querySelectorAll('.msg-item').length === 2 && sBox.querySelectorAll('.box-avatar').length === 1 && sBox.querySelectorAll('.box-name').length === 1, sBox ? { items: sBox.querySelectorAll('.msg-item').length, avatars: sBox.querySelectorAll('.box-avatar').length, names: sBox.querySelectorAll('.box-name').length } : null);
+    }
+
+    /* ---------------- import / export ---------------- */
+    async function importPayload(payload) {
+        var w = W();
+        var input = q('#file-import');
+        var json = JSON.stringify(payload);
+        if (!input) return { ok: false, error: 'no #file-import' };
+        try {
+            var file = new w.File([json], 'qa-import-v3.json', { type: 'application/json' });
+            var dt = new w.DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            input.dispatchEvent(new w.Event('change', { bubbles: true }));
+            return { ok: true, mode: 'files+change' };
+        } catch (e) {
+            try {
+                var f2 = new w.File([json], 'qa-import-v3.json', { type: 'application/json' });
+                w.importData({ target: { files: [f2], value: '' } });
+                return { ok: true, mode: 'direct-call', error: String(e) };
+            } catch (e2) {
+                return { ok: false, error: String(e) + ' / ' + String(e2) };
+            }
+        }
+    }
+
+    async function runImportExport() {
+        await ensureChatPage(ID1); // 确保 libraryReady（import 需要学生库）
+        var payload = {
+            version: 3,
+            exportedAt: new Date().toISOString(),
+            myStudents: [{ id: 1002, unread: 0, addedAt: T0 }],
+            chats: {
+                1002: [
+                    { role: 'student', text: '导入旧消息一', time: T0 - 3000 },
+                    { role: 'student', text: '导入旧消息二', time: T0 - 2000 },
+                    { role: 'sensei', text: '导入老师回复', time: T0 - 1000 }
+                ]
+            }
+        };
+        check('#file-import 导入入口存在', !!q('#file-import'), idsPresent(['file-import', 'btn-import']));
+        var pick = await importPayload(payload);
+        note('导入文件注入方式: ' + JSON.stringify(pick));
+        var modal = await waitFor(function () { return modalActive() && /导入结果|导入失败/.test(modalTitle()); }, 6000, 'import-modal');
+        check('导入 v3 旧格式文件后出现结果弹窗', !!modal && /导入结果/.test(modalTitle()), modalInfo());
+        check('导入结果说明合并了 1 个会话', /合并\s*1|1\s*个会话/.test(modalBodyText()), modalBodyText().slice(0, 200));
+        await closeModalIfOpen();
+
+        await waitFor(function () { var c = getChats(); return !!(c['1002'] && c['1002'].length); }, 6000, 'imported-chats');
+        var importedBoxes = chatBoxesOf(1002);
+        check('v3 扁平 chats 被转换为盒子数组', Array.isArray(importedBoxes) && importedBoxes.every(function (b) { return b && typeof b === 'object' && Array.isArray(b.items); }), importedBoxes && importedBoxes.map(function (b) { return { role: b.role, items: (b.items || []).length }; }));
+        check('导入后连续同角色消息合并为 1 个盒子', Array.isArray(importedBoxes) && importedBoxes.length === 2 && importedBoxes[0].role === 'student' && (importedBoxes[0].items || []).length === 2, importedBoxes && importedBoxes.map(function (b) { return { role: b.role, items: (b.items || []).length }; }));
+        check('导入后 myStudents 增加 1002', getMyStudents().some(function (s) { return Number(s.id) === 1002; }), getMyStudents());
+        await waitFor(function () { return qa('.contact-item').length >= 2; }, 3000, 'imported-contact');
+        check('导入后联系人列表出现新学生', qa('.contact-item').length >= 2, qa('.contact-item').map(function (el) { return attr(el, 'data-id'); }));
+
+        // duplicate import -> box signature dedupe
+        var beforeDup = JSON.stringify(getChats()['1002']);
+        await importPayload(payload);
+        await waitFor(function () { return modalActive() && /导入结果|导入失败/.test(modalTitle()); }, 6000, 'import-modal-2');
+        check('重复导入同一备份后盒子数量不变（按签名去重）', JSON.stringify(getChats()['1002']) === beforeDup, { before: beforeDup.length, after: JSON.stringify(getChats()['1002']).length });
+        await closeModalIfOpen();
+
+        // export -> version 4, chats are box arrays
+        patchDownloadCapture();
+        installBlobCapture();
+        var w = W();
+        var downloads = safeGet(function () { return w.__testDownloads || []; }, []);
+        var blobs = safeGet(function () { return w.__testBlobs || []; }, []);
+        var nDl = downloads.length, nBlob = blobs.length;
+        safeGet(function () { w.__mm.exportData(); }, null);
+        await waitFor(function () { return downloads.length > nDl; }, 4000, 'export-download');
+        var dl = downloads[downloads.length - 1];
+        check('导出触发下载 momotalk_backup_YYYYMMDD_HHmmss.json', !!dl && /^momotalk_backup_\d{8}_\d{6}\.json$/.test(dl.download || ''), dl || downloads.slice(-2));
+        var exported = null;
+        if (blobs.length > nBlob) exported = await blobText(blobs[blobs.length - 1]);
+        else {
+            var raw = safeGet(function () { return w.__mm && w.__mm.chats; }, null);
+            note('未捕获到导出 Blob，尝试直接读取 __mm 数据');
+        }
+        check('导出数据 version=4', !!exported && Number(exported.version) === 4, exported ? { version: exported.version, keys: Object.keys(exported) } : null);
+        check('导出 chats 为盒子数组（每盒含 items）', !!exported && Array.isArray(exported.chats && exported.chats['1002']) && exported.chats['1002'].every(function (b) { return Array.isArray(b.items); }), exported && exported.chats ? Object.keys(exported.chats) : null);
+        check('导出数据包含刚导入的消息内容', !!exported && JSON.stringify(exported.chats || {}).indexOf('导入旧消息一') >= 0, exported ? JSON.stringify(exported.chats).slice(0, 240) : null);
+        check('导出数据包含导出时间戳', !!exported && !!exported.exportedAt, exported && exported.exportedAt);
+    }
+
+    var SCENARIOS = {
+        boot: { seed: function () { return FIXTURES.boot; }, run: runBoot },
+        render: { seed: function () { return FIXTURES.render; }, run: runRender },
+        'send-append': { seed: function () { return FIXTURES['send-append']; }, run: runSendAppend },
+        'box-edit': { seed: function () { return FIXTURES['box-edit']; }, run: runBoxEdit },
+        more: { seed: function () { return FIXTURES.more; }, run: runMore },
+        playback: { seed: function () { return FIXTURES.playback; }, run: runPlayback },
+        screenshot: { seed: function () { return FIXTURES.screenshot; }, run: runScreenshot },
+        backup: { seed: function () { return FIXTURES.backup; }, run: runBackup },
+        details: { seed: function () { return FIXTURES.details; }, run: runDetails },
+        migration: { seed: function () { return FIXTURES.migration; }, run: runMigration },
+        'import-export': { seed: function () { return FIXTURES['import-export']; }, run: runImportExport }
+    };
+
+    /* ==================================================================
+     * main flow
+     * ================================================================== */
+    document.body.className = SHOT ? 'shot' : 'normal';
+    publish();
+
+    window.addEventListener('error', function (e) {
+        STATE.errors.push('harness error: ' + e.message + ' @ ' + e.filename + ':' + e.lineno + '\n' + ((e.error && e.error.stack) || ''));
+        publish();
+    });
+    window.addEventListener('unhandledrejection', function (e) {
+        STATE.errors.push('harness unhandledrejection: ' + String((e.reason && (e.reason.stack || e.reason)) || e.reason));
+        publish();
+    });
+
+    setTimeout(function () {
+        if (!window.__testDone) {
+            STATE.errors.push('watchdog: harness 在 13s 虚拟时间内未结束，强制输出当前结果');
+            STATE.snapshot = safeGet(snapshotState, null);
+            STATE.done = true;
+            publish();
+            window.__testDone = true;
+        }
+    }, 13000);
+
+    (async function main() {
+        var t0 = Date.now();
+        try {
+            STATE.phase = 'fetch-fixture';
+            publish();
+            var fxRes = await fetch('./_test/fixtures/running_datas.json', { cache: 'no-store' });
+            if (!fxRes.ok) throw new Error('fixture running_datas.json HTTP ' + fxRes.status);
+            HC.fx = await fxRes.json();
+            HC.keys = normalizeStorageKeys(HC.fx.storage);
+            STATE.fixture = { studentsUrl: (HC.fx.app && HC.fx.app.studentsUrl) || null, keys: HC.keys };
+            publish();
+
+            STATE.phase = 'frame-ready';
+            await startFrame();
+
+            STATE.phase = 'fetch-app';
+            var appRes = await fetch('/index.html', { cache: 'no-store' });
+            if (!appRes.ok) throw new Error('fetch /index.html HTTP ' + appRes.status);
+            var appHtml = await appRes.text();
+            STATE.appHtmlLength = appHtml.length;
+            publish();
+
+            var def = SCENARIOS[SCENARIO];
+            if (!def) { STATE.errors.push('未知 scenario: ' + SCENARIO); }
+            STATE.seed = def ? def.seed() : { myStudents: [myStudent(ID1)], chats: {} };
+            STATE.phase = 'seed';
+            seedLocalStorage(STATE.seed);
+            STATE.storageAfterSeed = {
+                chatsKey: safeGet(function () { return localStorage.getItem(HC.keys.chatsKey); }, null),
+                legacyChatsKey: safeGet(function () { return localStorage.getItem(HC.keys.legacyChatsKey); }, null)
+            };
+            publish();
+
+            STATE.phase = 'write-app';
+            FRAME.contentWindow.postMessage({ type: 'mm_app_html', html: injectPrelude(appHtml) }, '*');
+
+            STATE.phase = 'wait-ready';
+            var readyInfo = await waitAppReady();
+            STATE.readyInfo = readyInfo;
+            STATE.ready = !!(readyInfo && readyInfo.hasApp);
+            publish();
+
+            STATE.phase = 'wait-library';
+            if (STATE.ready && STATE.seed.myStudents && STATE.seed.myStudents.length) {
+                await waitFor(function () { return qa('.contact-item').length > 0; }, 5000, 'contact-items');
+            }
+            var overridesOk = injectTestOverrides();
+            STATE.testOverrides = overridesOk;
+            publish();
+
+            STATE.phase = 'scenario';
+            if (def) {
+                STATE.timings.scenarioStart = Date.now() - t0;
+                await def.run();
+            }
+        } catch (e) {
+            STATE.errors.push('HARNESS: ' + String((e && (e.stack || e.message)) || e));
+        } finally {
+            STATE.phase = 'finalize';
+            STATE.snapshot = safeGet(snapshotState, null);
+            STATE.timings.totalMs = Date.now() - t0;
+            STATE.done = true;
+            STATE.phase = STATE.fail > 0 ? 'done-with-failures' : 'done';
+            publish();
+            if (SHOT) await sleep(500);
+            window.__testDone = true;
+            publish();
+        }
+    })();
+})();
+</script>
+
+
+</body></html>
+

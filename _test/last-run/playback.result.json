@@ -1,0 +1,345 @@
+﻿{
+    "scenario":  "playback",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:17:04.801Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  25,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "#btn-play（播放按钮）存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "btn-play":  true,
+                                      "btn-play-text":  true,
+                                      "playback-bar":  true,
+                                      "btn-playback-stop":  true
+                                  }
+                   },
+                   {
+                       "name":  "播放前按钮文字为“播放”",
+                       "ok":  true,
+                       "actual":  "播放"
+                   },
+                   {
+                       "name":  "播放开始显示 #playback-bar",
+                       "ok":  true,
+                       "actual":  {
+                                      "barHidden":  false,
+                                      "progress":  "播放中 1/3",
+                                      "boxes":  0,
+                                      "typing":  1,
+                                      "playText":  "停止",
+                                      "inputDisabled":  true
+                                  }
+                   },
+                   {
+                       "name":  "输入区被禁用（textarea disabled）",
+                       "ok":  true,
+                       "actual":  {
+                                      "barHidden":  false,
+                                      "progress":  "播放中 1/3",
+                                      "boxes":  0,
+                                      "typing":  1,
+                                      "playText":  "停止",
+                                      "inputDisabled":  true
+                                  }
+                   },
+                   {
+                       "name":  "播放按钮变为“停止”",
+                       "ok":  true,
+                       "actual":  "停止"
+                   },
+                   {
+                       "name":  "播放进度显示 播放中 1/3",
+                       "ok":  true,
+                       "actual":  "播放中 1/3"
+                   },
+                   {
+                       "name":  "学生盒子出现前显示 .typing-box",
+                       "ok":  true,
+                       "actual":  1
+                   },
+                   {
+                       "name":  "打字动画包含 3 个 .typing-dot",
+                       "ok":  true,
+                       "actual":  3
+                   },
+                   {
+                       "name":  "打字气泡为深色学生气泡 (#4C5A6E)",
+                       "ok":  true,
+                       "actual":  "rgb(76, 90, 110)"
+                   },
+                   {
+                       "name":  "打字框带学生头像和名字",
+                       "ok":  true,
+                       "actual":  {
+                                      "hasAvatar":  true,
+                                      "hasName":  true
+                                  }
+                   },
+                   {
+                       "name":  "打字动画时长与 settings.animationTime(1000ms) 一致",
+                       "ok":  true,
+                       "actual":  {
+                                      "dotDur":  "1s",
+                                      "dotAnim":  "typingDot",
+                                      "typingDurVar":  "1000ms"
+                                  }
+                   },
+                   {
+                       "name":  "打字点有循环动画",
+                       "ok":  true,
+                       "actual":  {
+                                      "dotAnim":  "typingDot",
+                                      "dotDur":  "1s"
+                                  }
+                   },
+                   {
+                       "name":  "播放自动结束并恢复完整聊天",
+                       "ok":  true,
+                       "actual":  {
+                                      "barHidden":  true,
+                                      "progress":  "播放中 3/3",
+                                      "boxes":  3,
+                                      "typing":  0,
+                                      "playText":  "播放",
+                                      "inputDisabled":  false
+                                  }
+                   },
+                   {
+                       "name":  "播放结束后按钮文字恢复为“播放”",
+                       "ok":  true,
+                       "actual":  "播放"
+                   },
+                   {
+                       "name":  "播放结束后输入区恢复可用",
+                       "ok":  true,
+                       "actual":  {
+                                      "input":  false,
+                                      "send":  false
+                                  }
+                   },
+                   {
+                       "name":  "2 个学生盒子各出现一次打字动画",
+                       "ok":  true,
+                       "actual":  [
+                                      "3dots/1s",
+                                      "3dots/1s"
+                                  ]
+                   },
+                   {
+                       "name":  "#btn-playback-stop（停止按钮）存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "btn-playback-stop":  true
+                                  }
+                   },
+                   {
+                       "name":  "播放中点击停止立即结束并恢复",
+                       "ok":  true,
+                       "actual":  {
+                                      "barHidden":  true,
+                                      "progress":  "播放中 1/3",
+                                      "boxes":  3,
+                                      "typing":  0,
+                                      "playText":  "播放",
+                                      "inputDisabled":  false
+                                  }
+                   },
+                   {
+                       "name":  "动画时间滑杆存在且范围 700~2000",
+                       "ok":  true,
+                       "actual":  {
+                                      "min":  "700",
+                                      "max":  "2000",
+                                      "step":  "50",
+                                      "value":  "1000"
+                                  }
+                   },
+                   {
+                       "name":  "滑杆修改后 settings.animationTime=1500",
+                       "ok":  true,
+                       "actual":  1500
+                   },
+                   {
+                       "name":  "#anim-time-value 显示 1500ms",
+                       "ok":  true,
+                       "actual":  "1500ms"
+                   },
+                   {
+                       "name":  "动画时间立即持久化到 localStorage",
+                       "ok":  true,
+                       "actual":  {
+                                      "defaultVideoSite":  "channels",
+                                      "animationTime":  1500,
+                                      "autoBackup":  false
+                                  }
+                   },
+                   {
+                       "name":  "学生设置预览使用 animationTime",
+                       "ok":  true,
+                       "actual":  "1500ms"
+                   },
+                   {
+                       "name":  "播放时打字动画时长跟随 animationTime（1.5s）",
+                       "ok":  true,
+                       "actual":  {
+                                      "dotDur":  "1.5s",
+                                      "dotAnim":  "typingDot",
+                                      "typingDurVar":  "1500ms"
+                                  }
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  106,
+                    "totalMs":  4886
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118614801
+                                    }
+                                ],
+                 "chats":  {
+                               "1001":  [
+                                            {
+                                                "id":  "b_p1",
+                                                "role":  "student",
+                                                "time":  1794118621801,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_p1",
+                                                                  "type":  "text",
+                                                                  "text":  "学生第一句"
+                                                              },
+                                                              {
+                                                                  "id":  "i_p2",
+                                                                  "type":  "text",
+                                                                  "text":  "学生第二句"
+                                                              }
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "b_p2",
+                                                "role":  "sensei",
+                                                "time":  1794118622801,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_p3",
+                                                                  "type":  "text",
+                                                                  "text":  "老师回复"
+                                                              }
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "b_p3",
+                                                "role":  "student",
+                                                "time":  1794118623801,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_p4",
+                                                                  "type":  "text",
+                                                                  "text":  "学生再说一句"
+                                                              }
+                                                          ]
+                                            }
+                                        ]
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  true,
+                                 "chatPageClass":  "slide-in",
+                                 "listPageClass":  "slide-out",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav hidden",
+                                 "modalActive":  false,
+                                 "modalTitle":  "",
+                                 "msgBoxes":  3,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 学生再说一句"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_p1\",\"role\":\"student\",\"time\":1794118621801,\"items\":[{\"id\":\"i_p1\",\"type\":\"text\",\"text\":\"学生第一句\"},{\"id\":\"i_p2\",\"type\":\"text\",\"text\":\"学生第二句\"}]},{\"id\":\"b_p2\",\"role\":\"sensei\",\"time\":1794118622801,\"items\":[{\"id\":\"i_p3\",\"type\":\"text\",\"text\":\"老师回复\"}]},{\"id\":\"b_p3\",\"role\":\"student\",\"time\":1794118623801,\"items\":[{\"id\":\"i_p4\",\"type\":\"text\",\"text\":\"学生再说一句\"}]}]}",
+                                     "settingsRaw":  "{\"defaultVideoSite\":\"channels\",\"animationTime\":1500,\"autoBackup\":false}",
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118614801}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118624878
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118624888
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_p1\",\"role\":\"student\",\"time\":1794118621801,\"items\":[{\"id\":\"i_p1\",\"type\":\"text\",\"text\":\"学生第一句\"},{\"id\":\"i_p2\",\"type\":\"text\",\"text\":\"学生第二句\"}]},{\"id\":\"b_p2\",\"role\":\"sensei\",\"time\":1794118622801,\"items\":[{\"id\":\"i_p3\",\"type\":\"text\",\"text\":\"老师回复\"}]},{\"id\":\"b_p3\",\"role\":\"student\",\"time\":1794118623801,\"items\":[{\"id\":\"i_p4\",\"type\":\"text\",\"text\":\"学生再说一句\"}]}]}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 学生再说一句",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

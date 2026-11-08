@@ -1,0 +1,303 @@
+﻿{
+    "scenario":  "send-append",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:16:57.717Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  24,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "#send-btn 存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "send-btn":  true,
+                                      "append-btn":  true,
+                                      "btn-more":  true,
+                                      "chat-input":  true,
+                                      "role-switch":  true
+                                  }
+                   },
+                   {
+                       "name":  "#append-btn 存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "append-btn":  true
+                                  }
+                   },
+                   {
+                       "name":  "初始会话为空",
+                       "ok":  true,
+                       "actual":  {
+                                      "1001":  [
+
+                                               ]
+                                  }
+                   },
+                   {
+                       "name":  "点“发送”新建 1 个盒子",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "id":  "b_mw7fwhip6asqah",
+                                          "role":  "sensei",
+                                          "items":  [
+                                                        "老师消息A"
+                                                    ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "默认身份 sensei 的盒子 role=sensei",
+                       "ok":  true,
+                       "actual":  "sensei"
+                   },
+                   {
+                       "name":  "盒子内 text item 内容正确",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "id":  "i_mw7fwhipdu6ytd",
+                                          "type":  "text",
+                                          "text":  "老师消息A"
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "发送后输入框清空",
+                       "ok":  true,
+                       "actual":  ""
+                   },
+                   {
+                       "name":  "DOM：老师盒子无头像无名字",
+                       "ok":  true,
+                       "actual":  {
+                                      "avatars":  0,
+                                      "names":  0
+                                  }
+                   },
+                   {
+                       "name":  "切换身份后 #role-text 显示“学生”",
+                       "ok":  true,
+                       "actual":  "学生"
+                   },
+                   {
+                       "name":  "#role-switch 带 student 类",
+                       "ok":  true,
+                       "actual":  "role-switch student"
+                   },
+                   {
+                       "name":  "学生身份发送后盒子数为 2",
+                       "ok":  true,
+                       "actual":  [
+                                      "sensei",
+                                      "student"
+                                  ]
+                   },
+                   {
+                       "name":  "第二个盒子 role=student",
+                       "ok":  true,
+                       "actual":  "student"
+                   },
+                   {
+                       "name":  "学生盒子头像/名字各出现一次",
+                       "ok":  true,
+                       "actual":  {
+                                      "avatars":  1,
+                                      "names":  1
+                                  }
+                   },
+                   {
+                       "name":  "同身份追加不新建盒子",
+                       "ok":  true,
+                       "actual":  2
+                   },
+                   {
+                       "name":  "同身份追加把消息加入上一个盒子",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "id":  "i_mw7fwhkxl97jhk",
+                                          "type":  "text",
+                                          "text":  "学生消息B"
+                                      },
+                                      {
+                                          "id":  "i_mw7fwhkxykusif",
+                                          "type":  "text",
+                                          "text":  "追加学生C"
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "追加后输入框清空",
+                       "ok":  true,
+                       "actual":  ""
+                   },
+                   {
+                       "name":  "DOM：最后一个学生盒子含 2 条消息",
+                       "ok":  true,
+                       "actual":  2
+                   },
+                   {
+                       "name":  "身份不一致时弹出确认弹窗",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  true,
+                                      "title":  "发送者不一致",
+                                      "body":  "上一个信息盒子来自 星野，当前身份是 老师。要怎么做？",
+                                      "buttons":  [
+                                                      "新建盒子",
+                                                      "改身份并追加"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "弹窗说明上一个盒子与当前身份不一致",
+                       "ok":  true,
+                       "actual":  "发送者不一致 | 上一个信息盒子来自 星野，当前身份是 老师。要怎么做？"
+                   },
+                   {
+                       "name":  "弹窗提供“新建盒子”与“改身份并追加”选项",
+                       "ok":  true,
+                       "actual":  [
+                                      "新建盒子",
+                                      "改身份并追加"
+                                  ]
+                   },
+                   {
+                       "name":  "选择“新建盒子”后出现第 3 个盒子（sensei）",
+                       "ok":  true,
+                       "actual":  [
+                                      "sensei",
+                                      "student",
+                                      "sensei"
+                                  ]
+                   },
+                   {
+                       "name":  "选择“新建盒子”后弹窗关闭",
+                       "ok":  true,
+                       "actual":  {
+                                      "active":  false,
+                                      "title":  "发送者不一致",
+                                      "body":  "上一个信息盒子来自 星野，当前身份是 老师。要怎么做？",
+                                      "buttons":  [
+                                                      "新建盒子",
+                                                      "改身份并追加"
+                                                  ]
+                                  }
+                   },
+                   {
+                       "name":  "发送/追加后写入 localStorage chatsKey",
+                       "ok":  true,
+                       "actual":  "{\"1001\":[{\"id\":\"b_mw7fwhip6asqah\",\"role\":\"sensei\",\"time\":1794118618033,\"items\":[{\"id\":\"i_mw7fwhipdu6ytd\",\"type\":\"text\",\"text\":\"老师消息A\"}]},{\"id\":\"b_mw7fwhkx81fhrf\",\"role\":\"student\",\"time\":1794118618113,\"items\":[{\"id\":\"i_mw7fwhkxl97jhk\",\"type\":\"text\",\"text\":\"学生消息B\"},{\"id\":\"i_mw7fwhkxykusif\",\"type\":\"tex"
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  115,
+                    "totalMs":  475
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118607717
+                                    }
+                                ],
+                 "chats":  {
+
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  true,
+                                 "chatPageClass":  "slide-in",
+                                 "listPageClass":  "slide-out",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav hidden",
+                                 "modalActive":  false,
+                                 "modalTitle":  "发送者不一致",
+                                 "msgBoxes":  3,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_mw7fwhip6asqah\",\"role\":\"sensei\",\"time\":1794118618033,\"items\":[{\"id\":\"i_mw7fwhipdu6ytd\",\"type\":\"text\",\"text\":\"老师消息A\"}]},{\"id\":\"b_mw7fwhkx81fhrf\",\"role\":\"student\",\"time\":1794118618113,\"items\":[{\"id\":\"i_mw7fwhkxl97jhk\",\"type\":\"text\",\"text\":\"学生消息B\"},{\"id\":\"i_mw7fwhkxykusif\",\"type\":\"text\",\"text\":\"追加学生C\"}]},{\"id\":\"b_mw7fwhn5dfn275\",\"role\":\"sensei\",\"time\":1794118618193,\"items\":[{\"id\":\"i_mw7fwhn5ooksv3\",\"type\":\"text\",\"text\":\"老师追加D\"}]}]}",
+                                     "settingsRaw":  null,
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118607717}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118617803
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118617813
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

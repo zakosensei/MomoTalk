@@ -1,0 +1,261 @@
+﻿{
+    "scenario":  "migration",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:17:11.227Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  12,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "夹具预置了旧版 legacyChatsKey 且未预置新 chatsKey",
+                       "ok":  true,
+                       "actual":  {
+                                      "legacySeeded":  true,
+                                      "newKeySeeded":  false
+                                  }
+                   },
+                   {
+                       "name":  "启动后迁移写入新 chatsKey",
+                       "ok":  true,
+                       "actual":  "{\"1001\":[{\"id\":\"b_mw7fwrrplen536\",\"role\":\"student\",\"time\":1794118628227,\"items\":[{\"id\":\"i_mw7fwrrphtarsm\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mw7fwrrpvq4hhb\","
+                   },
+                   {
+                       "name":  "迁移后 chats 为「学生 id → 盒子数组」结构",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "id":  "b_mw7fwrrplen536",
+                                          "role":  "student",
+                                          "items":  2
+                                      },
+                                      {
+                                          "id":  "b_mw7fwrrp7h7vwj",
+                                          "role":  "sensei",
+                                          "items":  1
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "连续同角色的旧消息合并为一个学生盒子",
+                       "ok":  true,
+                       "actual":  {
+                                      "role":  "student",
+                                      "items":  [
+                                                    "text:旧消息一",
+                                                    "text:旧消息二"
+                                                ]
+                                  }
+                   },
+                   {
+                       "name":  "旧文本消息转换为 text item",
+                       "ok":  true,
+                       "actual":  [
+                                      "旧消息一",
+                                      "旧消息二"
+                                  ]
+                   },
+                   {
+                       "name":  "老师消息形成独立盒子",
+                       "ok":  true,
+                       "actual":  {
+                                      "id":  "b_mw7fwrrp7h7vwj",
+                                      "role":  "sensei",
+                                      "time":  1794118629227,
+                                      "items":  [
+                                                    {
+                                                        "id":  "i_mw7fwrrp6zhpva",
+                                                        "type":  "text",
+                                                        "text":  "旧的老师回复"
+                                                    }
+                                                ]
+                                  }
+                   },
+                   {
+                       "name":  "盒子结构含 id/role/time/items，item 含 id/type",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "id":  "b_mw7fwrrplen536",
+                                          "role":  "student",
+                                          "time":  1794118628227,
+                                          "items":  [
+                                                        {
+                                                            "id":  "i_mw7fwrrphtarsm",
+                                                            "type":  "text",
+                                                            "text":  "旧消息一"
+                                                        },
+                                                        {
+                                                            "id":  "i_mw7fwrrpvq4hhb",
+                                                            "type":  "text",
+                                                            "text":  "旧消息二"
+                                                        }
+                                                    ]
+                                      },
+                                      {
+                                          "id":  "b_mw7fwrrp7h7vwj",
+                                          "role":  "sensei",
+                                          "time":  1794118629227,
+                                          "items":  [
+                                                        {
+                                                            "id":  "i_mw7fwrrp6zhpva",
+                                                            "type":  "text",
+                                                            "text":  "旧的老师回复"
+                                                        }
+                                                    ]
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "旧 key 保留不删（可重复迁移）",
+                       "ok":  true,
+                       "actual":  null
+                   },
+                   {
+                       "name":  "__mm.chats() 与迁移后结果一致",
+                       "ok":  true,
+                       "actual":  [
+                                      "student",
+                                      "sensei"
+                                  ]
+                   },
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "迁移后聊天页渲染出 2 个信息盒子",
+                       "ok":  true,
+                       "actual":  2
+                   },
+                   {
+                       "name":  "迁移后学生盒子聚合 2 条消息且头像/名字只显示一次",
+                       "ok":  true,
+                       "actual":  {
+                                      "items":  2,
+                                      "avatars":  1,
+                                      "names":  1
+                                  }
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  109,
+                    "totalMs":  309
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118621227
+                                    }
+                                ],
+                 "legacyChats":  {
+                                     "1001":  [
+                                                  {
+                                                      "role":  "student",
+                                                      "text":  "旧消息一",
+                                                      "time":  1794118627227
+                                                  },
+                                                  {
+                                                      "role":  "student",
+                                                      "text":  "旧消息二",
+                                                      "time":  1794118628227
+                                                  },
+                                                  {
+                                                      "role":  "sensei",
+                                                      "text":  "旧的老师回复",
+                                                      "time":  1794118629227
+                                                  }
+                                              ]
+                                 }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  true,
+                                 "chatPageClass":  "slide-in",
+                                 "listPageClass":  "slide-out",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav hidden",
+                                 "modalActive":  false,
+                                 "modalTitle":  "",
+                                 "msgBoxes":  2,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 [我] 旧的老师回复"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_mw7fwrrplen536\",\"role\":\"student\",\"time\":1794118628227,\"items\":[{\"id\":\"i_mw7fwrrphtarsm\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mw7fwrrpvq4hhb\",\"type\":\"text\",\"text\":\"旧消息二\"}]},{\"id\":\"b_mw7fwrrp7h7vwj\",\"role\":\"sensei\",\"time\":1794118629227,\"items\":[{\"id\":\"i_mw7fwrrp6zhpva\",\"type\":\"text\",\"text\":\"旧的老师回复\"}]}]}",
+                                     "settingsRaw":  null,
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118621227}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118631307
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118631317
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  null,
+                             "legacyChatsKey":  "{\"1001\":[{\"role\":\"student\",\"text\":\"旧消息一\",\"time\":1794118627227},{\"role\":\"student\",\"text\":\"旧消息二\",\"time\":1794118628227},{\"role\":\"sensei\",\"text\":\"旧的老师回复\",\"time\":1794118629227}]}"
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 [我] 旧的老师回复",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

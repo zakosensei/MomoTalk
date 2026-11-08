@@ -1,0 +1,313 @@
+﻿{
+    "scenario":  "details",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:17:09.655Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  23,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "底部导航“更多”入口存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "nav-more-btn":  true,
+                                      "nav-messages-btn":  true,
+                                      "more-page":  true,
+                                      "bottom-nav":  false
+                                  }
+                   },
+                   {
+                       "name":  "点击“更多”进入更多页",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "",
+                                      "list":  "hide",
+                                      "nav":  "bottom-nav",
+                                      "more":  "active"
+                                  }
+                   },
+                   {
+                       "name":  "更多主页显示底部导航栏",
+                       "ok":  true,
+                       "actual":  "bottom-nav"
+                   },
+                   {
+                       "name":  "更多页有进入动画（pageIn）",
+                       "ok":  true,
+                       "actual":  {
+                                      "animationName":  "pageIn",
+                                      "duration":  "0.24s"
+                                  }
+                   },
+                   {
+                       "name":  "打开“关于”子栏目",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "",
+                                      "list":  "hide",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  "active"
+                                  }
+                   },
+                   {
+                       "name":  "打开更多子栏目后 .bottom-nav 隐藏",
+                       "ok":  true,
+                       "actual":  "bottom-nav hidden"
+                   },
+                   {
+                       "name":  "子栏目显示返回按钮",
+                       "ok":  true,
+                       "actual":  "more-back-btn show"
+                   },
+                   {
+                       "name":  "更多子面板有进入动画（panelIn）",
+                       "ok":  true,
+                       "actual":  {
+                                      "animationName":  "panelIn",
+                                      "duration":  "0.22s"
+                                  }
+                   },
+                   {
+                       "name":  "返回更多主页后底部导航恢复",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "",
+                                      "list":  "hide",
+                                      "nav":  "bottom-nav",
+                                      "more":  "active"
+                                  }
+                   },
+                   {
+                       "name":  "更多子页右滑返回更多主页",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "",
+                                      "list":  "hide",
+                                      "nav":  "bottom-nav",
+                                      "more":  "active"
+                                  }
+                   },
+                   {
+                       "name":  "从更多子页右滑返回后底部导航恢复",
+                       "ok":  true,
+                       "actual":  "bottom-nav"
+                   },
+                   {
+                       "name":  "更多主页右滑回到列表页",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "",
+                                      "list":  "",
+                                      "nav":  "bottom-nav",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "聊天页有滑入过渡（transform 过渡）",
+                       "ok":  true,
+                       "actual":  {
+                                      "property":  "transform",
+                                      "duration":  "0.3s"
+                                  }
+                   },
+                   {
+                       "name":  "打开聊天时隐藏底部导航",
+                       "ok":  true,
+                       "actual":  "bottom-nav hidden"
+                   },
+                   {
+                       "name":  "聊天页右滑 \u003e80px 退出聊天",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "",
+                                      "list":  "",
+                                      "nav":  "bottom-nav",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "#contact-list 存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "contact-list":  true
+                                  }
+                   },
+                   {
+                       "name":  "下拉时出现刷新指示器 .pull-refresh",
+                       "ok":  true,
+                       "actual":  {
+                                      "exists":  true,
+                                      "className":  "pull-refresh visible",
+                                      "text":  "释放以刷新"
+                                  }
+                   },
+                   {
+                       "name":  "下拉超过阈值时提示“释放以刷新”",
+                       "ok":  true,
+                       "actual":  "释放以刷新"
+                   },
+                   {
+                       "name":  "松手后重新读取学生资料（loadLibrary）",
+                       "ok":  true,
+                       "actual":  {
+                                      "before":  1,
+                                      "after":  2
+                                  }
+                   },
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "消息盒子出现时有 popIn 动画",
+                       "ok":  true,
+                       "actual":  {
+                                      "animationName":  "popIn",
+                                      "duration":  "0.22s"
+                                  }
+                   },
+                   {
+                       "name":  "聊天页滑入类 slide-in 存在",
+                       "ok":  true,
+                       "actual":  "slide-in"
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  111,
+                    "totalMs":  2221
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118619655
+                                    },
+                                    {
+                                        "id":  100200,
+                                        "unread":  0,
+                                        "addedAt":  1794118619655
+                                    }
+                                ],
+                 "chats":  {
+                               "1001":  [
+                                            {
+                                                "id":  "b_d1",
+                                                "role":  "sensei",
+                                                "time":  1794118628655,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_d1",
+                                                                  "type":  "text",
+                                                                  "text":  "页面细节测试"
+                                                              }
+                                                          ]
+                                            }
+                                        ]
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  2,
+                                 "chatOpen":  true,
+                                 "chatPageClass":  "slide-in",
+                                 "listPageClass":  "slide-out",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav hidden",
+                                 "modalActive":  false,
+                                 "modalTitle":  "",
+                                 "msgBoxes":  1,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 [我] 页面细节测试 圣园 未花（泳装） 暂无消息"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_d1\",\"role\":\"sensei\",\"time\":1794118628655,\"items\":[{\"id\":\"i_d1\",\"type\":\"text\",\"text\":\"页面细节测试\"}]}]}",
+                                     "settingsRaw":  null,
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118619655},{\"id\":100200,\"unread\":0,\"addedAt\":1794118619655}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118629738
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118629747
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118631378
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_d1\",\"role\":\"sensei\",\"time\":1794118628655,\"items\":[{\"id\":\"i_d1\",\"type\":\"text\",\"text\":\"页面细节测试\"}]}]}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  2,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 [我] 页面细节测试 圣园 未花（泳装） 暂无消息",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}

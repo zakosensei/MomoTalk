@@ -1,0 +1,259 @@
+﻿{
+    "scenario":  "backup",
+    "shot":  false,
+    "phase":  "done",
+    "startedAt":  "2026-11-08T06:17:08.158Z",
+    "ready":  true,
+    "done":  true,
+    "pass":  16,
+    "fail":  0,
+    "checks":  [
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "自动备份默认关闭（settings.autoBackup === false）",
+                       "ok":  true,
+                       "actual":  {
+                                      "defaultVideoSite":  "channels",
+                                      "animationTime":  1000,
+                                      "autoBackup":  false
+                                  }
+                   },
+                   {
+                       "name":  "#auto-backup-switch 开关存在",
+                       "ok":  true,
+                       "actual":  {
+                                      "auto-backup-switch":  true
+                                  }
+                   },
+                   {
+                       "name":  "开关初始为未勾选",
+                       "ok":  true,
+                       "actual":  false
+                   },
+                   {
+                       "name":  "默认未写入 autoBackup=true 的设置",
+                       "ok":  true,
+                       "actual":  null
+                   },
+                   {
+                       "name":  "自动备份关闭时退出聊天不触发下载",
+                       "ok":  true,
+                       "actual":  {
+                                      "before":  0,
+                                      "captures":  [
+
+                                                   ]
+                                  }
+                   },
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "开关打开后 settings.autoBackup === true",
+                       "ok":  true,
+                       "actual":  {
+                                      "defaultVideoSite":  "channels",
+                                      "animationTime":  1000,
+                                      "autoBackup":  true
+                                  }
+                   },
+                   {
+                       "name":  "开关状态立即持久化到 localStorage",
+                       "ok":  true,
+                       "actual":  {
+                                      "defaultVideoSite":  "channels",
+                                      "animationTime":  1000,
+                                      "autoBackup":  true
+                                  }
+                   },
+                   {
+                       "name":  "开关 UI 已勾选",
+                       "ok":  true,
+                       "actual":  true
+                   },
+                   {
+                       "name":  "开启自动备份后退出聊天自动下载备份",
+                       "ok":  true,
+                       "actual":  [
+                                      {
+                                          "download":  "momotalk_autobackup_20261108_141709.json",
+                                          "href":  "blob:http://127.0.0.1:8765/27580dfb-96fd-4bf6-93",
+                                          "at":  1794118629356
+                                      }
+                                  ]
+                   },
+                   {
+                       "name":  "自动备份文件名 momotalk_autobackup_YYYYMMDD_HHmmss.json",
+                       "ok":  true,
+                       "actual":  {
+                                      "download":  "momotalk_autobackup_20261108_141709.json",
+                                      "href":  "blob:http://127.0.0.1:8765/27580dfb-96fd-4bf6-93",
+                                      "at":  1794118629356
+                                  }
+                   },
+                   {
+                       "name":  "自动备份内容为 version 4 完整数据（myStudents + chats）",
+                       "ok":  true,
+                       "actual":  {
+                                      "version":  4,
+                                      "chatsKeys":  [
+                                                        "1001"
+                                                    ],
+                                      "myStudents":  1
+                                  }
+                   },
+                   {
+                       "name":  "打开聊天页（学生 1001）",
+                       "ok":  true,
+                       "actual":  {
+                                      "chat":  "slide-in",
+                                      "list":  "slide-out",
+                                      "nav":  "bottom-nav hidden",
+                                      "more":  ""
+                                  }
+                   },
+                   {
+                       "name":  "再次点击开关后 autoBackup=false",
+                       "ok":  true,
+                       "actual":  {
+                                      "defaultVideoSite":  "channels",
+                                      "animationTime":  1000,
+                                      "autoBackup":  false
+                                  }
+                   },
+                   {
+                       "name":  "关闭自动备份后退出聊天不再下载",
+                       "ok":  true,
+                       "actual":  {
+                                      "before":  1,
+                                      "after":  1
+                                  }
+                   }
+               ],
+    "failures":  [
+
+                 ],
+    "notes":  [
+
+              ],
+    "errors":  [
+
+               ],
+    "timings":  {
+                    "scenarioStart":  196,
+                    "totalMs":  1996
+                },
+    "seed":  {
+                 "myStudents":  [
+                                    {
+                                        "id":  1001,
+                                        "unread":  0,
+                                        "addedAt":  1794118618158
+                                    }
+                                ],
+                 "chats":  {
+                               "1001":  [
+                                            {
+                                                "id":  "b_b1",
+                                                "role":  "sensei",
+                                                "time":  1794118627158,
+                                                "items":  [
+                                                              {
+                                                                  "id":  "i_b1",
+                                                                  "type":  "text",
+                                                                  "text":  "备份测试消息"
+                                                              }
+                                                          ]
+                                            }
+                                        ]
+                           }
+             },
+    "fixture":  {
+                    "studentsUrl":  "./_test/fixtures/students.json",
+                    "keys":  {
+                                 "myStudentsKey":  "mm_test_my_students",
+                                 "chatsKey":  "mm_test_chats",
+                                 "legacyChatsKey":  "mm_test_chats_legacy",
+                                 "settingsKey":  "mm_test_settings"
+                             }
+                },
+    "snapshot":  {
+                     "hasWindow":  true,
+                     "mm":  true,
+                     "dom":  {
+                                 "contactItems":  1,
+                                 "chatOpen":  false,
+                                 "chatPageClass":  "",
+                                 "listPageClass":  "",
+                                 "morePageClass":  "",
+                                 "navClass":  "bottom-nav",
+                                 "modalActive":  false,
+                                 "modalTitle":  "",
+                                 "msgBoxes":  1,
+                                 "typingBoxes":  0,
+                                 "morePanelOpen":  false,
+                                 "emojiCells":  0,
+                                 "contactListText":  "小鸟游 星野 [我] 备份测试消息"
+                             },
+                     "storage":  {
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794118627158,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
+                                     "settingsRaw":  "{\"defaultVideoSite\":\"channels\",\"animationTime\":1000,\"autoBackup\":false}",
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118618158}]"
+                                 },
+                     "testLog":  {
+                                     "fetch":  [
+                                                   {
+                                                       "url":  "./resources/running_datas.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
+                                                       "at":  1794118628326
+                                                   },
+                                                   {
+                                                       "url":  "./_test/fixtures/students.json",
+                                                       "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
+                                                       "at":  1794118628336
+                                                   }
+                                               ],
+                                     "confirms":  [
+
+                                                  ],
+                                     "errors":  [
+
+                                                ]
+                                 },
+                     "href":  "http://127.0.0.1:8765/test-harness.html?frame=1",
+                     "title":  "MomoTalk Test - 自定义聊天",
+                     "readyState":  "complete"
+                 },
+    "appHtmlLength":  148763,
+    "storageAfterSeed":  {
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794118627158,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
+                             "legacyChatsKey":  null
+                         },
+    "readyInfo":  {
+                      "hasApp":  true,
+                      "hasMm":  true,
+                      "items":  1,
+                      "readyState":  "complete",
+                      "listText":  "小鸟游 星野 [我] 备份测试消息",
+                      "scriptErrors":  [
+
+                                       ]
+                  },
+    "testOverrides":  true
+}
