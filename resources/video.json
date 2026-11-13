@@ -12,13 +12,14 @@
     }
   },
   "videos": [
-    "预发布-测试": {
+    {
       "id": "test-001",
       "title": "预发布",
       "description": "MomoTalk Web Verson0.0.1 预发布图文。",
       "links": {
         "channels": "https://weixin.qq.com/sph/nl/AfXuw9z2a",
-        "xiaohongshu": NUll
+        "xiaohongshu": null
+      }
     }
   ]
 }
