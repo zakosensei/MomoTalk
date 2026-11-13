@@ -2,7 +2,7 @@
     "scenario":  "migration",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T05:57:29.816Z",
+    "startedAt":  "2026-11-13T07:49:10.098Z",
     "ready":  true,
     "done":  true,
     "pass":  15,
@@ -19,19 +19,19 @@
                    {
                        "name":  "启动后迁移写入新 chatsKey",
                        "ok":  true,
-                       "actual":  "{\"1001\":[{\"id\":\"b_mwekepj90csik6\",\"role\":\"student\",\"time\":1794549446816,\"items\":[{\"id\":\"i_mwekepj905f9dj\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mwekepj9oepjkj\","
+                       "actual":  "{\"1001\":[{\"id\":\"b_mweoebi0zny2dm\",\"role\":\"student\",\"time\":1794556147097,\"items\":[{\"id\":\"i_mweoebi0q3eq0n\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mweoebi0bro2i8\","
                    },
                    {
                        "name":  "迁移后 chats 为「学生 id → 盒子数组」结构",
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "b_mwekepj90csik6",
+                                          "id":  "b_mweoebi0zny2dm",
                                           "role":  "student",
                                           "items":  2
                                       },
                                       {
-                                          "id":  "b_mwekepj9zoku1u",
+                                          "id":  "b_mweoebi0b7x31s",
                                           "role":  "sensei",
                                           "items":  1
                                       }
@@ -60,12 +60,12 @@
                        "name":  "老师消息形成独立盒子",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "b_mwekepj9zoku1u",
+                                      "id":  "b_mweoebi0b7x31s",
                                       "role":  "sensei",
-                                      "time":  1794549447816,
+                                      "time":  1794556148097,
                                       "items":  [
                                                     {
-                                                        "id":  "i_mwekepj9wya8a2",
+                                                        "id":  "i_mweoebi086whs7",
                                                         "type":  "text",
                                                         "text":  "旧的老师回复"
                                                     }
@@ -77,29 +77,29 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "b_mwekepj90csik6",
+                                          "id":  "b_mweoebi0zny2dm",
                                           "role":  "student",
-                                          "time":  1794549446816,
+                                          "time":  1794556147097,
                                           "items":  [
                                                         {
-                                                            "id":  "i_mwekepj905f9dj",
+                                                            "id":  "i_mweoebi0q3eq0n",
                                                             "type":  "text",
                                                             "text":  "旧消息一"
                                                         },
                                                         {
-                                                            "id":  "i_mwekepj9oepjkj",
+                                                            "id":  "i_mweoebi0bro2i8",
                                                             "type":  "text",
                                                             "text":  "旧消息二"
                                                         }
                                                     ]
                                       },
                                       {
-                                          "id":  "b_mwekepj9zoku1u",
+                                          "id":  "b_mweoebi0b7x31s",
                                           "role":  "sensei",
-                                          "time":  1794549447816,
+                                          "time":  1794556148097,
                                           "items":  [
                                                         {
-                                                            "id":  "i_mwekepj9wya8a2",
+                                                            "id":  "i_mweoebi086whs7",
                                                             "type":  "text",
                                                             "text":  "旧的老师回复"
                                                         }
@@ -128,7 +128,7 @@
                                           "id":  "1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794549439816
+                                          "addedAt":  1794556140097
                                       }
                                   ]
                    },
@@ -181,15 +181,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  126,
-                    "totalMs":  326
+                    "scenarioStart":  121,
+                    "totalMs":  321
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794549439816
+                                        "addedAt":  1794556140097
                                     }
                                 ],
                  "legacyChats":  {
@@ -197,17 +197,17 @@
                                                   {
                                                       "role":  "student",
                                                       "text":  "旧消息一",
-                                                      "time":  1794549445816
+                                                      "time":  1794556146097
                                                   },
                                                   {
                                                       "role":  "student",
                                                       "text":  "旧消息二",
-                                                      "time":  1794549446816
+                                                      "time":  1794556147097
                                                   },
                                                   {
                                                       "role":  "sensei",
                                                       "text":  "旧的老师回复",
-                                                      "time":  1794549447816
+                                                      "time":  1794556148097
                                                   }
                                               ]
                                  }
@@ -237,24 +237,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 旧的老师回复 创建 11-13 13:57 · 修改 11-13 13:57"
+                                 "contactListText":  "小鸟游 星野 [我] 旧的老师回复 创建 11-13 15:49 · 修改 11-13 15:49"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_mwekepj90csik6\",\"role\":\"student\",\"time\":1794549446816,\"items\":[{\"id\":\"i_mwekepj905f9dj\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mwekepj9oepjkj\",\"type\":\"text\",\"text\":\"旧消息二\"}]},{\"id\":\"b_mwekepj9zoku1u\",\"role\":\"sensei\",\"time\":1794549447816,\"items\":[{\"id\":\"i_mwekepj9wya8a2\",\"type\":\"text\",\"text\":\"旧的老师回复\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_mweoebi0zny2dm\",\"role\":\"student\",\"time\":1794556147097,\"items\":[{\"id\":\"i_mweoebi0q3eq0n\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mweoebi0bro2i8\",\"type\":\"text\",\"text\":\"旧消息二\"}]},{\"id\":\"b_mweoebi0b7x31s\",\"role\":\"sensei\",\"time\":1794556148097,\"items\":[{\"id\":\"i_mweoebi086whs7\",\"type\":\"text\",\"text\":\"旧的老师回复\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794549439816}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556140097}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794549449915
+                                                       "at":  1794556150190
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794549449925
+                                                       "at":  1794556150200
                                                    }
                                                ],
                                      "confirms":  [
@@ -295,6 +295,18 @@
                                                          "role":  "开发 / 设计 / 文案",
                                                          "avatar":  "./resources/head.jpg",
                                                          "url":  "https://xhslink.cn/o/4bRFA2sZIFh"
+                                                     },
+                                                     {
+                                                         "name":  "一只鲸鱼",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/yizhijingyu.jpg",
+                                                         "url":  "https://v.kuaishou.com/nlfDtoVA"
+                                                     },
+                                                     {
+                                                         "name":  "傻傻の砂白",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/shabai.jpg",
+                                                         "url":  "https://space.bilibili.com/3546964918536967"
                                                      }
                                                  ]
                                  },
@@ -429,6 +441,8 @@
                                      "moreImage":  "本地图片",
                                      "moreReply":  "回复框",
                                      "moreStory":  "好感故事",
+                                     "moreNarration1":  "旁白1",
+                                     "moreNarration2":  "旁白2",
                                      "replyTitle":  "回复",
                                      "replyDefault":  "嗯？还好吧……",
                                      "replyTitleLabel":  "标题",
@@ -441,11 +455,22 @@
                                      "storyDefaultBtn":  "进入{name}的好感故事",
                                      "storySendTitle":  "发送好感故事框",
                                      "storyEditTitle":  "编辑好感故事框",
+                                     "narrationSendTitle1":  "发送旁白1",
+                                     "narrationSendTitle2":  "发送旁白2",
+                                     "narrationEditTitle1":  "编辑旁白1",
+                                     "narrationEditTitle2":  "编辑旁白2",
+                                     "narrationContentLabel":  "旁白内容",
+                                     "narrationPlaceholder":  "输入旁白内容…",
+                                     "narrationHint1":  "旁白1：居中淡灰色小字，适合场景或心理描写。",
+                                     "narrationHint2":  "旁白2：居中灰底黑字，适合系统提示、时间说明等。",
+                                     "narrationEmpty":  "内容不能为空",
                                      "itemTypeText":  "文本",
                                      "itemTypeImage":  "图片",
                                      "itemTypeEmoji":  "表情",
                                      "itemTypeReply":  "回复",
                                      "itemTypeStory":  "好感",
+                                     "itemTypeNarration1":  "旁白1",
+                                     "itemTypeNarration2":  "旁白2",
                                      "boxEditTitle":  "信息盒子",
                                      "boxItemCount":  "共 {n} 条信息",
                                      "itemEdit":  "编辑",
@@ -532,17 +557,17 @@
     "configPatch":  {
                         "favicon":  "./resources/MomoTalk_favicon.png"
                     },
-    "appHtmlLength":  157709,
+    "appHtmlLength":  163049,
     "storageAfterSeed":  {
                              "chatsKey":  null,
-                             "legacyChatsKey":  "{\"1001\":[{\"role\":\"student\",\"text\":\"旧消息一\",\"time\":1794549445816},{\"role\":\"student\",\"text\":\"旧消息二\",\"time\":1794549446816},{\"role\":\"sensei\",\"text\":\"旧的老师回复\",\"time\":1794549447816}]}"
+                             "legacyChatsKey":  "{\"1001\":[{\"role\":\"student\",\"text\":\"旧消息一\",\"time\":1794556146097},{\"role\":\"student\",\"text\":\"旧消息二\",\"time\":1794556147097},{\"role\":\"sensei\",\"text\":\"旧的老师回复\",\"time\":1794556148097}]}"
                          },
     "readyInfo":  {
                       "hasApp":  true,
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 旧的老师回复 创建 11-13 13:57 · 修改 11-13 13:57",
+                      "listText":  "小鸟游 星野 [我] 旧的老师回复 创建 11-13 15:49 · 修改 11-13 15:49",
                       "scriptErrors":  [
 
                                        ]

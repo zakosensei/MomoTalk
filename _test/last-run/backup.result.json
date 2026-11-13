@@ -2,7 +2,7 @@
     "scenario":  "backup",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T05:57:16.985Z",
+    "startedAt":  "2026-11-13T07:48:55.663Z",
     "ready":  true,
     "done":  true,
     "pass":  16,
@@ -92,9 +92,9 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "download":  "momotalk_autobackup_20261113_135718.json",
-                                          "href":  "blob:http://127.0.0.1:8765/bc8b6f3a-cf39-4371-88",
-                                          "at":  1794549438088
+                                          "download":  "momotalk_autobackup_20261113_154856.json",
+                                          "href":  "blob:http://127.0.0.1:8765/791378f9-e517-4c3b-a6",
+                                          "at":  1794556136782
                                       }
                                   ]
                    },
@@ -102,9 +102,9 @@
                        "name":  "自动备份文件名 momotalk_autobackup_YYYYMMDD_HHmmss.json",
                        "ok":  true,
                        "actual":  {
-                                      "download":  "momotalk_autobackup_20261113_135718.json",
-                                      "href":  "blob:http://127.0.0.1:8765/bc8b6f3a-cf39-4371-88",
-                                      "at":  1794549438088
+                                      "download":  "momotalk_autobackup_20261113_154856.json",
+                                      "href":  "blob:http://127.0.0.1:8765/791378f9-e517-4c3b-a6",
+                                      "at":  1794556136782
                                   }
                    },
                    {
@@ -120,7 +120,7 @@
                                                              "id":  "1001",
                                                              "studentId":  1001,
                                                              "unread":  0,
-                                                             "addedAt":  1794549426985
+                                                             "addedAt":  1794556125663
                                                          }
                                                      ]
                                   }
@@ -163,15 +163,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  102,
-                    "totalMs":  1902
+                    "scenarioStart":  118,
+                    "totalMs":  1918
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794549426985
+                                        "addedAt":  1794556125663
                                     }
                                 ],
                  "chats":  {
@@ -179,7 +179,7 @@
                                             {
                                                 "id":  "b_b1",
                                                 "role":  "sensei",
-                                                "time":  1794549435985,
+                                                "time":  1794556134663,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_b1",
@@ -216,24 +216,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 13:57 · 修改 11-13 13:57"
+                                 "contactListText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 15:48 · 修改 11-13 15:48"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794549435985,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794556134663,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
                                      "settingsRaw":  "{\"defaultVideoSite\":\"channels\",\"animationTime\":1000,\"autoBackup\":false}",
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794549426985}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556125663}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794549437058
+                                                       "at":  1794556135752
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794549437068
+                                                       "at":  1794556135762
                                                    }
                                                ],
                                      "confirms":  [
@@ -274,6 +274,18 @@
                                                          "role":  "开发 / 设计 / 文案",
                                                          "avatar":  "./resources/head.jpg",
                                                          "url":  "https://xhslink.cn/o/4bRFA2sZIFh"
+                                                     },
+                                                     {
+                                                         "name":  "一只鲸鱼",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/yizhijingyu.jpg",
+                                                         "url":  "https://v.kuaishou.com/nlfDtoVA"
+                                                     },
+                                                     {
+                                                         "name":  "傻傻の砂白",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/shabai.jpg",
+                                                         "url":  "https://space.bilibili.com/3546964918536967"
                                                      }
                                                  ]
                                  },
@@ -408,6 +420,8 @@
                                      "moreImage":  "本地图片",
                                      "moreReply":  "回复框",
                                      "moreStory":  "好感故事",
+                                     "moreNarration1":  "旁白1",
+                                     "moreNarration2":  "旁白2",
                                      "replyTitle":  "回复",
                                      "replyDefault":  "嗯？还好吧……",
                                      "replyTitleLabel":  "标题",
@@ -420,11 +434,22 @@
                                      "storyDefaultBtn":  "进入{name}的好感故事",
                                      "storySendTitle":  "发送好感故事框",
                                      "storyEditTitle":  "编辑好感故事框",
+                                     "narrationSendTitle1":  "发送旁白1",
+                                     "narrationSendTitle2":  "发送旁白2",
+                                     "narrationEditTitle1":  "编辑旁白1",
+                                     "narrationEditTitle2":  "编辑旁白2",
+                                     "narrationContentLabel":  "旁白内容",
+                                     "narrationPlaceholder":  "输入旁白内容…",
+                                     "narrationHint1":  "旁白1：居中淡灰色小字，适合场景或心理描写。",
+                                     "narrationHint2":  "旁白2：居中灰底黑字，适合系统提示、时间说明等。",
+                                     "narrationEmpty":  "内容不能为空",
                                      "itemTypeText":  "文本",
                                      "itemTypeImage":  "图片",
                                      "itemTypeEmoji":  "表情",
                                      "itemTypeReply":  "回复",
                                      "itemTypeStory":  "好感",
+                                     "itemTypeNarration1":  "旁白1",
+                                     "itemTypeNarration2":  "旁白2",
                                      "boxEditTitle":  "信息盒子",
                                      "boxItemCount":  "共 {n} 条信息",
                                      "itemEdit":  "编辑",
@@ -511,9 +536,9 @@
     "configPatch":  {
                         "favicon":  "./resources/MomoTalk_favicon.png"
                     },
-    "appHtmlLength":  157709,
+    "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794549435985,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794556134663,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -521,7 +546,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 13:57 · 修改 11-13 13:57",
+                      "listText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 15:48 · 修改 11-13 15:48",
                       "scriptErrors":  [
 
                                        ]

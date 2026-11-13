@@ -23,7 +23,7 @@ param(
     [string]$Chrome = 'C:\Program Files\Google\Chrome\Application\chrome.exe',
     [int]$VirtualTimeBudget = 20000,
     [int]$ChromeTimeoutSec = 150,
-    [int]$Retries = 1,
+    [int]$Retries = 2,
     [switch]$KeepTemp
 )
 
@@ -32,7 +32,7 @@ $script:AnyFail = $false
 
 $TestDir = $PSScriptRoot
 $RootDir = Split-Path -Parent $TestDir
-$AllScenarios = @('boot', 'render', 'send-append', 'multi-session', 'box-edit', 'merge', 'split', 'more', 'playback', 'playback-reply', 'screenshot', 'screenshot-fallback', 'backup', 'details', 'clear-data', 'favicon', 'migration', 'import-export')
+$AllScenarios = @('boot', 'render', 'send-append', 'multi-session', 'box-edit', 'merge', 'split', 'more', 'narration', 'playback', 'playback-reply', 'screenshot', 'screenshot-fallback', 'backup', 'details', 'clear-data', 'favicon', 'migration', 'import-export')
 
 if ($Scenario -eq 'all' -or [string]::IsNullOrWhiteSpace($Scenario)) {
     $Targets = $AllScenarios
@@ -66,13 +66,27 @@ $NodeCandidates = @(
     (Get-Command node -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)
 ) | Where-Object { $_ -and (Test-Path $_) }
 $Node = if ($NodeCandidates.Count -gt 0) { $NodeCandidates[0] } else { $null }
+# Python 的 http.server 只在 node 版 serve.js 反复崩溃时作为兜底静态服务器
+$PythonCandidates = @(
+    'C:\Users\Administrator\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe',
+    (Get-Command python -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue),
+    (Get-Command python3 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)
+) | Where-Object { $_ -and (Test-Path $_) }
+$Python = if ($PythonCandidates.Count -gt 0) { $PythonCandidates[0] } else { $null }
+$script:UsePythonServer = $false
 
 function Start-HarnessLocalServer {
-    if (-not $Node) { return $null }
     $srvOut = Join-Path $TempDir 'server.out.txt'
     $srvErr = Join-Path $TempDir 'server.err.txt'
-    $proc = Start-Process -FilePath $Node -ArgumentList @((Join-Path $TestDir 'serve.js'), $RootDir, $Port) `
-        -RedirectStandardOutput $srvOut -RedirectStandardError $srvErr -PassThru
+    if ($script:UsePythonServer -and $Python) {
+        $proc = Start-Process -FilePath $Python -ArgumentList @('-m', 'http.server', "$Port", '--bind', '127.0.0.1') `
+            -WorkingDirectory $RootDir -RedirectStandardOutput $srvOut -RedirectStandardError $srvErr -PassThru
+    } elseif ($Node) {
+        $proc = Start-Process -FilePath $Node -ArgumentList @((Join-Path $TestDir 'serve.js'), $RootDir, $Port) `
+            -RedirectStandardOutput $srvOut -RedirectStandardError $srvErr -PassThru
+    } else {
+        return $null
+    }
     for ($i = 0; $i -lt 20; $i++) {
         Start-Sleep -Milliseconds 300
         if (Test-HarnessServer ($Base + '/test-harness.html')) { return $proc }
@@ -86,12 +100,13 @@ $script:ServerRestarts = 0
 $script:ServerProc = $null
 $script:ServerStartedByUs = $false
 if (-not (Test-HarnessServer ($Base + '/test-harness.html'))) {
-    Write-Host "[harness] $Base 不可访问，尝试用 node 启动 _test/serve.js …" -ForegroundColor Yellow
-    if (-not $Node) {
-        Write-Host '[harness] 未找到 node，无法自动启动静态服务器。请先运行：' -ForegroundColor Red
+    Write-Host "[harness] $Base 不可访问，尝试启动本地静态服务器 …" -ForegroundColor Yellow
+    if (-not $Node -and -not $Python) {
+        Write-Host '[harness] 未找到 node / python，无法自动启动静态服务器。请先运行：' -ForegroundColor Red
         Write-Host ("         node _test\serve.js `"{0}`" {1}" -f $RootDir, $Port) -ForegroundColor Red
         exit 2
     }
+    if (-not $Node) { $script:UsePythonServer = $true }
     $script:ServerProc = Start-HarnessLocalServer
     $script:ServerStartedByUs = $true
     if (-not $script:ServerProc) {
@@ -100,13 +115,15 @@ if (-not (Test-HarnessServer ($Base + '/test-harness.html'))) {
         if (Test-Path $srvErr) { Get-Content $srvErr | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray } }
         exit 2
     }
-    Write-Host "[harness] 已启动本地服务器 http://127.0.0.1:$Port/ (pid=$($script:ServerProc.Id))" -ForegroundColor Green
+    $serverKind = if ($script:UsePythonServer) { 'python http.server' } else { 'node _test/serve.js' }
+    Write-Host "[harness] 已启动本地服务器 http://127.0.0.1:$Port/ ($serverKind, pid=$($script:ServerProc.Id))" -ForegroundColor Green
 } else {
     Write-Host "[harness] 使用已运行的本地服务器 $Base" -ForegroundColor Green
 }
 
 # 每个场景前自愈：_test/serve.js 在客户端中断连接（Chrome dump-dom 结束时的 abort）时可能退出，
-# 表现为后续场景 dump-dom 变成 Chrome 的 127.0.0.1 错误页、result.json 缺失。这里自动重启。
+# 表现为后续场景 dump-dom 变成 Chrome 的 127.0.0.1 错误页、result.json 缺失。这里自动重启；
+# 若 node 版服务器反复退出，则切换成 python -m http.server（对客户端中断更稳）继续跑。
 function Ensure-HarnessServer {
     if (Test-HarnessServer ($Base + '/test-harness.html')) { return $true }
     if (-not $script:ServerStartedByUs) {
@@ -115,6 +132,10 @@ function Ensure-HarnessServer {
     }
     Write-Host "[harness] 检测到静态服务器已退出，重启中…" -ForegroundColor Yellow
     if ($script:ServerProc -and -not $script:ServerProc.HasExited) { try { $script:ServerProc.Kill() } catch { } }
+    if ($script:ServerRestarts -ge 1 -and $Python -and -not $script:UsePythonServer) {
+        $script:UsePythonServer = $true
+        Write-Host '[harness] node 服务器反复退出，切换为 python -m http.server 兜底' -ForegroundColor Yellow
+    }
     $script:ServerProc = Start-HarnessLocalServer
     $script:ServerRestarts++
     if ($script:ServerProc) {
@@ -231,6 +252,10 @@ function Restart-HarnessServer {
     Write-Host '[harness] 重启静态服务器（上一场景基础设施失败）…' -ForegroundColor Yellow
     if ($script:ServerProc -and -not $script:ServerProc.HasExited) { try { $script:ServerProc.Kill() } catch { } }
     if (-not $script:ServerStartedByUs) { Ensure-HarnessServer | Out-Null; return }
+    if ($script:ServerRestarts -ge 1 -and $Python -and -not $script:UsePythonServer) {
+        $script:UsePythonServer = $true
+        Write-Host '[harness] node 服务器反复退出，切换为 python -m http.server 兜底' -ForegroundColor Yellow
+    }
     $script:ServerProc = Start-HarnessLocalServer
     $script:ServerRestarts++
     if ($script:ServerProc) { Write-Host "[harness] 静态服务器已重启 (pid=$($script:ServerProc.Id))" -ForegroundColor Yellow }
@@ -290,6 +315,13 @@ foreach ($sc in $Targets) {
 
             $ok = Show-HarnessResult -Result $result -Name $sc
             $infraFail = ($null -eq $result) -or (@($result.errors).Count -gt 0 -and [int]$result.pass -eq 0)
+            if (-not $infraFail -and $null -ne $result) {
+                # 服务器在页面 boot 期间中断时，应用会渲染「无法读取配置文件」；这也算基础设施失败
+                $readyText = ''
+                if ($result.readyInfo) { $readyText += ' ' + [string]$result.readyInfo.listText }
+                if ($result.snapshot -and $result.snapshot.dom) { $readyText += ' ' + [string]$result.snapshot.dom.contactListText }
+                if ($readyText -match '无法读取配置文件|Failed to fetch|ERR_|HTTP [45]\d\d') { $infraFail = $true }
+            }
             if ($infraFail -and $attempt -lt $maxAttempts) {
                 Write-Host ("[harness] 场景 {0} 基础设施失败（结果缺失/Chrome 错误页/服务器中断），重试 ({1}/{2})" -f $sc, $attempt, ($maxAttempts - 1)) -ForegroundColor Yellow
                 if ($null -eq $result -and $res.Stdout) {

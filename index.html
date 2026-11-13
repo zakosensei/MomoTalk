@@ -112,6 +112,18 @@
                         </span>
                         <span class="more-tile-label" id="more-label-story"></span>
                     </button>
+                    <button class="more-tile" data-action="narration1" onclick="onMoreAction('narration1')">
+                        <span class="more-tile-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="2" rx="1"/><rect x="7" y="11" width="10" height="2" rx="1"/><rect x="5" y="16" width="14" height="2" rx="1"/></svg>
+                        </span>
+                        <span class="more-tile-label" id="more-label-narration1"></span>
+                    </button>
+                    <button class="more-tile" data-action="narration2" onclick="onMoreAction('narration2')">
+                        <span class="more-tile-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><rect x="6" y="8.6" width="12" height="1.8" rx=".9" fill="#fff"/><rect x="6" y="13.4" width="8" height="1.8" rx=".9" fill="#fff"/></svg>
+                        </span>
+                        <span class="more-tile-label" id="more-label-narration2"></span>
+                    </button>
                 </div>
                 <div class="emoji-panel" id="emoji-panel">
                     <div class="emoji-grid" id="emoji-grid"></div>
@@ -715,6 +727,8 @@ function fillStaticTexts() {
     set('more-label-image', T('moreImage', null, '本地图片'));
     set('more-label-reply', T('moreReply', null, '回复框'));
     set('more-label-story', T('moreStory', null, '好感故事'));
+    set('more-label-narration1', T('moreNarration1', null, '旁白1'));
+    set('more-label-narration2', T('moreNarration2', null, '旁白2'));
     const moreBtn = document.getElementById('btn-more');
     if (moreBtn) moreBtn.title = T('morePanelTitle', null, '更多');
 }
@@ -1861,7 +1875,7 @@ function uid(prefix) {
     return (prefix || 'x') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-const ITEM_TYPES = ['text', 'image', 'emoji', 'reply', 'story'];
+const ITEM_TYPES = ['text', 'image', 'emoji', 'reply', 'story', 'narration1', 'narration2'];
 
 function newItem(type, data) {
     const it = { id: uid('i'), type: type };
@@ -1877,6 +1891,8 @@ function newItem(type, data) {
         it.options = options;
     } else if (type === 'story') {
         it.title = T('storyTitle', null, '好感故事');
+        it.text = String(data.text == null ? '' : data.text);
+    } else if (type === 'narration1' || type === 'narration2') {
         it.text = String(data.text == null ? '' : data.text);
     }
     if (type === 'image' || type === 'emoji') it.src = String(data.src == null ? '' : data.src);
@@ -1939,6 +1955,10 @@ function normalizeItem(raw) {
         // 好感故事文案不保存自定义内容：渲染时按当前学生重新生成
         it.title = T('storyTitle', null, '好感故事');
         it.text = '';
+    } else if (type === 'narration1' || type === 'narration2') {
+        const text = pickString(raw.text != null ? raw.text : raw.content);
+        if (!text) return null;
+        it.text = text;
     } else {
         const src = pickString(raw.src || raw.url || raw.path);
         if (!src) return null;
@@ -2028,6 +2048,7 @@ function boxText(box) {
     if (it.type === 'emoji') return T('emojiPlaceholder', null, '[表情]');
     if (it.type === 'reply') return getReplyOptions(it)[0] || T('replyTitle', null, '回复');
     if (it.type === 'story') return storyButtonText();
+    if (it.type === 'narration1' || it.type === 'narration2') return it.text || '';
     return it.text || '';
 }
 
@@ -2045,14 +2066,22 @@ function itemTypeLabel(type) {
         image: T('itemTypeImage', null, '图片'),
         emoji: T('itemTypeEmoji', null, '表情'),
         reply: T('itemTypeReply', null, '回复'),
-        story: T('itemTypeStory', null, '好感')
+        story: T('itemTypeStory', null, '好感'),
+        narration1: T('itemTypeNarration1', null, '旁白1'),
+        narration2: T('itemTypeNarration2', null, '旁白2')
     };
     return map[type] || type;
 }
 
 function canEditItem(type) {
-    // 回复可以编辑选项；好感故事固定为「进入{学生名}的好感故事」，不可编辑
-    return type === 'text' || type === 'reply';
+    // 回复可以编辑选项；好感故事固定为「进入{学生名}的好感故事」，不可编辑；
+    // 旁白1 / 旁白2 是普通文本，可以编辑。
+    return type === 'text' || type === 'reply' || type === 'narration1' || type === 'narration2';
+}
+
+// 需要整盒居中的信息类型：回复框、好感故事框、旁白1、旁白2
+function isCenterItemType(type) {
+    return type === 'reply' || type === 'story' || type === 'narration1' || type === 'narration2';
 }
 
 function currentStudent() {
@@ -2148,7 +2177,7 @@ function boxHtml(box) {
     const studentName = stu ? stu.displayName : '';
     const avatar = stu ? (stu.avatar || fallbackAvatar(stu.displayName)) : fallbackAvatar('?');
     const avatarFallback = stu ? fallbackAvatar(stu.displayName) : fallbackAvatar('?');
-    const hasCard = (box.items || []).some(it => it.type === 'reply' || it.type === 'story');
+    const hasCard = (box.items || []).some(it => isCenterItemType(it.type));
 
     const itemsHtml = (box.items || []).map(it =>
         `<div class="msg-item" data-item-id="${escapeHtml(it.id)}">${itemHtml(it)}</div>`
@@ -2192,10 +2221,17 @@ function itemHtml(it) {
         </div>`;
     }
     if (it.type === 'story') {
+        // 参考游戏原版：浅粉卡片 + 粉色竖条「好感故事」标题 + 粉色按钮
         return `<div class="story-panel">
+            <svg class="story-heart" viewBox="0 0 32 28" aria-hidden="true"><path d="M16 28S0 18.7 0 9.5C0 4.3 3.8 0 8.6 0c3 0 5.7 1.6 7.4 4.1C17.7 1.6 20.4 0 23.4 0 28.2 0 32 4.3 32 9.5 32 18.7 16 28 16 28Z"/></svg>
             <div class="story-label"><span class="story-bar"></span>${escapeHtml(T('storyTitle', null, '好感故事'))}</div>
-            <div class="story-btn">${escapeHtml(storyButtonText())}</div>
+            <div class="story-btn">
+                <span class="story-btn-text">${escapeHtml(storyButtonText())}</span>
+            </div>
         </div>`;
+    }
+    if (it.type === 'narration1' || it.type === 'narration2') {
+        return `<div class="narration ${it.type === 'narration2' ? 'narration2' : 'narration1'}">${escapeHtml(it.text || '')}</div>`;
     }
     return `<div class="msg-bubble">${escapeHtml(it.text)}</div>`;
 }
@@ -2458,6 +2494,10 @@ function onMoreAction(action) {
         sendStoryItem();
         return;
     }
+    if (action === 'narration1' || action === 'narration2') {
+        openNarrationEditor(action);
+        return;
+    }
     if (action === 'diff') {
         if (currentRole !== 'student') {
             showToast(T('onlyStudentDiff', null, '「表情差分」只有学生可以发送'));
@@ -2565,11 +2605,8 @@ function openReplyEditor(boxId, itemId) {
         if (!box || !item) return;
     }
 
-    const defaultOptions = [
-        T('replyDefault', null, '嗯？还好吧……'),
-        T('replyDefault2', null, '确实突然有点饿了……')
-    ];
-    let options = editing ? getReplyOptions(item).slice() : defaultOptions.slice();
+    // 需求：打开回复框编辑器时默认是空白的，不再预填示例选项
+    let options = editing ? getReplyOptions(item).slice() : [''];
     if (!options.length) options = [''];
 
     const renderRows = list => list.map((text, i) => `
@@ -2667,6 +2704,69 @@ function sendStoryItem() {
     saveChats();
     renderChat();
     closeMorePanel();
+}
+
+// 旁白1 / 旁白2：居中显示的说明文字（旁白1 淡灰小字，旁白2 灰底黑字）
+function openNarrationEditor(type, boxId, itemId) {
+    if (!currentStudentId) return;
+    const isType2 = type === 'narration2';
+    const editing = !!(boxId && itemId);
+    let item = null;
+    if (editing) {
+        const box = findBox(boxId);
+        item = box ? findItem(box, itemId) : null;
+        if (!box || !item) return;
+    }
+
+    const titleKey = isType2
+        ? (editing ? 'narrationEditTitle2' : 'narrationSendTitle2')
+        : (editing ? 'narrationEditTitle1' : 'narrationSendTitle1');
+    const title = T(titleKey, null, (editing ? '编辑' : '发送') + (isType2 ? '旁白2' : '旁白1'));
+    const hint = isType2
+        ? T('narrationHint2', null, '旁白2：居中灰底黑字，适合系统提示、时间说明等。')
+        : T('narrationHint1', null, '旁白1：居中淡灰色小字，适合场景或心理描写。');
+    const placeholder = T('narrationPlaceholder', null, '输入旁白内容…');
+
+    showModal(title, `
+        <div class="form-field">
+            <label class="form-label">${escapeHtml(T('narrationContentLabel', null, '旁白内容'))}</label>
+            <textarea class="modal-input" id="narration-text-input" maxlength="300" placeholder="${escapeHtml(placeholder)}">${escapeHtml(editing ? (item.text || '') : '')}</textarea>
+        </div>
+        <div class="setting-hint">${escapeHtml(hint)}</div>
+    `, [
+        {
+            text: T('manageCancel', null, '取消'), class: 'cancel',
+            onClick: editing ? () => openBoxEditor(boxId) : closeModal
+        },
+        {
+            text: editing ? T('editSave', null, '保存') : T('sendBtn', null, '发送'),
+            class: 'confirm',
+            onClick: () => {
+                const el = document.getElementById('narration-text-input');
+                const val = el ? el.value.trim() : '';
+                if (!val) { showToast(T('narrationEmpty', null, '内容不能为空')); return; }
+                if (editing) {
+                    const realBox = findBox(boxId);
+                    const realItem = realBox ? findItem(realBox, itemId) : null;
+                    if (!realItem) { closeModal(); return; }
+                    realItem.text = val;
+                    realBox.time = now();
+                    saveChats();
+                    renderChat();
+                    closeModal();
+                } else {
+                    const newBox = emptyBox('sensei');
+                    newBox.items.push(newItem(type, { text: val }));
+                    chatBoxes().push(newBox);
+                    saveChats();
+                    renderChat();
+                    closeModal();
+                    closeMorePanel();
+                }
+            }
+        }
+    ]);
+    setTimeout(() => focusFormInput('narration-text-input'), 100);
 }
 
 /* ================= 表情差分（仅学生身份可发送，图片来自 students.json 的 gallery） ================= */
@@ -2830,6 +2930,7 @@ function openBoxEditor(boxId) {
             if (!it) return;
             if (btn.dataset.op === 'edit') {
                 if (it.type === 'reply') openReplyEditor(box.id, it.id);
+                else if (it.type === 'narration1' || it.type === 'narration2') openNarrationEditor(it.type, box.id, it.id);
                 else openTextItemEditor(box.id, it.id);
             } else {
                 confirmModal(T('itemDeleteTitle', null, '删除信息'),
@@ -3094,7 +3195,7 @@ function ensurePlaybackBox(box) {
     const avatarHtml = isSensei ? '' :
         `<img class="box-avatar" src="${escapeHtml(avatar)}" data-fallback="${escapeHtml(fallbackAvatar(studentName || '?'))}" referrerpolicy="no-referrer" alt="">`;
     const nameHtml = isSensei ? '' : `<div class="box-name">${escapeHtml(studentName)}</div>`;
-    const hasCard = (box.items || []).some(it => it.type === 'reply' || it.type === 'story');
+    const hasCard = (box.items || []).some(it => isCenterItemType(it.type));
     const wrap = document.createElement('div');
     wrap.innerHTML = `<div class="msg-box ${isSensei ? 'sensei' : 'student'}${hasCard ? ' card-box' : ''}" data-box-id="${escapeHtml(box.id)}">
         ${avatarHtml}
@@ -3242,7 +3343,7 @@ function resolvePlaybackReply(boxId, itemId, optionIndex) {
         }
     }
     // 回复选择框变成普通消息后，取消整盒居中（改回普通的左右对齐）
-    if (!pBox.items.some(it => it.type === 'reply' || it.type === 'story')) {
+    if (!pBox.items.some(it => isCenterItemType(it.type))) {
         const boxEls = container.querySelectorAll('.msg-box[data-box-id]');
         for (let i = 0; i < boxEls.length; i++) {
             if (boxEls[i].dataset.boxId === boxId) { boxEls[i].classList.remove('card-box'); break; }

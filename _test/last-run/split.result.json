@@ -2,7 +2,7 @@
     "scenario":  "split",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T05:56:50.477Z",
+    "startedAt":  "2026-11-13T07:48:21.480Z",
     "ready":  true,
     "done":  true,
     "pass":  23,
@@ -85,7 +85,7 @@
                                                     ]
                                       },
                                       {
-                                          "id":  "b_mwekdvzzms0t7n",
+                                          "id":  "b_mweodau7noxyzu",
                                           "role":  "student",
                                           "items":  [
                                                         "学生第一条",
@@ -124,7 +124,7 @@
                        "name":  "新盒 id 为新生成、role 与原盒相同",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "b_mwekdvzzms0t7n",
+                                      "id":  "b_mweodau7noxyzu",
                                       "role":  "student"
                                   }
                    },
@@ -132,8 +132,8 @@
                        "name":  "新盒 time 设为当前时间",
                        "ok":  true,
                        "actual":  {
-                                      "time":  1794549411647,
-                                      "now":  1794549411647
+                                      "time":  1794556102687,
+                                      "now":  1794556102687
                                   }
                    },
                    {
@@ -142,7 +142,7 @@
                        "actual":  {
                                       "id":  "b_sp2",
                                       "role":  "sensei",
-                                      "time":  1794549409477,
+                                      "time":  1794556100480,
                                       "items":  [
                                                     {
                                                         "id":  "i_sp4",
@@ -161,7 +161,7 @@
                                           "n":  1
                                       },
                                       {
-                                          "id":  "b_mwekdvzzms0t7n",
+                                          "id":  "b_mweodau7noxyzu",
                                           "n":  2
                                       },
                                       {
@@ -175,7 +175,7 @@
                        "ok":  true,
                        "actual":  [
                                       "b_sp1",
-                                      "b_mwekdvzzms0t7n",
+                                      "b_mweodau7noxyzu",
                                       "b_sp2"
                                   ]
                    },
@@ -231,7 +231,7 @@
                                           "n":  1
                                       },
                                       {
-                                          "id":  "b_mwekdwo5gym50j",
+                                          "id":  "b_mweodbidpvn9hw",
                                           "n":  2
                                       },
                                       {
@@ -253,7 +253,7 @@
                        "ok":  true,
                        "actual":  [
                                       "b_sp1",
-                                      "b_mwekdwo5gym50j",
+                                      "b_mweodbidpvn9hw",
                                       "b_sp2"
                                   ]
                    },
@@ -262,7 +262,7 @@
                        "ok":  true,
                        "actual":  [
                                       "b_sp1",
-                                      "b_mwekdwo5gym50j",
+                                      "b_mweodbidpvn9hw",
                                       "b_sp2"
                                   ]
                    }
@@ -277,15 +277,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  98,
-                    "totalMs":  2038
+                    "scenarioStart":  135,
+                    "totalMs":  2075
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794549400477
+                                        "addedAt":  1794556091480
                                     }
                                 ],
                  "chats":  {
@@ -293,7 +293,7 @@
                                             {
                                                 "id":  "b_sp1",
                                                 "role":  "student",
-                                                "time":  1794549408477,
+                                                "time":  1794556099480,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_sp1",
@@ -315,7 +315,7 @@
                                             {
                                                 "id":  "b_sp2",
                                                 "role":  "sensei",
-                                                "time":  1794549409477,
+                                                "time":  1794556100480,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_sp4",
@@ -352,24 +352,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 老师消息 创建 11-13 13:56 · 修改 11-13 13:56"
+                                 "contactListText":  "小鸟游 星野 [我] 老师消息 创建 11-13 15:48 · 修改 11-13 15:48"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_sp1\",\"role\":\"student\",\"time\":1794549411647,\"items\":[{\"id\":\"i_sp2\",\"type\":\"text\",\"text\":\"学生第二条\"}]},{\"id\":\"b_mwekdwo5gym50j\",\"role\":\"student\",\"time\":1794549412517,\"items\":[{\"id\":\"i_sp1\",\"type\":\"text\",\"text\":\"学生第一条\"},{\"id\":\"i_sp3\",\"type\":\"text\",\"text\":\"学生第三条\"}]},{\"id\":\"b_sp2\",\"role\":\"sensei\",\"time\":1794549409477,\"items\":[{\"id\":\"i_sp4\",\"type\":\"text\",\"text\":\"老师消息\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_sp1\",\"role\":\"student\",\"time\":1794556102687,\"items\":[{\"id\":\"i_sp2\",\"type\":\"text\",\"text\":\"学生第二条\"}]},{\"id\":\"b_mweodbidpvn9hw\",\"role\":\"student\",\"time\":1794556103557,\"items\":[{\"id\":\"i_sp1\",\"type\":\"text\",\"text\":\"学生第一条\"},{\"id\":\"i_sp3\",\"type\":\"text\",\"text\":\"学生第三条\"}]},{\"id\":\"b_sp2\",\"role\":\"sensei\",\"time\":1794556100480,\"items\":[{\"id\":\"i_sp4\",\"type\":\"text\",\"text\":\"老师消息\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794549400477}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556091480}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794549410547
+                                                       "at":  1794556101587
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794549410557
+                                                       "at":  1794556101597
                                                    }
                                                ],
                                      "confirms":  [
@@ -410,6 +410,18 @@
                                                          "role":  "开发 / 设计 / 文案",
                                                          "avatar":  "./resources/head.jpg",
                                                          "url":  "https://xhslink.cn/o/4bRFA2sZIFh"
+                                                     },
+                                                     {
+                                                         "name":  "一只鲸鱼",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/yizhijingyu.jpg",
+                                                         "url":  "https://v.kuaishou.com/nlfDtoVA"
+                                                     },
+                                                     {
+                                                         "name":  "傻傻の砂白",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/shabai.jpg",
+                                                         "url":  "https://space.bilibili.com/3546964918536967"
                                                      }
                                                  ]
                                  },
@@ -544,6 +556,8 @@
                                      "moreImage":  "本地图片",
                                      "moreReply":  "回复框",
                                      "moreStory":  "好感故事",
+                                     "moreNarration1":  "旁白1",
+                                     "moreNarration2":  "旁白2",
                                      "replyTitle":  "回复",
                                      "replyDefault":  "嗯？还好吧……",
                                      "replyTitleLabel":  "标题",
@@ -556,11 +570,22 @@
                                      "storyDefaultBtn":  "进入{name}的好感故事",
                                      "storySendTitle":  "发送好感故事框",
                                      "storyEditTitle":  "编辑好感故事框",
+                                     "narrationSendTitle1":  "发送旁白1",
+                                     "narrationSendTitle2":  "发送旁白2",
+                                     "narrationEditTitle1":  "编辑旁白1",
+                                     "narrationEditTitle2":  "编辑旁白2",
+                                     "narrationContentLabel":  "旁白内容",
+                                     "narrationPlaceholder":  "输入旁白内容…",
+                                     "narrationHint1":  "旁白1：居中淡灰色小字，适合场景或心理描写。",
+                                     "narrationHint2":  "旁白2：居中灰底黑字，适合系统提示、时间说明等。",
+                                     "narrationEmpty":  "内容不能为空",
                                      "itemTypeText":  "文本",
                                      "itemTypeImage":  "图片",
                                      "itemTypeEmoji":  "表情",
                                      "itemTypeReply":  "回复",
                                      "itemTypeStory":  "好感",
+                                     "itemTypeNarration1":  "旁白1",
+                                     "itemTypeNarration2":  "旁白2",
                                      "boxEditTitle":  "信息盒子",
                                      "boxItemCount":  "共 {n} 条信息",
                                      "itemEdit":  "编辑",
@@ -647,9 +672,9 @@
     "configPatch":  {
                         "favicon":  "./resources/MomoTalk_favicon.png"
                     },
-    "appHtmlLength":  157709,
+    "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_sp1\",\"role\":\"student\",\"time\":1794549408477,\"items\":[{\"id\":\"i_sp1\",\"type\":\"text\",\"text\":\"学生第一条\"},{\"id\":\"i_sp2\",\"type\":\"text\",\"text\":\"学生第二条\"},{\"id\":\"i_sp3\",\"type\":\"text\",\"text\":\"学生第三条\"}]},{\"id\":\"b_sp2\",\"role\":\"sensei\",\"time\":1794549409477,\"items\":[{\"id\":\"i_sp4\",\"type\":\"text\",\"text\":\"老师消息\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_sp1\",\"role\":\"student\",\"time\":1794556099480,\"items\":[{\"id\":\"i_sp1\",\"type\":\"text\",\"text\":\"学生第一条\"},{\"id\":\"i_sp2\",\"type\":\"text\",\"text\":\"学生第二条\"},{\"id\":\"i_sp3\",\"type\":\"text\",\"text\":\"学生第三条\"}]},{\"id\":\"b_sp2\",\"role\":\"sensei\",\"time\":1794556100480,\"items\":[{\"id\":\"i_sp4\",\"type\":\"text\",\"text\":\"老师消息\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -657,7 +682,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 老师消息 创建 11-13 13:56 · 修改 11-13 13:56",
+                      "listText":  "小鸟游 星野 [我] 老师消息 创建 11-13 15:48 · 修改 11-13 15:48",
                       "scriptErrors":  [
 
                                        ]

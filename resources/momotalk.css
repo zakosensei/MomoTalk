@@ -609,43 +609,91 @@ body {
     white-space: pre-wrap;
 }
 
-/* 好感故事框 */
+/* 好感故事框（参考游戏原版：浅粉卡片 + 粉色竖条标题 + 粉色按钮 + 绿色播放箭头） */
 .story-panel {
-    width: min(280px, 70vw);
-    background: linear-gradient(135deg, #fff0f4 0%, #ffe6ee 100%);
-    border: 1px solid #ffd9e3;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0 1px 3px rgba(200, 120, 145, 0.08);
+    position: relative;
+    width: min(250px, 86%);
+    background: linear-gradient(155deg, #fff6f8 0%, #fdebf1 100%);
+    border: 1px solid #f8d7e2;
+    border-radius: 10px;
+    padding: 8px 10px 10px;
+    box-shadow: 0 2px 6px rgba(224, 140, 165, 0.16);
+    overflow: hidden;
+}
+.story-heart {
+    position: absolute;
+    right: -16px;
+    top: -12px;
+    width: 86px;
+    height: 86px;
+    fill: #f9cfdc;
+    opacity: 0.85;
+    pointer-events: none;
 }
 .story-label {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    color: #d76a86;
-    margin-bottom: 8px;
+    color: #4a4a4a;
+    margin: 0 2px 8px;
     line-height: 1;
+    letter-spacing: 0.3px;
 }
 .story-bar {
     width: 3px;
-    height: 14px;
+    height: 12px;
     border-radius: 2px;
-    background: #ee8fa4;
+    background: #f06a95;
     flex-shrink: 0;
 }
 .story-btn {
-    background: linear-gradient(135deg, #f4a3b1 0%, #e8899c 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 36px;
+    padding: 8px 12px;
+    background: #f5749a;
+    border-radius: 6px;
     color: #fff;
-    border-radius: 20px;
-    padding: 10px 14px;
-    text-align: center;
-    font-size: 13px;
+    font-size: 12.5px;
+    font-weight: 600;
     line-height: 1.35;
-    box-shadow: 0 3px 8px rgba(232, 137, 156, 0.35);
+    text-align: center;
+    white-space: normal;
     word-break: break-word;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 1px 2px rgba(196, 92, 124, 0.28);
     user-select: none;
+}
+.story-btn-text { display: block; }
+
+/* 旁白：旁白1 居中淡灰小字；旁白2 居中灰底黑字 */
+.narration {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.narration1 {
+    max-width: 100%;
+    padding: 2px 10px;
+    color: #bfbfbf;
+    font-size: 12px;
+    line-height: 1.55;
+    text-align: center;
+}
+.narration2 {
+    display: inline-block;
+    max-width: min(300px, 82%);
+    padding: 8px 14px;
+    background: #e9e9e9;
+    border-radius: 8px;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
 }
 
 /* 打字动画（播放模式 / 学生设置预览） */
@@ -816,8 +864,8 @@ body {
 
 .more-tiles {
     display: flex;
-    gap: 14px;
-    padding: 11px 14px 10px;
+    gap: 10px;
+    padding: 11px 12px 10px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -857,6 +905,10 @@ body {
 .more-tile[data-action="reply"] .more-tile-icon svg { fill: #4a6d86; }
 .more-tile[data-action="story"] .more-tile-icon { background: #ffeaf1; }
 .more-tile[data-action="story"] .more-tile-icon svg { fill: #e8899c; }
+.more-tile[data-action="narration1"] .more-tile-icon { background: #f3f4f6; }
+.more-tile[data-action="narration1"] .more-tile-icon svg { fill: #a3adb9; }
+.more-tile[data-action="narration2"] .more-tile-icon { background: #ececec; }
+.more-tile[data-action="narration2"] .more-tile-icon svg { fill: #555b63; }
 .more-tile-label { font-size: 11px; color: #8a94a3; line-height: 1; }
 .more-tile.disabled { opacity: 0.38; cursor: not-allowed; }
 .more-tile.disabled:active .more-tile-icon { transform: none; }
@@ -1857,8 +1909,8 @@ textarea.form-input { resize: vertical; min-height: 70px; line-height: 1.5; }
 #chat-content:not(.playing) .reply-option:hover,
 #chat-content:not(.playing) .reply-option:active { background: #fff; }
 
-/* 好感故事框：宽度与回复框一致，按钮文案固定 */
-.story-panel { width: min(320px, 100%); }
+/* 好感故事框：与回复框同属居中卡片，宽度略窄以贴近原版比例 */
+.story-panel { width: min(250px, 86%); }
 
 /* 回复选项编辑表单 */
 .reply-option-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }

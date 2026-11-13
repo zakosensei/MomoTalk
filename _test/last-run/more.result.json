@@ -2,10 +2,10 @@
     "scenario":  "more",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T05:56:53.815Z",
+    "startedAt":  "2026-11-13T07:48:26.023Z",
     "ready":  true,
     "done":  true,
-    "pass":  49,
+    "pass":  61,
     "fail":  0,
     "checks":  [
                    {
@@ -59,14 +59,24 @@
                                   }
                    },
                    {
-                       "name":  "更多栏含 4 个入口（表情/图片/回复/好感故事）",
+                       "name":  "更多栏含 6 个入口（表情/图片/回复/好感故事/旁白1/旁白2）",
                        "ok":  true,
                        "actual":  [
                                       "emoji",
                                       "image",
                                       "reply",
-                                      "story"
+                                      "story",
+                                      "narration1",
+                                      "narration2"
                                   ]
+                   },
+                   {
+                       "name":  "旁白1/旁白2 入口 label 文案正确",
+                       "ok":  true,
+                       "actual":  {
+                                      "n1":  "旁白1",
+                                      "n2":  "旁白2"
+                                  }
                    },
                    {
                        "name":  "点击表情入口展开表情面板",
@@ -112,12 +122,12 @@
                        "name":  "点击表情立即发送（新建盒子 + emoji item）",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "b_mwekdy915fnxxx",
+                                      "id":  "b_mweode15hboamx",
                                       "role":  "sensei",
-                                      "time":  1794549414565,
+                                      "time":  1794556106825,
                                       "items":  [
                                                     {
-                                                        "id":  "i_mwekdy91vm6aiz",
+                                                        "id":  "i_mweode15gk7zi0",
                                                         "type":  "emoji",
                                                         "src":  "./resources/emoji/12.png"
                                                     }
@@ -196,7 +206,7 @@
                        "actual":  {
                                       "active":  true,
                                       "title":  "发送回复框",
-                                      "body":  "回复选项（可添加多个） 1 删除 2 删除 ＋ 添加选项 玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
+                                      "body":  "回复选项（可添加多个） 1 删除 ＋ 添加选项 玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
                                       "buttons":  [
                                                       "取消",
                                                       "发送"
@@ -209,33 +219,47 @@
                        "actual":  false
                    },
                    {
-                       "name":  "回复框默认提供多个选项",
+                       "name":  "回复框编辑器默认只有 1 个空输入框（value=\"\"）",
                        "ok":  true,
                        "actual":  [
-                                      "嗯？还好吧……",
-                                      "确实突然有点饿了……"
+                                      ""
                                   ]
                    },
                    {
-                       "name":  "回复框默认选项包含“嗯？还好吧……”",
+                       "name":  "回复框不再预填「嗯？还好吧……」默认文案",
                        "ok":  true,
-                       "actual":  "嗯？还好吧……"
+                       "actual":  ""
+                   },
+                   {
+                       "name":  "回复框编辑器有说明 hint",
+                       "ok":  true,
+                       "actual":  "玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。"
+                   },
+                   {
+                       "name":  "「＋ 添加选项」可增加到 6 个",
+                       "ok":  true,
+                       "actual":  6
+                   },
+                   {
+                       "name":  "超过 6 个选项时受限（仍为 6 个）",
+                       "ok":  true,
+                       "actual":  6
                    },
                    {
                        "name":  "发送回复框（新建盒子 + reply item）",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "b_mwekdy9vqpq1w8",
+                                      "id":  "b_mweode47c6govc",
                                       "role":  "sensei",
-                                      "time":  1794549414595,
+                                      "time":  1794556106935,
                                       "items":  [
                                                     {
-                                                        "id":  "i_mwekdy9vemi1so",
+                                                        "id":  "i_mweode47vpixrw",
                                                         "type":  "reply",
                                                         "title":  "回复",
                                                         "options":  [
                                                                         "测试回复内容",
-                                                                        "确实突然有点饿了……"
+                                                                        "第二个选项"
                                                                     ]
                                                     }
                                                 ]
@@ -245,12 +269,12 @@
                        "name":  "reply item 标题固定、选项正确",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "i_mwekdy9vemi1so",
+                                      "id":  "i_mweode47vpixrw",
                                       "type":  "reply",
                                       "title":  "回复",
                                       "options":  [
                                                       "测试回复内容",
-                                                      "确实突然有点饿了……"
+                                                      "第二个选项"
                                                   ]
                                   }
                    },
@@ -261,7 +285,7 @@
                                       "label":  "回复",
                                       "options":  [
                                                       "测试回复内容",
-                                                      "确实突然有点饿了……"
+                                                      "第二个选项"
                                                   ]
                                   }
                    },
@@ -275,7 +299,7 @@
                        "ok":  true,
                        "actual":  [
                                       "测试回复内容",
-                                      "确实突然有点饿了……"
+                                      "第二个选项"
                                   ]
                    },
                    {
@@ -295,12 +319,12 @@
                        "name":  "非播放模式点击后数据不变（仍是 type=reply、options 不变）",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "i_mwekdy9vemi1so",
+                                      "id":  "i_mweode47vpixrw",
                                       "type":  "reply",
                                       "title":  "回复",
                                       "options":  [
                                                       "测试回复内容",
-                                                      "确实突然有点饿了……"
+                                                      "第二个选项"
                                                   ]
                                   }
                    },
@@ -311,7 +335,7 @@
                                       "panel":  true,
                                       "options":  [
                                                       "测试回复内容",
-                                                      "确实突然有点饿了……"
+                                                      "第二个选项"
                                                   ]
                                   }
                    },
@@ -335,7 +359,7 @@
                        "actual":  {
                                       "active":  false,
                                       "title":  "发送回复框",
-                                      "body":  "回复选项（可添加多个） 1 删除 2 删除 ＋ 添加选项 玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
+                                      "body":  "回复选项（可添加多个） 1 删除 2 删除 3 删除 4 删除 5 删除 6 删除 ＋ 添加选项 玩家点击其中一个选项后，该选项会作为消息发出；播放模式中必须选择后才能继续。",
                                       "buttons":  [
                                                       "取消",
                                                       "发送"
@@ -346,7 +370,7 @@
                        "name":  "story item 标题/文案固定",
                        "ok":  true,
                        "actual":  {
-                                      "id":  "i_mwekdydhq2ydly",
+                                      "id":  "i_mweode6ziw0u5v",
                                       "type":  "story",
                                       "title":  "好感故事",
                                       "text":  "进入小鸟游 星野的好感故事"
@@ -371,6 +395,64 @@
                        "actual":  {
                                       "before":  4,
                                       "after":  5
+                                  }
+                   },
+                   {
+                       "name":  "好感故事新结构：.story-heart / .story-btn-text 存在且 .story-play 不存在（绿色箭头已移除）",
+                       "ok":  true,
+                       "actual":  {
+                                      "heart":  true,
+                                      "play":  false,
+                                      "btnText":  true
+                                  }
+                   },
+                   {
+                       "name":  "好感故事 label 文案与颜色（rgb(74, 74, 74)）",
+                       "ok":  true,
+                       "actual":  {
+                                      "text":  "好感故事",
+                                      "color":  "rgb(74, 74, 74)"
+                                  }
+                   },
+                   {
+                       "name":  "好感故事标题竖条为粉色 rgb(240, 106, 149)",
+                       "ok":  true,
+                       "actual":  "rgb(240, 106, 149)"
+                   },
+                   {
+                       "name":  "好感故事按钮为粉色 rgb(245, 116, 154) 且文字白色",
+                       "ok":  true,
+                       "actual":  {
+                                      "bg":  "rgb(245, 116, 154)",
+                                      "color":  "rgb(255, 255, 255)"
+                                  }
+                   },
+                   {
+                       "name":  "好感故事按钮 padding 12px 双侧且文字水平居中（中心偏差 \u003c=1px）",
+                       "ok":  true,
+                       "actual":  {
+                                      "paddingLeft":  "12px",
+                                      "paddingRight":  "12px",
+                                      "textCenterOffset":  0
+                                  }
+                   },
+                   {
+                       "name":  "好感故事面板浅粉渐变（255,246,248 → 253,235,241）",
+                       "ok":  true,
+                       "actual":  "linear-gradient(155deg, rgb(255, 246, 248) 0%, rgb(253, 235, 241) 100%)"
+                   },
+                   {
+                       "name":  "好感故事面板宽度约 250px",
+                       "ok":  true,
+                       "actual":  250
+                   },
+                   {
+                       "name":  "好感故事盒整体居中（card-box 且无头像/名字）",
+                       "ok":  true,
+                       "actual":  {
+                                      "cardBox":  true,
+                                      "avatars":  0,
+                                      "names":  0
                                   }
                    },
                    {
@@ -436,15 +518,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  125,
-                    "totalMs":  2125
+                    "scenarioStart":  179,
+                    "totalMs":  2229
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794549403815
+                                        "addedAt":  1794556096023
                                     }
                                 ],
                  "chats":  {
@@ -452,7 +534,7 @@
                                             {
                                                 "id":  "b_more_t",
                                                 "role":  "sensei",
-                                                "time":  1794549412815,
+                                                "time":  1794556105023,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_m1",
@@ -489,24 +571,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  183,
-                                 "contactListText":  "小鸟游 星野 [我] 开场消息 创建 11-13 13:56 · 修改 11-13 13:56"
+                                 "contactListText":  "小鸟游 星野 [我] 开场消息 创建 11-13 15:48 · 修改 11-13 15:48"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_more_t\",\"role\":\"sensei\",\"time\":1794549412815,\"items\":[{\"id\":\"i_m1\",\"type\":\"text\",\"text\":\"开场消息\"}]},{\"id\":\"b_mwekdy915fnxxx\",\"role\":\"sensei\",\"time\":1794549414565,\"items\":[{\"id\":\"i_mwekdy91vm6aiz\",\"type\":\"emoji\",\"src\":\"./resources/emoji/12.png\"}]},{\"id\":\"b_mwekdy9b0rbcvo\",\"role\":\"sensei\",\"time\":1794549414575,\"items\":[{\"id\":\"i_mwekdy9b6cd8d9\",\"type\":\"image\",\"src\":\"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAABv/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKGAOir/2Q==\"}]},{\"id\":\"b_mwekdy9vqpq1w8\",\"role\":\"sensei\",\"time\":1794549414595,\"items\":[{\"id\":\"i_mwekdy9vemi1so\",\"type\":\"reply\",\"title\":\"回复\",\"options\":[\"测试回复内容\",\"确实突然有点饿了……\"]}]},{\"id\":\"b_mwekdydh96nog4\",\"role\":\"sensei\",\"time\":1794549414725,\"items\":[{\"id\":\"i_mwekdydhq2ydly\",\"type\":\"story\",\"title\":\"好感故事\",\"text\":\"进入小鸟游 星野的好感故事\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_more_t\",\"role\":\"sensei\",\"time\":1794556105023,\"items\":[{\"id\":\"i_m1\",\"type\":\"text\",\"text\":\"开场消息\"}]},{\"id\":\"b_mweode15hboamx\",\"role\":\"sensei\",\"time\":1794556106825,\"items\":[{\"id\":\"i_mweode15gk7zi0\",\"type\":\"emoji\",\"src\":\"./resources/emoji/12.png\"}]},{\"id\":\"b_mweode1fyupqna\",\"role\":\"sensei\",\"time\":1794556106835,\"items\":[{\"id\":\"i_mweode1fet8lmu\",\"type\":\"image\",\"src\":\"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAABv/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKGAOir/2Q==\"}]},{\"id\":\"b_mweode47c6govc\",\"role\":\"sensei\",\"time\":1794556106935,\"items\":[{\"id\":\"i_mweode47vpixrw\",\"type\":\"reply\",\"title\":\"回复\",\"options\":[\"测试回复内容\",\"第二个选项\"]}]},{\"id\":\"b_mweode6zmyrpj1\",\"role\":\"sensei\",\"time\":1794556107035,\"items\":[{\"id\":\"i_mweode6ziw0u5v\",\"type\":\"story\",\"title\":\"好感故事\",\"text\":\"进入小鸟游 星野的好感故事\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794549403815}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556096023}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794549413915
+                                                       "at":  1794556106175
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794549413925
+                                                       "at":  1794556106185
                                                    }
                                                ],
                                      "confirms":  [
@@ -547,6 +629,18 @@
                                                          "role":  "开发 / 设计 / 文案",
                                                          "avatar":  "./resources/head.jpg",
                                                          "url":  "https://xhslink.cn/o/4bRFA2sZIFh"
+                                                     },
+                                                     {
+                                                         "name":  "一只鲸鱼",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/yizhijingyu.jpg",
+                                                         "url":  "https://v.kuaishou.com/nlfDtoVA"
+                                                     },
+                                                     {
+                                                         "name":  "傻傻の砂白",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/shabai.jpg",
+                                                         "url":  "https://space.bilibili.com/3546964918536967"
                                                      }
                                                  ]
                                  },
@@ -681,6 +775,8 @@
                                      "moreImage":  "本地图片",
                                      "moreReply":  "回复框",
                                      "moreStory":  "好感故事",
+                                     "moreNarration1":  "旁白1",
+                                     "moreNarration2":  "旁白2",
                                      "replyTitle":  "回复",
                                      "replyDefault":  "嗯？还好吧……",
                                      "replyTitleLabel":  "标题",
@@ -693,11 +789,22 @@
                                      "storyDefaultBtn":  "进入{name}的好感故事",
                                      "storySendTitle":  "发送好感故事框",
                                      "storyEditTitle":  "编辑好感故事框",
+                                     "narrationSendTitle1":  "发送旁白1",
+                                     "narrationSendTitle2":  "发送旁白2",
+                                     "narrationEditTitle1":  "编辑旁白1",
+                                     "narrationEditTitle2":  "编辑旁白2",
+                                     "narrationContentLabel":  "旁白内容",
+                                     "narrationPlaceholder":  "输入旁白内容…",
+                                     "narrationHint1":  "旁白1：居中淡灰色小字，适合场景或心理描写。",
+                                     "narrationHint2":  "旁白2：居中灰底黑字，适合系统提示、时间说明等。",
+                                     "narrationEmpty":  "内容不能为空",
                                      "itemTypeText":  "文本",
                                      "itemTypeImage":  "图片",
                                      "itemTypeEmoji":  "表情",
                                      "itemTypeReply":  "回复",
                                      "itemTypeStory":  "好感",
+                                     "itemTypeNarration1":  "旁白1",
+                                     "itemTypeNarration2":  "旁白2",
                                      "boxEditTitle":  "信息盒子",
                                      "boxItemCount":  "共 {n} 条信息",
                                      "itemEdit":  "编辑",
@@ -784,9 +891,9 @@
     "configPatch":  {
                         "favicon":  "./resources/MomoTalk_favicon.png"
                     },
-    "appHtmlLength":  157709,
+    "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_more_t\",\"role\":\"sensei\",\"time\":1794549412815,\"items\":[{\"id\":\"i_m1\",\"type\":\"text\",\"text\":\"开场消息\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_more_t\",\"role\":\"sensei\",\"time\":1794556105023,\"items\":[{\"id\":\"i_m1\",\"type\":\"text\",\"text\":\"开场消息\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -794,7 +901,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 开场消息 创建 11-13 13:56 · 修改 11-13 13:56",
+                      "listText":  "小鸟游 星野 [我] 开场消息 创建 11-13 15:48 · 修改 11-13 15:48",
                       "scriptErrors":  [
 
                                        ]

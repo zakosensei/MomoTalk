@@ -20,7 +20,7 @@
   "scenario": "playback",
   "shot": false,
   "phase": "done",
-  "startedAt": "2026-11-13T05:56:59.435Z",
+  "startedAt": "2026-11-13T07:48:39.236Z",
   "ready": true,
   "done": true,
   "pass": 25,
@@ -225,15 +225,15 @@
   "notes": [],
   "errors": [],
   "timings": {
-    "scenarioStart": 103,
-    "totalMs": 4883
+    "scenarioStart": 132,
+    "totalMs": 4912
   },
   "seed": {
     "myStudents": [
       {
         "id": 1001,
         "unread": 0,
-        "addedAt": 1794549409435
+        "addedAt": 1794556109236
       }
     ],
     "chats": {
@@ -241,7 +241,7 @@
         {
           "id": "b_p1",
           "role": "student",
-          "time": 1794549416435,
+          "time": 1794556116236,
           "items": [
             {
               "id": "i_p1",
@@ -258,7 +258,7 @@
         {
           "id": "b_p2",
           "role": "sensei",
-          "time": 1794549417435,
+          "time": 1794556117236,
           "items": [
             {
               "id": "i_p3",
@@ -270,7 +270,7 @@
         {
           "id": "b_p3",
           "role": "student",
-          "time": 1794549418435,
+          "time": 1794556118236,
           "items": [
             {
               "id": "i_p4",
@@ -307,24 +307,24 @@
       "typingBoxes": 0,
       "morePanelOpen": false,
       "emojiCells": 0,
-      "contactListText": "小鸟游 星野 学生再说一句 创建 11-13 13:56 · 修改 11-13 13:56"
+      "contactListText": "小鸟游 星野 学生再说一句 创建 11-13 15:48 · 修改 11-13 15:48"
     },
     "storage": {
-      "chatsRaw": "{\"1001\":[{\"id\":\"b_p1\",\"role\":\"student\",\"time\":1794549416435,\"items\":[{\"id\":\"i_p1\",\"type\":\"text\",\"text\":\"学生第一句\"},{\"id\":\"i_p2\",\"type\":\"text\",\"text\":\"学生第二句\"}]},{\"id\":\"b_p2\",\"role\":\"sensei\",\"time\":1794549417435,\"items\":[{\"id\":\"i_p3\",\"type\":\"text\",\"text\":\"老师回复\"}]},{\"id\":\"b_p3\",\"role\":\"student\",\"time\":1794549418435,\"items\":[{\"id\":\"i_p4\",\"type\":\"text\",\"text\":\"学生再说一句\"}]}]}",
+      "chatsRaw": "{\"1001\":[{\"id\":\"b_p1\",\"role\":\"student\",\"time\":1794556116236,\"items\":[{\"id\":\"i_p1\",\"type\":\"text\",\"text\":\"学生第一句\"},{\"id\":\"i_p2\",\"type\":\"text\",\"text\":\"学生第二句\"}]},{\"id\":\"b_p2\",\"role\":\"sensei\",\"time\":1794556117236,\"items\":[{\"id\":\"i_p3\",\"type\":\"text\",\"text\":\"老师回复\"}]},{\"id\":\"b_p3\",\"role\":\"student\",\"time\":1794556118236,\"items\":[{\"id\":\"i_p4\",\"type\":\"text\",\"text\":\"学生再说一句\"}]}]}",
       "settingsRaw": "{\"defaultVideoSite\":\"channels\",\"animationTime\":1500,\"autoBackup\":false}",
-      "myStudentsRaw": "[{\"id\":1001,\"unread\":0,\"addedAt\":1794549409435}]"
+      "myStudentsRaw": "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556109236}]"
     },
     "testLog": {
       "fetch": [
         {
           "url": "./resources/running_datas.json",
           "mapped": "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-          "at": 1794549419510
+          "at": 1794556119339
         },
         {
           "url": "./_test/fixtures/students.json",
           "mapped": "http://127.0.0.1:8765/_test/fixtures/students.json",
-          "at": 1794549419520
+          "at": 1794556119349
         }
       ],
       "confirms": [],
@@ -361,6 +361,18 @@
           "role": "开发 / 设计 / 文案",
           "avatar": "./resources/head.jpg",
           "url": "https://xhslink.cn/o/4bRFA2sZIFh"
+        },
+        {
+          "name": "一只鲸鱼",
+          "role": "股东",
+          "avatar": "./resources/yizhijingyu.jpg",
+          "url": "https://v.kuaishou.com/nlfDtoVA"
+        },
+        {
+          "name": "傻傻の砂白",
+          "role": "股东",
+          "avatar": "./resources/shabai.jpg",
+          "url": "https://space.bilibili.com/3546964918536967"
         }
       ]
     },
@@ -495,6 +507,8 @@
       "moreImage": "本地图片",
       "moreReply": "回复框",
       "moreStory": "好感故事",
+      "moreNarration1": "旁白1",
+      "moreNarration2": "旁白2",
       "replyTitle": "回复",
       "replyDefault": "嗯？还好吧……",
       "replyTitleLabel": "标题",
@@ -507,11 +521,22 @@
       "storyDefaultBtn": "进入{name}的好感故事",
       "storySendTitle": "发送好感故事框",
       "storyEditTitle": "编辑好感故事框",
+      "narrationSendTitle1": "发送旁白1",
+      "narrationSendTitle2": "发送旁白2",
+      "narrationEditTitle1": "编辑旁白1",
+      "narrationEditTitle2": "编辑旁白2",
+      "narrationContentLabel": "旁白内容",
+      "narrationPlaceholder": "输入旁白内容…",
+      "narrationHint1": "旁白1：居中淡灰色小字，适合场景或心理描写。",
+      "narrationHint2": "旁白2：居中灰底黑字，适合系统提示、时间说明等。",
+      "narrationEmpty": "内容不能为空",
       "itemTypeText": "文本",
       "itemTypeImage": "图片",
       "itemTypeEmoji": "表情",
       "itemTypeReply": "回复",
       "itemTypeStory": "好感",
+      "itemTypeNarration1": "旁白1",
+      "itemTypeNarration2": "旁白2",
       "boxEditTitle": "信息盒子",
       "boxItemCount": "共 {n} 条信息",
       "itemEdit": "编辑",
@@ -598,9 +623,9 @@
   "configPatch": {
     "favicon": "./resources/MomoTalk_favicon.png"
   },
-  "appHtmlLength": 157709,
+  "appHtmlLength": 163049,
   "storageAfterSeed": {
-    "chatsKey": "{\"1001\":[{\"id\":\"b_p1\",\"role\":\"student\",\"time\":1794549416435,\"items\":[{\"id\":\"i_p1\",\"type\":\"text\",\"text\":\"学生第一句\"},{\"id\":\"i_p2\",\"type\":\"text\",\"text\":\"学生第二句\"}]},{\"id\":\"b_p2\",\"role\":\"sensei\",\"time\":1794549417435,\"items\":[{\"id\":\"i_p3\",\"type\":\"text\",\"text\":\"老师回复\"}]},{\"id\":\"b_p3\",\"role\":\"student\",\"time\":1794549418435,\"items\":[{\"id\":\"i_p4\",\"type\":\"text\",\"text\":\"学生再说一句\"}]}]}",
+    "chatsKey": "{\"1001\":[{\"id\":\"b_p1\",\"role\":\"student\",\"time\":1794556116236,\"items\":[{\"id\":\"i_p1\",\"type\":\"text\",\"text\":\"学生第一句\"},{\"id\":\"i_p2\",\"type\":\"text\",\"text\":\"学生第二句\"}]},{\"id\":\"b_p2\",\"role\":\"sensei\",\"time\":1794556117236,\"items\":[{\"id\":\"i_p3\",\"type\":\"text\",\"text\":\"老师回复\"}]},{\"id\":\"b_p3\",\"role\":\"student\",\"time\":1794556118236,\"items\":[{\"id\":\"i_p4\",\"type\":\"text\",\"text\":\"学生再说一句\"}]}]}",
     "legacyChatsKey": null
   },
   "readyInfo": {
@@ -608,7 +633,7 @@
     "hasMm": true,
     "items": 1,
     "readyState": "complete",
-    "listText": "小鸟游 星野 学生再说一句 创建 11-13 13:56 · 修改 11-13 13:56",
+    "listText": "小鸟游 星野 学生再说一句 创建 11-13 15:48 · 修改 11-13 15:48",
     "scriptErrors": []
   },
   "testOverrides": true
@@ -892,6 +917,13 @@
         return true;
     }
 
+    // 长按会置起应用的 longPressFired 标记，其后第一次 chat-content 内 click 会被吞掉；
+    // 这里主动点一下容器把它消费掉（事件目标是容器本身，无其它副作用）。
+    function consumeLongPressFlag() {
+        var container = q('#chat-content');
+        if (container) { try { container.click(); } catch (e) { /* ignore */ } }
+    }
+
     async function swipeRight(el, fromX, toX, y) {
         var w = el.ownerDocument.defaultView;
         el.dispatchEvent(touchEvent(el, 'touchstart', fromX, y));
@@ -1110,6 +1142,8 @@
         return { id: id, type: 'reply', title: '回复', options: Array.isArray(value) ? value : [value == null ? '嗯？还好吧……' : String(value)] };
     }
     function sItem(id, title, value) { return { id: id, type: 'story', title: '好感故事', text: value || '' }; }
+    function n1Item(id, text) { return { id: id, type: 'narration1', text: text }; }
+    function n2Item(id, text) { return { id: id, type: 'narration2', text: text }; }
     function myStudent(id, unread) { return { id: id, unread: unread || 0, addedAt: T0 - 10000 }; }
     // 新数据模型（v5）：{ id: chatId, studentId, unread, addedAt }，chatId = 时间戳_studentId
     function myStudentChat(chatId, studentId, addedAt, unread) {
@@ -1163,6 +1197,20 @@
                 1001: [
                     box('b_sp1', 'student', [tItem('i_sp1', '学生第一条'), tItem('i_sp2', '学生第二条'), tItem('i_sp3', '学生第三条')], T0 - 2000),
                     box('b_sp2', 'sensei', [tItem('i_sp4', '老师消息')], T0 - 1000)
+                ]
+            }
+        },
+        // 旁白：一个「回复框 + 旁白1 + 旁白2」的居中盒子，后面接一个学生盒（供播放断言）
+        narration: {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_nr_mix', 'sensei', [
+                        rItem('i_nr_reply', null, ['旁白前的选项A', '旁白前的选项B']),
+                        n1Item('i_nr_n1', '旁白一：窗外的风停了。'),
+                        n2Item('i_nr_n2', '旁白二：时间到了。')
+                    ], T0 - 3000),
+                    box('b_nr_stu', 'student', [tItem('i_nr_t1', '学生最后一句')], T0 - 1000)
                 ]
             }
         },
@@ -2012,6 +2060,13 @@
 
     /* ---------------- more panel ---------------- */
     function moreTile(action) { return q('.more-tile[data-action="' + action + '"]'); }
+    function setOptionInput(index, value) {
+        var el = qa('#reply-option-editor .reply-option-input')[index];
+        if (!el) return false;
+        el.value = value;
+        el.dispatchEvent(new (W().Event)('input', { bubbles: true }));
+        return true;
+    }
     function morePanel() { return q('#more-panel'); }
     async function openMorePanelForTest() {
         if (morePanel() && morePanel().classList.contains('open')) return true;
@@ -2066,7 +2121,16 @@
         var after = rect(inputArea);
         check('打开更多栏后输入区上移（顶部减少 ≥40px）', !!(before && after) && (before.top - after.top) >= 40, { beforeTop: before && before.top, afterTop: after && after.top });
         var actions = qa('.more-tile').map(function (el) { return attr(el, 'data-action'); });
-        check('更多栏含 4 个入口（表情/图片/回复/好感故事）', qa('.more-tile').length === 4 && ['emoji', 'image', 'reply', 'story'].every(function (a) { return actions.indexOf(a) >= 0; }), actions);
+        check('更多栏含 6 个入口（表情/图片/回复/好感故事/旁白1/旁白2）',
+            qa('.more-tile').length === 6 && actions.join(',') === 'emoji,image,reply,story,narration1,narration2',
+            actions);
+        check('旁白1/旁白2 入口 label 文案正确',
+            text(q('.more-tile[data-action="narration1"] .more-tile-label')) === '旁白1' &&
+                text(q('.more-tile[data-action="narration2"] .more-tile-label')) === '旁白2',
+            {
+                n1: text(q('.more-tile[data-action="narration1"] .more-tile-label')),
+                n2: text(q('.more-tile[data-action="narration2"] .more-tile-label'))
+            });
 
         // emoji
         moreTile('emoji').click();
@@ -2121,21 +2185,41 @@
                 image: imgWrapEl ? { padding: css(imgWrapEl, 'padding'), radius: css(imgWrapEl, 'borderRadius'), bg: css(imgWrapEl, 'backgroundColor'), shadow: css(imgWrapEl, 'boxShadow') } : null
             });
 
-        // reply editor（多选项：标题固定，选项可编辑）
+        // reply editor（默认空白，不再预填示例选项；可添加到 6 个）
         await openMorePanelForTest();
         moreTile('reply').click();
         await waitFor(function () { return !!q('#reply-option-editor'); }, 3000, 'reply-editor');
         check('回复框编辑弹窗出现', !!q('#reply-option-editor'), modalInfo());
         check('回复标题不可编辑（无标题输入框）', !q('#reply-title-input'), !!q('#reply-title-input'));
         var replyInputs = qa('#reply-option-editor .reply-option-input');
-        check('回复框默认提供多个选项', replyInputs.length >= 2, replyInputs.map(function (el) { return el.value; }));
-        check('回复框默认选项包含“嗯？还好吧……”', replyInputs.length > 0 && /嗯？还好吧/.test(replyInputs[0].value), replyInputs[0] && replyInputs[0].value);
-        setInputValue('#reply-option-editor .reply-option-input', '测试回复内容');
+        check('回复框编辑器默认只有 1 个空输入框（value=""）',
+            replyInputs.length === 1 && replyInputs[0].value === '',
+            replyInputs.map(function (el) { return el.value; }));
+        check('回复框不再预填「嗯？还好吧……」默认文案',
+            !(replyInputs[0] && /嗯？还好吧/.test(replyInputs[0].value)),
+            replyInputs[0] && replyInputs[0].value);
+        var replyHint = q('#modal-body .setting-hint');
+        check('回复框编辑器有说明 hint', !!replyHint && /播放模式|选项/.test(text(replyHint)), replyHint ? text(replyHint) : null);
+        for (var ai = 0; ai < 6; ai++) {
+            var addBtn = q('#reply-add-option');
+            if (addBtn) addBtn.click();
+        }
+        var inputsAfterAdd = qa('#reply-option-editor .reply-option-input');
+        check('「＋ 添加选项」可增加到 6 个', inputsAfterAdd.length === 6, inputsAfterAdd.length);
+        var addBtnAgain = q('#reply-add-option');
+        if (addBtnAgain) addBtnAgain.click();
+        await sleep(80);
+        check('超过 6 个选项时受限（仍为 6 个）', qa('#reply-option-editor .reply-option-input').length === 6, qa('#reply-option-editor .reply-option-input').length);
+        setOptionInput(0, '测试回复内容');
+        setOptionInput(1, '第二个选项');
         clickModalBtn('发送');
         var replySent = await waitFor(function () { var last = lastBoxOf(ID1); return last && last.items[0] && last.items[0].type === 'reply'; }, 3000, 'reply-send');
         var replyBox = lastBoxOf(ID1);
         check('发送回复框（新建盒子 + reply item）', !!replySent, replyBox);
-        check('reply item 标题固定、选项正确', !!(replyBox && replyBox.items[0] && replyBox.items[0].title === '回复' && Array.isArray(replyBox.items[0].options) && replyBox.items[0].options.indexOf('测试回复内容') >= 0), replyBox && replyBox.items[0]);
+        check('reply item 标题固定、选项正确',
+            !!(replyBox && replyBox.items[0] && replyBox.items[0].title === '回复' &&
+                JSON.stringify(replyBox.items[0].options) === JSON.stringify(['测试回复内容', '第二个选项'])),
+            replyBox && replyBox.items[0]);
         await waitFor(function () { return q('.reply-panel .reply-option'); }, 2000);
         check('DOM 出现 .reply-panel（.reply-label/.reply-bar/.reply-option）', !!q('.reply-panel .reply-label') && !!q('.reply-panel .reply-bar') && qa('.reply-panel .reply-option').length >= 2, { label: text(q('.reply-panel .reply-label')), options: qa('.reply-panel .reply-option').map(function (el) { return text(el); }) });
         check('回复面板标题固定为“回复”', text(q('.reply-panel .reply-label')).trim() === '回复', text(q('.reply-panel .reply-label')));
@@ -2149,7 +2233,7 @@
         if (replyOpts[0]) replyOpts[0].click();
         var replyToast = await waitFor(function () {
             var t = q('#app-toast');
-            return t && t.classList.contains('show') ? t : null;
+            return t && t.classList.contains('show') && /播放模式/.test(text(t)) ? t : null;
         }, 3000, 'reply-toast');
         check('非播放模式点击回复选项出现 #app-toast 提示（class 含 show）', !!replyToast, replyToast ? { className: replyToast.className, text: text(replyToast) } : { exists: !!q('#app-toast'), className: q('#app-toast') && q('#app-toast').className, text: text(q('#app-toast')) });
         check('提示文案含“播放模式”（replyPlayOnly）', /播放模式/.test(replyToast ? text(replyToast) : text(q('#app-toast'))), replyToast ? text(replyToast) : text(q('#app-toast')));
@@ -2175,10 +2259,50 @@
         var storyBox = lastBoxOf(ID1);
         check('点击好感故事直接发送（无编辑弹窗）', !!storySent && !modalActive(), modalInfo());
         check('story item 标题/文案固定', !!(storyBox && storyBox.items[0] && storyBox.items[0].title === '好感故事' && /^进入.*星野.*的好感故事$/.test(storyBox.items[0].text || '')), storyBox && storyBox.items[0]);
-        await waitFor(function () { return q('.story-panel'); }, 2000);
+        await waitFor(function () { return q('.story-panel'); }, 2000, 'story-panel');
         check('DOM 出现 .story-panel（.story-label/.story-btn/.story-bar）', !!q('.story-panel .story-label') && !!q('.story-panel .story-btn') && !!q('.story-panel .story-bar'), { label: text(q('.story-panel .story-label')), btn: text(q('.story-panel .story-btn')) });
         check('好感故事按钮文案为固定格式', /^进入.*星野.*的好感故事$/.test(text(q('.story-panel .story-btn'))), text(q('.story-panel .story-btn')));
         check('好感故事自动新建盒子', chatBoxesOf(ID1).length === boxesBeforeStory + 1, { before: boxesBeforeStory, after: chatBoxesOf(ID1).length });
+        // 好感故事框按游戏原版重绘：心形水印 + 粉色标题条 + 粉色按钮（绿色播放箭头已移除）
+        var storyPanelEl = q('.story-panel');
+        var storyLabelEl = q('.story-panel .story-label');
+        var storyBarEl = q('.story-panel .story-bar');
+        var storyBtnEl = q('.story-panel .story-btn');
+        check('好感故事新结构：.story-heart / .story-btn-text 存在且 .story-play 不存在（绿色箭头已移除）',
+            !!q('.story-panel .story-heart') && !!q('.story-panel .story-btn-text') && !q('.story-panel .story-play'),
+            { heart: !!q('.story-panel .story-heart'), play: !!q('.story-panel .story-play'), btnText: !!q('.story-panel .story-btn-text') });
+        check('好感故事 label 文案与颜色（rgb(74, 74, 74)）',
+            !!storyLabelEl && text(storyLabelEl).trim() === '好感故事' && css(storyLabelEl, 'color') === 'rgb(74, 74, 74)',
+            { text: storyLabelEl && text(storyLabelEl), color: storyLabelEl && css(storyLabelEl, 'color') });
+        check('好感故事标题竖条为粉色 rgb(240, 106, 149)',
+            !!storyBarEl && css(storyBarEl, 'backgroundColor') === 'rgb(240, 106, 149)',
+            storyBarEl && css(storyBarEl, 'backgroundColor'));
+        check('好感故事按钮为粉色 rgb(245, 116, 154) 且文字白色',
+            !!storyBtnEl && css(storyBtnEl, 'backgroundColor') === 'rgb(245, 116, 154)' && css(storyBtnEl, 'color') === 'rgb(255, 255, 255)',
+            storyBtnEl && { bg: css(storyBtnEl, 'backgroundColor'), color: css(storyBtnEl, 'color') });
+        var storyBtnRect = storyBtnEl ? rect(storyBtnEl) : null;
+        var storyBtnTextEl = q('.story-panel .story-btn-text');
+        var storyBtnTextRect = storyBtnTextEl ? rect(storyBtnTextEl) : null;
+        var storyTextOffset = (storyBtnRect && storyBtnTextRect)
+            ? Math.abs((storyBtnTextRect.left + storyBtnTextRect.width / 2) - (storyBtnRect.left + storyBtnRect.width / 2))
+            : null;
+        check('好感故事按钮 padding 12px 双侧且文字水平居中（中心偏差 <=1px）',
+            !!storyBtnEl && css(storyBtnEl, 'paddingLeft') === '12px' && css(storyBtnEl, 'paddingRight') === '12px' &&
+                storyTextOffset !== null && storyTextOffset <= 1,
+            {
+                paddingLeft: storyBtnEl && css(storyBtnEl, 'paddingLeft'),
+                paddingRight: storyBtnEl && css(storyBtnEl, 'paddingRight'),
+                textCenterOffset: storyTextOffset
+            });
+        var storyPanelBg = storyPanelEl ? String(css(storyPanelEl, 'backgroundImage') || '') : '';
+        check('好感故事面板浅粉渐变（255,246,248 → 253,235,241）',
+            /255, 246, 248/.test(storyPanelBg) && /253, 235, 241/.test(storyPanelBg),
+            storyPanelBg);
+        var storyWidth = storyPanelEl ? rect(storyPanelEl).width : 0;
+        check('好感故事面板宽度约 250px', storyWidth >= 240 && storyWidth <= 260, storyWidth);
+        check('好感故事盒整体居中（card-box 且无头像/名字）',
+            !!q('.msg-box.card-box .story-panel') && qa('.msg-box.card-box .box-avatar').length === 0 && qa('.msg-box.card-box .box-name').length === 0,
+            { cardBox: !!q('.msg-box.card-box .story-panel'), avatars: qa('.msg-box.card-box .box-avatar').length, names: qa('.msg-box.card-box .box-name').length });
 
         // 特殊消息各新建一个盒子（回复框点击不写数据，仍是 reply）
         // 顺序：开场 seed(text) → 表情(emoji) → 本地图片(image) → 回复框(reply) → 好感故事(story)
@@ -2211,6 +2335,257 @@
         await waitFor(function () { return !morePanel().classList.contains('open'); }, 2000);
         await sleep(250);
         check('再次点击 + 关闭更多栏且图标回正', !morePanel().classList.contains('open') && Math.abs(parseMatrixAngleDeg(css(moreBtn.querySelector('svg'), 'transform'))) <= 2, { open: morePanel().classList.contains('open'), transform: css(moreBtn.querySelector('svg'), 'transform') });
+    }
+
+    /* ---------------- narration：旁白1/旁白2 入口、发送、样式、编辑、播放、截图 ---------------- */
+    function boxByItemType(type) {
+        return chatBoxesOf(ID1).filter(function (b) {
+            return (b.items || []).some(function (it) { return it.type === type; });
+        })[0] || null;
+    }
+    async function runNarration() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 3000, 'narration-seed');
+
+        // 1) more 面板：6 个入口，旁白两种身份都可用
+        var opened = await openMorePanelForTest();
+        check('打开更多栏', opened, morePanel() && morePanel().className);
+        var actions = qa('.more-tile').map(function (el) { return attr(el, 'data-action'); });
+        check('更多栏含 6 个入口（含旁白1/旁白2）',
+            qa('.more-tile').length === 6 && actions.join(',') === 'emoji,image,reply,story,narration1,narration2', actions);
+        check('旁白1/旁白2 入口 label 文案正确',
+            text(q('.more-tile[data-action="narration1"] .more-tile-label')) === '旁白1' &&
+                text(q('.more-tile[data-action="narration2"] .more-tile-label')) === '旁白2',
+            {
+                n1: text(q('.more-tile[data-action="narration1"] .more-tile-label')),
+                n2: text(q('.more-tile[data-action="narration2"] .more-tile-label'))
+            });
+        var n1Tile = moreTile('narration1'), n2Tile = moreTile('narration2');
+        check('老师身份下旁白入口可用',
+            !!n1Tile && !n1Tile.disabled && !n1Tile.classList.contains('disabled') &&
+                !!n2Tile && !n2Tile.disabled && !n2Tile.classList.contains('disabled'),
+            {
+                n1: n1Tile && { disabled: n1Tile.disabled, cls: n1Tile.className },
+                n2: n2Tile && { disabled: n2Tile.disabled, cls: n2Tile.className }
+            });
+
+        q('#role-switch').click();
+        await sleep(120);
+        check('切换为学生身份', /学生/.test(text(q('#role-text'))), text(q('#role-text')));
+        var sN1 = moreTile('narration1'), sN2 = moreTile('narration2'), sReply = moreTile('reply'), sStory = moreTile('story');
+        check('学生身份下旁白入口不被禁用',
+            !!sN1 && !sN1.disabled && !sN1.classList.contains('disabled') && sN1.getAttribute('aria-disabled') !== 'true' &&
+                !!sN2 && !sN2.disabled && !sN2.classList.contains('disabled') && sN2.getAttribute('aria-disabled') !== 'true',
+            {
+                n1: sN1 && { disabled: sN1.disabled, cls: sN1.className, aria: sN1.getAttribute('aria-disabled') },
+                n2: sN2 && { disabled: sN2.disabled, cls: sN2.className, aria: sN2.getAttribute('aria-disabled') }
+            });
+        check('学生身份下只有 reply/story 被置灰（refreshMoreTilesForRole）',
+            !!sReply && sReply.classList.contains('disabled') && sReply.getAttribute('aria-disabled') === 'true' &&
+                !!sStory && sStory.classList.contains('disabled') && sStory.getAttribute('aria-disabled') === 'true',
+            {
+                reply: sReply && { cls: sReply.className, aria: sReply.getAttribute('aria-disabled') },
+                story: sStory && { cls: sStory.className, aria: sStory.getAttribute('aria-disabled') }
+            });
+        q('#role-switch').click();
+        await sleep(120);
+        check('切换回老师身份', /老师/.test(text(q('#role-text'))), text(q('#role-text')));
+
+        // 2) 发送旁白1
+        var beforeN1 = chatBoxesOf(ID1).length;
+        moreTile('narration1').click();
+        await waitFor(function () { return q('#narration-text-input'); }, 3000, 'narration1-editor');
+        check('点击旁白1入口打开「发送旁白1」编辑器', /发送旁白1/.test(modalTitle()), modalInfo());
+        var nInput = q('#narration-text-input');
+        check('旁白编辑器为空 textarea 且 placeholder 正确',
+            !!nInput && nInput.value === '' && /输入旁白内容/.test(attr(nInput, 'placeholder') || ''),
+            nInput ? { value: nInput.value, placeholder: attr(nInput, 'placeholder') } : null);
+        check('旁白1编辑器有 hint 说明', /旁白1|淡灰/.test(text(q('#modal-body .setting-hint'))), text(q('#modal-body .setting-hint')));
+        setInputValue('#narration-text-input', '旁白1：QA 测试文字');
+        clickModalBtn('发送');
+        var n1Sent = await waitFor(function () {
+            var b = chatBoxesOf(ID1);
+            var last = b[b.length - 1];
+            return b.length === beforeN1 + 1 && last.items[0] && last.items[0].type === 'narration1' ? last : null;
+        }, 3000, 'narration1-send');
+        check('发送旁白1：新建盒子 role=sensei、item type=narration1、text 保存',
+            !!n1Sent && n1Sent.role === 'sensei' && n1Sent.items[0].text === '旁白1：QA 测试文字', n1Sent);
+        var n1BoxId = n1Sent && n1Sent.id;
+        var storedN1 = readStorageJSON(HC.keys.chatsKey) || {};
+        check('旁白1 已持久化到 localStorage',
+            Array.isArray(storedN1[ID1]) && storedN1[ID1].some(function (b) { return b.id === n1BoxId && b.items[0] && b.items[0].type === 'narration1'; }),
+            storedN1[ID1] && storedN1[ID1].length);
+        await waitFor(function () { return q('.msg-box[data-box-id="' + n1BoxId + '"] .narration.narration1'); }, 2000, 'narration1-dom');
+        var n1El = q('.msg-box[data-box-id="' + n1BoxId + '"] .narration.narration1');
+        check('DOM 出现 .narration.narration1', !!n1El, n1El && text(n1El));
+        check('旁白1 样式：居中 / rgb(191, 191, 191) / 12px / 无气泡背景',
+            css(n1El, 'textAlign') === 'center' && css(n1El, 'color') === 'rgb(191, 191, 191)' &&
+                css(n1El, 'fontSize') === '12px' && css(n1El, 'backgroundColor') === 'rgba(0, 0, 0, 0)',
+            n1El && { align: css(n1El, 'textAlign'), color: css(n1El, 'color'), size: css(n1El, 'fontSize'), bg: css(n1El, 'backgroundColor') });
+        var n1BoxEl = q('.msg-box[data-box-id="' + n1BoxId + '"]');
+        check('旁白盒居中 card-box 且无头像/名字/气泡',
+            !!n1BoxEl && n1BoxEl.classList.contains('card-box') && n1BoxEl.classList.contains('sensei') &&
+                n1BoxEl.querySelectorAll('.box-avatar').length === 0 && n1BoxEl.querySelectorAll('.box-name').length === 0 &&
+                n1BoxEl.querySelectorAll('.msg-bubble').length === 0,
+            n1BoxEl && { cls: n1BoxEl.className, avatars: n1BoxEl.querySelectorAll('.box-avatar').length, bubbles: n1BoxEl.querySelectorAll('.msg-bubble').length });
+
+        // 3) 发送旁白2
+        await openMorePanelForTest();
+        var beforeN2 = chatBoxesOf(ID1).length;
+        moreTile('narration2').click();
+        await waitFor(function () { return q('#narration-text-input'); }, 3000, 'narration2-editor');
+        check('点击旁白2入口打开「发送旁白2」编辑器', /发送旁白2/.test(modalTitle()), modalInfo());
+        check('旁白2编辑器 hint 说明灰底黑字', /旁白2|灰底/.test(text(q('#modal-body .setting-hint'))), text(q('#modal-body .setting-hint')));
+        setInputValue('#narration-text-input', '旁白2：QA 测试文字');
+        clickModalBtn('发送');
+        var n2Sent = await waitFor(function () {
+            var b = chatBoxesOf(ID1);
+            var last = b[b.length - 1];
+            return b.length === beforeN2 + 1 && last.items[0] && last.items[0].type === 'narration2' ? last : null;
+        }, 3000, 'narration2-send');
+        check('发送旁白2：新建盒子 role=sensei、item type=narration2、text 保存',
+            !!n2Sent && n2Sent.role === 'sensei' && n2Sent.items[0].text === '旁白2：QA 测试文字', n2Sent);
+        var n2BoxId = n2Sent && n2Sent.id;
+        await waitFor(function () { return q('.msg-box[data-box-id="' + n2BoxId + '"] .narration.narration2'); }, 2000, 'narration2-dom');
+        var n2El = q('.msg-box[data-box-id="' + n2BoxId + '"] .narration.narration2');
+        check('DOM 出现 .narration.narration2', !!n2El, n2El && text(n2El));
+        check('旁白2 样式：居中 / 灰底 rgb(233, 233, 233) / 黑字 rgb(51, 51, 51) / 圆角 8px',
+            css(n2El, 'textAlign') === 'center' && css(n2El, 'backgroundColor') === 'rgb(233, 233, 233)' &&
+                css(n2El, 'color') === 'rgb(51, 51, 51)' && css(n2El, 'borderRadius') === '8px',
+            n2El && { align: css(n2El, 'textAlign'), bg: css(n2El, 'backgroundColor'), color: css(n2El, 'color'), radius: css(n2El, 'borderRadius'), display: css(n2El, 'display') });
+        var n2Rect = n2El ? rect(n2El) : null;
+        var n2ParentEl = n2El ? n2El.parentElement : null;
+        var n2ParentRect = n2ParentEl ? rect(n2ParentEl) : null;
+        check('旁白2 灰底块按内容收缩并居中（视觉等价 inline-block）',
+            !!n2Rect && !!n2ParentRect && n2Rect.width > 0 && n2Rect.width < n2ParentRect.width - 4 &&
+                Math.abs((n2Rect.left + n2Rect.width / 2) - (n2ParentRect.left + n2ParentRect.width / 2)) < 8,
+            { block: n2Rect, parent: n2ParentRect, display: n2El && css(n2El, 'display') });
+
+        // 4) 长按旁白盒编辑
+        var n1Opened = await openEditorByLongPress(n1BoxId);
+        check('长按旁白1盒子打开编辑面板', n1Opened, modalInfo());
+        var n1Row = q('.box-edit-row[data-item-id="' + n1Sent.items[0].id + '"]');
+        check('旁白1行显示类型标签与内容预览', !!n1Row && /旁白1/.test(text(n1Row)) && /QA 测试文字/.test(text(n1Row)), n1Row ? text(n1Row) : null);
+        check('旁白1行有「编辑」按钮', !!n1Row && !!n1Row.querySelector('[data-op="edit"]'), n1Row ? text(n1Row) : null);
+        if (n1Row && n1Row.querySelector('[data-op="edit"]')) n1Row.querySelector('[data-op="edit"]').click();
+        await waitFor(function () { return q('#narration-text-input'); }, 3000, 'narration1-edit');
+        check('打开「编辑旁白1」编辑器且带原文',
+            /编辑旁白1/.test(modalTitle()) && q('#narration-text-input').value === '旁白1：QA 测试文字', modalInfo());
+        setInputValue('#narration-text-input', '旁白1：编辑后的文字');
+        clickModalBtn('保存');
+        var n1Edited = await waitFor(function () {
+            var b = chatBoxesOf(ID1).filter(function (x) { return x.id === n1BoxId; })[0];
+            return b && b.items[0].text === '旁白1：编辑后的文字' && b.items[0].type === 'narration1' ? b.items[0] : null;
+        }, 3000, 'narration1-edited');
+        check('旁白1 保存后 text 更新且 type 不变', !!n1Edited, n1Edited);
+        await waitFor(function () { return /编辑后的文字/.test(text(q('.msg-box[data-box-id="' + n1BoxId + '"] .narration'))); }, 2000, 'narration1-edited-dom');
+        check('旁白1 编辑后 DOM 文案同步', /编辑后的文字/.test(text(q('.msg-box[data-box-id="' + n1BoxId + '"] .narration'))), text(q('.msg-box[data-box-id="' + n1BoxId + '"] .narration')));
+        var storedEdited = readStorageJSON(HC.keys.chatsKey) || {};
+        check('旁白1 编辑后 localStorage 同步', JSON.stringify(storedEdited[ID1] || []).indexOf('旁白1：编辑后的文字') >= 0, storedEdited[ID1] && storedEdited[ID1].length);
+
+        var n2Opened = await openEditorByLongPress(n2BoxId);
+        check('长按旁白2盒子打开编辑面板', n2Opened, modalInfo());
+        var n2Row = q('.box-edit-row[data-item-id="' + n2Sent.items[0].id + '"]');
+        check('旁白2行有「编辑」按钮', !!n2Row && !!n2Row.querySelector('[data-op="edit"]'), n2Row ? text(n2Row) : null);
+        if (n2Row && n2Row.querySelector('[data-op="edit"]')) n2Row.querySelector('[data-op="edit"]').click();
+        await waitFor(function () { return q('#narration-text-input'); }, 3000, 'narration2-edit');
+        check('打开「编辑旁白2」编辑器', /编辑旁白2/.test(modalTitle()), modalInfo());
+        setInputValue('#narration-text-input', '旁白2：编辑后的文字');
+        clickModalBtn('保存');
+        await waitFor(function () {
+            var b = chatBoxesOf(ID1).filter(function (x) { return x.id === n2BoxId; })[0];
+            return !!(b && b.items[0].text === '旁白2：编辑后的文字');
+        }, 3000, 'narration2-edited');
+        var n2ItemNow = (chatBoxesOf(ID1).filter(function (x) { return x.id === n2BoxId; })[0] || { items: [{}] }).items[0];
+        check('旁白2 编辑后 type 仍为 narration2 且文案更新', n2ItemNow.type === 'narration2' && n2ItemNow.text === '旁白2：编辑后的文字', n2ItemNow);
+
+        // 5) 播放：reply 选择后盒内仍有旁白 → 保持 card-box；旁白直接出现
+        consumeLongPressFlag(); // 上面长按留下的标记会吞掉播放视图里的第一次 reply 选项点击
+        var chatsRawBeforePlayback = localStorage.getItem(HC.keys.chatsKey);
+        var playBtn = q('#btn-play');
+        check('#btn-play 播放按钮存在', !!playBtn, idsPresent(['btn-play']));
+        playBtn.click();
+        var waiting = await waitFor(function () { var t = text(q('#playback-progress')); return /请选择一个回复以继续/.test(t) ? t : null; }, 6000, 'narration-play-wait');
+        check('播放到回复框等待选择', !!waiting, text(q('#playback-progress')));
+        var pbOpts = qa('#chat-content .reply-panel .reply-option');
+        check('播放视图出现回复选项', pbOpts.length === 2, pbOpts.map(function (el) { return text(el); }));
+        var chosen = pbOpts.length ? text(pbOpts[0]) : '';
+        if (pbOpts[0]) pbOpts[0].click();
+        var chosenShown = await waitFor(function () { return playbackBubbles().some(function (t) { return t === chosen; }); }, 3000, 'narration-play-chosen');
+        check('播放中选择回复后出现所选文本气泡', !!chosenShown, playbackBubbles());
+        var narShown = await waitFor(function () {
+            return qa('#chat-content .narration.narration1').length >= 1 && qa('#chat-content .narration.narration2').length >= 1;
+        }, 4000, 'narration-play-shown');
+        check('播放到旁白时直接出现（无打字动画）',
+            !!narShown && qa('#chat-content .typing-box').length === 0 && qa('#chat-content .typing-item').length === 0,
+            {
+                n1: qa('#chat-content .narration.narration1').length,
+                n2: qa('#chat-content .narration.narration2').length,
+                typing: qa('#chat-content .typing-box').length + qa('#chat-content .typing-item').length
+            });
+        check('回复选择后盒内仍有旁白 → 播放视图保持 card-box 居中',
+            !!q('.msg-box[data-box-id="b_nr_mix"]') && q('.msg-box[data-box-id="b_nr_mix"]').classList.contains('card-box'),
+            { cls: q('.msg-box[data-box-id="b_nr_mix"]') && q('.msg-box[data-box-id="b_nr_mix"]').className });
+        var playFinished = await waitFor(function () {
+            return qa('#chat-content .typing-box').length === 0 &&
+                q('#playback-bar') && q('#playback-bar').classList.contains('hidden');
+        }, 12000, 'narration-play-finish');
+        check('播放自动结束', !!playFinished, playbackSnapshot());
+        var mixAfter = chatBoxesOf(ID1).filter(function (b) { return b.id === 'b_nr_mix'; })[0];
+        check('播放结束后真实数据未变（reply 仍是 reply、旁白文本不变）',
+            !!mixAfter && mixAfter.items[0].type === 'reply' &&
+                mixAfter.items[1].text === '旁白一：窗外的风停了。' && mixAfter.items[2].text === '旁白二：时间到了。',
+            mixAfter);
+        check('播放结束后 localStorage 未变', localStorage.getItem(HC.keys.chatsKey) === chatsRawBeforePlayback, { changed: localStorage.getItem(HC.keys.chatsKey) !== chatsRawBeforePlayback });
+
+        // 6) 列表预览同步（最后一个旁白盒的编辑结果）
+        await closeChatByUI();
+        await waitFor(function () { return qa('.contact-item').length === 1; }, 3000, 'narration-list');
+        var preview = text(q('.contact-preview'));
+        check('列表预览同步显示旁白2编辑后的文案', /旁白2：编辑后的文字/.test(preview), preview);
+
+        // 7) 截图：新颜色常量 + story/旁白绘制像素
+        await ensureChatPage(ID1);
+        var cs = W().ChatScreenshot;
+        check('ChatScreenshot 暴露 _COLORS', !!cs && !!cs._COLORS, typeof cs);
+        if (cs && cs._COLORS) {
+            var col = cs._COLORS;
+            var expectColors = {
+                storyPanelFrom: '#FFF6F8', storyPanelTo: '#FDEBF1', storyBorder: '#F8D7E2', storyHeart: '#F9CFDC',
+                storyBar: '#F06A95', storyLabel: '#4A4A4A', storyBtn: '#F5749A', storyBtnText: '#FFFFFF',
+                narration1Text: '#BFBFBF', narration2Bg: '#E9E9E9', narration2Text: '#333333'
+            };
+            var colorActual = {};
+            var colorOk = Object.keys(expectColors).every(function (k) {
+                colorActual[k] = col[k];
+                return col[k] != null && String(col[k]).toUpperCase() === expectColors[k];
+            });
+            check('ChatScreenshot._COLORS 新增故事/旁白颜色均为新值', colorOk, colorActual);
+        }
+        var shotBoxes = [
+            box('b_ns_story', 'sensei', [sItem('i_ns_story', '好感故事', '进入小鸟游 星野的好感故事')]),
+            box('b_ns_nar', 'sensei', [n1Item('i_ns_n1', '旁白1：画面渐渐暗了下来。'), n2Item('i_ns_n2', '旁白2：第二天清晨。')])
+        ];
+        var gen = await generateInFrame({
+            boxes: shotBoxes,
+            student: { name: NAME1, avatar: './resources/head.jpg' },
+            width: 360, dpr: 1,
+            texts: { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+        });
+        check('截图对 story + 旁白数据生成成功', !!gen.canvas && gen.canvas.tagName === 'CANVAS', gen.err);
+        if (gen.canvas && gen.canvas.tagName === 'CANVAS') {
+            check('截图 canvas 宽度 360、dpr1', gen.canvas.width === 360, { width: gen.canvas.width, height: gen.canvas.height });
+            var pinkCount = countPixels(gen.canvas, function (r, g, b) { return r > 235 && g > 100 && g < 150 && b > 140 && b < 180; });
+            var grayCount = countPixels(gen.canvas, function (r, g, b) { return Math.abs(r - 233) <= 4 && Math.abs(g - 233) <= 4 && Math.abs(b - 233) <= 4; });
+            var greenCount = countPixels(gen.canvas, function (r, g, b) { return g > 200 && r < 90 && b < 90; });
+            var nar1TextCount = countPixels(gen.canvas, function (r, g, b) { return Math.abs(r - 191) <= 10 && Math.abs(g - 191) <= 10 && Math.abs(b - 191) <= 10; });
+            var nar2TextCount = countPixels(gen.canvas, function (r, g, b) { return Math.abs(r - 51) <= 12 && Math.abs(g - 51) <= 12 && Math.abs(b - 51) <= 12; });
+            check('截图粉色故事按钮像素达到下限（>=1500）', pinkCount >= 1500, { pink: pinkCount });
+            check('截图灰色旁白2底块像素达到下限（>=1000）', grayCount >= 1000, { gray: grayCount });
+            check('截图不再有绿色播放箭头像素（green=0）', greenCount === 0, { green: greenCount });
+            check('截图中存在旁白1淡灰小字像素（#BFBFBF 附近）', nar1TextCount >= 10, { narration1: nar1TextCount });
+            check('截图中存在旁白2黑字像素（#333333 附近）', nar2TextCount >= 10, { narration2: nar2TextCount });
+        }
     }
 
     /* ---------------- playback ---------------- */
@@ -2567,6 +2942,24 @@
             out = { ok: false, error: String(e) };
         }
         return out;
+    }
+
+    /** 统计 canvas 中满足颜色条件的非透明像素数量（用于截图颜色断言） */
+    function countPixels(canvas, predicate) {
+        if (!canvas) return -1;
+        try {
+            var ctx = canvas.getContext('2d');
+            var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            var n = 0;
+            for (var i = 0; i < data.length; i += 4) {
+                if (data[i + 3] === 0) continue;
+                if (predicate(data[i], data[i + 1], data[i + 2])) n++;
+            }
+            return n;
+        } catch (e) {
+            note('countPixels 失败: ' + e);
+            return -1;
+        }
     }
 
     async function runScreenshotFallback() {
@@ -3067,6 +3460,7 @@
         merge: { seed: function () { return FIXTURES.merge; }, run: runMerge },
         split: { seed: function () { return FIXTURES.split; }, run: runSplit },
         more: { seed: function () { return FIXTURES.more; }, run: runMore },
+        narration: { seed: function () { return FIXTURES.narration; }, run: runNarration },
         playback: { seed: function () { return FIXTURES.playback; }, run: runPlayback },
         'playback-reply': { seed: function () { return FIXTURES['playback-reply']; }, run: runPlaybackReply },
         screenshot: { seed: function () { return FIXTURES.screenshot; }, run: runScreenshot },

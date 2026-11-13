@@ -2,7 +2,7 @@
     "scenario":  "clear-data",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T05:57:23.506Z",
+    "startedAt":  "2026-11-13T07:49:03.462Z",
     "ready":  true,
     "done":  true,
     "pass":  17,
@@ -155,15 +155,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  118,
-                    "totalMs":  168
+                    "scenarioStart":  180,
+                    "totalMs":  230
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794549433506
+                                        "addedAt":  1794556133462
                                     }
                                 ],
                  "chats":  {
@@ -171,7 +171,7 @@
                                             {
                                                 "id":  "b_cd1",
                                                 "role":  "student",
-                                                "time":  1794549442506,
+                                                "time":  1794556142462,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_cd1",
@@ -250,6 +250,18 @@
                                                          "role":  "开发 / 设计 / 文案",
                                                          "avatar":  "./resources/head.jpg",
                                                          "url":  "https://xhslink.cn/o/4bRFA2sZIFh"
+                                                     },
+                                                     {
+                                                         "name":  "一只鲸鱼",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/yizhijingyu.jpg",
+                                                         "url":  "https://v.kuaishou.com/nlfDtoVA"
+                                                     },
+                                                     {
+                                                         "name":  "傻傻の砂白",
+                                                         "role":  "股东",
+                                                         "avatar":  "./resources/shabai.jpg",
+                                                         "url":  "https://space.bilibili.com/3546964918536967"
                                                      }
                                                  ]
                                  },
@@ -384,6 +396,8 @@
                                      "moreImage":  "本地图片",
                                      "moreReply":  "回复框",
                                      "moreStory":  "好感故事",
+                                     "moreNarration1":  "旁白1",
+                                     "moreNarration2":  "旁白2",
                                      "replyTitle":  "回复",
                                      "replyDefault":  "嗯？还好吧……",
                                      "replyTitleLabel":  "标题",
@@ -396,11 +410,22 @@
                                      "storyDefaultBtn":  "进入{name}的好感故事",
                                      "storySendTitle":  "发送好感故事框",
                                      "storyEditTitle":  "编辑好感故事框",
+                                     "narrationSendTitle1":  "发送旁白1",
+                                     "narrationSendTitle2":  "发送旁白2",
+                                     "narrationEditTitle1":  "编辑旁白1",
+                                     "narrationEditTitle2":  "编辑旁白2",
+                                     "narrationContentLabel":  "旁白内容",
+                                     "narrationPlaceholder":  "输入旁白内容…",
+                                     "narrationHint1":  "旁白1：居中淡灰色小字，适合场景或心理描写。",
+                                     "narrationHint2":  "旁白2：居中灰底黑字，适合系统提示、时间说明等。",
+                                     "narrationEmpty":  "内容不能为空",
                                      "itemTypeText":  "文本",
                                      "itemTypeImage":  "图片",
                                      "itemTypeEmoji":  "表情",
                                      "itemTypeReply":  "回复",
                                      "itemTypeStory":  "好感",
+                                     "itemTypeNarration1":  "旁白1",
+                                     "itemTypeNarration2":  "旁白2",
                                      "boxEditTitle":  "信息盒子",
                                      "boxItemCount":  "共 {n} 条信息",
                                      "itemEdit":  "编辑",
@@ -487,9 +512,9 @@
     "configPatch":  {
                         "favicon":  "./resources/MomoTalk_favicon.png"
                     },
-    "appHtmlLength":  157709,
+    "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_cd1\",\"role\":\"student\",\"time\":1794549442506,\"items\":[{\"id\":\"i_cd1\",\"type\":\"text\",\"text\":\"删除本地数据测试\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_cd1\",\"role\":\"student\",\"time\":1794556142462,\"items\":[{\"id\":\"i_cd1\",\"type\":\"text\",\"text\":\"删除本地数据测试\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -497,7 +522,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 删除本地数据测试 创建 11-13 13:57 · 修改 11-13 13:57",
+                      "listText":  "小鸟游 星野 删除本地数据测试 创建 11-13 15:48 · 修改 11-13 15:49",
                       "scriptErrors":  [
 
                                        ]

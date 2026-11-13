@@ -1,5 +1,5 @@
 /*!
- * MomoTalk · 聊天截图模块  v1.2.0
+ * MomoTalk · 聊天截图模块  v1.3.0
  * ------------------------------------------------------------------
  * 将聊天数据（第 1.2 节的 box / item 结构）绘制成一张长图。
  * 只依赖浏览器原生 API（Canvas 2D），不引用任何外部库 / CDN。
@@ -42,7 +42,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '1.2.0';
+  var VERSION = '1.3.0';
 
   /* ================================================================
    * 一、常量
@@ -79,15 +79,19 @@
     replyInnerBg: '#FFFFFF',
     replyInnerBorder: '#E4EBF1',
     replyInnerText: '#55636F',
-    // 好感故事框（粉色）
-    storyPanelFrom: '#FFECF2',
-    storyPanelTo: '#FFE3EA',
-    storyBorder: '#FFD9E3',
-    storyBar: '#EE8FA4',
-    storyLabel: '#7C5862',
-    storyBtnFrom: '#F4A3B1',
-    storyBtnTo: '#E8899C',
+    // 好感故事框（参考游戏原版：浅粉卡片 + 深灰标签 + 粉色按钮 + 绿色播放箭头）
+    storyPanelFrom: '#FFF6F8',
+    storyPanelTo: '#FDEBF1',
+    storyBorder: '#F8D7E2',
+    storyHeart: '#F9CFDC',
+    storyBar: '#F06A95',
+    storyLabel: '#4A4A4A',
+    storyBtn: '#F5749A',
     storyBtnText: '#FFFFFF',
+    // 旁白
+    narration1Text: '#BFBFBF',
+    narration2Bg: '#E9E9E9',
+    narration2Text: '#333333',
     // 图片失败占位
     placeholderBg: '#E9EEF3',
     placeholderText: '#9AA7B3',
@@ -128,7 +132,20 @@
     innerPadX: 12,
     innerPadY: 11,
     innerRadius: 10,
-    storyButtonHeight: 38,
+    storyMaxRatio: 0.72,
+    storyLabelHeight: 14,
+    storyButtonHeight: 34,
+    storyButtonRadius: 6,
+    // 旁白
+    narration1Size: 12,
+    narration2Size: 13,
+    narration1LineHeight: 18,
+    narration2LineHeight: 20,
+    narration1MaxRatio: 0.78,
+    narration2MaxRatio: 0.8,
+    narrationPadX: 14,
+    narrationPadY: 8,
+    narrationRadius: 8,
     // 兜底
     minHeight: 120
   };
@@ -401,12 +418,28 @@
       innerPadX: DEFAULTS.innerPadX,
       innerPadY: DEFAULTS.innerPadY,
       innerRadius: DEFAULTS.innerRadius,
+      storyMaxRatio: DEFAULTS.storyMaxRatio,
+      storyLabelHeight: DEFAULTS.storyLabelHeight,
       storyButtonHeight: DEFAULTS.storyButtonHeight,
+      storyButtonRadius: DEFAULTS.storyButtonRadius,
+      narration1Size: DEFAULTS.narration1Size,
+      narration2Size: DEFAULTS.narration2Size,
+      narration1LineHeight: DEFAULTS.narration1LineHeight,
+      narration2LineHeight: DEFAULTS.narration2LineHeight,
+      narration1MaxRatio: DEFAULTS.narration1MaxRatio,
+      narration2MaxRatio: DEFAULTS.narration2MaxRatio,
+      narrationPadX: DEFAULTS.narrationPadX,
+      narrationPadY: DEFAULTS.narrationPadY,
+      narrationRadius: DEFAULTS.narrationRadius,
       minHeight: DEFAULTS.minHeight,
       // 预生成字体串，避免每帧拼接
       fontText: font(DEFAULTS.fontSize, false),
       fontName: font(DEFAULTS.nameSize, true),
       fontPanelTitle: font(13, true),
+      fontStoryLabel: font(12, true),
+      fontStoryBtn: font(13, true),
+      fontNarration1: font(DEFAULTS.narration1Size, false),
+      fontNarration2: font(DEFAULTS.narration2Size, false),
       fontPlaceholder: font(13, false),
       fontAvatar: font(16, true),
       fontEmojiFail: font(12, false)
@@ -726,29 +759,69 @@
     };
   }
 
-  /** 好感故事框 item（粉色面板 + 渐变按钮，标题固定） */
-  function measureStory(ctx, item, cfg, role, texts, bodyLeft, right) {
-    var panelWidth = panelWidthFor(cfg, role, bodyLeft, right);
-    var title = texts.story;
+  /** 好感故事框 item（参考原版：浅粉卡片 + 深灰标签 + 粉色按钮 + 绿色播放箭头） */
+  function measureStory(ctx, item, cfg, role, texts) {
+    var panelWidth = Math.min(
+      Math.round(cfg.width * cfg.storyMaxRatio),
+      cfg.width - cfg.padding * 2
+    );
     var btnWidth = panelWidth - cfg.panelPad * 2;
     var btnTextWidth = Math.max(20, btnWidth - 24);
-    ctx.font = cfg.fontText;
+    ctx.font = cfg.fontStoryBtn;
     var lines = wrapText(function (s) {
       return ctx.measureText(s).width;
     }, item.text == null ? '' : String(item.text), btnTextWidth);
     if (!lines.length) lines = [''];
 
-    var btnHeight = Math.max(cfg.storyButtonHeight, lines.length * cfg.lineHeight + 20);
-    var btnY = cfg.panelPad + cfg.panelTitleHeight + cfg.panelGap;
+    var btnHeight = Math.max(cfg.storyButtonHeight, lines.length * cfg.lineHeight + 14);
+    var btnY = cfg.panelPad + cfg.storyLabelHeight + cfg.panelGap;
     var height = btnY + btnHeight + cfg.panelPad;
 
     return {
       kind: 'story',
       w: panelWidth,
       h: height,
-      title: title,
+      title: texts.story,
       lines: lines,
-      rel: { btnX: cfg.panelPad, btnY: btnY, btnW: btnWidth, btnH: btnHeight }
+      rel: {
+        labelY: cfg.panelPad,
+        btnX: cfg.panelPad,
+        btnY: btnY,
+        btnW: btnWidth,
+        btnH: btnHeight
+      }
+    };
+  }
+
+  /** 旁白 item：旁白1 居中淡灰小字；旁白2 居中灰底黑字 */
+  function measureNarration(ctx, item, cfg, kind) {
+    var small = kind === 'narration1';
+    ctx.font = small ? cfg.fontNarration1 : cfg.fontNarration2;
+    var maxWidth = Math.max(60, Math.round(cfg.width * (small ? cfg.narration1MaxRatio : cfg.narration2MaxRatio)));
+    var padX = small ? 10 : cfg.narrationPadX;
+    var lineHeight = small ? cfg.narration1LineHeight : cfg.narration2LineHeight;
+    var text = item.text == null ? '' : String(item.text);
+    var lines = wrapText(function (s) {
+      return ctx.measureText(s).width;
+    }, text, Math.max(30, maxWidth - padX * 2));
+    if (!lines.length) lines = [''];
+
+    var widest = 0;
+    lines.forEach(function (line) {
+      widest = Math.max(widest, ctx.measureText(line).width);
+    });
+
+    var width = Math.min(maxWidth, Math.max(small ? 20 : 44, Math.ceil(widest) + padX * 2));
+    var height = small
+      ? lines.length * lineHeight + 4
+      : lines.length * lineHeight + cfg.narrationPadY * 2;
+
+    return {
+      kind: kind,
+      w: width,
+      h: height,
+      lines: lines,
+      lineHeight: lineHeight
     };
   }
 
@@ -758,7 +831,8 @@
     if (type === 'image') return measureImage(item, cfg, imageMap, texts);
     if (type === 'emoji') return measureEmoji(item, cfg, imageMap, texts);
     if (type === 'reply') return measureReply(ctx, item, cfg, role, texts, bodyLeft, right);
-    if (type === 'story') return measureStory(ctx, item, cfg, role, texts, bodyLeft, right);
+    if (type === 'story') return measureStory(ctx, item, cfg, role, texts);
+    if (type === 'narration1' || type === 'narration2') return measureNarration(ctx, item, cfg, type);
     if (type === 'text' || item.text != null) return measureText(ctx, item, cfg, role, maxBubbleWidth);
     return null;
   }
@@ -834,8 +908,9 @@
       var itemY = bodyTop;
       measured.forEach(function (node, index) {
         node.y = itemY;
-        if (node.kind === 'reply' || node.kind === 'story') {
-          // 回复框 / 好感故事框在聊天页与截图里都居中显示
+        if (node.kind === 'reply' || node.kind === 'story' ||
+            node.kind === 'narration1' || node.kind === 'narration2') {
+          // 回复框 / 好感故事框 / 旁白在聊天页与截图里都居中显示
           node.x = Math.max(cfg.padding, Math.round((cfg.width - node.w) / 2));
         } else {
           node.x = isStudent ? bodyLeft : right - node.w;
@@ -1077,41 +1152,91 @@
     });
   }
 
-  /** 好感故事框：粉色渐变面板 + 粉色竖条标题 + 粉红渐变按钮 */
+  /** 心形路径（好感故事卡片右上的浅粉心形水印） */
+  function heartPath(ctx, x, y, w, h) {
+    ctx.beginPath();
+    ctx.moveTo(x + w / 2, y + h);
+    ctx.bezierCurveTo(x - w * 0.18, y + h * 0.62, x + w * 0.02, y + h * 0.1, x + w * 0.27, y + h * 0.12);
+    ctx.bezierCurveTo(x + w * 0.43, y + h * 0.13, x + w * 0.5, y + h * 0.24, x + w / 2, y + h * 0.3);
+    ctx.bezierCurveTo(x + w * 0.5, y + h * 0.24, x + w * 0.57, y + h * 0.13, x + w * 0.73, y + h * 0.12);
+    ctx.bezierCurveTo(x + w * 0.98, y + h * 0.1, x + w * 1.18, y + h * 0.62, x + w / 2, y + h);
+    ctx.closePath();
+  }
+
+  /** 好感故事框：浅粉卡片 + 浅粉心形水印 + 深灰标签 + 粉色按钮 */
   function drawStoryPanel(ctx, node, cfg) {
     var rel = node.rel;
 
+    // 卡片背景（浅粉渐变）
     var gradient = ctx.createLinearGradient(0, node.y, 0, node.y + node.h);
     gradient.addColorStop(0, COLORS.storyPanelFrom);
     gradient.addColorStop(1, COLORS.storyPanelTo);
-    roundRectPath(ctx, node.x, node.y, node.w, node.h, 12);
+    roundRectPath(ctx, node.x, node.y, node.w, node.h, 10);
     ctx.fillStyle = gradient;
     ctx.fill();
     ctx.strokeStyle = COLORS.storyBorder;
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    drawPanelTitle(ctx, node, cfg, COLORS.storyBar, COLORS.storyLabel);
-    drawPanelDivider(ctx, node, cfg, 'rgba(238,143,164,0.3)');
+    // 右上角心形水印（超出卡片的部分被裁剪）
+    ctx.save();
+    roundRectPath(ctx, node.x, node.y, node.w, node.h, 10);
+    ctx.clip();
+    heartPath(ctx, node.x + node.w - 62, node.y - 20, 100, 92);
+    ctx.fillStyle = COLORS.storyHeart;
+    ctx.globalAlpha = 0.85;
+    ctx.fill();
+    ctx.restore();
 
-    // 渐变按钮
+    // 标题：粉色竖条 + 深灰色文字
+    var barX = node.x + cfg.panelPad + 2;
+    var labelCy = node.y + rel.labelY + cfg.storyLabelHeight / 2;
+    roundRectPath(ctx, barX, labelCy - 6, 3, 12, 1.5);
+    ctx.fillStyle = COLORS.storyBar;
+    ctx.fill();
+    ctx.font = cfg.fontStoryLabel;
+    ctx.fillStyle = COLORS.storyLabel;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    var labelMaxWidth = Math.max(20, node.w - cfg.panelPad * 2 - 14);
+    var label = ellipsize(ctx, node.title, labelMaxWidth);
+    if (label) ctx.fillText(label, barX + 7, labelCy);
+
+    // 粉色按钮
     var btnX = node.x + rel.btnX;
     var btnY = node.y + rel.btnY;
-    var btnGradient = ctx.createLinearGradient(0, btnY, 0, btnY + rel.btnH);
-    btnGradient.addColorStop(0, COLORS.storyBtnFrom);
-    btnGradient.addColorStop(1, COLORS.storyBtnTo);
-    roundRectPath(ctx, btnX, btnY, rel.btnW, rel.btnH, 8);
-    ctx.fillStyle = btnGradient;
+    roundRectPath(ctx, btnX, btnY, rel.btnW, rel.btnH, cfg.storyButtonRadius);
+    ctx.fillStyle = COLORS.storyBtn;
     ctx.fill();
 
-    ctx.font = cfg.fontText;
+    // 白色按钮文字（居中）
+    ctx.font = cfg.fontStoryBtn;
     ctx.fillStyle = COLORS.storyBtnText;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    var centerY = btnY + rel.btnH / 2;
+    var textCenterX = btnX + rel.btnW / 2;
     var offset = ((node.lines.length - 1) * cfg.lineHeight) / 2;
+    var centerY = btnY + rel.btnH / 2;
     for (var i = 0; i < node.lines.length; i++) {
-      ctx.fillText(node.lines[i], btnX + rel.btnW / 2, centerY - offset + i * cfg.lineHeight);
+      ctx.fillText(node.lines[i], textCenterX, centerY - offset + i * cfg.lineHeight);
+    }
+  }
+
+  /** 旁白：旁白1 居中淡灰小字 / 旁白2 居中灰底黑字 */
+  function drawNarration(ctx, node, cfg) {
+    var small = node.kind === 'narration1';
+    if (!small) {
+      roundRectPath(ctx, node.x, node.y, node.w, node.h, cfg.narrationRadius);
+      ctx.fillStyle = COLORS.narration2Bg;
+      ctx.fill();
+    }
+    ctx.font = small ? cfg.fontNarration1 : cfg.fontNarration2;
+    ctx.fillStyle = small ? COLORS.narration1Text : COLORS.narration2Text;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    var startY = node.y + (small ? 2 : cfg.narrationPadY) + node.lineHeight / 2;
+    for (var i = 0; i < node.lines.length; i++) {
+      ctx.fillText(node.lines[i], node.x + node.w / 2, startY + i * node.lineHeight);
     }
   }
 
@@ -1140,6 +1265,10 @@
           break;
         case 'story':
           drawStoryPanel(ctx, node, cfg);
+          break;
+        case 'narration1':
+        case 'narration2':
+          drawNarration(ctx, node, cfg);
           break;
         default:
           break;
