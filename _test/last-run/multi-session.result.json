@@ -2,7 +2,7 @@
     "scenario":  "multi-session",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T07:48:06.984Z",
+    "startedAt":  "2026-11-13T08:02:22.361Z",
     "ready":  true,
     "done":  true,
     "pass":  26,
@@ -50,10 +50,10 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "1794556087145_1001",
+                                          "id":  "1794556942457_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       }
                                   ]
                    },
@@ -67,16 +67,16 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "1794556087145_1001",
+                                          "id":  "1794556942457_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       },
                                       {
-                                          "id":  "1794556087146_1001",
+                                          "id":  "1794556942458_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       }
                                   ]
                    },
@@ -85,16 +85,16 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "1794556087145_1001",
+                                          "id":  "1794556942457_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       },
                                       {
-                                          "id":  "1794556087146_1001",
+                                          "id":  "1794556942458_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       }
                                   ]
                    },
@@ -110,24 +110,24 @@
                        "name":  "chats 以两个 chatId 为 key（各一个空数组）",
                        "ok":  true,
                        "actual":  [
-                                      "1794556087145_1001",
-                                      "1794556087146_1001"
+                                      "1794556942457_1001",
+                                      "1794556942458_1001"
                                   ]
                    },
                    {
                        "name":  "列表渲染 2 个 .contact-item",
                        "ok":  true,
                        "actual":  [
-                                      "1794556087145_1001",
-                                      "1794556087146_1001"
+                                      "1794556942457_1001",
+                                      "1794556942458_1001"
                                   ]
                    },
                    {
                        "name":  ".contact-item data-id 与会话 chatId 一致",
                        "ok":  true,
                        "actual":  [
-                                      "1794556087145_1001",
-                                      "1794556087146_1001"
+                                      "1794556942457_1001",
+                                      "1794556942458_1001"
                                   ]
                    },
                    {
@@ -142,8 +142,8 @@
                        "name":  "每个列表项都有 .contact-dates（创建 + 修改）",
                        "ok":  true,
                        "actual":  [
-                                      "创建 11-13 15:48 · 修改 11-13 15:48",
-                                      "创建 11-13 15:48 · 修改 11-13 15:48"
+                                      "创建 11-13 16:02 · 修改 11-13 16:02",
+                                      "创建 11-13 16:02 · 修改 11-13 16:02"
                                   ]
                    },
                    {
@@ -158,7 +158,7 @@
                                                       200
                                                   ],
                                           "fontSize":  "11px",
-                                          "text":  "创建 11-13 15:48 · 修改 11-13 15:48"
+                                          "text":  "创建 11-13 16:02 · 修改 11-13 16:02"
                                       },
                                       {
                                           "color":  "rgb(200, 200, 200)",
@@ -168,7 +168,7 @@
                                                       200
                                                   ],
                                           "fontSize":  "11px",
-                                          "text":  "创建 11-13 15:48 · 修改 11-13 15:48"
+                                          "text":  "创建 11-13 16:02 · 修改 11-13 16:02"
                                       }
                                   ]
                    },
@@ -188,12 +188,12 @@
                        "actual":  {
                                       "chat1":  [
                                                     {
-                                                        "id":  "b_mweocyx9zfw7q3",
+                                                        "id":  "b_mweovavxuy9hg7",
                                                         "role":  "sensei",
-                                                        "time":  1794556087245,
+                                                        "time":  1794556942557,
                                                         "items":  [
                                                                       {
-                                                                          "id":  "i_mweocyx9zevp4h",
+                                                                          "id":  "i_mweovavx1d5gd2",
                                                                           "type":  "text",
                                                                           "text":  "多会话A消息"
                                                                       }
@@ -227,16 +227,16 @@
                        "name":  "两个会话消息互不串（A 只含 A 消息，B 只含 B 消息）",
                        "ok":  true,
                        "actual":  {
-                                      "a":  "[{\"id\":\"b_mweocyx9zfw7q3\",\"role\":\"sensei\",\"time\":1794556087245,\"items\":[{\"id\":\"i_mweocyx9zevp4h\",\"type\":\"text\",\"text\":\"多会话A消息\"}]}]",
-                                      "b":  "[{\"id\":\"b_mweocz019eb869\",\"role\":\"sensei\",\"time\":1794556087345,\"items\":[{\"id\":\"i_mweocz01h8behj\",\"type\":\"text\",\"text\":\"多会话B消息\"}]}]"
+                                      "a":  "[{\"id\":\"b_mweovavxuy9hg7\",\"role\":\"sensei\",\"time\":1794556942557,\"items\":[{\"id\":\"i_mweovavx1d5gd2\",\"type\":\"text\",\"text\":\"多会话A消息\"}]}]",
+                                      "b":  "[{\"id\":\"b_mweovaype1hyuf\",\"role\":\"sensei\",\"time\":1794556942657,\"items\":[{\"id\":\"i_mweovaypsdkjzj\",\"type\":\"text\",\"text\":\"多会话B消息\"}]}]"
                                   }
                    },
                    {
                        "name":  "localStorage chats 两个 chatId 持久化且互不串",
                        "ok":  true,
                        "actual":  [
-                                      "1794556087145_1001",
-                                      "1794556087146_1001"
+                                      "1794556942457_1001",
+                                      "1794556942458_1001"
                                   ]
                    },
                    {
@@ -244,16 +244,16 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "1794556087145_1001",
+                                          "id":  "1794556942457_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       },
                                       {
-                                          "id":  "1794556087146_1001",
+                                          "id":  "1794556942458_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       }
                                   ]
                    },
@@ -267,16 +267,16 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "id":  "1794556087145_1001",
+                                          "id":  "1794556942457_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       },
                                       {
-                                          "id":  "1794556087146_1001",
+                                          "id":  "1794556942458_1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556087145
+                                          "addedAt":  1794556942457
                                       }
                                   ]
                    },
@@ -284,8 +284,8 @@
                        "name":  "导出 chats 以 chatId 为 key",
                        "ok":  true,
                        "actual":  [
-                                      "1794556087145_1001",
-                                      "1794556087146_1001"
+                                      "1794556942457_1001",
+                                      "1794556942458_1001"
                                   ]
                    }
                ],
@@ -299,8 +299,8 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  160,
-                    "totalMs":  360
+                    "scenarioStart":  94,
+                    "totalMs":  294
                 },
     "seed":  {
                  "myStudents":  [
@@ -335,24 +335,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 多会话B消息 创建 11-13 15:48 · 修改 11-13 15:48 小鸟游 星野 [我] 多会话A消息 创建 11-13 15:48 · 修改 11-13 15:48"
+                                 "contactListText":  "小鸟游 星野 [我] 多会话B消息 创建 11-13 16:02 · 修改 11-13 16:02 小鸟游 星野 [我] 多会话A消息 创建 11-13 16:02 · 修改 11-13 16:02"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1794556087145_1001\":[{\"id\":\"b_mweocyx9zfw7q3\",\"role\":\"sensei\",\"time\":1794556087245,\"items\":[{\"id\":\"i_mweocyx9zevp4h\",\"type\":\"text\",\"text\":\"多会话A消息\"}]}],\"1794556087146_1001\":[{\"id\":\"b_mweocz019eb869\",\"role\":\"sensei\",\"time\":1794556087345,\"items\":[{\"id\":\"i_mweocz01h8behj\",\"type\":\"text\",\"text\":\"多会话B消息\"}]}]}",
+                                     "chatsRaw":  "{\"1794556942457_1001\":[{\"id\":\"b_mweovavxuy9hg7\",\"role\":\"sensei\",\"time\":1794556942557,\"items\":[{\"id\":\"i_mweovavx1d5gd2\",\"type\":\"text\",\"text\":\"多会话A消息\"}]}],\"1794556942458_1001\":[{\"id\":\"b_mweovaype1hyuf\",\"role\":\"sensei\",\"time\":1794556942657,\"items\":[{\"id\":\"i_mweovaypsdkjzj\",\"type\":\"text\",\"text\":\"多会话B消息\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":\"1794556087145_1001\",\"studentId\":1001,\"unread\":0,\"addedAt\":1794556087145},{\"id\":\"1794556087146_1001\",\"studentId\":1001,\"unread\":0,\"addedAt\":1794556087145}]"
+                                     "myStudentsRaw":  "[{\"id\":\"1794556942457_1001\",\"studentId\":1001,\"unread\":0,\"addedAt\":1794556942457},{\"id\":\"1794556942458_1001\",\"studentId\":1001,\"unread\":0,\"addedAt\":1794556942457}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794556087115
+                                                       "at":  1794556942427
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794556087125
+                                                       "at":  1794556942437
                                                    }
                                                ],
                                      "confirms":  [

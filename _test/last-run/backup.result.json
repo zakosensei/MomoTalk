@@ -2,7 +2,7 @@
     "scenario":  "backup",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T07:48:55.663Z",
+    "startedAt":  "2026-11-13T08:02:54.822Z",
     "ready":  true,
     "done":  true,
     "pass":  16,
@@ -92,9 +92,9 @@
                        "ok":  true,
                        "actual":  [
                                       {
-                                          "download":  "momotalk_autobackup_20261113_154856.json",
-                                          "href":  "blob:http://127.0.0.1:8765/791378f9-e517-4c3b-a6",
-                                          "at":  1794556136782
+                                          "download":  "momotalk_autobackup_20261113_160255.json",
+                                          "href":  "blob:http://127.0.0.1:8765/ad237d79-b3c8-4100-8e",
+                                          "at":  1794556975940
                                       }
                                   ]
                    },
@@ -102,9 +102,9 @@
                        "name":  "自动备份文件名 momotalk_autobackup_YYYYMMDD_HHmmss.json",
                        "ok":  true,
                        "actual":  {
-                                      "download":  "momotalk_autobackup_20261113_154856.json",
-                                      "href":  "blob:http://127.0.0.1:8765/791378f9-e517-4c3b-a6",
-                                      "at":  1794556136782
+                                      "download":  "momotalk_autobackup_20261113_160255.json",
+                                      "href":  "blob:http://127.0.0.1:8765/ad237d79-b3c8-4100-8e",
+                                      "at":  1794556975940
                                   }
                    },
                    {
@@ -120,7 +120,7 @@
                                                              "id":  "1001",
                                                              "studentId":  1001,
                                                              "unread":  0,
-                                                             "addedAt":  1794556125663
+                                                             "addedAt":  1794556964822
                                                          }
                                                      ]
                                   }
@@ -163,15 +163,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  118,
-                    "totalMs":  1918
+                    "scenarioStart":  116,
+                    "totalMs":  1916
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794556125663
+                                        "addedAt":  1794556964822
                                     }
                                 ],
                  "chats":  {
@@ -179,7 +179,7 @@
                                             {
                                                 "id":  "b_b1",
                                                 "role":  "sensei",
-                                                "time":  1794556134663,
+                                                "time":  1794556973822,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_b1",
@@ -216,24 +216,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 15:48 · 修改 11-13 15:48"
+                                 "contactListText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 16:02 · 修改 11-13 16:02"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794556134663,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794556973822,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
                                      "settingsRaw":  "{\"defaultVideoSite\":\"channels\",\"animationTime\":1000,\"autoBackup\":false}",
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556125663}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556964822}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794556135752
+                                                       "at":  1794556974910
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794556135762
+                                                       "at":  1794556974920
                                                    }
                                                ],
                                      "confirms":  [
@@ -538,7 +538,7 @@
                     },
     "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794556134663,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_b1\",\"role\":\"sensei\",\"time\":1794556973822,\"items\":[{\"id\":\"i_b1\",\"type\":\"text\",\"text\":\"备份测试消息\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -546,7 +546,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 15:48 · 修改 11-13 15:48",
+                      "listText":  "小鸟游 星野 [我] 备份测试消息 创建 11-13 16:02 · 修改 11-13 16:02",
                       "scriptErrors":  [
 
                                        ]

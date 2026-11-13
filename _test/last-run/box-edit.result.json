@@ -2,7 +2,7 @@
     "scenario":  "box-edit",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T07:48:10.571Z",
+    "startedAt":  "2026-11-13T08:02:26.191Z",
     "ready":  true,
     "done":  true,
     "pass":  30,
@@ -170,7 +170,7 @@
                                           "src":  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
                                       },
                                       {
-                                          "id":  "i_mweod2j8qyl5eb",
+                                          "id":  "i_mweovepm1npiz6",
                                           "type":  "text",
                                           "text":  "追加的信息"
                                       }
@@ -280,7 +280,7 @@
                                                    {
                                                        "id":  "b_edit_t",
                                                        "role":  "sensei",
-                                                       "time":  1794556089571,
+                                                       "time":  1794556945191,
                                                        "items":  [
                                                                      {
                                                                          "id":  "i_e4",
@@ -303,15 +303,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  131,
-                    "totalMs":  3241
+                    "scenarioStart":  102,
+                    "totalMs":  3212
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794556080571
+                                        "addedAt":  1794556936191
                                     }
                                 ],
                  "chats":  {
@@ -319,7 +319,7 @@
                                             {
                                                 "id":  "b_edit_s",
                                                 "role":  "student",
-                                                "time":  1794556088571,
+                                                "time":  1794556944191,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_e1",
@@ -341,7 +341,7 @@
                                             {
                                                 "id":  "b_edit_t",
                                                 "role":  "sensei",
-                                                "time":  1794556089571,
+                                                "time":  1794556945191,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_e4",
@@ -378,24 +378,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 老师的消息 创建 11-13 15:48 · 修改 11-13 15:48"
+                                 "contactListText":  "小鸟游 星野 [我] 老师的消息 创建 11-13 16:02 · 修改 11-13 16:02"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_edit_t\",\"role\":\"sensei\",\"time\":1794556089571,\"items\":[{\"id\":\"i_e4\",\"type\":\"text\",\"text\":\"老师的消息\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_edit_t\",\"role\":\"sensei\",\"time\":1794556945191,\"items\":[{\"id\":\"i_e4\",\"type\":\"text\",\"text\":\"老师的消息\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556080571}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556936191}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794556090674
+                                                       "at":  1794556946264
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794556090684
+                                                       "at":  1794556946274
                                                    }
                                                ],
                                      "confirms":  [
@@ -700,7 +700,7 @@
                     },
     "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_edit_s\",\"role\":\"student\",\"time\":1794556088571,\"items\":[{\"id\":\"i_e1\",\"type\":\"text\",\"text\":\"第一条学生消息\"},{\"id\":\"i_e2\",\"type\":\"text\",\"text\":\"第二条学生消息\"},{\"id\":\"i_e3\",\"type\":\"image\",\"src\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\"}]},{\"id\":\"b_edit_t\",\"role\":\"sensei\",\"time\":1794556089571,\"items\":[{\"id\":\"i_e4\",\"type\":\"text\",\"text\":\"老师的消息\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_edit_s\",\"role\":\"student\",\"time\":1794556944191,\"items\":[{\"id\":\"i_e1\",\"type\":\"text\",\"text\":\"第一条学生消息\"},{\"id\":\"i_e2\",\"type\":\"text\",\"text\":\"第二条学生消息\"},{\"id\":\"i_e3\",\"type\":\"image\",\"src\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\"}]},{\"id\":\"b_edit_t\",\"role\":\"sensei\",\"time\":1794556945191,\"items\":[{\"id\":\"i_e4\",\"type\":\"text\",\"text\":\"老师的消息\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -708,7 +708,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 老师的消息 创建 11-13 15:48 · 修改 11-13 15:48",
+                      "listText":  "小鸟游 星野 [我] 老师的消息 创建 11-13 16:02 · 修改 11-13 16:02",
                       "scriptErrors":  [
 
                                        ]

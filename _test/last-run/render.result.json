@@ -2,7 +2,7 @@
     "scenario":  "render",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T07:47:55.981Z",
+    "startedAt":  "2026-11-13T08:02:15.173Z",
     "ready":  true,
     "done":  true,
     "pass":  27,
@@ -234,15 +234,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  406,
-                    "totalMs":  606
+                    "scenarioStart":  118,
+                    "totalMs":  318
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794556065981
+                                        "addedAt":  1794556925173
                                     }
                                 ],
                  "chats":  {
@@ -250,7 +250,7 @@
                                             {
                                                 "id":  "b_render_s",
                                                 "role":  "student",
-                                                "time":  1794556073981,
+                                                "time":  1794556933173,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_r1",
@@ -267,7 +267,7 @@
                                             {
                                                 "id":  "b_render_t",
                                                 "role":  "sensei",
-                                                "time":  1794556074981,
+                                                "time":  1794556934173,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_r3",
@@ -304,24 +304,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 [我] 老师的回复 创建 11-13 15:47 · 修改 11-13 15:47"
+                                 "contactListText":  "小鸟游 星野 [我] 老师的回复 创建 11-13 16:02 · 修改 11-13 16:02"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_render_s\",\"role\":\"student\",\"time\":1794556073981,\"items\":[{\"id\":\"i_r1\",\"type\":\"text\",\"text\":\"第一条学生消息\"},{\"id\":\"i_r2\",\"type\":\"text\",\"text\":\"第二条学生消息\"}]},{\"id\":\"b_render_t\",\"role\":\"sensei\",\"time\":1794556074981,\"items\":[{\"id\":\"i_r3\",\"type\":\"text\",\"text\":\"老师的回复\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_render_s\",\"role\":\"student\",\"time\":1794556933173,\"items\":[{\"id\":\"i_r1\",\"type\":\"text\",\"text\":\"第一条学生消息\"},{\"id\":\"i_r2\",\"type\":\"text\",\"text\":\"第二条学生消息\"}]},{\"id\":\"b_render_t\",\"role\":\"sensei\",\"time\":1794556934173,\"items\":[{\"id\":\"i_r3\",\"type\":\"text\",\"text\":\"老师的回复\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556065981}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556925173}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794556076364
+                                                       "at":  1794556935262
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794556076374
+                                                       "at":  1794556935272
                                                    }
                                                ],
                                      "confirms":  [
@@ -626,7 +626,7 @@
                     },
     "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_render_s\",\"role\":\"student\",\"time\":1794556073981,\"items\":[{\"id\":\"i_r1\",\"type\":\"text\",\"text\":\"第一条学生消息\"},{\"id\":\"i_r2\",\"type\":\"text\",\"text\":\"第二条学生消息\"}]},{\"id\":\"b_render_t\",\"role\":\"sensei\",\"time\":1794556074981,\"items\":[{\"id\":\"i_r3\",\"type\":\"text\",\"text\":\"老师的回复\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_render_s\",\"role\":\"student\",\"time\":1794556933173,\"items\":[{\"id\":\"i_r1\",\"type\":\"text\",\"text\":\"第一条学生消息\"},{\"id\":\"i_r2\",\"type\":\"text\",\"text\":\"第二条学生消息\"}]},{\"id\":\"b_render_t\",\"role\":\"sensei\",\"time\":1794556934173,\"items\":[{\"id\":\"i_r3\",\"type\":\"text\",\"text\":\"老师的回复\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -634,7 +634,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 [我] 老师的回复 创建 11-13 15:47 · 修改 11-13 15:47",
+                      "listText":  "小鸟游 星野 [我] 老师的回复 创建 11-13 16:02 · 修改 11-13 16:02",
                       "scriptErrors":  [
 
                                        ]

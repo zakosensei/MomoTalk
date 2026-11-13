@@ -2,7 +2,7 @@
     "scenario":  "import-export",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T07:49:13.145Z",
+    "startedAt":  "2026-11-13T08:03:10.853Z",
     "ready":  true,
     "done":  true,
     "pass":  19,
@@ -67,13 +67,13 @@
                                           "id":  "1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556143145
+                                          "addedAt":  1794556980853
                                       },
                                       {
                                           "id":  "1002",
                                           "studentId":  1002,
                                           "unread":  0,
-                                          "addedAt":  1794556149145
+                                          "addedAt":  1794556986853
                                       }
                                   ]
                    },
@@ -121,19 +121,19 @@
                                           "id":  "1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556143145
+                                          "addedAt":  1794556980853
                                       },
                                       {
                                           "id":  "1002",
                                           "studentId":  1002,
                                           "unread":  0,
-                                          "addedAt":  1794556149145
+                                          "addedAt":  1794556986853
                                       },
                                       {
                                           "id":  "7777_1003",
                                           "studentId":  1003,
                                           "unread":  0,
-                                          "addedAt":  1794556151145
+                                          "addedAt":  1794556988853
                                       }
                                   ]
                    },
@@ -144,7 +144,7 @@
                                       {
                                           "id":  "imp_b3",
                                           "role":  "student",
-                                          "time":  1794556151645,
+                                          "time":  1794556989353,
                                           "items":  [
                                                         {
                                                             "id":  "imp_i4",
@@ -168,9 +168,9 @@
                        "name":  "导出触发下载 momotalk_backup_YYYYMMDD_HHmmss.json",
                        "ok":  true,
                        "actual":  {
-                                      "download":  "momotalk_backup_20261113_154913.json",
-                                      "href":  "blob:http://127.0.0.1:8765/b72da030-8419-4433-bb",
-                                      "at":  1794556153587
+                                      "download":  "momotalk_backup_20261113_160311.json",
+                                      "href":  "blob:http://127.0.0.1:8765/28ad6c9f-ab09-4319-92",
+                                      "at":  1794556991862
                                   }
                    },
                    {
@@ -195,19 +195,19 @@
                                           "id":  "1001",
                                           "studentId":  1001,
                                           "unread":  0,
-                                          "addedAt":  1794556143145
+                                          "addedAt":  1794556980853
                                       },
                                       {
                                           "id":  "1002",
                                           "studentId":  1002,
                                           "unread":  0,
-                                          "addedAt":  1794556149145
+                                          "addedAt":  1794556986853
                                       },
                                       {
                                           "id":  "7777_1003",
                                           "studentId":  1003,
                                           "unread":  0,
-                                          "addedAt":  1794556151145
+                                          "addedAt":  1794556988853
                                       }
                                   ]
                    },
@@ -228,7 +228,7 @@
                    {
                        "name":  "导出数据包含导出时间戳",
                        "ok":  true,
-                       "actual":  "2026-11-13T07:49:13.587Z"
+                       "actual":  "2026-11-13T08:03:11.862Z"
                    }
                ],
     "failures":  [
@@ -241,15 +241,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  120,
-                    "totalMs":  440
+                    "scenarioStart":  717,
+                    "totalMs":  1007
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794556143145
+                                        "addedAt":  1794556980853
                                     }
                                 ],
                  "chats":  {
@@ -281,24 +281,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "圣园 未花 [我] 导入老师回复 创建 11-13 15:49 · 修改 11-13 15:49 阿慈谷 日富美 v5导入消息 创建 11-13 15:49 · 修改 11-13 15:49 小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。 创建 11-13 15:49 · 修改 11-13 15:49"
+                                 "contactListText":  "圣园 未花 [我] 导入老师回复 创建 11-13 16:03 · 修改 11-13 16:03 阿慈谷 日富美 v5导入消息 创建 11-13 16:03 · 修改 11-13 16:03 小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。 创建 11-13 16:03 · 修改 11-13 16:03"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[],\"1002\":[{\"id\":\"imp_b1\",\"role\":\"student\",\"time\":1794556150145,\"items\":[{\"id\":\"imp_i1\",\"type\":\"text\",\"text\":\"导入旧消息一\"},{\"id\":\"imp_i2\",\"type\":\"text\",\"text\":\"导入旧消息二\"}]},{\"id\":\"imp_b2\",\"role\":\"sensei\",\"time\":1794556152145,\"items\":[{\"id\":\"imp_i3\",\"type\":\"text\",\"text\":\"导入老师回复\"}]}],\"7777_1003\":[{\"id\":\"imp_b3\",\"role\":\"student\",\"time\":1794556151645,\"items\":[{\"id\":\"imp_i4\",\"type\":\"text\",\"text\":\"v5导入消息\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[],\"1002\":[{\"id\":\"imp_b1\",\"role\":\"student\",\"time\":1794556987853,\"items\":[{\"id\":\"imp_i1\",\"type\":\"text\",\"text\":\"导入旧消息一\"},{\"id\":\"imp_i2\",\"type\":\"text\",\"text\":\"导入旧消息二\"}]},{\"id\":\"imp_b2\",\"role\":\"sensei\",\"time\":1794556989853,\"items\":[{\"id\":\"imp_i3\",\"type\":\"text\",\"text\":\"导入老师回复\"}]}],\"7777_1003\":[{\"id\":\"imp_b3\",\"role\":\"student\",\"time\":1794556989353,\"items\":[{\"id\":\"imp_i4\",\"type\":\"text\",\"text\":\"v5导入消息\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":\"1001\",\"studentId\":1001,\"unread\":0,\"addedAt\":1794556143145},{\"id\":\"1002\",\"studentId\":1002,\"unread\":0,\"addedAt\":1794556149145},{\"id\":\"7777_1003\",\"studentId\":1003,\"unread\":0,\"addedAt\":1794556151145}]"
+                                     "myStudentsRaw":  "[{\"id\":\"1001\",\"studentId\":1001,\"unread\":0,\"addedAt\":1794556980853},{\"id\":\"1002\",\"studentId\":1002,\"unread\":0,\"addedAt\":1794556986853},{\"id\":\"7777_1003\",\"studentId\":1003,\"unread\":0,\"addedAt\":1794556988853}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794556153237
+                                                       "at":  1794556991542
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794556153247
+                                                       "at":  1794556991552
                                                    }
                                                ],
                                      "confirms":  [
@@ -611,7 +611,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。 创建 11-13 15:49 · 修改 11-13 15:49",
+                      "listText":  "小鸟游 星野 测试用学生：小鸟游星野（无皮肤形态）。 创建 11-13 16:03 · 修改 11-13 16:03",
                       "scriptErrors":  [
 
                                        ]

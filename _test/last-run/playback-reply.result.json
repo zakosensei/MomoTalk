@@ -2,7 +2,7 @@
     "scenario":  "playback-reply",
     "shot":  false,
     "phase":  "done",
-    "startedAt":  "2026-11-13T07:48:45.537Z",
+    "startedAt":  "2026-11-13T08:02:45.790Z",
     "ready":  true,
     "done":  true,
     "pass":  17,
@@ -208,15 +208,15 @@
 
                ],
     "timings":  {
-                    "scenarioStart":  96,
-                    "totalMs":  3926
+                    "scenarioStart":  119,
+                    "totalMs":  3939
                 },
     "seed":  {
                  "myStudents":  [
                                     {
                                         "id":  1001,
                                         "unread":  0,
-                                        "addedAt":  1794556115536
+                                        "addedAt":  1794556955790
                                     }
                                 ],
                  "chats":  {
@@ -224,7 +224,7 @@
                                             {
                                                 "id":  "b_pr_s1",
                                                 "role":  "student",
-                                                "time":  1794556122536,
+                                                "time":  1794556962790,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_pr1",
@@ -236,7 +236,7 @@
                                             {
                                                 "id":  "b_pr_c",
                                                 "role":  "sensei",
-                                                "time":  1794556123536,
+                                                "time":  1794556963790,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_pr2",
@@ -263,7 +263,7 @@
                                             {
                                                 "id":  "b_pr_s2",
                                                 "role":  "student",
-                                                "time":  1794556124536,
+                                                "time":  1794556964790,
                                                 "items":  [
                                                               {
                                                                   "id":  "i_pr5",
@@ -300,24 +300,24 @@
                                  "typingBoxes":  0,
                                  "morePanelOpen":  false,
                                  "emojiCells":  0,
-                                 "contactListText":  "小鸟游 星野 学生最后一句 创建 11-13 15:48 · 修改 11-13 15:48"
+                                 "contactListText":  "小鸟游 星野 学生最后一句 创建 11-13 16:02 · 修改 11-13 16:02"
                              },
                      "storage":  {
-                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_pr_s1\",\"role\":\"student\",\"time\":1794556122536,\"items\":[{\"id\":\"i_pr1\",\"type\":\"text\",\"text\":\"学生开场白\"}]},{\"id\":\"b_pr_c\",\"role\":\"sensei\",\"time\":1794556123536,\"items\":[{\"id\":\"i_pr2\",\"type\":\"text\",\"text\":\"老师先问一句\"},{\"id\":\"i_pr3\",\"type\":\"reply\",\"title\":\"回复\",\"options\":[\"吃便当吧\",\"去吃食堂\",\"还不饿\"]},{\"id\":\"i_pr4\",\"type\":\"text\",\"text\":\"老师补充一句\"}]},{\"id\":\"b_pr_s2\",\"role\":\"student\",\"time\":1794556124536,\"items\":[{\"id\":\"i_pr5\",\"type\":\"text\",\"text\":\"学生最后一句\"}]}]}",
+                                     "chatsRaw":  "{\"1001\":[{\"id\":\"b_pr_s1\",\"role\":\"student\",\"time\":1794556962790,\"items\":[{\"id\":\"i_pr1\",\"type\":\"text\",\"text\":\"学生开场白\"}]},{\"id\":\"b_pr_c\",\"role\":\"sensei\",\"time\":1794556963790,\"items\":[{\"id\":\"i_pr2\",\"type\":\"text\",\"text\":\"老师先问一句\"},{\"id\":\"i_pr3\",\"type\":\"reply\",\"title\":\"回复\",\"options\":[\"吃便当吧\",\"去吃食堂\",\"还不饿\"]},{\"id\":\"i_pr4\",\"type\":\"text\",\"text\":\"老师补充一句\"}]},{\"id\":\"b_pr_s2\",\"role\":\"student\",\"time\":1794556964790,\"items\":[{\"id\":\"i_pr5\",\"type\":\"text\",\"text\":\"学生最后一句\"}]}]}",
                                      "settingsRaw":  null,
-                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556115536}]"
+                                     "myStudentsRaw":  "[{\"id\":1001,\"unread\":0,\"addedAt\":1794556955790}]"
                                  },
                      "testLog":  {
                                      "fetch":  [
                                                    {
                                                        "url":  "./resources/running_datas.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-                                                       "at":  1794556125606
+                                                       "at":  1794556965882
                                                    },
                                                    {
                                                        "url":  "./_test/fixtures/students.json",
                                                        "mapped":  "http://127.0.0.1:8765/_test/fixtures/students.json",
-                                                       "at":  1794556125616
+                                                       "at":  1794556965892
                                                    }
                                                ],
                                      "confirms":  [
@@ -622,7 +622,7 @@
                     },
     "appHtmlLength":  163049,
     "storageAfterSeed":  {
-                             "chatsKey":  "{\"1001\":[{\"id\":\"b_pr_s1\",\"role\":\"student\",\"time\":1794556122536,\"items\":[{\"id\":\"i_pr1\",\"type\":\"text\",\"text\":\"学生开场白\"}]},{\"id\":\"b_pr_c\",\"role\":\"sensei\",\"time\":1794556123536,\"items\":[{\"id\":\"i_pr2\",\"type\":\"text\",\"text\":\"老师先问一句\"},{\"id\":\"i_pr3\",\"type\":\"reply\",\"title\":\"回复\",\"options\":[\"吃便当吧\",\"去吃食堂\",\"还不饿\"]},{\"id\":\"i_pr4\",\"type\":\"text\",\"text\":\"老师补充一句\"}]},{\"id\":\"b_pr_s2\",\"role\":\"student\",\"time\":1794556124536,\"items\":[{\"id\":\"i_pr5\",\"type\":\"text\",\"text\":\"学生最后一句\"}]}]}",
+                             "chatsKey":  "{\"1001\":[{\"id\":\"b_pr_s1\",\"role\":\"student\",\"time\":1794556962790,\"items\":[{\"id\":\"i_pr1\",\"type\":\"text\",\"text\":\"学生开场白\"}]},{\"id\":\"b_pr_c\",\"role\":\"sensei\",\"time\":1794556963790,\"items\":[{\"id\":\"i_pr2\",\"type\":\"text\",\"text\":\"老师先问一句\"},{\"id\":\"i_pr3\",\"type\":\"reply\",\"title\":\"回复\",\"options\":[\"吃便当吧\",\"去吃食堂\",\"还不饿\"]},{\"id\":\"i_pr4\",\"type\":\"text\",\"text\":\"老师补充一句\"}]},{\"id\":\"b_pr_s2\",\"role\":\"student\",\"time\":1794556964790,\"items\":[{\"id\":\"i_pr5\",\"type\":\"text\",\"text\":\"学生最后一句\"}]}]}",
                              "legacyChatsKey":  null
                          },
     "readyInfo":  {
@@ -630,7 +630,7 @@
                       "hasMm":  true,
                       "items":  1,
                       "readyState":  "complete",
-                      "listText":  "小鸟游 星野 学生最后一句 创建 11-13 15:48 · 修改 11-13 15:48",
+                      "listText":  "小鸟游 星野 学生最后一句 创建 11-13 16:02 · 修改 11-13 16:02",
                       "scriptErrors":  [
 
                                        ]
