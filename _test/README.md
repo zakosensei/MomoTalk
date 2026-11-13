@@ -15,6 +15,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1
 # 单个 / 多个场景
 powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Scenario render
 powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Scenario render,box-edit,playback
+powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Scenario merge,playback-reply,screenshot-fallback
+powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Scenario multi-session,split,clear-data,favicon
 
 # 截图模式（每个场景一张，保存到 _test\shots\）
 powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Shot
@@ -32,14 +34,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Shot
 | `boot` | harness 自身框架：iframe 加载应用、fetch 改写、联系人列表渲染、`window.__mm` 钩子 |
 | `render` | 老师盒子无头像/无名字、学生盒子头像+名字只显示一次、气泡颜色/圆角/内边距/字号行高、盒子间距 18px、气泡间距 6px、聊天背景渐变 |
 | `send-append` | 发送新建盒子、同身份追加进上一个盒子、身份不一致弹窗（新建盒子/改身份并追加）、输入框清空、localStorage 持久化 |
+| `multi-session` | 新数据模型（`{id:chatId, studentId, unread, addedAt}`，chatId=`时间戳_studentId`）：picker 连点同一学生两次得到两个独立会话、picker 已添加状态「＋ 再添加一个」、chats 以 chatId 为 key、列表 2 个 `.contact-item[data-id=chatId]` 名称不带编号且含淡灰 `.contact-dates`（创建/修改）、两会话消息互不串、localStorage 新模型、`buildExportData` version=5 且 myStudents 含 studentId |
 | `box-edit` | 长按（550ms）打开盒子编辑：删除某条消息、追加信息、更换发送者、上移/下移、删除信息盒子、单击不误触、图片消息只能删除 |
-| `more` | + 按钮打开更多栏与 45° 旋转、输入区上移、183 个表情、点击表情发送、本地图片 input 与压缩 dataURL 发送、回复框多选项编辑与点击选项输出、好感故事固定文案直接发送、长按好感故事不可编辑、点击聊天区关闭更多栏 |
+| `merge` | 长按编辑面板「与上一个信息盒子合并」：第 1 个盒子按钮 disabled、上一个盒子发送者不同时 disabled + title、同角色相邻盒子合并后盒子数 -1 / items 按顺序拼接 / localStorage 同步 / 面板重开在合并后的盒子上（共 N 条信息）+ toast |
+| `split` | 长按编辑面板多选（`.box-edit-row .box-edit-check[data-index]`）+「独立为一个信息盒子」：未勾选时 disabled，勾选第 1、3 条后原盒剩 1 条 / 新盒 2 条（顺序保持）/ 新盒插在原盒之后 / role 相同 / time=now / localStorage 与 DOM 同步；全选时原盒被移除、新盒取代原位置且不留空盒 |
+| `more` | + 按钮打开更多栏与 45° 旋转、输入区上移、183 个表情、点击表情发送、**社团表情放大到与图片消息同宽（220px 白框、5px 内边距、12px 圆角、同阴影，正方形）**、本地图片 input 与压缩 dataURL 发送、回复框多选项编辑、**非播放模式点击回复选项仅提示「回复框只能在播放模式中选择」（数据/DOM 不变，不写回 localStorage）**、好感故事固定文案直接发送、长按好感故事不可编辑、点击聊天区关闭更多栏 |
 | `playback` | 播放条、`.typing-box` + 3 个 `.typing-dot`、深色打字气泡、动画时长=animationTime(1000ms)、自动结束恢复、停止按钮、滑杆改 1500ms 后动画/预览/持久化同步 |
-| `screenshot` | `ChatScreenshot.generate` 返回 canvas（360×dpr2=720）、canvas.toDataURL 可用、点击截图出现 `#screenshot-preview-img` 预览、保存按钮下载 `momotalk_chat_YYYYMMDD_HHmmss.png` |
-| `backup` | 自动备份默认 false、开关持久化、关闭时退出聊天不下载、开启后 closeChat 下载 `momotalk_autobackup_YYYYMMDD_HHmmss.json`（version 4 完整数据）、关闭后不再下载 |
+| `playback-reply` | 播放到回复框：进度文案「请选择一个回复以继续」+ 播放视图渲染选项；点击后播放视图出现所选文本气泡；**不写回真实 chats / localStorage（仍是 reply）**；播放结束后 DOM 恢复 `.reply-panel`、options 与播放前一致、localStorage 未变 |
+| `screenshot` | `ChatScreenshot.generate` 返回 canvas（360×dpr2=720）、canvas.toDataURL 可用、**截图里社团表情与图片消息使用同一尺寸规则（同样大小的 canvas 高度）且逻辑高度 >=250px**、点击截图出现 `#screenshot-preview-img` 预览、保存按钮下载 `momotalk_chat_YYYYMMDD_HHmmss.png` |
+| `screenshot-fallback` | 远程图片 CORS 代理回退（不依赖外网）：页面源 `127.0.0.1` 直连 `localhost` 同端口头像必失败（对照组画占位底色 #DFE7EF）；传 `imageProxy` 模板（`{url}` 占位替换成编码后的远程地址）后先直连失败再走代理，`getImageData` 采样头像中心 (72,72) 不是占位底色、头像区域占位像素占比 <20%、canvas 未被污染 |
+| `backup` | 自动备份默认 false、开关持久化、关闭时退出聊天不下载、开启后 closeChat 下载 `momotalk_autobackup_YYYYMMDD_HHmmss.json`（version 5 完整数据、myStudents 含 studentId）、关闭后不再下载 |
 | `details` | 更多子栏目隐藏 `.bottom-nav`、返回/切页恢复、更多子页右滑返回、更多主页右滑回列表、聊天页右滑退出、下拉刷新指示器与重新 loadLibrary、popIn/panelIn/pageIn 动画与 slide-in 过渡 |
-| `migration` | 只预置 legacyChatsKey（旧扁平 `[{role,text,time}]`）启动：新 chatsKey 被写入、连续同角色合并为信息盒子、旧 key 保留、DOM 渲染一致 |
-| `import-export` | 导入 v3 旧格式（扁平 chats + myStudents）：合并为学生/会话、扁平消息转盒子、重复导入按签名去重、导出数据 version=4 且 chats 为盒子数组 |
+| `clear-data` | 通用设置底部 `#btn-clear-local-data`「删除本地数据」：computed color=rgb(216,92,118)、点击弹确认框（含「删除本地数据」「不可恢复」）、取消不清除、确认后 `mm_test_*` / `momotalk_*` 全部清空并触发 `location.reload`（reload 前后都不断言应用 DOM） |
+| `favicon` | `resources/running_datas.json` 的 `app.favicon` 指向 `./resources/MomoTalk_favicon.png`、`index.html` 静态 `<link id="favicon">` 初始 href 一致、applyFavicons 后 `<link>` href 指向该 PNG、PNG 尺寸 192×192 且四角 alpha=0、非全透明、响应为 PNG 签名 |
+| `migration` | 只预置 legacyChatsKey（旧扁平 `[{role,text,time}]`）与旧格式 myStudents：新 chatsKey 被写入、连续同角色合并为信息盒子、旧 key 保留、旧 myStudents 自动迁移为新模型（id=chatId='1001'、studentId=1001）、`chats['1001']` 继续可用、DOM 渲染一致 |
+| `import-export` | 导入 v4 旧备份（numeric id + 盒子结构）按 chatId 对齐并入、v5 备份导入、同一次导入内重复 chatId 去重、重复导入按签名去重；导出 version=5、myStudents 含 studentId、chats 以 chatId 为 key 且每盒含 items |
 
 ## 工作原理
 
@@ -52,6 +61,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Shot
 5. 把所有断言（pass/fail + 实际值 + 快照）以 JSON 写到 `<pre id="result">`，完成时置 `window.__testDone = true`；`?shot=1` 时隐藏结果区、iframe 铺满 390×844 视口。
 
 > 测试专用补丁：应用就绪后 harness 会注入一段只用于测试的 `<style>`，关闭 `.round-btn svg` / `#more-panel`（输入区更多栏）的 **CSS transition**。原因是 `--virtual-time-budget` 会快进 timer 但不驱动合成器，transition 的中间/起始值会被读到；keyframe 动画（打字动画、popIn、pageIn）不受影响。
+>
+> 真实配置补丁（favicon）：`_test/fixtures/running_datas.json` 的 `app.favicon` 仍停在旧值，而 `/resources/*` 属于应用源码、不在 harness 维护范围。harness 会额外 fetch 真实 `resources/running_datas.json`，只把其中的 `app.favicon` 注入 iframe 内配置（`configPatch`），再由应用 `applyFavicons` 应用；其余 app/storage 配置仍用 fixture，保持测试隔离。
 
 `run.ps1` 用无头 Chrome（`--headless=new --no-sandbox --disable-gpu --user-data-dir=临时目录 --virtual-time-budget=20000`）+ `--dump-dom` 抓取 DOM、解析 `<pre id="result">` 的 JSON 并汇总；Chrome 用 `Start-Process -RedirectStandardOutput/-RedirectStandardError` 启动（不使用命名管道）。
 
@@ -59,23 +70,34 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\_test\run.ps1 -Shot
 
 在 DSH 受限沙箱内 Chrome 无法启动（`FATAL:platform_channel.cc(83) ... 拒绝访问 (0x5)`：沙箱禁止命名管道，即使 `--single-process` 也一样），此时 `run.ps1` 会打印该诊断并返回退出码 1。请在**不受该限制的外层环境**（普通 PowerShell / CI / 用户本机）运行本脚本；harness 与断言本身不受影响。
 
-## 最近一次全量结果（应用 final，2026-11-08 13:06–13:08）
+若在 DSH 工具会话中运行，`_test/serve.js` 会在 Chrome 断开连接（dump-dom 结束时 abort）时偶发退出，表现为某个场景的 `<scenario>.dom.html` 变成 Chrome 的 `127.0.0.1` 错误页 / `result.json` 缺失。`run.ps1` 已内置自愈：每个场景前检查服务器、退出则自动重启；若某场景因此出现「结果缺失 / 只有 harness error」这类**基础设施失败**，会自动重启服务器并重试该场景（`-Retries` 控制次数，默认 1；断言失败不会重试）。汇总最后一行会打印中途重启次数。仍建议先用独立进程启动服务器并 `-BaseUrl` 复用（例如 `Start-Process node _test\serve.js <repo-root> 8765`）。
 
-由 Lead 以可启动 Chrome 的外层权限执行 `run.ps1`（11 场景 / 230 checks，**0 fail**），产物在 `_test\last-run\`，界面截图在 `_test\shots\preview-*.png`：
+## 最近一次全量结果（2026-11-13，18 场景 / 376 checks，0 fail）
+
+qa-harness 与 Lead 各独立执行一次 `run.ps1`：均为 **18 场景 / 376 checks，0 fail**（含 Lead 并行加入的 6 条「社团表情放大」断言：`more` +3、`screenshot` +3）。产物在 `_test\last-run\`；界面截图为 2026-11-13 更新的 `preview-edit.png`（多选 + 独立按钮）、`preview-settings.png`（删除本地数据）、`preview-emoji-message.png`（表情与图片同尺寸）、`preview-multi-session.png`（同角色多会话 + 创建/修改日期），其余仍为 2026-11-08 版本：
 
 | scenario | checks | 结果 |
 | --- | --- | --- |
 | boot | 5 | PASS |
 | render | 27 | PASS |
 | send-append | 24 | PASS |
+| multi-session | 26 | PASS |
 | box-edit | 30 | PASS |
-| more | 39 | PASS |
+| merge | 21 | PASS |
+| split | 23 | PASS |
+| more | 49 | PASS |
 | playback | 25 | PASS |
-| screenshot | 15 | PASS |
+| playback-reply | 17 | PASS |
+| screenshot | 18 | PASS |
+| screenshot-fallback | 11 | PASS |
 | backup | 16 | PASS |
 | details | 23 | PASS |
-| migration | 12 | PASS |
-| import-export | 14 | PASS |
+| clear-data | 17 | PASS |
+| favicon | 10 | PASS |
+| migration | 15 | PASS |
+| import-export | 19 | PASS |
+
+> 本轮（2026-11-13 下午）相对 14 场景版本的变化：新增 `multi-session`（重复角色多会话：picker 多次添加、chatId/studentId 数据模型、`.contact-dates`、消息互不串、导出 v5）、`split`（编辑面板多选 +「独立为一个信息盒子」）、`clear-data`（通用设置「删除本地数据」红字按钮、确认框、清空 storage 并 reload）、`favicon`（透明 192×192 PNG + `<link rel="icon">` 同步）四个场景；`migration` 增加旧格式 myStudents → 新模型断言；`backup`/`import-export` 升级到 version=5、chatId 对齐与重复 chatId 去重断言。Lead 并行加入的社团表情断言：`more` 增加「社团表情放大到图片同宽、同白框样式、保持正方形」3 条，`screenshot` 增加「表情与图片同尺寸规则、表情逻辑高度 >=250px」3 条。更早一轮新增的 `merge`/`playback-reply`/`screenshot-fallback` 以及 `more` 回复框改写继续保留。
 
 ## 测试夹具
 

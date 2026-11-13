@@ -20,10 +20,10 @@
   "scenario": "migration",
   "shot": false,
   "phase": "done",
-  "startedAt": "2026-11-08T06:17:11.227Z",
+  "startedAt": "2026-11-13T05:57:29.816Z",
   "ready": true,
   "done": true,
-  "pass": 12,
+  "pass": 15,
   "fail": 0,
   "checks": [
     {
@@ -37,19 +37,19 @@
     {
       "name": "启动后迁移写入新 chatsKey",
       "ok": true,
-      "actual": "{\"1001\":[{\"id\":\"b_mw7fwrrplen536\",\"role\":\"student\",\"time\":1794118628227,\"items\":[{\"id\":\"i_mw7fwrrphtarsm\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mw7fwrrpvq4hhb\","
+      "actual": "{\"1001\":[{\"id\":\"b_mwekepj90csik6\",\"role\":\"student\",\"time\":1794549446816,\"items\":[{\"id\":\"i_mwekepj905f9dj\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mwekepj9oepjkj\","
     },
     {
       "name": "迁移后 chats 为「学生 id → 盒子数组」结构",
       "ok": true,
       "actual": [
         {
-          "id": "b_mw7fwrrplen536",
+          "id": "b_mwekepj90csik6",
           "role": "student",
           "items": 2
         },
         {
-          "id": "b_mw7fwrrp7h7vwj",
+          "id": "b_mwekepj9zoku1u",
           "role": "sensei",
           "items": 1
         }
@@ -78,12 +78,12 @@
       "name": "老师消息形成独立盒子",
       "ok": true,
       "actual": {
-        "id": "b_mw7fwrrp7h7vwj",
+        "id": "b_mwekepj9zoku1u",
         "role": "sensei",
-        "time": 1794118629227,
+        "time": 1794549447816,
         "items": [
           {
-            "id": "i_mw7fwrrp6zhpva",
+            "id": "i_mwekepj9wya8a2",
             "type": "text",
             "text": "旧的老师回复"
           }
@@ -95,29 +95,29 @@
       "ok": true,
       "actual": [
         {
-          "id": "b_mw7fwrrplen536",
+          "id": "b_mwekepj90csik6",
           "role": "student",
-          "time": 1794118628227,
+          "time": 1794549446816,
           "items": [
             {
-              "id": "i_mw7fwrrphtarsm",
+              "id": "i_mwekepj905f9dj",
               "type": "text",
               "text": "旧消息一"
             },
             {
-              "id": "i_mw7fwrrpvq4hhb",
+              "id": "i_mwekepj9oepjkj",
               "type": "text",
               "text": "旧消息二"
             }
           ]
         },
         {
-          "id": "b_mw7fwrrp7h7vwj",
+          "id": "b_mwekepj9zoku1u",
           "role": "sensei",
-          "time": 1794118629227,
+          "time": 1794549447816,
           "items": [
             {
-              "id": "i_mw7fwrrp6zhpva",
+              "id": "i_mwekepj9wya8a2",
               "type": "text",
               "text": "旧的老师回复"
             }
@@ -136,6 +136,32 @@
       "actual": [
         "student",
         "sensei"
+      ]
+    },
+    {
+      "name": "旧格式 myStudents 自动迁移为新模型（id=chatId=\"1001\"、studentId=1001）",
+      "ok": true,
+      "actual": [
+        {
+          "id": "1001",
+          "studentId": 1001,
+          "unread": 0,
+          "addedAt": 1794549439816
+        }
+      ]
+    },
+    {
+      "name": "迁移后列表项 data-id 为 chatId（\"1001\"）",
+      "ok": true,
+      "actual": [
+        "1001"
+      ]
+    },
+    {
+      "name": "迁移后 chats[\"1001\"] 继续可用（__mm.chats）",
+      "ok": true,
+      "actual": [
+        "1001"
       ]
     },
     {
@@ -167,15 +193,15 @@
   "notes": [],
   "errors": [],
   "timings": {
-    "scenarioStart": 109,
-    "totalMs": 309
+    "scenarioStart": 126,
+    "totalMs": 326
   },
   "seed": {
     "myStudents": [
       {
         "id": 1001,
         "unread": 0,
-        "addedAt": 1794118621227
+        "addedAt": 1794549439816
       }
     ],
     "legacyChats": {
@@ -183,17 +209,17 @@
         {
           "role": "student",
           "text": "旧消息一",
-          "time": 1794118627227
+          "time": 1794549445816
         },
         {
           "role": "student",
           "text": "旧消息二",
-          "time": 1794118628227
+          "time": 1794549446816
         },
         {
           "role": "sensei",
           "text": "旧的老师回复",
-          "time": 1794118629227
+          "time": 1794549447816
         }
       ]
     }
@@ -223,24 +249,24 @@
       "typingBoxes": 0,
       "morePanelOpen": false,
       "emojiCells": 0,
-      "contactListText": "小鸟游 星野 [我] 旧的老师回复"
+      "contactListText": "小鸟游 星野 [我] 旧的老师回复 创建 11-13 13:57 · 修改 11-13 13:57"
     },
     "storage": {
-      "chatsRaw": "{\"1001\":[{\"id\":\"b_mw7fwrrplen536\",\"role\":\"student\",\"time\":1794118628227,\"items\":[{\"id\":\"i_mw7fwrrphtarsm\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mw7fwrrpvq4hhb\",\"type\":\"text\",\"text\":\"旧消息二\"}]},{\"id\":\"b_mw7fwrrp7h7vwj\",\"role\":\"sensei\",\"time\":1794118629227,\"items\":[{\"id\":\"i_mw7fwrrp6zhpva\",\"type\":\"text\",\"text\":\"旧的老师回复\"}]}]}",
+      "chatsRaw": "{\"1001\":[{\"id\":\"b_mwekepj90csik6\",\"role\":\"student\",\"time\":1794549446816,\"items\":[{\"id\":\"i_mwekepj905f9dj\",\"type\":\"text\",\"text\":\"旧消息一\"},{\"id\":\"i_mwekepj9oepjkj\",\"type\":\"text\",\"text\":\"旧消息二\"}]},{\"id\":\"b_mwekepj9zoku1u\",\"role\":\"sensei\",\"time\":1794549447816,\"items\":[{\"id\":\"i_mwekepj9wya8a2\",\"type\":\"text\",\"text\":\"旧的老师回复\"}]}]}",
       "settingsRaw": null,
-      "myStudentsRaw": "[{\"id\":1001,\"unread\":0,\"addedAt\":1794118621227}]"
+      "myStudentsRaw": "[{\"id\":1001,\"unread\":0,\"addedAt\":1794549439816}]"
     },
     "testLog": {
       "fetch": [
         {
           "url": "./resources/running_datas.json",
           "mapped": "http://127.0.0.1:8765/_test/fixtures/running_datas.json",
-          "at": 1794118631307
+          "at": 1794549449915
         },
         {
           "url": "./_test/fixtures/students.json",
           "mapped": "http://127.0.0.1:8765/_test/fixtures/students.json",
-          "at": 1794118631317
+          "at": 1794549449925
         }
       ],
       "confirms": [],
@@ -250,17 +276,281 @@
     "title": "MomoTalk Test - 自定义聊天",
     "readyState": "complete"
   },
-  "appHtmlLength": 148763,
+  "realConfig": {
+    "app": {
+      "name": "MomoTalk",
+      "icon": "./resources/MomoTalk_small.jpg",
+      "favicon": "./resources/MomoTalk_favicon.png",
+      "appleTouchIcon": "./resources/MomoTalk.jpg",
+      "studentsUrl": "./resources/students.json"
+    },
+    "storage": {
+      "myStudentsKey": "momotalk_my_students_v7",
+      "chatsKey": "momotalk_chats_v8",
+      "settingsKey": "momotalk_settings_v1",
+      "legacyChatsKey": "momotalk_chats_v7",
+      "customStudentsKey": "momotalk_custom_students_v1"
+    },
+    "about": {
+      "developerName": "zako老师",
+      "developerAvatar": "./resources/head.jpg",
+      "developerUrl": "https://xhslink.cn/o/4bRFA2sZIFh",
+      "version": "MMT.0.1.0",
+      "versionLabel": "（开发版）",
+      "credits": [
+        {
+          "name": "zako老师",
+          "role": "开发 / 设计 / 文案",
+          "avatar": "./resources/head.jpg",
+          "url": "https://xhslink.cn/o/4bRFA2sZIFh"
+        }
+      ]
+    },
+    "contact": {
+      "qqGroup": "481347017",
+      "wechatUrl": "https://work.weixin.qq.com/ca/cawcdebae254d25c39",
+      "email": "zakosensei@icloud.com"
+    },
+    "donate": {
+      "title": "赞赏 · Buy me a coffee",
+      "image": "./resources/coffee.jpg",
+      "hint": "感谢你的支持！"
+    },
+    "tutorial": {
+      "url": "./resources/video.json",
+      "defaultSite": "channels"
+    },
+    "screenshot": {
+      "_comment": "远程头像/图片没有 CORS 头时，先直连失败再经由该图片代理加载（{url} 会被替换成编码后的绝对地址）。留空则关闭代理，截图里远程图片会退化为占位符。可换成其它会返回 Access-Control-Allow-Origin 的图片代理。",
+      "imageProxy": "https://images.weserv.nl/?url={url}"
+    },
+    "texts": {
+      "docTitleSuffix": "自定义聊天",
+      "loadingLibrary": "正在读取学生资料…",
+      "loadErrorTitle": "无法读取学生资料",
+      "loadErrorHint": "请确认 resources/students.json 与 HTML 位于同一目录，并通过 http(s) 服务访问。",
+      "reloadBtn": "重新读取",
+      "emptyMyStudents": "还没有添加学生",
+      "emptyHint": "点击下方 + 从学生库中选择",
+      "emptySearch": "没有找到匹配的学生形态",
+      "searchPlaceholder": "搜索已添加的学生或形态...",
+      "pickerTitle": "选择学生形态",
+      "pickerPlaceholder": "搜索学生姓名或形态…",
+      "pickerEmpty": "没有匹配的学生形态",
+      "pickerDone": "完成",
+      "pickerAdded": "已添加",
+      "pickerAdd": "＋ 添加",
+      "pickerMore": "还有 {n} 个形态未显示，请输入关键字搜索",
+      "chatEmpty": "与 {name} 的聊天从这里开始",
+      "startChat": "开始与 {name} 聊天吧",
+      "skinPreview": "暂无消息",
+      "chatPlaceholder": "输入消息或图片链接...",
+      "sendBtn": "发送",
+      "roleSensei": "老师",
+      "roleStudent": "学生",
+      "senseiName": "Sensei",
+      "manageTitle": "管理会话",
+      "manageSubtitle": "{name} · 共 {count} 条消息",
+      "unreadPlaceholder": "未读数量（仅列表显示）",
+      "manageCancel": "取消",
+      "manageClear": "清空记录",
+      "manageRemove": "移出列表",
+      "manageSave": "保存",
+      "editTitle": "编辑消息",
+      "editRoleLine": "身份：{role}",
+      "editCancel": "取消",
+      "editDelete": "删除",
+      "editSave": "保存",
+      "notReadyTitle": "提示",
+      "notReadyBody": "学生资料尚未加载完成，请稍候或检查 resources/students.json。",
+      "notReadyOk": "知道了",
+      "storageFullTitle": "本地存储已满",
+      "storageFullBody": "浏览器本地存储空间不足，最新消息可能没有保存成功。建议先点右上角\"导出\"备份数据，再清理不再需要的会话。",
+      "importBtn": "导入",
+      "exportBtn": "导出",
+      "navMessages": "消息",
+      "navMore": "更多",
+      "imageLoadFail": "图片加载失败",
+      "closeBtn": "关闭",
+      "moreTitle": "更多",
+      "aboutTitle": "关于",
+      "generalTitle": "通用设置",
+      "studentsTitle": "学生设置",
+      "creditsTitle": "致谢 &amp; 开发团队",
+      "privacyNote": "本站所有数据不收集、不上传，保存在本地，请做好备份或开启自动备份，避免遗失",
+      "tutorialEntry": "教程",
+      "tutorialTitle": "教程",
+      "tutorialSubtitle": "点击文字介绍跳转视频",
+      "tutorialLoading": "正在读取教程…",
+      "tutorialEmpty": "暂无教程内容",
+      "tutorialEmptyHint": "在 resources/video.json 中填入视频后刷新即可显示",
+      "tutorialErrorTitle": "无法读取教程内容",
+      "tutorialErrorHint": "请确认 resources/video.json 存在且可访问。",
+      "tutorialReload": "重新读取",
+      "tutorialLinkMissing": "暂无链接",
+      "generalVideoTitle": "视频设置",
+      "generalDefaultSiteLabel": "默认跳转视频网站",
+      "generalDefaultSiteHint": "点击教程里的文字介绍时优先打开该网站；若该视频没有这个网站的链接，会自动改用另一个。",
+      "siteChannels": "视频号",
+      "siteXiaohongshu": "小红书",
+      "developerTag": "开发者",
+      "developerLink": "开发者主页",
+      "donateEntry": "赞赏 · Buy me a coffee",
+      "donateNoImage": "未配置赞赏图片",
+      "appInfoTitle": "应用信息",
+      "versionLabel": "版本",
+      "contactTitle": "联系我们",
+      "qqLabel": "QQ 交流群",
+      "wechatLabel": "企业微信",
+      "emailLabel": "邮箱",
+      "wechatTap": "点击访问 ›",
+      "studentsPlaceholder": "学生设置（开发中）",
+      "imgErrorTitle": "图片加载失败",
+      "imgErrorRes": "错误资源：",
+      "imgErrorReasons": "可能的原因：服务器文件不存在、路径配置错误、跨域限制或图片损坏。",
+      "imgErrorOk": "知道了",
+      "imagePlaceholder": "[图片]",
+      "mePrefix": "[我]",
+      "importUnknown": "无法识别的文件格式",
+      "importLibNotReady": "学生资料尚未加载完成",
+      "importDone": "导入完成：新增 {added} 个学生形态，合并 {merged} 个会话。",
+      "importDoneTitle": "导入结果",
+      "importSkipped": "已跳过 {n} 条重复消息。",
+      "importMissing": "有 {n} 个 id 在当前学生库中不存在，已跳过。",
+      "importFailTitle": "导入失败",
+      "configFailTitle": "无法读取配置文件",
+      "configFailHint": "请确认 resources/running_datas.json 存在且可访问。",
+      "appendBtn": "追加",
+      "playBtn": "播放",
+      "playStopBtn": "停止",
+      "playbackStop": "停止",
+      "playbackProgress": "播放中 {current}/{total}",
+      "playEmpty": "还没有聊天内容可以播放",
+      "screenshotBtn": "截图",
+      "screenshotTitle": "聊天截图",
+      "screenshotCreating": "正在生成截图…",
+      "screenshotSave": "保存图片",
+      "screenshotFailTitle": "截图失败",
+      "screenshotUnavailable": "截图模块未加载，请检查 resources/chat_screenshot.js",
+      "morePanelTitle": "更多",
+      "moreEmoji": "社团表情",
+      "moreImage": "本地图片",
+      "moreReply": "回复框",
+      "moreStory": "好感故事",
+      "replyTitle": "回复",
+      "replyDefault": "嗯？还好吧……",
+      "replyTitleLabel": "标题",
+      "replyContentLabel": "内容",
+      "replySendTitle": "发送回复框",
+      "replyEditTitle": "编辑回复框",
+      "replyEmpty": "内容不能为空",
+      "storyTitle": "好感故事",
+      "storyBtnLabel": "按钮文字",
+      "storyDefaultBtn": "进入{name}的好感故事",
+      "storySendTitle": "发送好感故事框",
+      "storyEditTitle": "编辑好感故事框",
+      "itemTypeText": "文本",
+      "itemTypeImage": "图片",
+      "itemTypeEmoji": "表情",
+      "itemTypeReply": "回复",
+      "itemTypeStory": "好感",
+      "boxEditTitle": "信息盒子",
+      "boxItemCount": "共 {n} 条信息",
+      "itemEdit": "编辑",
+      "itemEditTitle": "编辑信息",
+      "itemDelete": "删除",
+      "itemDeleteTitle": "删除信息",
+      "itemDeleteConfirm": "确定删除这条信息吗？",
+      "boxAppend": "追加信息",
+      "boxAppendConfirm": "追加",
+      "boxChangeSender": "更换发送者",
+      "boxMoveUp": "上移",
+      "boxMoveDown": "下移",
+      "boxDelete": "删除信息盒子",
+      "boxDeleteTitle": "删除信息盒子",
+      "boxDeleteConfirm": "确定删除这个信息盒子吗？",
+      "boxMergePrev": "与上一个信息盒子合并",
+      "boxMergeFirst": "这是第一个信息盒子，没有可合并的上一个",
+      "boxMergeRole": "上一个信息盒子发送者不同，无法合并",
+      "boxMerged": "已合并到上一个信息盒子",
+      "appendMismatchTitle": "发送者不一致",
+      "appendMismatchBody": "上一个信息盒子来自 {last}，当前身份是 {cur}。要怎么做？",
+      "appendNewBox": "新建盒子",
+      "appendConvert": "改身份并追加",
+      "confirmDeleteBtn": "删除",
+      "imagePreviewTitle": "查看图片",
+      "emojiPlaceholder": "[表情]",
+      "localImageInvalid": "请选择图片文件",
+      "localImageFail": "图片处理失败",
+      "generalBackupTitle": "数据与备份",
+      "autoBackupLabel": "自动备份",
+      "autoBackupHint": "开启后，每次退出聊天页面会自动下载聊天内容（JSON）。默认关闭。",
+      "studentPlayTitle": "播放设置",
+      "animTimeLabel": "打字动画时间",
+      "animTimeHint": "播放时，学生发送信息前会显示三个点的打字动画，时长即这里的动画时间（700ms~2000ms）。",
+      "animPreviewTitle": "动画预览",
+      "animPreviewHint": "预览：三个点轮流变小。",
+      "pullRefresh": "下拉刷新",
+      "releaseRefresh": "释放以刷新",
+      "refreshing": "刷新中…",
+      "refreshDone": "刷新完成",
+      "importBoxes": "新增 {n} 个信息盒子。",
+      "moreDiff": "表情差分",
+      "diffTitle": "表情差分 · {name}",
+      "diffUntitled": "立绘差分",
+      "noDiff": "该学生暂无表情差分",
+      "onlyStudentDiff": "「表情差分」只有学生可以发送",
+      "onlySenseiReply": "「回复框」只有老师可以发送",
+      "onlySenseiStory": "「好感故事框」只有老师可以发送",
+      "onlySenseiTip": "只有老师可以发送",
+      "replyDefault2": "确实突然有点饿了……",
+      "replyOptionsLabel": "回复选项（可添加多个）",
+      "replyAddOption": "＋ 添加选项",
+      "replyOptionsHint": "播放模式中点击其中一个选项后，该选项会作为消息播放；非播放模式下回复框不可点击。",
+      "replyOptionPlaceholder": "输入一个回复选项…",
+      "replyAtLeastOne": "至少保留一个回复选项",
+      "replyMaxOptions": "最多添加 6 个选项",
+      "replyPlayOnly": "回复框只能在播放模式中选择",
+      "playSelectReply": "请选择一个回复以继续",
+      "animTimeInputLabel": "键盘输入",
+      "customStudentTitle": "添加自定义学生",
+      "customStudentIdLabel": "唯一编号：",
+      "customStudentAddBtn": "＋ 添加学生",
+      "customStudentNamePlaceholder": "学生姓名",
+      "customStudentNameRequired": "请输入学生姓名",
+      "customStudentAdded": "已添加学生：{name}",
+      "customStudentSaveFail": "自定义学生保存失败，本地存储空间可能不足",
+      "customStudentDeleteTitle": "删除自定义学生",
+      "customStudentDeleteConfirm": "确定删除学生「{name}」吗？该学生的聊天记录也会一起删除。",
+      "customStudentEmpty": "还没有自定义学生",
+      "contactCreated": "创建",
+      "contactModified": "修改",
+      "pickerReadd": "＋ 再添加一个",
+      "boxSplit": "独立为一个信息盒子",
+      "boxSplitSelect": "勾选后可独立为新的信息盒子",
+      "boxSplitHint": "勾选消息后，可把它们独立为另一个信息盒子；未勾选的消息保留在原盒子",
+      "boxSplitDone": "已独立为一个信息盒子",
+      "generalDataTitle": "本地数据",
+      "clearLocalData": "删除本地数据",
+      "clearLocalDataHint": "删除后无法恢复，建议先在右上角导出备份。",
+      "clearLocalDataTitle": "删除本地数据",
+      "clearLocalDataConfirm": "将删除全部本地数据：聊天记录、我的学生、自定义学生与通用设置。删除后无法恢复，确定继续吗？"
+    }
+  },
+  "configPatch": {
+    "favicon": "./resources/MomoTalk_favicon.png"
+  },
+  "appHtmlLength": 157709,
   "storageAfterSeed": {
     "chatsKey": null,
-    "legacyChatsKey": "{\"1001\":[{\"role\":\"student\",\"text\":\"旧消息一\",\"time\":1794118627227},{\"role\":\"student\",\"text\":\"旧消息二\",\"time\":1794118628227},{\"role\":\"sensei\",\"text\":\"旧的老师回复\",\"time\":1794118629227}]}"
+    "legacyChatsKey": "{\"1001\":[{\"role\":\"student\",\"text\":\"旧消息一\",\"time\":1794549445816},{\"role\":\"student\",\"text\":\"旧消息二\",\"time\":1794549446816},{\"role\":\"sensei\",\"text\":\"旧的老师回复\",\"time\":1794549447816}]}"
   },
   "readyInfo": {
     "hasApp": true,
     "hasMm": true,
     "items": 1,
     "readyState": "complete",
-    "listText": "小鸟游 星野 [我] 旧的老师回复",
+    "listText": "小鸟游 星野 [我] 旧的老师回复 创建 11-13 13:57 · 修改 11-13 13:57",
     "scriptErrors": []
   },
   "testOverrides": true
@@ -489,6 +779,16 @@
         return !modalActive();
     }
 
+    /* 应用 toast（#app-toast，showToast 里 requestAnimationFrame 后加 show 类） */
+    async function waitToast(matcher, timeout) {
+        return waitFor(function () {
+            var t = q('#app-toast');
+            if (!t || !t.classList.contains('show')) return null;
+            if (matcher && !matcher.test(text(t))) return null;
+            return t;
+        }, timeout || 3000, 'app-toast');
+    }
+
     /* ------------------------------------------------------------------
      * event helpers
      * ------------------------------------------------------------------ */
@@ -589,17 +889,25 @@
     async function openChatById(id) {
         var w = W();
         var invoked = false;
+        var tried = [];
+        // 新数据模型里 openChat() 接收的是 chatId（字符串，如 '1001' / '1794567890123_1001'）；
+        // 旧实现接收数字 studentId，所以两种都试一次。
         try {
-            if (w.__mm && typeof w.__mm.openChat === 'function') { w.__mm.openChat(id); invoked = true; }
+            if (w.__mm && typeof w.__mm.openChat === 'function') { w.__mm.openChat(String(id)); invoked = true; tried.push(String(id)); }
         } catch (e) { note('__mm.openChat threw: ' + e); }
         var ok = invoked ? await waitFor(function () { return isChatOpen(); }, 1500) : null;
+        if (!ok && invoked && typeof id !== 'string') {
+            try { W().__mm.openChat(id); tried.push(id); } catch (e) { note('__mm.openChat(legacy) threw: ' + e); }
+            ok = await waitFor(function () { return isChatOpen(); }, 1500);
+        }
         if (!ok) {
             // fallback: click the contact item (also covers __mm being absent/broken)
             var item = q('.contact-item[data-id="' + id + '"]') || q('.contact-item');
-            if (item) { item.click(); invoked = true; }
+            if (item) { item.click(); invoked = true; tried.push('click:' + id); }
             ok = await waitFor(function () { return isChatOpen(); }, 4000, 'openChat');
         }
         await sleep(100);
+        if (!ok) note('openChatById 尝试列表: ' + JSON.stringify(tried));
         return !!(invoked && ok);
     }
     async function closeChatByUI() {
@@ -745,6 +1053,10 @@
     }
     function sItem(id, title, value) { return { id: id, type: 'story', title: '好感故事', text: value || '' }; }
     function myStudent(id, unread) { return { id: id, unread: unread || 0, addedAt: T0 - 10000 }; }
+    // 新数据模型（v5）：{ id: chatId, studentId, unread, addedAt }，chatId = 时间戳_studentId
+    function myStudentChat(chatId, studentId, addedAt, unread) {
+        return { id: String(chatId), studentId: studentId, unread: unread || 0, addedAt: addedAt || T0 - 10000 };
+    }
 
     var FIXTURES = {
         render: {
@@ -757,6 +1069,8 @@
             }
         },
         'send-append': { myStudents: [myStudent(ID1)], chats: {} },
+        // 重复角色多会话：从空列表开始，用 picker 连点同一学生两次
+        'multi-session': { myStudents: [], chats: {} },
         'box-edit': {
             myStudents: [myStudent(ID1)],
             chats: {
@@ -766,9 +1080,33 @@
                 ]
             }
         },
+        // 信息盒子合并：学生/学生/老师 三个相邻盒子
+        //  - b_mg1 是第 1 个盒子 → 合并按钮 disabled
+        //  - b_mg3 的上一个盒子是学生 → 发送者不同，按钮 disabled + title
+        //  - b_mg2 的上一个是同角色学生 → 可合并（items 拼接到 b_mg1）
+        merge: {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_mg1', 'student', [tItem('i_mg1', '学生消息一'), tItem('i_mg2', '学生消息二')], T0 - 3000),
+                    box('b_mg2', 'student', [tItem('i_mg3', '学生消息三')], T0 - 2000),
+                    box('b_mg3', 'sensei', [tItem('i_mg4', '老师消息')], T0 - 1000)
+                ]
+            }
+        },
         more: {
             myStudents: [myStudent(ID1)],
             chats: { 1001: [box('b_more_t', 'sensei', [tItem('i_m1', '开场消息')], T0 - 1000)] }
+        },
+        // 独立为一个信息盒子：1 个 3 条消息的学生盒 + 后面一个老师盒
+        split: {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_sp1', 'student', [tItem('i_sp1', '学生第一条'), tItem('i_sp2', '学生第二条'), tItem('i_sp3', '学生第三条')], T0 - 2000),
+                    box('b_sp2', 'sensei', [tItem('i_sp4', '老师消息')], T0 - 1000)
+                ]
+            }
         },
         playback: {
             myStudents: [myStudent(ID1)],
@@ -777,6 +1115,21 @@
                     box('b_p1', 'student', [tItem('i_p1', '学生第一句'), tItem('i_p2', '学生第二句')], T0 - 3000),
                     box('b_p2', 'sensei', [tItem('i_p3', '老师回复')], T0 - 2000),
                     box('b_p3', 'student', [tItem('i_p4', '学生再说一句')], T0 - 1000)
+                ]
+            }
+        },
+        // 播放模式里的回复框：reply item 位于盒子的中间（前后都有普通文本）
+        'playback-reply': {
+            myStudents: [myStudent(ID1)],
+            chats: {
+                1001: [
+                    box('b_pr_s1', 'student', [tItem('i_pr1', '学生开场白')], T0 - 3000),
+                    box('b_pr_c', 'sensei', [
+                        tItem('i_pr2', '老师先问一句'),
+                        rItem('i_pr3', null, ['吃便当吧', '去吃食堂', '还不饿']),
+                        tItem('i_pr4', '老师补充一句')
+                    ], T0 - 2000),
+                    box('b_pr_s2', 'student', [tItem('i_pr5', '学生最后一句')], T0 - 1000)
                 ]
             }
         },
@@ -789,9 +1142,25 @@
                 ]
             }
         },
+        // 截图远程图片回退：只用本地静态服务器造「无 CORS 的跨域图片」，不依赖外网
+        'screenshot-fallback': {
+            myStudents: [myStudent(ID1)],
+            chats: { 1001: [box('b_sf1', 'student', [tItem('i_sf1', '截图远程头像回退测试')], T0 - 1000)] }
+        },
         backup: {
             myStudents: [myStudent(ID1)],
             chats: { 1001: [box('b_b1', 'sensei', [tItem('i_b1', '备份测试消息')], T0 - 1000)] }
+        },
+        // 删除本地数据：先有可清除的数据（chats / myStudents / settings 都存在）
+        'clear-data': {
+            myStudents: [myStudent(ID1)],
+            chats: { 1001: [box('b_cd1', 'student', [tItem('i_cd1', '删除本地数据测试')], T0 - 1000)] },
+            settings: { animationTime: 1200 }
+        },
+        // 透明 favicon：只需要应用正常启动，断言针对真实 resources/running_datas.json 与 PNG 文件
+        favicon: {
+            myStudents: [myStudent(ID1)],
+            chats: { 1001: [box('b_fv1', 'sensei', [tItem('i_fv1', 'favicon 测试')], T0 - 1000)] }
         },
         details: {
             myStudents: [myStudent(ID1), myStudent(ID2_SKIN)],
@@ -862,7 +1231,26 @@
             var mapped = rewrite(raw);
             log.fetchLog.push({ url: raw, mapped: mapped, at: Date.now() });
             if (!orig) return Promise.reject(new Error('fetch unavailable'));
-            return orig(mapped, init);
+            var pending = orig(mapped, init);
+            // 测试配置补丁：fixture 里的 app 字段（如 favicon）是 2026-11-08 的旧值，
+            // 用真实 resources/running_datas.json 的 app.favicon 覆盖，避免应用启动后
+            // applyFavicons 把 <link rel="icon"> 改回旧 jpg。
+            if (cfg.configPatch && /running_datas\.json(?:[?#]|$)/.test(mapped)) {
+                return pending.then(function (res) {
+                    if (!res || !res.ok) return res;
+                    return res.json().then(function (json) {
+                        var app = json && json.app;
+                        if (app && typeof app === 'object') {
+                            Object.keys(cfg.configPatch).forEach(function (k) { app[k] = cfg.configPatch[k]; });
+                        }
+                        return new Response(JSON.stringify(json), {
+                            status: res.status,
+                            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+                        });
+                    });
+                });
+            }
+            return pending;
         };
         window.confirm = function (msg) { log.confirms.push(String(msg)); return window.__testConfirmResult !== false; };
         window.alert = function (msg) { log.alerts.push(String(msg)); };
@@ -879,8 +1267,10 @@
         window.__testFrameBooted = true;
     }
 
-    function injectPrelude(html) {
-        var prelude = '<script>(' + INJECT_FN.toString() + ')(' + JSON.stringify({ appBase: APP_BASE, fixtureBase: FIXTURE_BASE }) + ');' + '<\/script>';
+    function injectPrelude(html, configPatch) {
+        var cfg = { appBase: APP_BASE, fixtureBase: FIXTURE_BASE };
+        if (configPatch && typeof configPatch === 'object') cfg.configPatch = configPatch;
+        var prelude = '<script>(' + INJECT_FN.toString() + ')(' + JSON.stringify(cfg) + ');' + '<\/script>';
         if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, prelude + '</head>');
         if (/<body[^>]*>/i.test(html)) return html.replace(/<body[^>]*>/i, function (m) { return m + prelude; });
         return prelude + html;
@@ -1158,13 +1548,143 @@
         check('发送/追加后写入 localStorage chatsKey', !!parsed && Array.isArray(parsed[ID1]) && parsed[ID1].length === 3, raw ? raw.slice(0, 300) : null);
     }
 
+    /* ---------------- multi-session：同一学生可添加多个会话 ---------------- */
+    function pickerItem(studentId) { return q('.picker-item[data-id="' + studentId + '"]'); }
+    async function openPickerForTest() {
+        var add = q('.nav-add');
+        if (!add) return false;
+        add.click();
+        return !!(await waitFor(function () { return modalActive() && q('#picker-list'); }, 3000, 'picker'));
+    }
+    async function openChatByChatId(chatId) {
+        var invoked = false;
+        try {
+            if (W().__mm && typeof W().__mm.openChat === 'function') { W().__mm.openChat(chatId); invoked = true; }
+        } catch (e) { note('__mm.openChat(chatId) threw: ' + e); }
+        var ok = invoked ? await waitFor(function () { return isChatOpen(); }, 2000) : null;
+        if (!ok) {
+            var item = q('.contact-item[data-id="' + chatId + '"]');
+            if (item) { item.click(); invoked = true; }
+            ok = await waitFor(function () { return isChatOpen(); }, 4000, 'openChatByChatId');
+        }
+        await sleep(100);
+        return !!(invoked && ok);
+    }
+    function parseRgbColor(v) {
+        var m = String(v || '').match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null;
+    }
+    async function runMultiSession() {
+        var w = W();
+        check('多会话场景初始无已添加学生', getMyStudents().length === 0 && qa('.contact-item').length === 0, { myStudents: getMyStudents(), items: qa('.contact-item').length });
+
+        // picker 连点同一学生两次
+        check('列表页 + 按钮（.nav-add）存在', !!q('.nav-add'), !!q('.nav-add'));
+        var opened = await openPickerForTest();
+        check('点击 + 打开学生选择器', opened, modalInfo());
+        var item = pickerItem(ID1);
+        check('选择器出现学生 1001', !!item && /星野/.test(text(item)), item ? text(item) : qa('.picker-item').slice(0, 3).map(function (el) { return { id: attr(el, 'data-id'), text: text(el) }; }));
+        var firstStatus = item && item.querySelector('.picker-status') ? text(item.querySelector('.picker-status')) : '';
+        check('未添加时 picker 状态为「＋ 添加」（非再添加）', /添加/.test(firstStatus) && !/再添加/.test(firstStatus), firstStatus);
+        if (item) item.click();
+        var added1 = await waitFor(function () { return getMyStudents().length === 1; }, 3000, 'picker-add-1');
+        check('第一次点击 picker 添加 1 个会话', !!added1, getMyStudents());
+        item = pickerItem(ID1);
+        var readdStatus = item && item.querySelector('.picker-status') ? text(item.querySelector('.picker-status')) : '';
+        check('已添加学生的 picker 状态文案为「＋ 再添加一个」', /再添加一个/.test(readdStatus), readdStatus);
+        if (item) item.click();
+        var added2 = await waitFor(function () { return getMyStudents().length === 2; }, 3000, 'picker-add-2');
+        check('第二次点击同一学生再添加 1 个会话', !!added2, getMyStudents());
+        clickModalBtn('完成');
+        await waitFor(function () { return !modalActive(); }, 2000);
+        await waitFor(function () { return qa('.contact-item').length === 2; }, 3000, 'multi-contacts');
+
+        var entries = getMyStudents();
+        var ids = entries.map(function (e) { return String(e.id); });
+        check('两个会话 chatId 不同、均为「时间戳_studentId」格式',
+            entries.length === 2 && ids[0] !== ids[1] && entries.every(function (e) { return /^\d+_1001$/.test(String(e.id)); }),
+            entries);
+        check('两个会话的 studentId 都是 1001', entries.length === 2 && entries.every(function (e) { return Number(e.studentId) === ID1; }), entries.map(function (e) { return e.studentId; }));
+        var chats = getChats();
+        check('chats 以两个 chatId 为 key（各一个空数组）',
+            ids.length === 2 && ids.every(function (id) { return Array.isArray(chats[id]); }) && ids.every(function (id) { return chats[id].length === 0; }),
+            Object.keys(chats));
+
+        // 列表 DOM：2 个 contact-item，不显示编号，带淡灰 .contact-dates
+        var items = qa('.contact-item');
+        check('列表渲染 2 个 .contact-item', items.length === 2, items.map(function (el) { return attr(el, 'data-id'); }));
+        var domIds = items.map(function (el) { return attr(el, 'data-id'); });
+        check('.contact-item data-id 与会话 chatId 一致', ids.every(function (id) { return domIds.indexOf(id) >= 0; }), domIds);
+        var nameEls = items.map(function (el) { return el.querySelector('.contact-name'); });
+        var dateEls = items.map(function (el) { return el.querySelector('.contact-dates'); });
+        check('列表项名称不显示编号', nameEls.every(function (el) {
+            var t = text(el);
+            return norm(t) === norm(NAME1) && !/(_\d+|#\d+|\(\d+\)|\s\d+\s*$)/.test(t);
+        }), nameEls.map(text));
+        check('每个列表项都有 .contact-dates（创建 + 修改）', dateEls.every(function (el) {
+            var t = text(el);
+            return /创建\s*\d{2}-\d{2}\s+\d{2}:\d{2}/.test(t) && /修改\s*\d{2}-\d{2}\s+\d{2}:\d{2}/.test(t) && t.indexOf('·') >= 0;
+        }), dateEls.map(text));
+        var dateStyles = dateEls.map(function (el) {
+            var rgb = parseRgbColor(css(el, 'color'));
+            return { color: css(el, 'color'), rgb: rgb, fontSize: css(el, 'fontSize'), text: text(el) };
+        });
+        check('.contact-dates 为淡灰色小字', dateStyles.every(function (s) {
+            return !!s.rgb && s.rgb[0] === s.rgb[1] && s.rgb[1] === s.rgb[2] && s.rgb[0] >= 120 && s.rgb[0] <= 215 && parseFloat(s.fontSize) <= 13;
+        }), dateStyles);
+
+        // 两个会话消息互不串
+        var chatId1 = ids[0], chatId2 = ids[1];
+        var ok1 = await openChatByChatId(chatId1);
+        check('打开第 1 个会话', ok1, chatClasses());
+        setInputValue('#chat-input', '多会话A消息');
+        q('#send-btn').click();
+        var sentA = await waitFor(function () { return chatBoxesOf(chatId1).length === 1; }, 3000, 'multi-send-A');
+        check('第 1 个会话发送后只有自己的盒子', !!sentA && chatBoxesOf(chatId2).length === 0, { chat1: chatBoxesOf(chatId1), chat2: chatBoxesOf(chatId2) });
+        await closeChatByUI();
+        var ok2 = await openChatByChatId(chatId2);
+        check('打开第 2 个会话', ok2, chatClasses());
+        setInputValue('#chat-input', '多会话B消息');
+        q('#send-btn').click();
+        var sentB = await waitFor(function () { return chatBoxesOf(chatId2).length === 1; }, 3000, 'multi-send-B');
+        check('第 2 个会话发送后只有自己的盒子', !!sentB, { chat1: chatBoxesOf(chatId1).length, chat2: chatBoxesOf(chatId2).length });
+        var boxesA = JSON.stringify(chatBoxesOf(chatId1));
+        var boxesB = JSON.stringify(chatBoxesOf(chatId2));
+        check('两个会话消息互不串（A 只含 A 消息，B 只含 B 消息）',
+            boxesA.indexOf('多会话A消息') >= 0 && boxesA.indexOf('多会话B消息') < 0 &&
+                boxesB.indexOf('多会话B消息') >= 0 && boxesB.indexOf('多会话A消息') < 0,
+            { a: boxesA.slice(0, 160), b: boxesB.slice(0, 160) });
+        await closeChatByUI();
+        var stored = readStorageJSON(HC.keys.chatsKey) || {};
+        check('localStorage chats 两个 chatId 持久化且互不串',
+            Array.isArray(stored[chatId1]) && stored[chatId1].length === 1 &&
+                Array.isArray(stored[chatId2]) && stored[chatId2].length === 1,
+            Object.keys(stored));
+        var storedStudents = readStorageJSON(HC.keys.myStudentsKey) || [];
+        check('localStorage myStudents 为新模型（id=chatId + studentId）',
+            Array.isArray(storedStudents) && storedStudents.length === 2 &&
+                storedStudents.every(function (e) { return Number(e.studentId) === ID1 && /^\d+_1001$/.test(String(e.id)); }),
+            storedStudents);
+
+        // 导出为新格式 version 5
+        var exported = safeGet(function () { return w.__mm.buildExportData(); }, null);
+        check('导出数据 version=5', !!exported && Number(exported.version) === 5, exported && exported.version);
+        check('导出 myStudents 含 studentId 且 id 为 chatId',
+            !!exported && Array.isArray(exported.myStudents) && exported.myStudents.length === 2 &&
+                exported.myStudents.every(function (e) { return typeof e.studentId === 'number' && /^\d+_1001$/.test(String(e.id)); }),
+            exported && exported.myStudents);
+        check('导出 chats 以 chatId 为 key',
+            !!exported && !!exported.chats && ids.every(function (id) { return Array.isArray(exported.chats[id]); }),
+            exported && Object.keys(exported.chats || {}));
+    }
+
     /* ---------------- long-press box editor ---------------- */
     function editRow(itemId) { return q('.box-edit-row[data-item-id="' + itemId + '"]'); }
     function rowOp(itemId, op) {
         var row = editRow(itemId);
         return row ? row.querySelector('[data-op="' + op + '"]') : null;
     }
-    function actionBtn(action) { return q('.box-action-btn[data-action="' + action + '"]') || btnByText({ append: '追加信息', sender: '更换发送者', up: '上移', down: '下移', delete: '删除信息盒子' }[action], q('#modal-body')); }
+    function actionBtn(action) { return q('.box-action-btn[data-action="' + action + '"]') || btnByText({ append: '追加信息', sender: '更换发送者', up: '上移', down: '下移', merge: '与上一个信息盒子合并', delete: '删除信息盒子' }[action], q('#modal-body')); }
     async function openEditorByLongPress(boxId) {
         var el = q('.msg-box[data-box-id="' + boxId + '"]');
         if (!el) return false;
@@ -1254,6 +1774,182 @@
         await sleep(150);
         check('DOM 同步为 1 个盒子', qa('#chat-content .msg-box[data-box-id]').length === 1, qa('#chat-content .msg-box[data-box-id]').length);
         check('操作后 chats 已保存到 localStorage', (readStorageJSON(HC.keys.chatsKey) || {})[ID1] && (readStorageJSON(HC.keys.chatsKey) || {})[ID1].length === 1, readStorageJSON(HC.keys.chatsKey));
+    }
+
+    /* ---------------- merge: 信息盒子合并（与上一个信息盒子合并） ---------------- */
+    function mergeButton() { return q('.box-action-btn[data-action="merge"]'); }
+    async function runMerge() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 3; }, 3000, 'merge-seed');
+        check('合并场景预置 3 个相邻信息盒子', chatBoxesOf(ID1).length === 3, chatBoxesOf(ID1).map(function (b) { return { id: b.id, role: b.role, items: (b.items || []).length }; }));
+
+        // 1) 第 1 个盒子：合并按钮存在但 disabled
+        var opened = await openEditorByLongPress('b_mg1');
+        check('长按第 1 个盒子打开编辑面板', opened, modalInfo());
+        var mergeBtn = mergeButton();
+        check('编辑面板出现「与上一个信息盒子合并」按钮（data-action="merge"）',
+            !!mergeBtn && attr(mergeBtn, 'data-action') === 'merge' && /与上一个信息盒子合并/.test(text(mergeBtn)),
+            mergeBtn ? { text: text(mergeBtn), action: attr(mergeBtn, 'data-action') } : { buttons: allTexts(q('#modal-body')) });
+        check('第 1 个盒子的合并按钮禁用', !!mergeBtn && mergeBtn.disabled === true, mergeBtn ? { disabled: mergeBtn.disabled, title: attr(mergeBtn, 'title') } : null);
+        await closeModalIfOpen();
+        check('关闭第 1 个盒子的编辑面板', !modalActive(), modalInfo());
+
+        // 2) 上一个盒子发送者不同：disabled + title 说明
+        opened = await openEditorByLongPress('b_mg3');
+        check('长按老师盒子打开编辑面板', opened, modalInfo());
+        mergeBtn = mergeButton();
+        check('上一个盒子发送者不同时合并按钮禁用', !!mergeBtn && mergeBtn.disabled === true, mergeBtn && { disabled: mergeBtn.disabled, title: attr(mergeBtn, 'title') });
+        check('发送者不同时按钮 title 为「上一个信息盒子发送者不同，无法合并」',
+            !!mergeBtn && attr(mergeBtn, 'title') === '上一个信息盒子发送者不同，无法合并',
+            mergeBtn && attr(mergeBtn, 'title'));
+        await closeModalIfOpen();
+
+        // 3) 同角色且非第 1 个：可合并 → items 拼接到上一个盒子、盒子数 -1
+        var prevBoxBefore = JSON.parse(JSON.stringify(chatBoxesOf(ID1)[0]));
+        var curBoxBefore = JSON.parse(JSON.stringify(chatBoxesOf(ID1)[1]));
+        var expectedTexts = prevBoxBefore.items.map(function (it) { return it.text; }).concat(curBoxBefore.items.map(function (it) { return it.text; }));
+        opened = await openEditorByLongPress('b_mg2');
+        check('长按第 2 个学生盒子打开编辑面板', opened, modalInfo());
+        mergeBtn = mergeButton();
+        check('同角色且非第 1 个盒子时合并按钮可用', !!mergeBtn && mergeBtn.disabled === false, mergeBtn && mergeBtn.disabled);
+        check('可用状态下按钮 title 为「与上一个信息盒子合并」', !!mergeBtn && attr(mergeBtn, 'title') === '与上一个信息盒子合并', mergeBtn && attr(mergeBtn, 'title'));
+        mergeBtn.click();
+        var mergeToast = await waitToast(/已合并到上一个信息盒子/, 3000);
+        check('合并后出现「已合并到上一个信息盒子」提示', !!mergeToast, { text: text(q('#app-toast')), className: q('#app-toast') && q('#app-toast').className });
+        var merged = await waitFor(function () { var b = chatBoxesOf(ID1); return b.length === 2 && (b[0].items || []).length === 3 ? b : null; }, 3000, 'merge-data');
+        check('合并后盒子总数 -1（3 → 2）', !!merged, chatBoxesOf(ID1).map(function (b) { return { id: b.id, role: b.role, items: (b.items || []).length }; }));
+        check('合并后上一个盒子 items = 原上一个 items + 当前盒子 items（顺序保持）',
+            JSON.stringify(chatBoxesOf(ID1)[0].items.map(function (it) { return it.text; })) === JSON.stringify(expectedTexts),
+            { expected: expectedTexts, actual: chatBoxesOf(ID1)[0].items.map(function (it) { return it.text; }) });
+        check('被合并的盒子已从 chats 中移除', !chatBoxesOf(ID1).some(function (b) { return b.id === 'b_mg2'; }), chatBoxesOf(ID1).map(function (b) { return b.id; }));
+        var storedChats = readStorageJSON(HC.keys.chatsKey) || {};
+        var storedBoxes = Array.isArray(storedChats[ID1]) ? storedChats[ID1] : [];
+        check('localStorage chats 同步为合并后结构（2 盒 / 首盒 3 条 / 顺序一致）',
+            storedBoxes.length === 2 && (storedBoxes[0].items || []).length === 3 &&
+                JSON.stringify(storedBoxes[0].items.map(function (it) { return it.text; })) === JSON.stringify(expectedTexts),
+            storedBoxes.map(function (b) { return { id: b.id, items: (b.items || []).length }; }));
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 2000, 'merge-dom');
+        check('DOM 同步为 2 个信息盒子', qa('#chat-content .msg-box[data-box-id]').length === 2, qa('#chat-content .msg-box[data-box-id]').length);
+        check('DOM 中合并后的盒子显示 3 条消息', qa('.msg-box[data-box-id="b_mg1"] .msg-item').length === 3, qa('.msg-box[data-box-id="b_mg1"] .msg-item').length);
+
+        // 4) 合并后面板重开在合并后的盒子上（元信息「共 N 条信息」= 拼接后条数）
+        var reopened = await waitFor(function () {
+            return modalActive() && !!q('.box-edit-list') && /共\s*3\s*条信息/.test(editorMeta()) ? true : null;
+        }, 3000, 'merge-editor');
+        check('合并后编辑面板重开在合并后的盒子上（共 3 条信息）', !!reopened, { title: modalTitle(), meta: editorMeta(), rows: editorRows().length });
+        check('重开面板的发送者仍为学生、消息行数为 3', /星野|学生/.test(editorMeta()) && editorRows().length === 3, { meta: editorMeta(), rows: editorRows().length });
+        await closeModalIfOpen();
+    }
+
+    /* ---------------- split：编辑面板多选 + 独立为一个信息盒子 ---------------- */
+    function splitButton() { return q('.box-action-btn[data-action="split"]'); }
+    function editChecks() { return qa('.box-edit-row .box-edit-check'); }
+    async function selectEditRows(indices) {
+        indices.forEach(function (i) {
+            var cb = q('.box-edit-check[data-index="' + i + '"]');
+            if (cb && !cb.checked) cb.click();
+        });
+        var enabled = await waitFor(function () { var b = splitButton(); return b && !b.disabled; }, 2500, 'split-enabled');
+        if (!enabled) {
+            // 兜底：直接切换 checked 并派发 change/input（应用可能监听事件而非 click）
+            indices.forEach(function (i) {
+                var cb = q('.box-edit-check[data-index="' + i + '"]');
+                if (cb && !cb.checked) {
+                    cb.checked = true;
+                    cb.dispatchEvent(new (W().Event)('change', { bubbles: true }));
+                    cb.dispatchEvent(new (W().Event)('input', { bubbles: true }));
+                }
+            });
+            enabled = await waitFor(function () { var b = splitButton(); return b && !b.disabled; }, 2500, 'split-enabled-fallback');
+        }
+        return !!enabled;
+    }
+    async function runSplit() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 3000, 'split-seed');
+        var opened = await openEditorByLongPress('b_sp1');
+        check('长按 3 条消息的盒子打开编辑面板', opened, modalInfo());
+        var checks = editChecks();
+        check('每行都有多选 checkbox.box-edit-check（data-index）',
+            checks.length === 3 && [0, 1, 2].every(function (i) { return !!q('.box-edit-check[data-index="' + i + '"]'); }),
+            checks.map(function (el) { return { idx: attr(el, 'data-index'), checked: el.checked }; }));
+        var splitBtn = splitButton();
+        check('出现「独立为一个信息盒子」按钮（data-action="split"）',
+            !!splitBtn && attr(splitBtn, 'data-action') === 'split' && /独立为一个信息盒子/.test(text(splitBtn)),
+            splitBtn ? { text: text(splitBtn), disabled: splitBtn.disabled } : allTexts(q('#modal-body')));
+        check('未勾选消息时按钮 disabled', !!splitBtn && splitBtn.disabled === true, splitBtn && splitBtn.disabled);
+
+        // 勾选第 1、3 条 → 点击拆分
+        var selOk = await selectEditRows([0, 2]);
+        check('勾选第 1、3 条后按钮可用', selOk, { disabled: splitButton() && splitButton().disabled, checks: editChecks().map(function (el) { return el.checked; }) });
+        splitBtn = splitButton();
+        var nowBefore = Date.now();
+        splitBtn.click();
+        var splitDone = await waitFor(function () {
+            var boxes = chatBoxesOf(ID1);
+            return boxes.length === 3 && boxes[0] && boxes[0].id === 'b_sp1' && boxes[2] && boxes[2].id === 'b_sp2' && boxes[1] && boxes[1].id !== 'b_sp1' ? boxes : null;
+        }, 3000, 'split-done');
+        check('点击后新建 1 个盒子并插在原盒子之后（盒子数 2→3）', !!splitDone, chatBoxesOf(ID1).map(function (b) { return { id: b.id, role: b.role, items: b.items.map(function (it) { return it.text || it.type; }) }; }));
+        var boxes = chatBoxesOf(ID1);
+        var original = boxes[0];
+        var newBox = boxes[1];
+        check('原盒只保留未勾选的 1 条消息（顺序不变）',
+            !!original && original.items.length === 1 && original.items[0].id === 'i_sp2' && original.items[0].text === '学生第二条',
+            original && original.items);
+        check('新盒只含勾选的 2 条消息且原顺序保持',
+            !!newBox && newBox.role === 'student' && newBox.items.length === 2 &&
+                newBox.items[0].id === 'i_sp1' && newBox.items[1].id === 'i_sp3' &&
+                newBox.items[0].text === '学生第一条' && newBox.items[1].text === '学生第三条',
+            newBox && newBox.items.map(function (it) { return it.id + ':' + it.text; }));
+        check('新盒 id 为新生成、role 与原盒相同', !!newBox && newBox.id !== 'b_sp1' && typeof newBox.id === 'string' && newBox.id.length > 0 && newBox.role === 'student', newBox && { id: newBox.id, role: newBox.role });
+        check('新盒 time 设为当前时间', !!newBox && Number.isFinite(Number(newBox.time)) && Number(newBox.time) >= nowBefore - 2000 && Number(newBox.time) <= Date.now() + 2000, newBox && { time: newBox.time, now: Date.now() });
+        check('后面的老师盒不受影响', !!boxes[2] && boxes[2].id === 'b_sp2' && boxes[2].items.length === 1, boxes[2]);
+        var stored = readStorageJSON(HC.keys.chatsKey) || {};
+        var storedArr = Array.isArray(stored[ID1]) ? stored[ID1] : [];
+        check('localStorage chats 同步拆分结果',
+            storedArr.length === 3 && storedArr[0].id === 'b_sp1' && storedArr[0].items.length === 1 &&
+                storedArr[1].id === newBox.id && storedArr[1].items.length === 2,
+            storedArr.map(function (b) { return { id: b.id, n: (b.items || []).length }; }));
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 3; }, 2000, 'split-dom');
+        var domIds = qa('#chat-content .msg-box[data-box-id]').map(function (el) { return attr(el, 'data-box-id'); });
+        check('DOM 盒子顺序为 [原盒, 新盒, 老师盒]', JSON.stringify(domIds) === JSON.stringify(['b_sp1', newBox.id, 'b_sp2']), domIds);
+        check('DOM 中原盒剩 1 条、新盒 2 条且 item 顺序正确',
+            JSON.stringify(qa('.msg-box[data-box-id="b_sp1"] .msg-item').map(function (el) { return attr(el, 'data-item-id'); })) === JSON.stringify(['i_sp2']) &&
+                JSON.stringify(qa('.msg-box[data-box-id="' + newBox.id + '"] .msg-item').map(function (el) { return attr(el, 'data-item-id'); })) === JSON.stringify(['i_sp1', 'i_sp3']),
+            {
+                original: qa('.msg-box[data-box-id="b_sp1"] .msg-item').map(function (el) { return attr(el, 'data-item-id'); }),
+                split: qa('.msg-box[data-box-id="' + newBox.id + '"] .msg-item').map(function (el) { return attr(el, 'data-item-id'); })
+            });
+
+        // 全选：原盒应被移除（不留空盒），新盒取代原位置
+        await closeModalIfOpen();
+        var newId = newBox.id;
+        opened = await openEditorByLongPress(newId);
+        check('长按新盒打开编辑面板', opened, modalInfo());
+        check('新盒编辑面板有 2 行 checkbox', editChecks().length === 2, editChecks().length);
+        check('全选前 split 按钮 disabled', !!splitButton() && splitButton().disabled === true, splitButton() && splitButton().disabled);
+        var allOk = await selectEditRows([0, 1]);
+        check('勾选全部 2 条后按钮可用', allOk, editChecks().map(function (el) { return el.checked; }));
+        splitButton().click();
+        var fullSplit = await waitFor(function () {
+            var b = chatBoxesOf(ID1);
+            return b.length === 3 && b[0] && b[0].id === 'b_sp1' && b[2] && b[2].id === 'b_sp2' &&
+                b[1] && b[1].id !== newId && (b[1].items || []).length === 2 ? b : null;
+        }, 3000, 'split-all');
+        check('全选拆分后原盒被移除、不产生空盒子',
+            !!fullSplit && !chatBoxesOf(ID1).some(function (b) { return b.id === newId; }) && chatBoxesOf(ID1).every(function (b) { return (b.items || []).length > 0; }),
+            chatBoxesOf(ID1).map(function (b) { return { id: b.id, n: (b.items || []).length }; }));
+        var replacement = chatBoxesOf(ID1)[1];
+        check('新盒取代原位置，包含全部 2 条消息且顺序不变',
+            !!replacement && replacement.role === 'student' && replacement.items.map(function (it) { return it.id; }).join(',') === 'i_sp1,i_sp3',
+            replacement && replacement.items.map(function (it) { return it.id; }));
+        var storedAfter = readStorageJSON(HC.keys.chatsKey) || {};
+        check('全选拆分后 localStorage 同步', Array.isArray(storedAfter[ID1]) && storedAfter[ID1].length === 3 && storedAfter[ID1][1].id === replacement.id, storedAfter[ID1] && storedAfter[ID1].map(function (b) { return b.id; }));
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 3; }, 2000, 'split-all-dom');
+        check('全选拆分后 DOM 顺序为 [原盒, 取代盒, 老师盒]',
+            JSON.stringify(qa('#chat-content .msg-box[data-box-id]').map(function (el) { return attr(el, 'data-box-id'); })) === JSON.stringify(['b_sp1', replacement.id, 'b_sp2']),
+            qa('#chat-content .msg-box[data-box-id]').map(function (el) { return attr(el, 'data-box-id'); }));
+        await closeModalIfOpen();
     }
 
     /* ---------------- more panel ---------------- */
@@ -1349,6 +2045,24 @@
         await waitFor(function () { return q('.msg-image'); }, 2000);
         check('DOM 中出现 .msg-image', !!q('.msg-image'), !!q('.msg-image'));
 
+        // 社团表情尺寸与图片消息统一（需求：表情放大到和图片一样大、格式统一）
+        var emojiBubbleEl = q('.emoji-bubble');
+        var emojiImgEl = q('.emoji-bubble .emoji-img');
+        var imgWrapEl = q('.msg-image-wrapper');
+        var emojiRect = emojiImgEl ? emojiImgEl.getBoundingClientRect() : null;
+        check('社团表情已放大到接近图片消息宽度（>=200px）', !!emojiRect && emojiRect.width >= 200, emojiRect && { w: emojiRect.width, h: emojiRect.height });
+        check('社团表情保持正方形（宽高差 <=1px）', !!emojiRect && Math.abs(emojiRect.width - emojiRect.height) <= 1, emojiRect && { w: emojiRect.width, h: emojiRect.height });
+        check('社团表情与图片消息使用同一套白框样式（padding/圆角/阴影/背景色一致）',
+            !!emojiBubbleEl && !!imgWrapEl &&
+                css(emojiBubbleEl, 'padding') === css(imgWrapEl, 'padding') &&
+                css(emojiBubbleEl, 'borderRadius') === css(imgWrapEl, 'borderRadius') &&
+                css(emojiBubbleEl, 'backgroundColor') === css(imgWrapEl, 'backgroundColor') &&
+                css(emojiBubbleEl, 'boxShadow') === css(imgWrapEl, 'boxShadow'),
+            {
+                emoji: emojiBubbleEl ? { padding: css(emojiBubbleEl, 'padding'), radius: css(emojiBubbleEl, 'borderRadius'), bg: css(emojiBubbleEl, 'backgroundColor'), shadow: css(emojiBubbleEl, 'boxShadow') } : null,
+                image: imgWrapEl ? { padding: css(imgWrapEl, 'padding'), radius: css(imgWrapEl, 'borderRadius'), bg: css(imgWrapEl, 'backgroundColor'), shadow: css(imgWrapEl, 'boxShadow') } : null
+            });
+
         // reply editor（多选项：标题固定，选项可编辑）
         await openMorePanelForTest();
         moreTile('reply').click();
@@ -1369,12 +2083,31 @@
         check('回复面板标题固定为“回复”', text(q('.reply-panel .reply-label')).trim() === '回复', text(q('.reply-panel .reply-label')));
         var replyOpts = qa('.reply-panel .reply-option');
         var firstOptText = replyOpts[0] ? text(replyOpts[0]) : '';
-        replyOpts[0].click();
-        var replied = await waitFor(function () {
-            var b = chatBoxesOf(ID1).filter(function (x) { return x.items[0] && x.items[0].id === replyBox.items[0].id; })[0];
-            return b && b.items[0].type === 'text' ? b : null;
-        }, 3000, 'reply-choice');
-        check('点击回复选项后作为消息输出', !!replied && replied.items[0].text === firstOptText, replied && replied.items[0]);
+        var replyItemId = replyBox.items[0].id;
+        var replyItemBefore = JSON.parse(JSON.stringify(replyBox.items[0]));
+        var chatsRawBeforeReply = localStorage.getItem(HC.keys.chatsKey);
+        check('回复面板选项与编辑内容一致', replyOpts.length === 2 && firstOptText === '测试回复内容', replyOpts.map(function (el) { return text(el); }));
+        // 新行为（需求 1A）：非播放模式点击回复选项不写数据，只提示「回复框只能在播放模式中选择」
+        if (replyOpts[0]) replyOpts[0].click();
+        var replyToast = await waitFor(function () {
+            var t = q('#app-toast');
+            return t && t.classList.contains('show') ? t : null;
+        }, 3000, 'reply-toast');
+        check('非播放模式点击回复选项出现 #app-toast 提示（class 含 show）', !!replyToast, replyToast ? { className: replyToast.className, text: text(replyToast) } : { exists: !!q('#app-toast'), className: q('#app-toast') && q('#app-toast').className, text: text(q('#app-toast')) });
+        check('提示文案含“播放模式”（replyPlayOnly）', /播放模式/.test(replyToast ? text(replyToast) : text(q('#app-toast'))), replyToast ? text(replyToast) : text(q('#app-toast')));
+        await sleep(100);
+        var replyBoxNow = chatBoxesOf(ID1).filter(function (x) { return x.items[0] && x.items[0].id === replyItemId; })[0];
+        var replyItemNow = replyBoxNow && replyBoxNow.items[0];
+        check('非播放模式点击后数据不变（仍是 type=reply、options 不变）',
+            !!replyItemNow && replyItemNow.type === 'reply' && !replyItemNow.text &&
+                JSON.stringify(replyItemNow.options) === JSON.stringify(replyItemBefore.options),
+            replyItemNow);
+        check('非播放模式点击后 DOM 仍有 .reply-panel 且选项不变',
+            !!q('.reply-panel .reply-label') && qa('.reply-panel .reply-option').length === replyOpts.length &&
+                JSON.stringify(qa('.reply-panel .reply-option').map(function (el) { return text(el); })) === JSON.stringify(replyOpts.map(function (el) { return text(el); })),
+            { panel: !!q('.reply-panel'), options: qa('.reply-panel .reply-option').map(function (el) { return text(el); }) });
+        check('非播放模式点击后 localStorage 聊天数据未变', localStorage.getItem(HC.keys.chatsKey) === chatsRawBeforeReply, { changed: localStorage.getItem(HC.keys.chatsKey) !== chatsRawBeforeReply });
+        check('非播放模式点击绝不会把 reply 变 text 气泡', qa('#chat-content .reply-panel').length === 1 && !qa('#chat-content .msg-bubble').some(function (el) { return text(el) === firstOptText; }), qa('#chat-content .msg-bubble').map(function (el) { return text(el); }));
 
         // story：固定标题与文案，直接发送，不允许编辑
         await openMorePanelForTest();
@@ -1389,9 +2122,13 @@
         check('好感故事按钮文案为固定格式', /^进入.*星野.*的好感故事$/.test(text(q('.story-panel .story-btn'))), text(q('.story-panel .story-btn')));
         check('好感故事自动新建盒子', chatBoxesOf(ID1).length === boxesBeforeStory + 1, { before: boxesBeforeStory, after: chatBoxesOf(ID1).length });
 
-        // 特殊消息各新建一个盒子（reply 选择后变文本，因此共 5 盒）
+        // 特殊消息各新建一个盒子（回复框点击不写数据，仍是 reply）
+        // 顺序：开场 seed(text) → 表情(emoji) → 本地图片(image) → 回复框(reply) → 好感故事(story)
         var finalBoxes = chatBoxesOf(ID1);
         check('特殊消息各新建一个盒子（共 5 盒）', finalBoxes.length === 5, finalBoxes.map(function (b) { return (b.items[0] || {}).type; }));
+        check('特殊消息盒子类型顺序正确（回复框保持 reply）',
+            finalBoxes.map(function (b) { return (b.items[0] || {}).type; }).join(',') === 'text,emoji,image,reply,story',
+            finalBoxes.map(function (b) { return (b.items[0] || {}).type; }));
 
         // 长按好感故事盒子：不可编辑，只能删除
         var storyBoxObj = chatBoxesOf(ID1).filter(function (b) { return b.items[0] && b.items[0].type === 'story'; })[0];
@@ -1537,6 +2274,80 @@
         await waitFor(function () { return qa('#chat-content .typing-box').length === 0; }, 3000, 'stop-2');
     }
 
+    /* ---------------- playback-reply：播放模式里选择回复 ---------------- */
+    function playbackBubbles() {
+        return qa('#chat-content .msg-bubble').map(function (el) { return text(el); });
+    }
+    async function runPlaybackReply() {
+        await ensureChatPage(ID1);
+        await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 3; }, 3000, 'playback-reply-seed');
+        var replyBoxData = chatBoxesOf(ID1).filter(function (b) { return b.id === 'b_pr_c'; })[0];
+        var replyItems = (replyBoxData && replyBoxData.items ? replyBoxData.items : []).filter(function (it) { return it.type === 'reply'; });
+        var replyItemId = replyItems.length ? replyItems[0].id : null;
+        var optionsBefore = replyItems.length ? replyItems[0].options.slice() : [];
+        var chatsRawBefore = localStorage.getItem(HC.keys.chatsKey);
+
+        check('播放回复场景预置了 1 个 reply item（位于盒子的中间）',
+            !!replyItems.length && replyBoxData.items[0].type === 'text' && replyBoxData.items[2] && replyBoxData.items[2].type === 'text',
+            replyBoxData && replyBoxData.items.map(function (it) { return it.type + ':' + (it.text || ''); }));
+        check('播放前 DOM 正常渲染回复框与选项',
+            qa('#chat-content .reply-panel .reply-option').length === optionsBefore.length && optionsBefore.length >= 2,
+            { options: optionsBefore, dom: qa('#chat-content .reply-panel .reply-option').map(function (el) { return text(el); }) });
+
+        var playBtn = q('#btn-play');
+        check('#btn-play 播放按钮存在', !!playBtn, idsPresent(['btn-play', 'btn-play-text', 'playback-bar']));
+        playBtn.click();
+
+        // 播放到回复框：等待用户选择
+        var waitingProgress = await waitFor(function () {
+            var t = text(q('#playback-progress'));
+            return /请选择一个回复以继续/.test(t) ? t : null;
+        }, 8000, 'playback-reply-wait');
+        check('播放到回复框时进度文案为「请选择一个回复以继续」', !!waitingProgress, { progress: text(q('#playback-progress')), barVisible: !!q('#playback-bar') && !q('#playback-bar').classList.contains('hidden') });
+        check('等待选择回复时播放条仍显示、输入区仍禁用',
+            !!q('#playback-bar') && !q('#playback-bar').classList.contains('hidden') && q('#chat-input').disabled === true,
+            playbackSnapshot());
+        var pbOpts = qa('#chat-content .reply-panel .reply-option');
+        check('播放视图中渲染出回复框与全部选项', pbOpts.length === optionsBefore.length,
+            { expected: optionsBefore, actual: pbOpts.map(function (el) { return text(el); }) });
+        var chosenText = pbOpts.length ? text(pbOpts[0]) : '';
+
+        // 点击选项：播放视图出现所选文本气泡，但真实数据不写回
+        if (pbOpts[0]) pbOpts[0].click();
+        var chosenShown = await waitFor(function () {
+            return playbackBubbles().some(function (t) { return t === chosenText; });
+        }, 4000, 'playback-reply-chosen');
+        check('点击选项后播放视图出现所选文本气泡', !!chosenShown, { chosen: chosenText, bubbles: playbackBubbles() });
+        check('播放视图里回复选择框已被所选文本替换', qa('#chat-content .reply-panel').length === 0, qa('#chat-content .reply-panel').length);
+        await sleep(80);
+        var realItemAfterChoice = (chatBoxesOf(ID1).filter(function (b) { return b.id === 'b_pr_c'; })[0] || { items: [] }).items.filter(function (it) { return it.id === replyItemId; })[0];
+        check('播放中选择回复不写回真实聊天数据（仍是 type=reply、options 不变）',
+            !!realItemAfterChoice && realItemAfterChoice.type === 'reply' && !realItemAfterChoice.text &&
+                JSON.stringify(realItemAfterChoice.options) === JSON.stringify(optionsBefore),
+            realItemAfterChoice);
+        check('播放中选择回复后 localStorage 数据未变', localStorage.getItem(HC.keys.chatsKey) === chatsRawBefore, { changed: localStorage.getItem(HC.keys.chatsKey) !== chatsRawBefore });
+
+        // 播放结束：DOM 恢复原回复框，数据与 localStorage 均不变
+        var finished = await waitFor(function () {
+            return qa('#chat-content .msg-box[data-box-id]').length === 3 &&
+                qa('#chat-content .typing-box').length === 0 &&
+                qa('#chat-content .reply-panel').length === 1 &&
+                q('#playback-bar') && q('#playback-bar').classList.contains('hidden');
+        }, 12000, 'playback-reply-finish');
+        check('播放自动结束后 DOM 恢复 .reply-panel（3 盒 / 无打字框 / 播放条隐藏）', !!finished, playbackSnapshot());
+        check('播放结束后输入区恢复可用', q('#chat-input').disabled === false && q('#send-btn').disabled === false, { input: q('#chat-input').disabled, send: q('#send-btn').disabled });
+        var restoredOptions = qa('#chat-content .reply-panel .reply-option').map(function (el) { return text(el); });
+        check('播放结束后回复框选项与播放前一致', JSON.stringify(restoredOptions) === JSON.stringify(optionsBefore), { before: optionsBefore, after: restoredOptions });
+        var restoredItem = (chatBoxesOf(ID1).filter(function (b) { return b.id === 'b_pr_c'; })[0] || { items: [] }).items.filter(function (it) { return it.id === replyItemId; })[0];
+        check('播放结束后真实数据仍是 reply（未被播放副本污染）',
+            !!restoredItem && restoredItem.type === 'reply' && JSON.stringify(restoredItem.options) === JSON.stringify(optionsBefore),
+            restoredItem);
+        check('播放结束后 localStorage 数据仍与播放前一致', localStorage.getItem(HC.keys.chatsKey) === chatsRawBefore, { changed: localStorage.getItem(HC.keys.chatsKey) !== chatsRawBefore });
+        check('播放结束后所选文本只出现在播放过程，未写入聊天数据',
+            JSON.stringify(restoredItem || {}).indexOf('"text"') < 0,
+            restoredItem);
+    }
+
     /* ---------------- screenshot ---------------- */
     async function runScreenshot() {
         await ensureChatPage(ID1);
@@ -1570,6 +2381,32 @@
             check('canvas.toDataURL("image/png") 可用且非空', /^data:image\/png;base64,/.test(dataUrl) && dataUrl.length > 1000, { prefix: String(dataUrl).slice(0, 30), length: String(dataUrl).length });
         }
 
+        // 社团表情在截图里与图片消息使用同一套尺寸规则（需求：表情放大到图片大小）
+        var emojiGen = null, imageGen = null;
+        try {
+            emojiGen = await withTimeout(w.ChatScreenshot.generate({
+                boxes: [{ id: 'sg_e', role: 'student', time: 1, items: [{ id: 'sg_ei', type: 'emoji', src: './resources/emoji/12.png' }] }],
+                student: { name: '', avatar: '' }, width: 360, dpr: 2,
+                texts: { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+            }), 9000, 'emoji-gen');
+            imageGen = await withTimeout(w.ChatScreenshot.generate({
+                boxes: [{ id: 'sg_i', role: 'student', time: 2, items: [{ id: 'sg_ii', type: 'image', src: './resources/emoji/12.png' }] }],
+                student: { name: '', avatar: '' }, width: 360, dpr: 2,
+                texts: { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+            }), 9000, 'image-gen');
+        } catch (e) {
+            note('表情/图片尺寸对比生成失败: ' + e);
+        }
+        var emojiCanvas = emojiGen && (emojiGen.canvas || emojiGen);
+        var imageCanvas = imageGen && (imageGen.canvas || imageGen);
+        check('截图里表情 item 生成 canvas', !!emojiCanvas && emojiCanvas.tagName === 'CANVAS', !!emojiCanvas);
+        check('截图里表情与图片使用同一尺寸规则（canvas 高度一致）',
+            !!emojiCanvas && !!imageCanvas && Math.abs(emojiCanvas.height - imageCanvas.height) <= 1,
+            { emoji: emojiCanvas && emojiCanvas.height, image: imageCanvas && imageCanvas.height });
+        check('截图里社团表情已放大（逻辑高度 >= 250px；旧版固定 84px 时约 140px）',
+            !!emojiCanvas && emojiCanvas.height / 2 >= 250,
+            emojiCanvas && { logicalHeight: emojiCanvas.height / 2 });
+
         // UI: click -> preview modal
         q('#btn-screenshot').click();
         var loadingModal = await waitModal(3000);
@@ -1593,6 +2430,141 @@
         var dl = downloads[downloads.length - 1];
         check('“保存图片”触发下载且文件名 momotalk_chat_YYYYMMDD_HHmmss.png', !!dl && /^momotalk_chat_\d{8}_\d{6}\.png$/.test(dl.download || ''), dl || downloads);
         check('保存后截图模态框关闭', !modalActive(), modalInfo());
+    }
+
+    /* ---------------- screenshot-fallback：远程图片 CORS 代理回退 ---------------- */
+    /** 在 iframe 里调用 ChatScreenshot.generate，返回 { res, canvas, err }（永不 throw） */
+    async function generateInFrame(options) {
+        var w = W();
+        var res = null, err = null;
+        try {
+            res = await withTimeout(w.ChatScreenshot.generate(options), 15000, 'ChatScreenshot.generate');
+        } catch (e) {
+            err = String((e && e.message) || e);
+        }
+        return { res: res, canvas: res && res.canvas ? res.canvas : res, err: err };
+    }
+
+    /**
+     * 拦截 iframe 内 new Image() 的 src 赋值，记录「直连 → 代理」的发起顺序。
+     * 只用于测试；restore() 恢复原生 Image。
+     */
+    function patchImageSrcCapture() {
+        var w = W();
+        var captured = w.__testImageSrcs = [];
+        var OrigImage = w.Image;
+        var desc = null;
+        try { desc = Object.getOwnPropertyDescriptor(w.HTMLImageElement.prototype, 'src'); } catch (e) { desc = null; }
+        function PatchedImage(width, height) {
+            var img = new OrigImage(width, height);
+            if (!desc) return img;
+            try {
+                Object.defineProperty(img, 'src', {
+                    configurable: true,
+                    get: function () { return desc.get ? desc.get.call(img) : img.getAttribute('src'); },
+                    set: function (v) { captured.push(String(v)); desc.set.call(img, v); }
+                });
+            } catch (e) { note('Image.src 拦截失败: ' + e); }
+            return img;
+        }
+        PatchedImage.prototype = OrigImage.prototype;
+        try { w.Image = PatchedImage; } catch (e) { note('替换 window.Image 失败: ' + e); }
+        return {
+            captured: captured,
+            restore: function () { try { w.Image = OrigImage; } catch (e) { /* ignore */ } }
+        };
+    }
+
+    /**
+     * 采样截图里学生头像区域（逻辑坐标 x=16,y=16,size=40；dpr=2 时设备像素 32..112）：
+     *  - center: 头像中心像素（dpr=2 → (16+20)*2=72,72）
+     *  - fraction: 与占位底色（_COLORS.avatarBg，默认 #DFE7EF）完全一致（±2）的采样像素占比
+     */
+    function avatarPixelStats(canvas) {
+        var out = { ok: false };
+        try {
+            var colors = safeGet(function () { return W().ChatScreenshot._COLORS; }, {}) || {};
+            var hex = String(colors.avatarBg || '#DFE7EF');
+            var r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            var ctx = canvas.getContext('2d');
+            var dpr = canvas.width / 360;
+            var x0 = Math.round(16 * dpr), y0 = Math.round(16 * dpr), size = Math.round(40 * dpr);
+            var imgData = ctx.getImageData(x0, y0, size, size);
+            var data = imgData.data, total = 0, match = 0;
+            for (var y = 0; y < size; y += 2) {
+                for (var x = 0; x < size; x += 2) {
+                    var i = (y * size + x) * 4;
+                    total++;
+                    if (Math.abs(data[i] - r) <= 2 && Math.abs(data[i + 1] - g) <= 2 && Math.abs(data[i + 2] - b) <= 2) match++;
+                }
+            }
+            var ci = (Math.floor(size / 2) * size + Math.floor(size / 2)) * 4;
+            out = {
+                ok: true, dpr: dpr, placeholder: hex,
+                avatarBox: { x: x0, y: y0, size: size },
+                center: [data[ci], data[ci + 1], data[ci + 2], data[ci + 3]],
+                match: match, total: total, fraction: total ? match / total : 1
+            };
+        } catch (e) {
+            out = { ok: false, error: String(e) };
+        }
+        return out;
+    }
+
+    async function runScreenshotFallback() {
+        var w = W();
+        var origin = String(w.location.origin || location.origin);
+        var u = new w.URL(origin);
+        // 与页面「同端口、不同 host」→ 不同 origin；服务端 serve.js 不返回 CORS 头，直连 crossOrigin 必失败
+        var crossHost = u.hostname === 'localhost' ? '127.0.0.1' : 'localhost';
+        var crossUrl = u.protocol + '//' + crossHost + (u.port ? ':' + u.port : '') + '/resources/head.jpg';
+        // 代理模板：{url} 替换为 encodeURIComponent 的远程绝对地址；同源输出 head.jpg（不依赖外网）
+        var proxyTemplate = origin + '/resources/head.jpg?u={url}';
+        check('跨域测试头像与页面不同源（localhost ↔ 127.0.0.1）', crossUrl.indexOf(crossHost) >= 0 && crossUrl !== origin + '/resources/head.jpg', { origin: origin, crossUrl: crossUrl });
+        check('window.ChatScreenshot 暴露 generate()/._COLORS', !!w.ChatScreenshot && typeof w.ChatScreenshot.generate === 'function' && !!w.ChatScreenshot._COLORS, typeof w.ChatScreenshot);
+        var colors = safeGet(function () { return w.ChatScreenshot._COLORS; }, {}) || {};
+        check('占位底色常量为 #DFE7EF', String(colors.avatarBg || '').toUpperCase() === '#DFE7EF', colors.avatarBg);
+
+        var boxes = [box('b_sf1', 'student', [tItem('i_sf1', '截图远程头像回退测试')], T0 - 1000)];
+        var baseOpts = {
+            boxes: boxes,
+            student: { name: NAME1, avatar: crossUrl },
+            width: 360,
+            dpr: 2,
+            texts: { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+        };
+
+        // 对照组：不传 imageProxy → 跨域直连失败 → 头像画成占位底色
+        var control = await generateInFrame(baseOpts);
+        check('对照组（不传 imageProxy）generate 成功返回 canvas', !!control.canvas && control.canvas.tagName === 'CANVAS', control.err);
+        var controlStats = control.canvas ? avatarPixelStats(control.canvas) : null;
+        check('对照组头像区域为占位底色（证明跨域直连确实失败）', !!controlStats && controlStats.ok && controlStats.fraction > 0.3, controlStats);
+
+        // 启用 imageProxy：直连失败后走代理，头像应真实加载
+        var cap = patchImageSrcCapture();
+        var proxied;
+        try {
+            proxied = await generateInFrame(Object.assign({}, baseOpts, { imageProxy: proxyTemplate }));
+        } finally {
+            cap.restore();
+        }
+        check('启用 imageProxy 后 generate 成功返回 canvas', !!proxied.canvas && proxied.canvas.tagName === 'CANVAS', proxied.err);
+        var srcs = cap.captured.slice();
+        check('先尝试直连远程图片 URL', srcs.indexOf(crossUrl) >= 0, srcs);
+        var proxyUrl = srcs.filter(function (s) { return s.indexOf(origin + '/resources/head.jpg?u=') === 0; })[0] || '';
+        check('直连失败后改走代理（{url} 占位已替换为编码后的远程地址）',
+            !!proxyUrl && proxyUrl.indexOf('localhost') >= 0 && proxyUrl.indexOf('head.jpg') >= 0 && proxyUrl.indexOf('{url}') < 0,
+            { proxyTemplate: proxyTemplate, srcs: srcs });
+        var proxiedStats = proxied.canvas ? avatarPixelStats(proxied.canvas) : null;
+        check('代理回退后头像中心像素不是占位底色 #DFE7EF',
+            !!proxiedStats && proxiedStats.ok && !(proxiedStats.center[0] === 223 && proxiedStats.center[1] === 231 && proxiedStats.center[2] === 239),
+            proxiedStats);
+        check('代理回退后头像区域基本不出现占位底色（占比 < 20%）',
+            !!proxiedStats && proxiedStats.ok && proxiedStats.fraction < 0.2, proxiedStats);
+        var fallbackDataUrl = proxied.canvas ? safeGet(function () { return proxied.canvas.toDataURL('image/png'); }, '') : '';
+        check('代理回退后 canvas 未被跨域污染（toDataURL 可用）',
+            /^data:image\/png;base64,/.test(String(fallbackDataUrl)) && String(fallbackDataUrl).length > 1000,
+            { prefix: String(fallbackDataUrl).slice(0, 30), length: String(fallbackDataUrl).length });
     }
 
     /* ---------------- auto backup ---------------- */
@@ -1642,7 +2614,11 @@
         var blobs = safeGet(function () { return W().__testBlobs || []; }, []);
         var content = null;
         if (blobs.length) content = await blobText(blobs[blobs.length - 1]);
-        check('自动备份内容为 version 4 完整数据（myStudents + chats）', !!content && content.version === 4 && !!content.chats && Array.isArray(content.myStudents) && (content.chats[ID1] || content.chats[String(ID1)]), content ? { version: content.version, chatsKeys: Object.keys(content.chats || {}), myStudents: (content.myStudents || []).length } : { blobs: blobs.length });
+        check('自动备份内容为 version 5 完整数据（myStudents 含 studentId + chats）',
+            !!content && Number(content.version) === 5 && !!content.chats && Array.isArray(content.myStudents) &&
+                content.myStudents.every(function (s) { return typeof s.studentId === 'number'; }) &&
+                (content.chats[ID1] || content.chats[String(ID1)]),
+            content ? { version: content.version, chatsKeys: Object.keys(content.chats || {}), myStudents: content.myStudents } : { blobs: blobs.length });
 
         // disable again -> no download
         await ensureChatPage(ID1);
@@ -1731,6 +2707,141 @@
     /* ==================================================================
      * scenario registry
      * ================================================================== */
+    /* ---------------- clear-data：通用设置「删除本地数据」 ---------------- */
+    function allStorageKeys() {
+        var keys = [];
+        try { for (var i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i)); } catch (e) { /* ignore */ }
+        return keys;
+    }
+    async function runClearData() {
+        var w = W();
+        await waitFor(function () { return qa('.contact-item').length === 1; }, 3000, 'clear-data-seed');
+        check('清除前存在聊天数据', !!localStorage.getItem(HC.keys.chatsKey), { keys: allStorageKeys() });
+        check('清除前存在 myStudents 数据', !!localStorage.getItem(HC.keys.myStudentsKey), null);
+        localStorage.setItem('momotalk_qa_probe', 'probe-value');
+        check('额外预置 momotalk_* 探针 key', localStorage.getItem('momotalk_qa_probe') === 'probe-value', null);
+
+        // 更多 → 通用设置
+        q('#nav-more-btn').click();
+        await waitFor(function () { return q('#more-page').classList.contains('active'); }, 3000, 'more-page');
+        var generalEntry = qa('#more-main .more-list-item').filter(function (el) { return /通用/.test(text(el)); })[0];
+        if (generalEntry) generalEntry.click();
+        else safeGet(function () { w.openMoreSection('general'); }, null);
+        var generalOpen = await waitFor(function () { return q('#more-general') && q('#more-general').classList.contains('active'); }, 3000, 'more-general');
+        check('打开通用设置子页', !!generalOpen, chatClasses());
+
+        var btn = q('#btn-clear-local-data');
+        check('#more-general 底部存在 #btn-clear-local-data', !!btn, idsPresent(['btn-clear-local-data']));
+        check('按钮文字为「删除本地数据」', !!btn && text(btn) === '删除本地数据', btn && text(btn));
+        check('按钮文字为红色系（#d85c76 → rgb(216, 92, 118)）', !!btn && css(btn, 'color') === 'rgb(216, 92, 118)', btn && { color: css(btn, 'color') });
+        if (!btn) return;
+
+        btn.click();
+        var shown = await waitModal(3000);
+        var modalText = modalTitle() + ' | ' + modalBodyText();
+        check('点击后弹出确认框', shown, modalInfo());
+        check('确认框文字含「删除本地数据」与「不可恢复/无法恢复」', /删除本地数据/.test(modalText) && /(不可恢复|无法恢复)/.test(modalText), modalText);
+        clickModalBtn('取消');
+        await waitFor(function () { return !modalActive(); }, 2000);
+        check('取消后数据仍在', !!localStorage.getItem(HC.keys.chatsKey), { keys: allStorageKeys() });
+
+        btn = q('#btn-clear-local-data');
+        btn.click();
+        await waitModal(3000);
+        var confirmClicked = clickModalBtn('删除本地数据') || clickModalBtn('确定') || clickModalBtn('确认') || clickModalBtn('删除');
+        check('确认删除操作点击成功', !!confirmClicked, allTexts(q('#modal-actions')));
+        await sleep(50); // 清理由点击处理器同步完成；reload 可能已开始，但 parent 侧读 localStorage 不受影响
+        check('确认后 chats key 被清空', localStorage.getItem(HC.keys.chatsKey) === null, { keys: allStorageKeys() });
+        check('确认后 myStudents / settings / legacy key 均被清空',
+            localStorage.getItem(HC.keys.myStudentsKey) === null &&
+                localStorage.getItem(HC.keys.settingsKey) === null &&
+                localStorage.getItem(HC.keys.legacyChatsKey) === null,
+            { keys: allStorageKeys() });
+        check('确认后所有 mm_test_* key 被清空',
+            allStorageKeys().filter(function (k) { return String(k).indexOf('mm_test_') === 0; }).length === 0, allStorageKeys());
+        check('确认后 momotalk_* key 也被清空', localStorage.getItem('momotalk_qa_probe') === null, allStorageKeys());
+
+        var reloaded = await waitFor(function () {
+            try { var ww = W(); return !!ww && ww.__testFrameBooted !== true; } catch (e) { return false; }
+        }, 5000, 'location.reload');
+        check('确认后页面触发 location.reload（iframe 文档被重新加载）', !!reloaded, {
+            booted: safeGet(function () { return W().__testFrameBooted; }, null),
+            hasListPage: !!q('#list-page'),
+            url: safeGet(function () { return W().location.href; }, null)
+        });
+        check('reload 后原应用 DOM 已不存在', !q('#list-page') && !q('#more-general'), { hasListPage: !!q('#list-page'), hasGeneral: !!q('#more-general') });
+    }
+
+    /* ---------------- favicon：透明 PNG ---------------- */
+    function loadImageInParent(src) {
+        return new Promise(function (resolve) {
+            var img = new Image();
+            img.onload = function () { resolve(img); };
+            img.onerror = function () { resolve(null); };
+            img.src = src;
+        });
+    }
+    function imageCornerAlphas(img) {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        var w = canvas.width, h = canvas.height;
+        var points = { lt: [0, 0], rt: [w - 1, 0], lb: [0, h - 1], rb: [w - 1, h - 1] };
+        var out = {};
+        Object.keys(points).forEach(function (k) {
+            out[k] = ctx.getImageData(points[k][0], points[k][1], 1, 1).data[3];
+        });
+        var data = ctx.getImageData(0, 0, w, h).data;
+        var sampled = 0, opaque = 0;
+        for (var i = 3; i < data.length; i += 4 * 97) { sampled++; if (data[i] > 0) opaque++; }
+        out.opaqueRatio = sampled ? opaque / sampled : 0;
+        return out;
+    }
+    async function runFavicon() {
+        var realCfg = STATE.realConfig;
+        check('能读取真实 resources/running_datas.json', !!realCfg, realCfg ? Object.keys(realCfg) : null);
+        var fav = realCfg && realCfg.app && realCfg.app.favicon;
+        check('running_datas.json app.favicon 指向 ./resources/MomoTalk_favicon.png', fav === './resources/MomoTalk_favicon.png', fav);
+
+        var htmlText = '';
+        try { var res = await fetch('/index.html', { cache: 'no-store' }); if (res.ok) htmlText = await res.text(); } catch (e) { note('fetch index.html 失败: ' + e); }
+        var linkTagMatch = htmlText.match(/<link[^>]*id=["']favicon["'][^>]*>/i);
+        check('index.html 中 <link id="favicon"> 初始 href 指向 MomoTalk_favicon.png',
+            !!linkTagMatch && /MomoTalk_favicon\.png/.test(linkTagMatch[0]),
+            linkTagMatch ? linkTagMatch[0] : null);
+
+        await waitFor(function () { var el = q('link#favicon'); return !!(el && /MomoTalk_favicon\.png/.test(attr(el, 'href') || '')); }, 3000, 'favicon-link');
+        var favLink = q('link#favicon');
+        check('应用 applyFavicons 后 <link id="favicon"> href 一致',
+            !!favLink && String(attr(favLink, 'href') || '').indexOf('MomoTalk_favicon.png') >= 0,
+            favLink && attr(favLink, 'href'));
+        var shortLink = q('link#favicon-shortcut');
+        check('shortcut icon 同步指向该 PNG（如存在）',
+            !shortLink || String(attr(shortLink, 'href') || '').indexOf('MomoTalk_favicon.png') >= 0,
+            shortLink ? attr(shortLink, 'href') : 'n/a');
+
+        var img = await loadImageInParent('./resources/MomoTalk_favicon.png');
+        check('resources/MomoTalk_favicon.png 可加载', !!img, !!img);
+        if (!img) return;
+        check('favicon PNG 尺寸 192×192', img.naturalWidth === 192 && img.naturalHeight === 192, { w: img.naturalWidth, h: img.naturalHeight });
+        var corners = imageCornerAlphas(img);
+        check('favicon 四角像素 alpha=0（透明）', corners.lt === 0 && corners.rt === 0 && corners.lb === 0 && corners.rb === 0, corners);
+        check('favicon 不是全透明空图', corners.opaqueRatio > 0.01, corners);
+        var pngOk = false, sig = '';
+        try {
+            var pngRes = await fetch('./resources/MomoTalk_favicon.png', { cache: 'no-store' });
+            if (pngRes.ok) {
+                var buf = await pngRes.arrayBuffer();
+                var bytes = new Uint8Array(buf.slice(0, 8));
+                sig = Array.prototype.slice.call(bytes).join(',');
+                pngOk = bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47;
+            }
+        } catch (e) { note('fetch favicon 失败: ' + e); }
+        check('favicon 文件响应为 PNG 签名', pngOk, sig);
+    }
+
     /* ---------------- migration (legacy flat chats -> boxes) ---------------- */
     async function runMigration() {
         var seeded = STATE.storageAfterSeed || {};
@@ -1753,6 +2864,18 @@
         check('旧 key 保留不删（可重复迁移）', !!localStorage.getItem(HC.keys.legacyChatsKey), null);
         var mmChats = getChats();
         check('__mm.chats() 与迁移后结果一致', Array.isArray(mmChats['1001']) && mmChats['1001'].length === arr.length, mmChats['1001'] && mmChats['1001'].map(function (b) { return b.role; }));
+
+        // 旧格式 myStudents（{id:1001,...}）自动迁移为新模型：studentId=1001、chatId='1001'
+        var mmStudents = getMyStudents();
+        check('旧格式 myStudents 自动迁移为新模型（id=chatId="1001"、studentId=1001）',
+            Array.isArray(mmStudents) && mmStudents.length === 1 &&
+                String(mmStudents[0].id) === '1001' && Number(mmStudents[0].studentId) === ID1 && Number.isFinite(Number(mmStudents[0].addedAt)),
+            mmStudents);
+        await waitFor(function () { return qa('.contact-item').length === 1; }, 3000, 'migrated-contact');
+        check('迁移后列表项 data-id 为 chatId（"1001"）',
+            qa('.contact-item').length === 1 && attr(qa('.contact-item')[0], 'data-id') === '1001',
+            qa('.contact-item').map(function (el) { return attr(el, 'data-id'); }));
+        check('迁移后 chats["1001"] 继续可用（__mm.chats）', Array.isArray(getChats()['1001']) && getChats()['1001'].length === 2, Object.keys(getChats()));
 
         await ensureChatPage(ID1);
         await waitFor(function () { return qa('#chat-content .msg-box[data-box-id]').length === 2; }, 3000, 'migrated-dom');
@@ -1787,42 +2910,68 @@
 
     async function runImportExport() {
         await ensureChatPage(ID1); // 确保 libraryReady（import 需要学生库）
-        var payload = {
-            version: 3,
+        // v4 旧备份：myStudents 为旧格式（numeric id），chats 以数字 id 为 key（盒子结构）
+        var payloadV4 = {
+            version: 4,
             exportedAt: new Date().toISOString(),
-            myStudents: [{ id: 1002, unread: 0, addedAt: T0 }],
+            myStudents: [{ id: 1002, unread: 0, addedAt: T0 - 4000 }],
             chats: {
                 1002: [
-                    { role: 'student', text: '导入旧消息一', time: T0 - 3000 },
-                    { role: 'student', text: '导入旧消息二', time: T0 - 2000 },
-                    { role: 'sensei', text: '导入老师回复', time: T0 - 1000 }
+                    { id: 'imp_b1', role: 'student', time: T0 - 3000, items: [{ id: 'imp_i1', type: 'text', text: '导入旧消息一' }, { id: 'imp_i2', type: 'text', text: '导入旧消息二' }] },
+                    { id: 'imp_b2', role: 'sensei', time: T0 - 1000, items: [{ id: 'imp_i3', type: 'text', text: '导入老师回复' }] }
                 ]
             }
         };
         check('#file-import 导入入口存在', !!q('#file-import'), idsPresent(['file-import', 'btn-import']));
-        var pick = await importPayload(payload);
+        var pick = await importPayload(payloadV4);
         note('导入文件注入方式: ' + JSON.stringify(pick));
         var modal = await waitFor(function () { return modalActive() && /导入结果|导入失败/.test(modalTitle()); }, 6000, 'import-modal');
-        check('导入 v3 旧格式文件后出现结果弹窗', !!modal && /导入结果/.test(modalTitle()), modalInfo());
+        check('导入 v4 旧备份后出现结果弹窗', !!modal && /导入结果/.test(modalTitle()), modalInfo());
         check('导入结果说明合并了 1 个会话', /合并\s*1|1\s*个会话/.test(modalBodyText()), modalBodyText().slice(0, 200));
         await closeModalIfOpen();
 
         await waitFor(function () { var c = getChats(); return !!(c['1002'] && c['1002'].length); }, 6000, 'imported-chats');
         var importedBoxes = chatBoxesOf(1002);
-        check('v3 扁平 chats 被转换为盒子数组', Array.isArray(importedBoxes) && importedBoxes.every(function (b) { return b && typeof b === 'object' && Array.isArray(b.items); }), importedBoxes && importedBoxes.map(function (b) { return { role: b.role, items: (b.items || []).length }; }));
-        check('导入后连续同角色消息合并为 1 个盒子', Array.isArray(importedBoxes) && importedBoxes.length === 2 && importedBoxes[0].role === 'student' && (importedBoxes[0].items || []).length === 2, importedBoxes && importedBoxes.map(function (b) { return { role: b.role, items: (b.items || []).length }; }));
-        check('导入后 myStudents 增加 1002', getMyStudents().some(function (s) { return Number(s.id) === 1002; }), getMyStudents());
+        check('v4 旧 chats 按 chatId 对齐到 "1002"（盒子结构保留）',
+            Array.isArray(importedBoxes) && importedBoxes.length === 2 && importedBoxes.every(function (b) { return b && typeof b === 'object' && Array.isArray(b.items); }),
+            importedBoxes && importedBoxes.map(function (b) { return { id: b.id, role: b.role, items: (b.items || []).length }; }));
+        check('导入后 myStudents 以 chatId="1002" + studentId=1002 并入',
+            getMyStudents().some(function (s) { return String(s.id) === '1002' && Number(s.studentId) === 1002; }), getMyStudents());
         await waitFor(function () { return qa('.contact-item').length >= 2; }, 3000, 'imported-contact');
-        check('导入后联系人列表出现新学生', qa('.contact-item').length >= 2, qa('.contact-item').map(function (el) { return attr(el, 'data-id'); }));
+        check('导入后联系人列表出现 data-id="1002" 的会话', qa('.contact-item').some(function (el) { return attr(el, 'data-id') === '1002'; }), qa('.contact-item').map(function (el) { return attr(el, 'data-id'); }));
 
-        // duplicate import -> box signature dedupe
+        // 重复导入同一备份：按 chatId / 盒子签名去重
         var beforeDup = JSON.stringify(getChats()['1002']);
-        await importPayload(payload);
+        var countBeforeDup = getMyStudents().filter(function (s) { return String(s.id) === '1002'; }).length;
+        await importPayload(payloadV4);
         await waitFor(function () { return modalActive() && /导入结果|导入失败/.test(modalTitle()); }, 6000, 'import-modal-2');
-        check('重复导入同一备份后盒子数量不变（按签名去重）', JSON.stringify(getChats()['1002']) === beforeDup, { before: beforeDup.length, after: JSON.stringify(getChats()['1002']).length });
+        check('重复导入同一 v4 备份后盒子数量不变（按签名去重）', JSON.stringify(getChats()['1002']) === beforeDup, { before: beforeDup.length, after: JSON.stringify(getChats()['1002']).length });
+        var countAfterDup = getMyStudents().filter(function (s) { return String(s.id) === '1002'; }).length;
+        check('重复 chatId 去重：不再新增 "1002" 会话', countAfterDup === countBeforeDup && countBeforeDup === 1, { before: countBeforeDup, after: countAfterDup });
         await closeModalIfOpen();
 
-        // export -> version 4, chats are box arrays
+        // v5 备份导入 + 同一次导入里的重复 chatId 去重
+        var payloadV5 = {
+            version: 5,
+            exportedAt: new Date().toISOString(),
+            myStudents: [
+                { id: '7777_1003', studentId: 1003, unread: 0, addedAt: T0 - 2000 },
+                { id: '7777_1003', studentId: 1003, unread: 0, addedAt: T0 - 1000 }
+            ],
+            chats: { '7777_1003': [{ id: 'imp_b3', role: 'student', time: T0 - 1500, items: [{ id: 'imp_i4', type: 'text', text: 'v5导入消息' }] }] }
+        };
+        await importPayload(payloadV5);
+        await waitFor(function () { return modalActive() && /导入结果|导入失败/.test(modalTitle()); }, 6000, 'import-modal-3');
+        check('导入 v5 备份成功', /导入结果/.test(modalTitle()), modalInfo());
+        await closeModalIfOpen();
+        await waitFor(function () { var c = getChats(); return !!(c['7777_1003'] && c['7777_1003'].length); }, 6000, 'imported-v5');
+        var entries1003 = getMyStudents().filter(function (s) { return String(s.id) === '7777_1003'; });
+        check('同一次导入里重复 chatId 去重（只保留 1 个会话）', entries1003.length === 1 && Number(entries1003[0].studentId) === 1003, getMyStudents());
+        check('v5 chats 以 chatId="7777_1003" 对齐', Array.isArray(getChats()['7777_1003']) && getChats()['7777_1003'].length === 1, getChats()['7777_1003']);
+        await waitFor(function () { return qa('.contact-item').length >= 3; }, 3000, 'imported-v5-contact');
+        check('导入后列表出现 data-id="7777_1003" 的会话', qa('.contact-item').some(function (el) { return attr(el, 'data-id') === '7777_1003'; }), qa('.contact-item').map(function (el) { return attr(el, 'data-id'); }));
+
+        // 导出：version 5，myStudents 含 studentId，chats 以 chatId 为 key
         patchDownloadCapture();
         installBlobCapture();
         var w = W();
@@ -1835,13 +2984,19 @@
         check('导出触发下载 momotalk_backup_YYYYMMDD_HHmmss.json', !!dl && /^momotalk_backup_\d{8}_\d{6}\.json$/.test(dl.download || ''), dl || downloads.slice(-2));
         var exported = null;
         if (blobs.length > nBlob) exported = await blobText(blobs[blobs.length - 1]);
-        else {
-            var raw = safeGet(function () { return w.__mm && w.__mm.chats; }, null);
-            note('未捕获到导出 Blob，尝试直接读取 __mm 数据');
-        }
-        check('导出数据 version=4', !!exported && Number(exported.version) === 4, exported ? { version: exported.version, keys: Object.keys(exported) } : null);
-        check('导出 chats 为盒子数组（每盒含 items）', !!exported && Array.isArray(exported.chats && exported.chats['1002']) && exported.chats['1002'].every(function (b) { return Array.isArray(b.items); }), exported && exported.chats ? Object.keys(exported.chats) : null);
-        check('导出数据包含刚导入的消息内容', !!exported && JSON.stringify(exported.chats || {}).indexOf('导入旧消息一') >= 0, exported ? JSON.stringify(exported.chats).slice(0, 240) : null);
+        else note('未捕获到导出 Blob，尝试使用 __mm.buildExportData()');
+        if (!exported) exported = safeGet(function () { return w.__mm.buildExportData(); }, null);
+        check('导出数据 version=5', !!exported && Number(exported.version) === 5, exported ? { version: exported.version, keys: Object.keys(exported) } : null);
+        check('导出 myStudents 均为新模型（含 studentId）',
+            !!exported && Array.isArray(exported.myStudents) && exported.myStudents.length >= 3 &&
+                exported.myStudents.every(function (s) { return typeof s.studentId === 'number' && s.id != null; }),
+            exported && exported.myStudents);
+        check('导出 chats 以 chatId 为 key 且每盒含 items',
+            !!exported && !!exported.chats &&
+                Object.keys(exported.chats).every(function (k) { return Array.isArray(exported.chats[k]) && exported.chats[k].every(function (b) { return Array.isArray(b.items); }); }) &&
+                !!exported.chats['1002'] && !!exported.chats['7777_1003'],
+            exported && Object.keys(exported.chats || {}));
+        check('导出数据包含刚导入的消息内容', !!exported && /导入旧消息一|v5导入消息/.test(JSON.stringify(exported.chats || {})), null);
         check('导出数据包含导出时间戳', !!exported && !!exported.exportedAt, exported && exported.exportedAt);
     }
 
@@ -1849,12 +3004,19 @@
         boot: { seed: function () { return FIXTURES.boot; }, run: runBoot },
         render: { seed: function () { return FIXTURES.render; }, run: runRender },
         'send-append': { seed: function () { return FIXTURES['send-append']; }, run: runSendAppend },
+        'multi-session': { seed: function () { return FIXTURES['multi-session']; }, run: runMultiSession },
         'box-edit': { seed: function () { return FIXTURES['box-edit']; }, run: runBoxEdit },
+        merge: { seed: function () { return FIXTURES.merge; }, run: runMerge },
+        split: { seed: function () { return FIXTURES.split; }, run: runSplit },
         more: { seed: function () { return FIXTURES.more; }, run: runMore },
         playback: { seed: function () { return FIXTURES.playback; }, run: runPlayback },
+        'playback-reply': { seed: function () { return FIXTURES['playback-reply']; }, run: runPlaybackReply },
         screenshot: { seed: function () { return FIXTURES.screenshot; }, run: runScreenshot },
+        'screenshot-fallback': { seed: function () { return FIXTURES['screenshot-fallback']; }, run: runScreenshotFallback },
         backup: { seed: function () { return FIXTURES.backup; }, run: runBackup },
         details: { seed: function () { return FIXTURES.details; }, run: runDetails },
+        'clear-data': { seed: function () { return FIXTURES['clear-data']; }, run: runClearData },
+        favicon: { seed: function () { return FIXTURES.favicon; }, run: runFavicon },
         migration: { seed: function () { return FIXTURES.migration; }, run: runMigration },
         'import-export': { seed: function () { return FIXTURES['import-export']; }, run: runImportExport }
     };
@@ -1896,6 +3058,20 @@
             STATE.fixture = { studentsUrl: (HC.fx.app && HC.fx.app.studentsUrl) || null, keys: HC.keys };
             publish();
 
+            // 真实应用配置（_test/fixtures 里的 app.favicon 仍是旧值）：只把 favicon 注入 iframe 配置，
+            // 让 applyFavicons 与真实 resources/running_datas.json 保持一致。
+            STATE.phase = 'fetch-real-config';
+            STATE.realConfig = null;
+            try {
+                var realRes = await fetch('./resources/running_datas.json', { cache: 'no-store' });
+                if (realRes.ok) STATE.realConfig = await realRes.json();
+            } catch (e) { STATE.realConfig = null; }
+            var configPatch = null;
+            var realFavicon = STATE.realConfig && STATE.realConfig.app && STATE.realConfig.app.favicon;
+            if (typeof realFavicon === 'string' && realFavicon) configPatch = { favicon: realFavicon };
+            STATE.configPatch = configPatch;
+            publish();
+
             STATE.phase = 'frame-ready';
             await startFrame();
 
@@ -1918,7 +3094,7 @@
             publish();
 
             STATE.phase = 'write-app';
-            FRAME.contentWindow.postMessage({ type: 'mm_app_html', html: injectPrelude(appHtml) }, '*');
+            FRAME.contentWindow.postMessage({ type: 'mm_app_html', html: injectPrelude(appHtml, configPatch) }, '*');
 
             STATE.phase = 'wait-ready';
             var readyInfo = await waitAppReady();

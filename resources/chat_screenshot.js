@@ -1,5 +1,5 @@
 /*!
- * MomoTalk · 聊天截图模块  v1.0.0
+ * MomoTalk · 聊天截图模块  v1.2.0
  * ------------------------------------------------------------------
  * 将聊天数据（第 1.2 节的 box / item 结构）绘制成一张长图。
  * 只依赖浏览器原生 API（Canvas 2D），不引用任何外部库 / CDN。
@@ -12,8 +12,22 @@
  *     student: { name: '未花（泳装）', avatar: '图片URL或dataURL' },
  *     width:   360,                              // 逻辑宽度（CSS px），默认 360
  *     dpr:     2,                                // 输出缩放，默认 2
- *     texts:   { reply: '回复', story: '好感故事', imageFail: '图片加载失败' }
+ *     texts:   { reply: '回复', story: '好感故事', imageFail: '图片加载失败' },
+ *     imageProxy: ''                             // 可选：远程图片代理模板，默认关闭
  *   }
+ *
+ *   imageProxy：部分图片域名（如 static.kivo.wiki、gitee）没有 CORS 响应头，
+ *   带 crossOrigin='anonymous' 直连会失败，截图中只能画占位。配置一个会返回
+ *   CORS 头的图片代理即可回退：模板中的 {url} 会被替换为经过
+ *   encodeURIComponent 的图片绝对地址，例如 'https://wsrv.nl/?url={url}'。
+ *   默认 '' 表示不启用；只对远程图片（//、http://、https://）生效，
+ *   dataURL / 相对路径等本地图片不走代理。
+ *   注意：wsrv.nl 等代理只接受 https 上游，http 源图会被拒绝；模块会在代理
+ *   失败后把 http 源地址升级为 https:// 再经同一代理模板重试一次。
+ *
+ *   emoji（社团表情）与图片消息使用同一套尺寸 / 圆角 / 描边规则：最大
+ *   220x300、等比缩放，因此聊天页和截图里的社团表情都按图片大小显示，
+ *   不再固定为 84x84。
  *
  *   返回的 width / height 为「逻辑（CSS）尺寸」；canvas.width / canvas.height
  *   为逻辑尺寸 * dpr（设备像素）。canvas 不跨域污染，可直接 toDataURL('image/png')。
@@ -28,7 +42,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '1.2.0';
 
   /* ================================================================
    * 一、常量
@@ -106,7 +120,6 @@
     imageMaxWidth: 220,
     imageMaxHeight: 300,
     imageRadius: 12,
-    emojiSize: 84,
     // 回复框 / 好感故事框
     panelMaxRatio: 0.78,
     panelPad: 10,
@@ -363,6 +376,8 @@
     return {
       width: width,
       dpr: dpr,
+      // 可选：远程图片代理模板（含 {url}），默认 '' 表示关闭
+      imageProxy: typeof options.imageProxy === 'string' ? options.imageProxy : '',
       padding: DEFAULTS.padding,
       avatarSize: DEFAULTS.avatarSize,
       avatarGap: DEFAULTS.avatarGap,
@@ -379,7 +394,6 @@
       imageMaxWidth: DEFAULTS.imageMaxWidth,
       imageMaxHeight: DEFAULTS.imageMaxHeight,
       imageRadius: DEFAULTS.imageRadius,
-      emojiSize: DEFAULTS.emojiSize,
       panelMaxRatio: DEFAULTS.panelMaxRatio,
       panelPad: DEFAULTS.panelPad,
       panelTitleHeight: DEFAULTS.panelTitleHeight,
@@ -413,40 +427,131 @@
 
   var IMAGE_CACHE = Object.create(null);
 
-  /**
-   * 加载单张图片；失败（含跨域失败）resolve(null)，绝不 reject。
-   * crossOrigin='anonymous' 保证 canvas 不被污染：跨域无 CORS 头时浏览器会
-   * 直接报加载错误 → 走占位，而不是画出被污染的像素。
-   */
-  function loadImage(src) {
-    if (!src || typeof src !== 'string') return Promise.resolve(null);
-    if (src in IMAGE_CACHE) return IMAGE_CACHE[src];
+  /** 单次图片加载超时（ms）：直连与代理各自计时 */
+  var IMAGE_TIMEOUT = 15000;
 
-    var promise = new Promise(function (resolve) {
+  /** 是否远程 URL（协议相对 //、http://、https://）；dataURL / 相对路径返回 false */
+  function isRemoteUrl(src) {
+    return src.indexOf('//') === 0 || /^https?:\/\//i.test(src);
+  }
+
+  /** 远程地址 → 绝对 URL（协议相对用 location.protocol 补全） */
+  function toAbsoluteUrl(src) {
+    if (src.indexOf('//') === 0) {
+      var protocol =
+        typeof location !== 'undefined' && location && location.protocol ? location.protocol : 'https:';
+      return protocol + src;
+    }
+    return src;
+  }
+
+  /**
+   * http:// 绝对地址 → https://。
+   * 部分图片代理（如 wsrv.nl）只接受 https 上游，http 源图会被拒绝（返回 404），
+   * 所以代理回退失败后再用 https 源重试一次。
+   */
+  function upgradeToHttps(url) {
+    if (/^http:\/\//i.test(url)) return 'https://' + url.slice(7);
+    return '';
+  }
+
+  /**
+   * 用 crossOrigin='anonymous' + no-referrer 加载单个 URL。
+   * 成功且尺寸有效 resolve(img)；失败 / 超时一律 resolve(null)，绝不 reject。
+   * 每次调用独立 15s 超时，避免某张图卡住整张长图。
+   */
+  function loadImageOnce(url) {
+    return new Promise(function (resolve) {
       var img;
+      var timer = null;
+      var settled = false;
+
+      function finish(result) {
+        if (settled) return;
+        settled = true;
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        if (img) {
+          img.onload = null;
+          img.onerror = null;
+        }
+        resolve(result);
+      }
+
       try {
         img = new Image();
       } catch (e) {
         resolve(null);
         return;
       }
+
       img.crossOrigin = 'anonymous';
+      // 不发送 referrer：部分图床按 referer 拦截请求
+      img.referrerPolicy = 'no-referrer';
+
       img.onload = function () {
         var w = img.naturalWidth || img.width || 0;
         var h = img.naturalHeight || img.height || 0;
-        resolve(w && h ? img : null);
+        finish(w && h ? img : null);
       };
       img.onerror = function () {
-        resolve(null);
+        finish(null);
       };
+
+      timer = setTimeout(function () {
+        finish(null);
+      }, IMAGE_TIMEOUT);
+
       try {
-        img.src = src;
+        img.src = url;
       } catch (e) {
-        resolve(null);
+        finish(null);
       }
     });
+  }
 
-    IMAGE_CACHE[src] = promise;
+  /**
+   * 加载单张图片；失败（含跨域失败）resolve(null)，绝不 reject。
+   * crossOrigin='anonymous' 保证 canvas 不被污染：跨域无 CORS 头时浏览器会
+   * 直接报加载错误 → 走占位，而不是画出被污染的像素。
+   *
+   * 若配置了 imageProxy（模板含 {url}），远程图片按下面三段依次尝试：
+   *   1. 直连（crossOrigin='anonymous' + no-referrer，15s 超时）；
+   *   2. 代理：proxy.replace('{url}', encodeURIComponent(绝对地址))；
+   *   3. 若第 2 段失败且源地址是 http://，升级为 https:// 后经同一代理模板再试一次
+   *      （兼容 wsrv.nl 等只接受 https 上游的代理）。
+   * dataURL / 相对路径等本地资源不代理。
+   */
+  function loadImage(src, imageProxy) {
+    if (!src || typeof src !== 'string') return Promise.resolve(null);
+    var proxy = typeof imageProxy === 'string' ? imageProxy : '';
+    // 缓存 key 必须带上代理配置，避免启用 / 禁用代理时互相串用结果
+    var cacheKey = src + '\n' + proxy;
+    if (cacheKey in IMAGE_CACHE) return IMAGE_CACHE[cacheKey];
+
+    /** 第 2 / 3 段共用：把绝对地址编码后套进代理模板再加载 */
+    function loadByProxy(url) {
+      var proxied = proxy.replace('{url}', encodeURIComponent(url));
+      if (!proxied) return Promise.resolve(null);
+      return loadImageOnce(proxied);
+    }
+
+    var promise = loadImageOnce(src).then(function (img) {
+      if (img) return img;
+      if (!proxy || !isRemoteUrl(src)) return null;
+      var absUrl = toAbsoluteUrl(src);
+      return loadByProxy(absUrl).then(function (proxiedImg) {
+        if (proxiedImg) return proxiedImg;
+        // 第 3 段：http 源图升级 https 后重试（同 URL 不重复请求）
+        var httpsUrl = upgradeToHttps(absUrl);
+        if (!httpsUrl || httpsUrl === absUrl) return null;
+        return loadByProxy(httpsUrl);
+      });
+    });
+
+    IMAGE_CACHE[cacheKey] = promise;
     return promise;
   }
 
@@ -473,10 +578,11 @@
   }
 
   /** 并行加载全部图片 → { [src]: { img, width, height } | null } */
-  function loadAll(sources) {
+  function loadAll(sources, cfg) {
+    var imageProxy = cfg && typeof cfg.imageProxy === 'string' ? cfg.imageProxy : '';
     return Promise.all(
       sources.map(function (src) {
-        return loadImage(src);
+        return loadImage(src, imageProxy);
       })
     ).then(function (images) {
       var map = Object.create(null);
@@ -550,14 +656,25 @@
     };
   }
 
-  /** 表情 item（固定 84x84） */
+  /** 表情 item：与图片消息同样的尺寸规则（最大 220x300，等比；失败给方形占位） */
   function measureEmoji(item, cfg, imageMap, texts) {
     var entry = item.src ? imageMap[item.src] : null;
+    var failed = !entry || !entry.img;
+    var width, height;
+    if (!failed) {
+      var scale = Math.min(cfg.imageMaxWidth / entry.width, cfg.imageMaxHeight / entry.height, 1);
+      if (!isFinite(scale) || scale <= 0) scale = 1;
+      width = Math.max(1, Math.round(entry.width * scale));
+      height = Math.max(1, Math.round(entry.height * scale));
+    } else {
+      width = cfg.imageMaxWidth;
+      height = cfg.imageMaxWidth;
+    }
     return {
       kind: 'emoji',
-      w: cfg.emojiSize,
-      h: cfg.emojiSize,
-      img: entry && entry.img ? entry.img : null,
+      w: width,
+      h: height,
+      img: failed ? null : entry.img,
       src: item.src,
       text: texts.imageFail
     };
@@ -761,17 +878,6 @@
     ctx.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, dx, dy, dw, dh);
   }
 
-  /** 以 contain 方式绘制图片（用于表情，保持比例、居中） */
-  function drawImageContain(ctx, img, x, y, w, h) {
-    var iw = img.naturalWidth || img.width || 0;
-    var ih = img.naturalHeight || img.height || 0;
-    if (!iw || !ih) return;
-    var scale = Math.min(w / iw, h / ih);
-    var dw = iw * scale;
-    var dh = ih * scale;
-    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
-  }
-
   function drawAvatar(ctx, node, cfg) {
     var size = node.w;
     var cx = node.x + size / 2;
@@ -878,12 +984,22 @@
     ctx.stroke();
   }
 
+  /** 表情气泡：与图片消息统一（同圆角裁剪 + 细描边），尺寸也走图片规则 */
   function drawEmojiBubble(ctx, node, cfg) {
     if (!node.img) {
       drawPlaceholder(ctx, node, cfg, cfg.fontEmojiFail);
       return;
     }
-    drawImageContain(ctx, node.img, node.x, node.y, node.w, node.h);
+    ctx.save();
+    roundRectPath(ctx, node.x, node.y, node.w, node.h, cfg.imageRadius);
+    ctx.clip();
+    ctx.drawImage(node.img, node.x, node.y, node.w, node.h);
+    ctx.restore();
+
+    roundRectPath(ctx, node.x, node.y, node.w, node.h, cfg.imageRadius);
+    ctx.strokeStyle = COLORS.imageBorder;
+    ctx.lineWidth = 1;
+    ctx.stroke();
   }
 
   /** 面板标题：左侧竖条 + 文字 */
@@ -1070,7 +1186,7 @@
       }
 
       // 先把图片全部加载完（失败会得到 null），再测量与绘制
-      loadAll(sources).then(
+      loadAll(sources, cfg).then(
         function (imageMap) {
           try {
             var measureCanvas = document.createElement('canvas');

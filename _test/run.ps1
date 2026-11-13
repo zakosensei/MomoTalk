@@ -23,6 +23,7 @@ param(
     [string]$Chrome = 'C:\Program Files\Google\Chrome\Application\chrome.exe',
     [int]$VirtualTimeBudget = 20000,
     [int]$ChromeTimeoutSec = 150,
+    [int]$Retries = 1,
     [switch]$KeepTemp
 )
 
@@ -31,7 +32,7 @@ $script:AnyFail = $false
 
 $TestDir = $PSScriptRoot
 $RootDir = Split-Path -Parent $TestDir
-$AllScenarios = @('boot', 'render', 'send-append', 'box-edit', 'more', 'playback', 'screenshot', 'backup', 'details', 'migration', 'import-export')
+$AllScenarios = @('boot', 'render', 'send-append', 'multi-session', 'box-edit', 'merge', 'split', 'more', 'playback', 'playback-reply', 'screenshot', 'screenshot-fallback', 'backup', 'details', 'clear-data', 'favicon', 'migration', 'import-export')
 
 if ($Scenario -eq 'all' -or [string]::IsNullOrWhiteSpace($Scenario)) {
     $Targets = $AllScenarios
@@ -60,45 +61,73 @@ function Test-HarnessServer {
     }
 }
 
-$ServerProc = $null
-$ServerStartedByUs = $false
+$NodeCandidates = @(
+    'C:\Users\Administrator\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe',
+    (Get-Command node -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)
+) | Where-Object { $_ -and (Test-Path $_) }
+$Node = if ($NodeCandidates.Count -gt 0) { $NodeCandidates[0] } else { $null }
+
+function Start-HarnessLocalServer {
+    if (-not $Node) { return $null }
+    $srvOut = Join-Path $TempDir 'server.out.txt'
+    $srvErr = Join-Path $TempDir 'server.err.txt'
+    $proc = Start-Process -FilePath $Node -ArgumentList @((Join-Path $TestDir 'serve.js'), $RootDir, $Port) `
+        -RedirectStandardOutput $srvOut -RedirectStandardError $srvErr -PassThru
+    for ($i = 0; $i -lt 20; $i++) {
+        Start-Sleep -Milliseconds 300
+        if (Test-HarnessServer ($Base + '/test-harness.html')) { return $proc }
+        if ($proc.HasExited) { break }
+    }
+    if (-not $proc.HasExited) { try { $proc.Kill() } catch { } }
+    return $null
+}
+
+$script:ServerRestarts = 0
+$script:ServerProc = $null
+$script:ServerStartedByUs = $false
 if (-not (Test-HarnessServer ($Base + '/test-harness.html'))) {
     Write-Host "[harness] $Base 不可访问，尝试用 node 启动 _test/serve.js …" -ForegroundColor Yellow
-    $NodeCandidates = @(
-        'C:\Users\Administrator\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\node\bin\node.exe',
-        (Get-Command node -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue)
-    ) | Where-Object { $_ -and (Test-Path $_) }
-    if ($NodeCandidates.Count -eq 0) {
+    if (-not $Node) {
         Write-Host '[harness] 未找到 node，无法自动启动静态服务器。请先运行：' -ForegroundColor Red
         Write-Host ("         node _test\serve.js `"{0}`" {1}" -f $RootDir, $Port) -ForegroundColor Red
         exit 2
     }
-    $Node = $NodeCandidates[0]
-    $srvOut = Join-Path $TempDir 'server.out.txt'
-    $srvErr = Join-Path $TempDir 'server.err.txt'
-    $ServerProc = Start-Process -FilePath $Node -ArgumentList @((Join-Path $TestDir 'serve.js'), $RootDir, $Port) `
-        -RedirectStandardOutput $srvOut -RedirectStandardError $srvErr -PassThru
-    $ServerStartedByUs = $true
-    $up = $false
-    for ($i = 0; $i -lt 20; $i++) {
-        Start-Sleep -Milliseconds 300
-        if (Test-HarnessServer ($Base + '/test-harness.html')) { $up = $true; break }
-        if ($ServerProc.HasExited) { break }
-    }
-    if (-not $up) {
+    $script:ServerProc = Start-HarnessLocalServer
+    $script:ServerStartedByUs = $true
+    if (-not $script:ServerProc) {
         Write-Host '[harness] 无法启动本地静态服务器。' -ForegroundColor Red
+        $srvErr = Join-Path $TempDir 'server.err.txt'
         if (Test-Path $srvErr) { Get-Content $srvErr | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkGray } }
-        if ($ServerStartedByUs -and $ServerProc -and -not $ServerProc.HasExited) { $ServerProc.Kill() }
         exit 2
     }
-    Write-Host "[harness] 已启动本地服务器 http://127.0.0.1:$Port/ (pid=$($ServerProc.Id))" -ForegroundColor Green
+    Write-Host "[harness] 已启动本地服务器 http://127.0.0.1:$Port/ (pid=$($script:ServerProc.Id))" -ForegroundColor Green
 } else {
     Write-Host "[harness] 使用已运行的本地服务器 $Base" -ForegroundColor Green
 }
 
+# 每个场景前自愈：_test/serve.js 在客户端中断连接（Chrome dump-dom 结束时的 abort）时可能退出，
+# 表现为后续场景 dump-dom 变成 Chrome 的 127.0.0.1 错误页、result.json 缺失。这里自动重启。
+function Ensure-HarnessServer {
+    if (Test-HarnessServer ($Base + '/test-harness.html')) { return $true }
+    if (-not $script:ServerStartedByUs) {
+        Write-Host "[harness] 警告：服务器 $Base 已不可访问，且不是本脚本启动的，无法自动重启" -ForegroundColor Yellow
+        return $false
+    }
+    Write-Host "[harness] 检测到静态服务器已退出，重启中…" -ForegroundColor Yellow
+    if ($script:ServerProc -and -not $script:ServerProc.HasExited) { try { $script:ServerProc.Kill() } catch { } }
+    $script:ServerProc = Start-HarnessLocalServer
+    $script:ServerRestarts++
+    if ($script:ServerProc) {
+        Write-Host "[harness] 静态服务器已重启 (pid=$($script:ServerProc.Id)，累计重启 $script:ServerRestarts 次)" -ForegroundColor Yellow
+        return $true
+    }
+    Write-Host '[harness] 静态服务器重启失败' -ForegroundColor Red
+    return $false
+}
+
 if (-not (Test-Path $Chrome)) {
     Write-Host "[harness] 找不到 Chrome：$Chrome" -ForegroundColor Red
-    if ($ServerStartedByUs -and $ServerProc -and -not $ServerProc.HasExited) { $ServerProc.Kill() }
+    if ($script:ServerStartedByUs -and $script:ServerProc -and -not $script:ServerProc.HasExited) { $script:ServerProc.Kill() }
     exit 2
 }
 
@@ -195,14 +224,28 @@ Write-Host ("=== MomoTalk QA harness | scenarios: {0} | base: {1} | shot: {2} ==
 Write-Host ''
 
 $Summary = @()
+
+# 场景级自愈：基础设施失败（Chrome 错误页 / 结果缺失 / 服务器中断）时重启服务器并重试该场景；
+# 断言失败（fail>0）不重试。_test/serve.js 在客户端中断连接时可能退出，这是已知环境问题。
+function Restart-HarnessServer {
+    Write-Host '[harness] 重启静态服务器（上一场景基础设施失败）…' -ForegroundColor Yellow
+    if ($script:ServerProc -and -not $script:ServerProc.HasExited) { try { $script:ServerProc.Kill() } catch { } }
+    if (-not $script:ServerStartedByUs) { Ensure-HarnessServer | Out-Null; return }
+    $script:ServerProc = Start-HarnessLocalServer
+    $script:ServerRestarts++
+    if ($script:ServerProc) { Write-Host "[harness] 静态服务器已重启 (pid=$($script:ServerProc.Id))" -ForegroundColor Yellow }
+}
+
 foreach ($sc in $Targets) {
     if ($AllScenarios -notcontains $sc) {
         Write-Host ("[skip] 未知场景：{0}（可用：{1}）" -f $sc, ($AllScenarios -join ', ')) -ForegroundColor Yellow
         continue
     }
     $url = '{0}/test-harness.html?scenario={1}' -f $Base, $sc
-    try {
-        if ($Shot) {
+
+    if ($Shot) {
+        Ensure-HarnessServer | Out-Null
+        try {
             $shotDir = Join-Path $TestDir 'shots'
             New-Item -ItemType Directory -Force -Path $shotDir | Out-Null
             $png = Join-Path $shotDir ($sc + '.png')
@@ -216,51 +259,77 @@ foreach ($sc in $Targets) {
                 $Summary += [pscustomobject]@{ Name = $sc; Ok = $false; Pass = 0; Fail = 0; Shot = $null }
                 $script:AnyFail = $true
             }
-            continue
+        } catch {
+            Write-Host ("[shot] {0} 失败: {1}" -f $sc, $_) -ForegroundColor Red
+            $Summary += [pscustomobject]@{ Name = $sc; Ok = $false; Pass = 0; Fail = 0; Shot = $null }
+            $script:AnyFail = $true
         }
-
-        $res = Invoke-Chrome -Tag $sc -ChromeArgs @('--dump-dom', $url)
-        $result = Get-HarnessResult $res.Stdout
-
-        # persist raw artifacts for debugging
-        try {
-            Set-Content -Path (Join-Path $LastRunDir ($sc + '.dom.html')) -Value $res.Stdout -Encoding UTF8
-            if ($null -ne $result) {
-                $result | ConvertTo-Json -Depth 12 | Set-Content -Path (Join-Path $LastRunDir ($sc + '.result.json')) -Encoding UTF8
-            }
-            if ($res.Stderr) { Set-Content -Path (Join-Path $LastRunDir ($sc + '.chrome.stderr.txt')) -Value $res.Stderr -Encoding UTF8 }
-        } catch { }
-
-        $ok = Show-HarnessResult -Result $result -Name $sc
-        if (-not $ok) { $script:AnyFail = $true }
-        $Summary += [pscustomobject]@{
-            Name = $sc
-            Ok   = $ok
-            Pass = if ($result) { [int]$result.pass } else { 0 }
-            Fail = if ($result) { [int]$result.fail } else { -1 }
-            Shot = $null
-        }
-
-        if ($null -eq $result) {
-            Write-Host '  --- Chrome stderr (first 12 lines) ---' -ForegroundColor DarkGray
-            if (Test-Path $res.ErrFile) { Get-Content $res.ErrFile | Select-Object -First 12 | ForEach-Object { Write-Host ("  " + $_) -ForegroundColor DarkGray } }
-            if ($res.Stdout) {
-                $len = [Math]::Min(800, $res.Stdout.Length)
-                Write-Host ('  --- dump-dom head ---') -ForegroundColor DarkGray
-                Write-Host ($res.Stdout.Substring(0, $len)) -ForegroundColor DarkGray
-            }
-            if ($res.Stderr -match 'platform_channel|crashpad|Access is denied|拒绝访问|0x5') {
-                Write-Host '  [!] Chrome 启动/沙箱失败（platform channel 被拒绝）。' -ForegroundColor Yellow
-                Write-Host '      请在外层（非受限沙箱）执行本脚本，或让 Lead 运行 run.ps1。' -ForegroundColor Yellow
-            }
-        }
-        Write-Host ''
-    } catch {
-        Write-Host ("[FAIL] {0}: {1}" -f $sc, $_) -ForegroundColor Red
-        $script:AnyFail = $true
-        $Summary += [pscustomobject]@{ Name = $sc; Ok = $false; Pass = 0; Fail = -1; Shot = $null }
-        Write-Host ''
+        continue
     }
+
+    $maxAttempts = [Math]::Max(1, $Retries + 1)
+    $attempt = 0
+    $result = $null
+    $ok = $false
+    $res = $null
+    while ($attempt -lt $maxAttempts) {
+        $attempt++
+        Ensure-HarnessServer | Out-Null
+        try {
+            $res = Invoke-Chrome -Tag $sc -ChromeArgs @('--dump-dom', $url)
+            $result = Get-HarnessResult $res.Stdout
+
+            # persist raw artifacts for debugging
+            try {
+                Set-Content -Path (Join-Path $LastRunDir ($sc + '.dom.html')) -Value $res.Stdout -Encoding UTF8
+                if ($null -ne $result) {
+                    $result | ConvertTo-Json -Depth 12 | Set-Content -Path (Join-Path $LastRunDir ($sc + '.result.json')) -Encoding UTF8
+                }
+                if ($res.Stderr) { Set-Content -Path (Join-Path $LastRunDir ($sc + '.chrome.stderr.txt')) -Value $res.Stderr -Encoding UTF8 }
+            } catch { }
+
+            $ok = Show-HarnessResult -Result $result -Name $sc
+            $infraFail = ($null -eq $result) -or (@($result.errors).Count -gt 0 -and [int]$result.pass -eq 0)
+            if ($infraFail -and $attempt -lt $maxAttempts) {
+                Write-Host ("[harness] 场景 {0} 基础设施失败（结果缺失/Chrome 错误页/服务器中断），重试 ({1}/{2})" -f $sc, $attempt, ($maxAttempts - 1)) -ForegroundColor Yellow
+                if ($null -eq $result -and $res.Stdout) {
+                    $len = [Math]::Min(200, $res.Stdout.Length)
+                    Write-Host ('  dump-dom head: ' + $res.Stdout.Substring(0, $len)) -ForegroundColor DarkGray
+                }
+                Restart-HarnessServer
+                continue
+            }
+            if ($null -eq $result) {
+                Write-Host '  --- Chrome stderr (first 12 lines) ---' -ForegroundColor DarkGray
+                if (Test-Path $res.ErrFile) { Get-Content $res.ErrFile | Select-Object -First 12 | ForEach-Object { Write-Host ("  " + $_) -ForegroundColor DarkGray } }
+                if ($res.Stdout) {
+                    $len = [Math]::Min(800, $res.Stdout.Length)
+                    Write-Host ('  --- dump-dom head ---') -ForegroundColor DarkGray
+                    Write-Host ($res.Stdout.Substring(0, $len)) -ForegroundColor DarkGray
+                }
+                if ($res.Stderr -match 'platform_channel|crashpad|Access is denied|拒绝访问|0x5') {
+                    Write-Host '  [!] Chrome 启动/沙箱失败（platform channel 被拒绝）。' -ForegroundColor Yellow
+                    Write-Host '      请在外层（非受限沙箱）执行本脚本，或让 Lead 运行 run.ps1。' -ForegroundColor Yellow
+                }
+            }
+            break
+        } catch {
+            Write-Host ("[FAIL] {0} (attempt {1}): {2}" -f $sc, $attempt, $_) -ForegroundColor Red
+            $ok = $false
+            $result = $null
+            if ($attempt -lt $maxAttempts) { Restart-HarnessServer; continue }
+            break
+        }
+    }
+    if (-not $ok) { $script:AnyFail = $true }
+    $Summary += [pscustomobject]@{
+        Name = $sc
+        Ok   = $ok
+        Pass = if ($result) { [int]$result.pass } else { 0 }
+        Fail = if ($result) { [int]$result.fail } else { -1 }
+        Shot = $null
+    }
+    Write-Host ''
 }
 
 # ---------------------------------------------------------------- summary
@@ -273,10 +342,13 @@ foreach ($s in $Summary) {
 $totalPass = ($Summary | Measure-Object -Property Pass -Sum).Sum
 $totalFail = ($Summary | Measure-Object -Property Fail -Sum).Sum
 Write-Host ("  合计: pass={0} fail={1}  (产物: {2})" -f $totalPass, $totalFail, $LastRunDir) -ForegroundColor Cyan
+if ($script:ServerRestarts -gt 0) {
+    Write-Host ("  注意: 静态服务器中途退出并被自动重启 {0} 次（_test/serve.js 的已知环境问题）" -f $script:ServerRestarts) -ForegroundColor Yellow
+}
 
 # ---------------------------------------------------------------- cleanup
-if ($ServerStartedByUs -and $ServerProc -and -not $ServerProc.HasExited) {
-    try { $ServerProc.Kill() } catch { }
+if ($script:ServerStartedByUs -and $script:ServerProc -and -not $script:ServerProc.HasExited) {
+    try { $script:ServerProc.Kill() } catch { }
     Write-Host '[harness] 已停止临时静态服务器' -ForegroundColor DarkGray
 }
 if (-not $KeepTemp) {

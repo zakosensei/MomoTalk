@@ -188,7 +188,16 @@ body {
 }
 .contact-preview .prefix-sensei { color: #e0798b; font-weight: 500; }
 .contact-preview .skin-tag { color: #b8a8e8; font-weight: 500; }
-
+/* 同一角色的多个会话用淡灰色创建/修改时间区分 */
+.contact-dates {
+    font-size: 11px;
+    color: #c8c8c8;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.2px;
+}
 .unread-badge {
     background-color: #ff4d4f;
     color: white;
@@ -543,20 +552,23 @@ body {
     background: #f4f6f8;
 }
 
-/* 社团表情 */
+/* 社团表情：与图片消息统一成同样大小的白框（同内边距/圆角/阴影/尺寸规则） */
 .emoji-bubble {
     background: #fff;
+    padding: 5px;
     border-radius: 12px;
-    padding: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    max-width: 220px;
     line-height: 0;
 }
 .emoji-img {
-    width: 84px;
-    height: 84px;
+    width: 100%;
+    height: auto;
+    max-height: 300px;
     object-fit: contain;
     display: block;
     border-radius: 8px;
+    background: #f4f6f8;
 }
 
 /* 回复框 */
@@ -1173,7 +1185,6 @@ textarea.modal-input {
 }
 .picker-item:last-child { border-bottom: none; }
 .picker-item:active { background: #f0f0f0; }
-.picker-item.added { opacity: 0.45; cursor: default; }
 .picker-avatar {
     width: 40px;
     height: 40px;
@@ -1197,7 +1208,7 @@ textarea.modal-input {
     color: var(--momotalk-pink);
     flex-shrink: 0;
 }
-.picker-item.added .picker-status { color: #bbb; }
+.picker-item.added .picker-status { color: #d98a9c; }
 .picker-empty {
     text-align: center;
     color: #bbb;
@@ -1548,6 +1559,21 @@ textarea.modal-input {
     color: #444;
 }
 .box-edit-row:last-child { border-bottom: none; }
+/* 多选：勾选消息后可以「独立为一个信息盒子」 */
+.box-edit-check {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--momotalk-pink);
+    cursor: pointer;
+}
+.box-edit-hint {
+    font-size: 11px;
+    color: #aaa;
+    margin: -6px 0 10px;
+    line-height: 1.5;
+}
 .box-edit-type {
     flex-shrink: 0;
     font-size: 10px;
@@ -1597,6 +1623,22 @@ textarea.modal-input {
 .box-action-btn:active { opacity: 0.75; }
 .box-action-btn.danger { background: #fff0f3; color: #d85c76; }
 .box-action-btn:disabled { opacity: 0.38; cursor: default; }
+
+/* 通用设置里的「删除本地数据」：红色文字按钮 */
+.danger-text-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 6px 0 2px;
+    color: #d85c76;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.danger-text-btn:active { opacity: 0.7; }
 
 /* 轻提示 */
 .toast {
@@ -1809,6 +1851,11 @@ textarea.form-input { resize: vertical; min-height: 70px; line-height: 1.5; }
 }
 .reply-option:hover { background: #f4fafd; }
 .reply-option:active { background: #eaf4fa; }
+
+/* 非播放模式下回复框不允许点击（选项只用于播放模式），光标与点击态都收起来 */
+#chat-content:not(.playing) .reply-option { cursor: default; }
+#chat-content:not(.playing) .reply-option:hover,
+#chat-content:not(.playing) .reply-option:active { background: #fff; }
 
 /* 好感故事框：宽度与回复框一致，按钮文案固定 */
 .story-panel { width: min(320px, 100%); }

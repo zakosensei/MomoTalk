@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
-<link rel="icon" id="favicon" type="image/jpeg">
-<link rel="shortcut icon" id="favicon-shortcut" type="image/jpeg">
+<link rel="icon" id="favicon" type="image/png" href="./resources/MomoTalk_favicon.png">
+<link rel="shortcut icon" id="favicon-shortcut" type="image/png" href="./resources/MomoTalk_favicon.png">
 <link rel="apple-touch-icon" id="apple-touch-icon">
 <meta name="theme-color" content="#f08a9c">
 <title>MomoTalk - 自定义聊天</title>
@@ -219,6 +219,11 @@
                         </label>
                     </div>
                     <div class="setting-hint" id="auto-backup-hint"></div>
+                </div>
+                <div class="about-card">
+                    <div class="about-section-title" id="general-data-title"></div>
+                    <button type="button" class="danger-text-btn" id="btn-clear-local-data" onclick="clearLocalData()"></button>
+                    <div class="setting-hint" id="clear-local-data-hint"></div>
                 </div>
             </div>
             <div id="more-tutorial" class="more-panel">
@@ -674,6 +679,9 @@ function fillStaticTexts() {
     set('general-backup-title', T('generalBackupTitle', null, '数据与备份'));
     set('auto-backup-label', T('autoBackupLabel', null, '自动备份'));
     set('auto-backup-hint', T('autoBackupHint', null, '开启后，每次退出聊天页面会自动下载聊天内容（JSON）。默认关闭。'));
+    set('general-data-title', T('generalDataTitle', null, '本地数据'));
+    set('btn-clear-local-data', T('clearLocalData', null, '删除本地数据'));
+    set('clear-local-data-hint', T('clearLocalDataHint', null, '删除后无法恢复，建议先在右上角导出备份。'));
     set('student-play-title', T('studentPlayTitle', null, '播放设置'));
     set('anim-time-label', T('animTimeLabel', null, '打字动画时间'));
     set('anim-time-input-label', T('animTimeInputLabel', null, '键盘输入'));
@@ -927,6 +935,29 @@ function setAutoBackup(on) {
         return;
     }
     updateSettingsUI();
+}
+
+/** 删除全部本地数据（聊天记录 / 我的学生 / 自定义学生 / 设置）并刷新页面 */
+function clearLocalData() {
+    confirmModal(T('clearLocalDataTitle', null, '删除本地数据'),
+        escapeHtml(T('clearLocalDataConfirm', null, '将删除全部本地数据：聊天记录、我的学生、自定义学生与通用设置。删除后无法恢复，确定继续吗？')),
+        () => {
+            try {
+                // 1) 按配置里的 key 删除（测试 harness 会换成自己的 key 前缀）
+                [myKey(), chatsKey(), legacyChatsKey(), customStudentsKey(), settingsKey()]
+                    .forEach(k => { if (k) localStorage.removeItem(k); });
+                // 2) 顺带清掉所有 momotalk_ 前缀的历史遗留 key
+                const leftovers = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && /^momotalk_/i.test(k)) leftovers.push(k);
+                }
+                leftovers.forEach(k => localStorage.removeItem(k));
+            } catch (e) {
+                console.error('删除本地数据失败：', e);
+            }
+            location.reload();
+        });
 }
 
 function siteLabel(site) {
@@ -1406,10 +1437,7 @@ function addCustomStudent() {
         return;
     }
     mergeCustomStudentsIntoLibrary();
-    if (!myStudents.some(s => s.id === id)) {
-        myStudents.push({ id: id, unread: 0, addedAt: now() });
-        saveMyStudents();
-    }
+    addStudentToMyList(id);
     if (nameInput) nameInput.value = '';
     resetCustomAvatarPreview();
     renderContactList();
@@ -1427,9 +1455,11 @@ function deleteCustomStudent(id) {
             saveCustomStudents();
             library = library.filter(s => s.id !== id);
             delete libraryById[id];
-            myStudents = myStudents.filter(s => s.id !== id);
+            // 该自定义学生可能有多个会话：全部移出，并清掉各自 chatId 的聊天记录
+            const removedChatIds = myStudents.filter(s => s.studentId === id).map(s => s.id);
+            myStudents = myStudents.filter(s => s.studentId !== id);
             saveMyStudents();
-            delete chats[id];
+            removedChatIds.forEach(cid => { delete chats[cid]; });
             saveChats();
             renderContactList();
             renderCustomStudentsUI();
@@ -1513,10 +1543,11 @@ function renderContactList() {
 
     let entries = myStudents
         .map(entry => {
-            const stu = libraryById[entry.id];
+            const stu = libraryById[entry.studentId];
             if (!stu) return null;
             return {
-                id: stu.id,
+                chatId: entry.id,
+                studentId: stu.id,
                 displayName: stu.displayName,
                 shortName: stu.shortName,
                 avatar: stu.avatar,
@@ -1534,8 +1565,8 @@ function renderContactList() {
     }
 
     entries.sort((a, b) => {
-        const la = getLastMsg(a.id);
-        const lb = getLastMsg(b.id);
+        const la = getLastMsg(a.chatId);
+        const lb = getLastMsg(b.chatId);
         // 缺少/非法的 time 要回退到 addedAt，否则 tb - ta 得到 NaN，列表顺序会随机跳动
         const ta = (la && Number(la.time)) || a.addedAt || 0;
         const tb = (lb && Number(lb.time)) || b.addedAt || 0;
@@ -1555,7 +1586,11 @@ function renderContactList() {
     list.innerHTML = entries.map(s => {
         const name = s.displayName;
         const avatar = s.avatar || fallbackAvatar(name);
-        const last = getLastMsg(s.id);
+        const last = getLastMsg(s.chatId);
+        // 同一角色可以存在多个会话：列表不显示编号，用淡灰字展示创建 / 最后修改时间
+        const createdTs = Number(s.addedAt) || 0;
+        const modifiedTs = last && Number(last.time) ? Number(last.time) : createdTs;
+        const datesHtml = `<div class="contact-dates">${escapeHtml(T('contactCreated', null, '创建'))} ${escapeHtml(formatChatDate(createdTs))} · ${escapeHtml(T('contactModified', null, '修改'))} ${escapeHtml(formatChatDate(modifiedTs))}</div>`;
 
         let preview;
         if (last) {
@@ -1580,17 +1615,30 @@ function renderContactList() {
             ? `<div class="unread-badge">${s.unread > 99 ? '99+' : s.unread}</div>`
             : '';
 
-        return `<div class="contact-item" data-id="${s.id}">
+        return `<div class="contact-item" data-id="${escapeHtml(s.chatId)}">
             <img class="contact-avatar" src="${escapeHtml(avatar)}"
                  data-fallback="${escapeHtml(fallbackAvatar(name))}"
                  referrerpolicy="no-referrer" alt="" loading="lazy">
             <div class="contact-info">
                 <div class="contact-name">${escapeHtml(name)}</div>
                 <div class="contact-preview">${preview}</div>
+                ${datesHtml}
             </div>
             ${unreadHtml}
         </div>`;
     }).join('');
+}
+
+/** 列表里的淡灰日期：今年只显示 MM-DD HH:mm，跨年显示 YYYY-MM-DD HH:mm */
+function formatChatDate(ts) {
+    const n = Number(ts);
+    if (!Number.isFinite(n) || n <= 0) return '—';
+    const d = new Date(n);
+    const p = v => String(v).padStart(2, '0');
+    const datePart = d.getFullYear() === new Date().getFullYear()
+        ? `${p(d.getMonth() + 1)}-${p(d.getDate())}`
+        : `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+    return `${datePart} ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
 function onSearch() {
@@ -1616,7 +1664,7 @@ function onSearch() {
         clearTimer();
         longPressFired = false;
         pressStart = { x: e.clientX, y: e.clientY };
-        const id = Number(item.dataset.id);
+        const id = item.dataset.id;
         pressTimer = setTimeout(() => {
             pressTimer = null;
             pressStart = null;
@@ -1640,23 +1688,23 @@ function onSearch() {
     list.addEventListener('click', e => {
         if (longPressFired) { longPressFired = false; return; }
         const item = e.target.closest('.contact-item');
-        if (item) openChat(Number(item.dataset.id));
+        if (item) openChat(item.dataset.id);
     });
 
     list.addEventListener('contextmenu', e => {
         const item = e.target.closest('.contact-item');
         if (!item) return;
         e.preventDefault();
-        showListContextMenu(Number(item.dataset.id));
+        showListContextMenu(item.dataset.id);
     });
 })();
 
-function showListContextMenu(studentId) {
-    const stu = libraryById[studentId];
-    const entry = myStudents.find(s => s.id === studentId);
+function showListContextMenu(chatId) {
+    const entry = myStudents.find(s => s.id === chatId);
+    const stu = entry ? libraryById[entry.studentId] : null;
     if (!stu || !entry) return;
 
-    const msgCount = (chats[studentId] || []).length;
+    const msgCount = (chats[chatId] || []).length;
     const html = `
         <div style="font-size:13px;color:#888;margin-bottom:12px;text-align:center;">
             ${escapeHtml(T('manageSubtitle', { name: stu.displayName, count: msgCount }, '{name} · 共 {count} 条消息'))}
@@ -1671,7 +1719,7 @@ function showListContextMenu(studentId) {
         {
             text: T('manageClear', null, '清空记录'), class: 'danger',
             onClick: () => {
-                delete chats[studentId];
+                delete chats[chatId];
                 entry.unread = 0; // 消息都清空了，未读角标不应该还留着
                 saveMyStudents();
                 saveChats();
@@ -1682,8 +1730,10 @@ function showListContextMenu(studentId) {
         {
             text: T('manageRemove', null, '移出列表'), class: 'danger',
             onClick: () => {
-                myStudents = myStudents.filter(s => s.id !== studentId);
+                myStudents = myStudents.filter(s => s.id !== chatId);
+                delete chats[chatId];
                 saveMyStudents();
+                saveChats();
                 renderContactList();
                 closeModal();
             }
@@ -1735,7 +1785,8 @@ function renderPickerList(query) {
     const box = document.getElementById('picker-list');
     if (!box) return;
 
-    const addedSet = new Set(myStudents.map(s => s.id));
+    // 同一角色允许多个会话：这里按 studentId 标记「已添加过」，但点击仍可再添加一个新会话
+    const addedSet = new Set(myStudents.map(s => s.studentId));
     const q = query.toLowerCase();
 
     let items = library;
@@ -1751,6 +1802,7 @@ function renderPickerList(query) {
 
     const addedTxt = T('pickerAdded', null, '已添加');
     const addTxt = T('pickerAdd', null, '＋ 添加');
+    const readdTxt = T('pickerReadd', null, '＋ 再添加一个');
 
     box.innerHTML = limited.map(s => {
         const added = addedSet.has(s.id);
@@ -1760,7 +1812,7 @@ function renderPickerList(query) {
                  data-fallback="${escapeHtml(fallbackAvatar(s.displayName))}"
                  referrerpolicy="no-referrer" alt="" loading="lazy">
             <div class="picker-name">${escapeHtml(s.displayName)}</div>
-            <div class="picker-status">${added ? escapeHtml(addedTxt) : escapeHtml(addTxt)}</div>
+            <div class="picker-status">${added ? escapeHtml(readdTxt) : escapeHtml(addTxt)}</div>
         </div>`;
     }).join('') + (items.length > MAX
         ? `<div class="picker-empty">${escapeHtml(T('pickerMore', { n: items.length - MAX }, '还有 {n} 个形态未显示，请输入关键字搜索'))}</div>`
@@ -1768,21 +1820,36 @@ function renderPickerList(query) {
 
     box.querySelectorAll('.picker-item').forEach(el => {
         el.addEventListener('click', () => {
-            if (el.classList.contains('added')) return;
+            // 每次点击都新建一个独立会话（重复角色也可多次添加）
             addStudentToMyList(Number(el.dataset.id));
             el.classList.add('added');
             const status = el.querySelector('.picker-status');
-            if (status) status.textContent = addedTxt;
+            if (status) status.textContent = readdTxt;
             renderContactList();
         });
     });
 }
 
-function addStudentToMyList(id) {
-    if (!libraryById[id]) return;
-    if (myStudents.some(s => s.id === id)) return;
-    myStudents.push({ id: id, unread: 0, addedAt: now() });
+/** 生成会话 id：时间戳 + 角色编号（同一毫秒重复时时间戳递增，保证唯一） */
+function newChatId(studentId) {
+    let ts = Date.now();
+    let id = ts + '_' + studentId;
+    while (myStudents.some(s => s.id === id) || Object.prototype.hasOwnProperty.call(chats, id)) {
+        ts += 1;
+        id = ts + '_' + studentId;
+    }
+    return id;
+}
+
+function addStudentToMyList(studentId) {
+    const stuId = Number(studentId);
+    if (!libraryById[stuId]) return null;
+    const chatId = newChatId(stuId);
+    myStudents.push({ id: chatId, studentId: stuId, unread: 0, addedAt: now() });
+    if (!Array.isArray(chats[chatId])) chats[chatId] = [];
     saveMyStudents();
+    saveChats();
+    return chatId;
 }
 
 /* ================= 信息盒子：数据模型与工具 ================= */
@@ -1989,7 +2056,11 @@ function canEditItem(type) {
 }
 
 function currentStudent() {
-    return currentStudentId ? libraryById[currentStudentId] : null;
+    if (!currentStudentId) return null;
+    // currentStudentId 现在是「会话 id」（时间戳_角色编号），学生资料要按 entry.studentId 查
+    const entry = myStudents.find(s => s.id === currentStudentId);
+    const stuId = entry ? entry.studentId : Number(currentStudentId);
+    return libraryById[stuId] || null;
 }
 
 function chatBoxes() {
@@ -2000,14 +2071,27 @@ function chatBoxes() {
 
 /* ================= 聊天页渲染 ================= */
 
-function openChat(studentId) {
-    const stu = libraryById[studentId];
+function findChatEntry(chatId) {
+    const key = String(chatId);
+    return myStudents.find(s => s.id === key) || null;
+}
+
+function openChat(chatId) {
+    let entry = findChatEntry(chatId);
+    if (!entry) {
+        // 兼容旧调用方（例如调试钩子/旧代码传学生 id）：打开该学生的第一个会话
+        const stuId = Number(chatId);
+        entry = myStudents.find(s => s.studentId === stuId) || null;
+    }
+    if (!entry) return;
+    const stu = libraryById[entry.studentId];
     if (!stu) return;
+    const actualChatId = entry.id;
 
     stopPlayback(true);
     closeMorePanel();
 
-    currentStudentId = studentId;
+    currentStudentId = actualChatId;
     currentRole = 'sensei';
     updateRoleUI();
 
@@ -2017,8 +2101,7 @@ function openChat(studentId) {
     headerAvatar.src = stu.avatar || fallbackAvatar(stu.displayName);
     document.getElementById('chat-header-name').textContent = stu.displayName;
 
-    const entry = myStudents.find(s => s.id === studentId);
-    if (entry && entry.unread) {
+    if (entry.unread) {
         entry.unread = 0;
         saveMyStudents();
     }
@@ -2680,20 +2763,9 @@ function chooseReplyOption(btn) {
         return;
     }
 
-    const box = findBox(boxId);
-    const item = box ? findItem(box, itemId) : null;
-    if (!box || !item || item.type !== 'reply') return;
-    const options = getReplyOptions(item);
-    const text = options[index];
-    if (!text) return;
-
-    // 选中的选项直接作为老师消息输出（回复选择框被替换为普通消息）
-    item.type = 'text';
-    item.text = text;
-    delete item.options;
-    box.time = now();
-    saveChats();
-    renderChat();
+    // 需求：非播放模式不允许点击回复框。回复框只在播放模式里选择，
+    // 否则会把回复选择框永久替换成一条消息，破坏原始聊天数据。
+    showToast(T('replyPlayOnly', null, '回复框只能在播放模式中选择'));
 }
 
 function openBoxEditor(boxId) {
@@ -2708,8 +2780,19 @@ function openBoxEditor(boxId) {
         ? T('roleSensei', null, '老师')
         : (stu ? stu.displayName : T('roleStudent', null, '学生'));
 
+    // 「与上一个信息盒子合并」：只有存在上一个盒子、且发送者相同才可用
+    const prevBox = idx > 0 ? boxes[idx - 1] : null;
+    const canMerge = !!(prevBox && prevBox.role === box.role);
+    const mergeDisabled = canMerge ? '' : 'disabled';
+    const mergeTitle = canMerge
+        ? T('boxMergePrev', null, '与上一个信息盒子合并')
+        : (idx === 0
+            ? T('boxMergeFirst', null, '这是第一个信息盒子，没有可合并的上一个')
+            : T('boxMergeRole', null, '上一个信息盒子发送者不同，无法合并'));
+
     const itemsHtml = box.items.map((it, i) => `
         <div class="box-edit-row" data-item-id="${escapeHtml(it.id)}">
+            <input type="checkbox" class="box-edit-check" data-index="${i}" title="${escapeHtml(T('boxSplitSelect', null, '勾选后可独立为新的信息盒子'))}">
             <span class="box-edit-type">${escapeHtml(itemTypeLabel(it.type))}</span>
             <span class="box-edit-preview">${escapeHtml(itemPreview(it))}</span>
             ${canEditItem(it.type)
@@ -2724,11 +2807,14 @@ function openBoxEditor(boxId) {
             ${escapeHtml(senderName)} · ${escapeHtml(T('boxItemCount', { n: box.items.length }, '共 {n} 条信息'))}
         </div>
         <div class="box-edit-list" id="box-edit-list">${itemsHtml}</div>
+        <div class="box-edit-hint">${escapeHtml(T('boxSplitHint', null, '勾选消息后，可把它们独立为另一个信息盒子；未勾选的消息保留在原盒子'))}</div>
         <div class="box-edit-actions">
             <button class="box-action-btn" type="button" data-action="append">＋ ${escapeHtml(T('boxAppend', null, '追加信息'))}</button>
             <button class="box-action-btn" type="button" data-action="sender">${escapeHtml(T('boxChangeSender', null, '更换发送者'))}</button>
             <button class="box-action-btn" type="button" data-action="up" ${idx === 0 ? 'disabled' : ''}>↑ ${escapeHtml(T('boxMoveUp', null, '上移'))}</button>
             <button class="box-action-btn" type="button" data-action="down" ${idx === boxes.length - 1 ? 'disabled' : ''}>↓ ${escapeHtml(T('boxMoveDown', null, '下移'))}</button>
+            <button class="box-action-btn" type="button" data-action="split" style="grid-column:1 / -1;" disabled>${escapeHtml(T('boxSplit', null, '独立为一个信息盒子'))}</button>
+            <button class="box-action-btn" type="button" data-action="merge" style="grid-column:1 / -1;" ${mergeDisabled} title="${escapeHtml(mergeTitle)}">${escapeHtml(T('boxMergePrev', null, '与上一个信息盒子合并'))}</button>
             <button class="box-action-btn danger" type="button" data-action="delete" style="grid-column:1 / -1;">${escapeHtml(T('boxDelete', null, '删除信息盒子'))}</button>
         </div>`;
 
@@ -2770,9 +2856,18 @@ function openBoxEditor(boxId) {
             }
         });
     });
+    // 多选消息 → 启用「独立为一个信息盒子」
+    const splitBtn = body.querySelector('[data-action="split"]');
+    const splitChecks = Array.from(body.querySelectorAll('.box-edit-check'));
+    const refreshSplit = () => {
+        if (!splitBtn) return;
+        splitBtn.disabled = !splitChecks.some(c => c.checked);
+    };
+    splitChecks.forEach(c => c.addEventListener('change', refreshSplit));
+    refreshSplit();
+
     body.querySelectorAll('[data-action]').forEach(btn => {
         const action = btn.dataset.action;
-        if (btn.disabled) return;
         btn.addEventListener('click', () => {
             const arr = chatBoxes();
             const bi = arr.findIndex(b => b.id === box.id);
@@ -2796,6 +2891,46 @@ function openBoxEditor(boxId) {
                 saveChats();
                 renderChat();
                 openBoxEditor(b.id);
+            } else if (action === 'split') {
+                const picked = splitChecks
+                    .filter(c => c.checked)
+                    .map(c => Number(c.dataset.index))
+                    .filter(i => Number.isFinite(i) && i >= 0 && i < b.items.length)
+                    .sort((x, y) => x - y);
+                if (!picked.length) return;
+                const pickedSet = new Set(picked);
+                const kept = b.items.filter((it, i) => !pickedSet.has(i));
+                const moved = b.items.filter((it, i) => pickedSet.has(i));
+                if (!moved.length) return;
+                const newBox = { id: uid('b'), role: b.role, time: now(), items: moved };
+                arr.splice(bi + 1, 0, newBox);
+                let targetId = b.id;
+                if (!kept.length) {
+                    // 全部消息都被独立出去：不留下空盒子，新盒子占据原位置
+                    arr.splice(bi, 1);
+                    targetId = newBox.id;
+                } else {
+                    b.items = kept;
+                    b.time = now();
+                }
+                saveChats();
+                renderChat();
+                showToast(T('boxSplitDone', null, '已独立为一个信息盒子'));
+                openBoxEditor(targetId);
+            } else if (action === 'merge') {
+                if (bi <= 0) return;
+                const prev = arr[bi - 1];
+                if (!prev || prev.role !== b.role) {
+                    showToast(T('boxMergeRole', null, '上一个信息盒子发送者不同，无法合并'));
+                    return;
+                }
+                prev.items = prev.items.concat(b.items);
+                prev.time = now();
+                arr.splice(bi, 1);
+                saveChats();
+                renderChat();
+                showToast(T('boxMerged', null, '已合并到上一个信息盒子'));
+                openBoxEditor(prev.id);
             } else if (action === 'delete') {
                 confirmModal(T('boxDeleteTitle', null, '删除信息盒子'),
                     escapeHtml(T('boxDeleteConfirm', null, '确定删除这个信息盒子吗？')),
@@ -2887,6 +3022,8 @@ function resetPlayButton() {
     if (bar) bar.classList.add('hidden');
     const area = document.getElementById('chat-input-area');
     if (area) area.classList.remove('disabled');
+    const content = document.getElementById('chat-content');
+    if (content) content.classList.remove('playing');
     const input = document.getElementById('chat-input');
     if (input) input.disabled = false;
     ['send-btn', 'append-btn', 'btn-more'].forEach(id => {
@@ -2924,6 +3061,7 @@ function startPlayback() {
 
     const container = document.getElementById('chat-content');
     container.innerHTML = '';
+    container.classList.add('playing');
     document.getElementById('playback-bar').classList.remove('hidden');
     document.getElementById('btn-play').classList.add('playing');
     document.getElementById('btn-play-text').textContent = T('playStopBtn', null, '停止');
@@ -3088,16 +3226,8 @@ function resolvePlaybackReply(boxId, itemId, optionIndex) {
     const text = options[optionIndex];
     if (!text) return;
 
-    // 选中项作为消息输出，同时写回真实聊天数据
-    const realBox = findBox(boxId);
-    const realItem = realBox ? findItem(realBox, itemId) : null;
-    if (realBox && realItem) {
-        realItem.type = 'text';
-        realItem.text = text;
-        delete realItem.options;
-        realBox.time = now();
-        saveChats();
-    }
+    // 只在播放副本里把回复框替换成消息；绝不写回真实聊天数据。
+    // 播放结束/停止后 renderChat 会用原始数据重新渲染，回复框恢复原样。
     pItem.type = 'text';
     pItem.text = text;
     delete pItem.options;
@@ -3191,6 +3321,14 @@ function prepareBoxesForScreenshot(boxes) {
     }));
 }
 
+function screenshotImageProxy() {
+    // 可选：远程图片（学生头像等）没有 CORS 头，canvas 直连加载会失败，
+    // 通过图片代理转成带 CORS 的地址才能在截图里画出来。配置在
+    // running_datas.json 的 screenshot.imageProxy（{url} 为占位符，留空则关闭）。
+    const sc = CONFIG.screenshot || {};
+    return typeof sc.imageProxy === 'string' ? sc.imageProxy.trim() : '';
+}
+
 function takeScreenshot() {
     if (!currentStudentId) return;
     if (playback) stopPlayback(false);
@@ -3215,6 +3353,7 @@ function takeScreenshot() {
         student: { name: stu.displayName, avatar: stu.avatar || fallbackAvatar(stu.displayName) },
         width: width,
         dpr: 2,
+        imageProxy: screenshotImageProxy(),
         texts: {
             reply: T('replyTitle', null, '回复'),
             story: T('storyTitle', null, '好感故事'),
@@ -3596,15 +3735,26 @@ function loadUserData() {
         if (raw) {
             const arr = JSON.parse(raw);
             if (Array.isArray(arr)) {
+                const usedChatIds = new Set();
                 myStudents = arr
                     .map(x => {
                         // null / 非对象条目不能直接读 x.id：Number(null)=0 会通过校验，
                         // 随后读 x.unread 抛 TypeError，被外层 catch 捕获后整份列表被清空。
                         if (!x || typeof x !== 'object') return null;
-                        const id = Number(x.id);
-                        if (!Number.isFinite(id) || id <= 0) return null;
+                        // 新格式：{ id: chatId, studentId }；旧格式：{ id: studentId }（自动迁移成 chatId）
+                        const stuId = Number(x.studentId != null ? x.studentId : x.id);
+                        if (!Number.isFinite(stuId) || stuId <= 0) return null;
+                        let chatId;
+                        if (typeof x.id === 'string' && x.id && String(Number(x.id)) !== x.id) {
+                            chatId = x.id;
+                        } else {
+                            chatId = String(stuId);
+                        }
+                        if (usedChatIds.has(chatId)) return null;
+                        usedChatIds.add(chatId);
                         return {
-                            id: id,
+                            id: chatId,
+                            studentId: stuId,
                             unread: Number(x.unread) > 0 ? Number(x.unread) : 0,
                             addedAt: Number(x.addedAt) || 0
                         };
@@ -3631,7 +3781,7 @@ function loadUserData() {
 
 function buildExportData() {
     return {
-        version: 4,
+        version: 5,
         exportedAt: new Date().toISOString(),
         myStudents: myStudents,
         customStudents: customStudents,
@@ -3653,23 +3803,38 @@ function importData(event) {
     reader.onload = function (e) {
         try {
             const parsed = JSON.parse(e.target.result);
-            let importedIds = [];
+            let importedEntries = [];
             let importedChats = null;
             let importedCustomStudents = null;
 
-            const toStudentId = x => {
-                if (typeof x === 'number') return x;
-                if (typeof x === 'string') return Number(x);
-                return Number(x && x.id);
+            // 兼容三种输入：数字/字符串学生 id、旧格式 { id: studentId }、新格式 { id: chatId, studentId }
+            const toEntry = x => {
+                if (x == null) return null;
+                if (typeof x === 'number' || typeof x === 'string') {
+                    const sid = Number(x);
+                    if (!Number.isFinite(sid) || sid <= 0) return null;
+                    return { chatId: String(sid), studentId: sid, unread: 0, addedAt: 0 };
+                }
+                if (typeof x !== 'object') return null;
+                const sid = Number(x.studentId != null ? x.studentId : x.id);
+                if (!Number.isFinite(sid) || sid <= 0) return null;
+                const chatId = (typeof x.id === 'string' && x.id && String(Number(x.id)) !== x.id)
+                    ? x.id : String(sid);
+                return {
+                    chatId: chatId,
+                    studentId: sid,
+                    unread: Number(x.unread) > 0 ? Number(x.unread) : 0,
+                    addedAt: Number(x.addedAt) || 0
+                };
             };
 
             if (Array.isArray(parsed)) {
-                importedIds = parsed.map(toStudentId).filter(Number.isFinite);
+                importedEntries = parsed.map(toEntry).filter(Boolean);
             } else if (parsed && typeof parsed === 'object') {
                 if (Array.isArray(parsed.myStudents)) {
-                    importedIds = parsed.myStudents.map(toStudentId).filter(Number.isFinite);
+                    importedEntries = parsed.myStudents.map(toEntry).filter(Boolean);
                 } else if (Array.isArray(parsed.students)) {
-                    importedIds = parsed.students.map(toStudentId).filter(Number.isFinite);
+                    importedEntries = parsed.students.map(toEntry).filter(Boolean);
                 }
                 if (parsed.chats && typeof parsed.chats === 'object' && !Array.isArray(parsed.chats)) {
                     importedChats = sanitizeChats(parsed.chats);
@@ -3696,13 +3861,19 @@ function importData(event) {
 
             const existing = new Set(myStudents.map(s => s.id));
             let added = 0, missing = 0;
-            importedIds.forEach(id => {
-                if (!libraryById[id]) { missing++; return; }
-                if (existing.has(id)) return;
-                myStudents.push({ id: id, unread: 0, addedAt: now() + added });
-                existing.add(id);
+            importedEntries.forEach(entry => {
+                if (!libraryById[entry.studentId]) { missing++; return; }
+                if (existing.has(entry.chatId)) return;
+                myStudents.push({
+                    id: entry.chatId,
+                    studentId: entry.studentId,
+                    unread: entry.unread,
+                    addedAt: entry.addedAt || now() + added
+                });
+                existing.add(entry.chatId);
                 added++;
             });
+            const knownChatIds = new Set(myStudents.map(s => s.id));
 
             let chatMerged = 0;
             let addedBoxes = 0;
@@ -3723,7 +3894,7 @@ function importData(event) {
                         chats[k] = existingChat.concat(incomingNew).sort((a, b) => a.time - b.time);
                         addedBoxes += incomingNew.length;
                         // 学生库里已不存在的 id 照旧保留数据（日后库更新还能恢复），但不计入"合并会话"
-                        if (libraryById[k] && incomingNew.length) chatMerged++;
+                        if (knownChatIds.has(k) && incomingNew.length) chatMerged++;
                     }
                 });
                 saveChats();
