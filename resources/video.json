@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01",
+  "updatedAt": "2026-11-13",
   "_format": {
     "说明": "videos 数组每项代表一个教程视频。页面按「更多 → 通用设置 → 默认跳转视频网站」只展示 links 里的其中一个链接：channels = 视频号，xiaohongshu = 小红书。若当前默认网站没有该视频的链接，会自动回退用另一个；两个都没有则显示「暂无链接」。",
     "字段": {
@@ -9,16 +9,16 @@
       "description": "必填，文字介绍；点击这段文字跳转到视频",
       "links.channels": "视频号链接（http/https）",
       "links.xiaohongshu": "小红书链接（http/https）"
-    },
-    "示例": {
-      "id": "basic",
-      "title": "基础使用",
-      "description": "介绍如何添加学生、发送消息、切换身份。",
-      "links": {
-        "channels": "https://channels.weixin.qq.com/替换成你的视频号链接",
-        "xiaohongshu": "https://www.xiaohongshu.com/替换成你的小红书链接"
-      }
     }
   },
-  "videos": []
+  "videos": [
+    "预发布-测试": {
+      "id": "test-001",
+      "title": "预发布",
+      "description": "MomoTalk Web Verson0.0.1 预发布图文。",
+      "links": {
+        "channels": "https://weixin.qq.com/sph/nl/AfXuw9z2a",
+        "xiaohongshu": NUll
+    }
+  ]
 }
