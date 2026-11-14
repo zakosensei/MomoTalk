@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-13",
+  "updatedAt": "2026-11-14",
   "_format": {
     "说明": "videos 数组每项代表一个教程视频。页面按「更多 → 通用设置 → 默认跳转视频网站」只展示 links 里的其中一个链接：channels = 视频号，xiaohongshu = 小红书。若当前默认网站没有该视频的链接，会自动回退用另一个；两个都没有则显示「暂无链接」。",
     "字段": {
@@ -19,6 +19,15 @@
       "links": {
         "channels": "https://weixin.qq.com/sph/AJqXfQq53Y",
         "xiaohongshu": "https://xhslink.cn/o/e4IZrSIKNs"
+      }
+    },
+    {
+      "id": "post-ver010",
+      "title": "MomoTalk Web Verson0.1.0 首发介绍",
+      "description": "简要介绍MomoTalk Web Verson0.1.0 的使用。",
+      "links": {
+        "channels": null,
+        "xiaohongshu": "https://xhslink.cn/o/bJSICGmD0I"
       }
     }
   ]
