@@ -70,28 +70,29 @@
     bgFrom: '#FFFFFF',
     bgMid: '#F7F9FB',
     bgTo: '#EEF4F8',
-    // 回复框（浅蓝）
-    replyPanelFrom: '#E2EDF3',
-    replyPanelTo: '#E9F1F6',
-    replyBorder: '#D3E2EB',
-    replyBar: '#4B8AC9',
-    replyLabel: '#3E5568',
+    // 回复框（浅青灰，与聊天页 .reply-panel / resources/Avatars/4_0 对齐）
+    replyPanelFrom: '#E9F2F3',
+    replyPanelTo: '#E2EDEE',
+    replyBorder: '#D7E1E4',
+    replyBar: '#4A8EBB',
+    replyLabel: '#48525E',
     replyInnerBg: '#FFFFFF',
-    replyInnerBorder: '#E4EBF1',
-    replyInnerText: '#55636F',
-    // 好感故事框（参考游戏原版：浅粉卡片 + 深灰标签 + 粉色按钮 + 绿色播放箭头）
-    storyPanelFrom: '#FFF6F8',
-    storyPanelTo: '#FDEBF1',
-    storyBorder: '#F8D7E2',
-    storyHeart: '#F9CFDC',
-    storyBar: '#F06A95',
-    storyLabel: '#4A4A4A',
-    storyBtn: '#F5749A',
+    replyInnerBorder: '#B9C4C4',
+    replyInnerText: '#4A5460',
+    // 好感故事框（参考 resources/Avatars/5_0：浅粉近白卡片 + 深灰标签 + 粉色按钮）
+    storyPanelFrom: '#FFF6F7',
+    storyPanelTo: '#FFECEE',
+    storyBorder: '#F2DADE',
+    storyHeart: '#FFD4DC',
+    storyBar: '#F0A0B0',
+    storyLabel: '#4C5361',
+    storyLabelDivider: '#E3D2D5',
+    storyBtn: '#FE92A4',
     storyBtnText: '#FFFFFF',
-    // 旁白
-    narration1Text: '#BFBFBF',
-    narration2Bg: '#E9E9E9',
-    narration2Text: '#333333',
+    // 旁白（参考 resources/Avatars/2_0、3_0：灰绿药丸 + 近黑色文字）
+    narration1Text: '#2B2B2B',
+    narration2Bg: '#DDE6E5',
+    narration2Text: '#1A1A1A',
     // 图片失败占位
     placeholderBg: '#E9EEF3',
     placeholderText: '#9AA7B3',
@@ -825,9 +826,10 @@
     };
   }
 
-  /** 测量单个 item，返回待绘制的节点；无法识别返回 null */
-  function measureItem(ctx, item, cfg, imageMap, role, texts, maxBubbleWidth, bodyLeft, right) {
-    var type = item.type == null ? '' : String(item.type).toLowerCase();
+  /**
+   * 测量单个 item，返回待绘制的节点；无法识别返回 null
+   */
+  function measureItem(ctx, item, cfg, imageMap, role, texts, maxBubbleWidth, bodyLeft, right) {    var type = item.type == null ? '' : String(item.type).toLowerCase();
     if (type === 'image') return measureImage(item, cfg, imageMap, texts);
     if (type === 'emoji') return measureEmoji(item, cfg, imageMap, texts);
     if (type === 'reply') return measureReply(ctx, item, cfg, role, texts, bodyLeft, right);
@@ -841,8 +843,7 @@
    * 计算整张图的布局。
    * @returns {{ nodes: Array, height: number }}
    */
-  function buildLayout(ctx, boxes, cfg, imageMap, texts, student) {
-    var nodes = [];
+  function buildLayout(ctx, boxes, cfg, imageMap, texts, student) {    var nodes = [];
     var cursor = cfg.padding;
     var bodyLeft = cfg.padding + cfg.avatarSize + cfg.avatarGap;
     var right = cfg.width - cfg.padding;
@@ -875,6 +876,7 @@
       measured.forEach(function (node, index) {
         bodyHeight += node.h + (index < measured.length - 1 ? cfg.itemGap : 0);
       });
+      // 学生：头像 + 名字；老师：无头像无名（只有气泡）
       var headerHeight = isStudent ? cfg.nameHeight + cfg.nameGap : 0;
       var boxHeight = Math.max(headerHeight + bodyHeight, isStudent ? cfg.avatarSize : 0);
 
@@ -1126,7 +1128,7 @@
     ctx.stroke();
 
     drawPanelTitle(ctx, node, cfg, COLORS.replyBar, COLORS.replyLabel);
-    drawPanelDivider(ctx, node, cfg, 'rgba(75,138,201,0.25)');
+    drawPanelDivider(ctx, node, cfg, '#C9D3D4');
 
     var innerX = node.x + rel.innerX;
     var y = node.y + rel.innerY;
@@ -1202,11 +1204,24 @@
     var label = ellipsize(ctx, node.title, labelMaxWidth);
     if (label) ctx.fillText(label, barX + 7, labelCy);
 
-    // 粉色按钮
+    // 标题下的细分隔线（与聊天页 .story-label 的 border-bottom 一致）
+    var dividerY = Math.round(node.y + rel.labelY + cfg.storyLabelHeight + 4) + 0.5;
+    ctx.beginPath();
+    ctx.moveTo(node.x + cfg.panelPad, dividerY);
+    ctx.lineTo(node.x + node.w - cfg.panelPad, dividerY);
+    ctx.strokeStyle = COLORS.storyLabelDivider;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // 粉色按钮（5_0 参考图：轻微上浅下深的竖向渐变）
     var btnX = node.x + rel.btnX;
     var btnY = node.y + rel.btnY;
+    var btnGrad = ctx.createLinearGradient(0, btnY, 0, btnY + rel.btnH);
+    btnGrad.addColorStop(0, '#FFA2B2');
+    btnGrad.addColorStop(0.6, COLORS.storyBtn);
+    btnGrad.addColorStop(1, '#FB8A9D');
     roundRectPath(ctx, btnX, btnY, rel.btnW, rel.btnH, cfg.storyButtonRadius);
-    ctx.fillStyle = COLORS.storyBtn;
+    ctx.fillStyle = btnGrad;
     ctx.fill();
 
     // 白色按钮文字（居中）
@@ -1222,7 +1237,7 @@
     }
   }
 
-  /** 旁白：旁白1 居中淡灰小字 / 旁白2 居中灰底黑字 */
+  /** 旁白：旁白1 居中近黑小字 / 旁白2 居中灰绿药丸黑字（参考 Avatars/2_0、3_0） */
   function drawNarration(ctx, node, cfg) {
     var small = node.kind === 'narration1';
     if (!small) {

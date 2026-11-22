@@ -448,7 +448,9 @@ body {
     border-radius: 50%;
     object-fit: cover;
     background: #dfe7ef;
-    border: 1px solid rgba(0, 0, 0, 0.04);
+    /* 原版头像带一圈很淡的描边，避免和气泡/背景糊在一起 */
+    border: 1px solid #e2eaf2;
+    box-shadow: 0 1px 2px rgba(30, 40, 60, 0.06);
     flex-shrink: 0;
     pointer-events: none;
 }
@@ -571,14 +573,14 @@ body {
     background: #f4f6f8;
 }
 
-/* 回复框 */
+/* 回复框（参考 resources/Avatars/4_0：浅青灰面板 + 灰蓝竖条标题 + 标题下分隔线 + 白底灰边选项） */
 .reply-panel {
     width: min(260px, 66vw);
-    background: linear-gradient(135deg, #e8f1f6 0%, #dfeef5 100%);
-    border: 1px solid #d3e2eb;
-    border-radius: 12px;
+    background: linear-gradient(140deg, #e9f2f3 0%, #e2edee 100%);
+    border: 1px solid #d7e1e4;
+    border-radius: 10px;
     padding: 10px;
-    box-shadow: 0 1px 3px rgba(70, 100, 120, 0.08);
+    box-shadow: 0 1px 3px rgba(70, 100, 120, 0.1);
 }
 .reply-label {
     display: flex;
@@ -586,15 +588,18 @@ body {
     gap: 6px;
     font-size: 13px;
     font-weight: 700;
-    color: #4a6d86;
+    color: #48525e;
     margin-bottom: 8px;
+    padding-bottom: 7px;
+    /* 4_0 参考图：标题下有一条细分隔线 */
+    border-bottom: 1px solid #c9d3d4;
     line-height: 1;
 }
 .reply-bar {
     width: 3px;
     height: 14px;
     border-radius: 2px;
-    background: #4b8ac9;
+    background: #4a8ebb;
     flex-shrink: 0;
 }
 .reply-inner {
@@ -609,25 +614,25 @@ body {
     white-space: pre-wrap;
 }
 
-/* 好感故事框（参考游戏原版：浅粉卡片 + 粉色竖条标题 + 粉色按钮 + 绿色播放箭头） */
+/* 好感故事框（参考 resources/Avatars/5_0：浅粉近白卡片 + 粉心水印 + 深灰标签 + 粉色按钮） */
 .story-panel {
     position: relative;
     width: min(250px, 86%);
-    background: linear-gradient(155deg, #fff6f8 0%, #fdebf1 100%);
-    border: 1px solid #f8d7e2;
-    border-radius: 10px;
-    padding: 8px 10px 10px;
-    box-shadow: 0 2px 6px rgba(224, 140, 165, 0.16);
+    background: linear-gradient(160deg, #fff6f7 0%, #ffecee 100%);
+    border: 1px solid #f2dade;
+    border-radius: 8px;
+    padding: 9px 10px 10px;
+    box-shadow: 0 2px 6px rgba(224, 140, 165, 0.14);
     overflow: hidden;
 }
 .story-heart {
     position: absolute;
-    right: -16px;
-    top: -12px;
-    width: 86px;
-    height: 86px;
-    fill: #f9cfdc;
-    opacity: 0.85;
+    right: -10px;
+    top: -6px;
+    width: 96px;
+    height: 96px;
+    fill: #ffd4dc;
+    opacity: 1;
     pointer-events: none;
 }
 .story-label {
@@ -637,8 +642,11 @@ body {
     gap: 6px;
     font-size: 12px;
     font-weight: 700;
-    color: #4a4a4a;
+    color: #4c5361;
     margin: 0 2px 8px;
+    padding-bottom: 6px;
+    /* 5_0 参考图：标题下有一条很淡的粉色分隔线 */
+    border-bottom: 1px solid #e3d2d5;
     line-height: 1;
     letter-spacing: 0.3px;
 }
@@ -646,7 +654,7 @@ body {
     width: 3px;
     height: 12px;
     border-radius: 2px;
-    background: #f06a95;
+    background: #f0a0b0;
     flex-shrink: 0;
 }
 .story-btn {
@@ -657,7 +665,9 @@ body {
     width: 100%;
     min-height: 36px;
     padding: 8px 12px;
-    background: #f5749a;
+    /* 5_0 参考图：粉底白字，上浅下深一点点渐变 */
+    background-color: #fe92a4;
+    background-image: linear-gradient(180deg, #ffa2b2 0%, #fe92a4 60%, #fb8a9d 100%);
     border-radius: 6px;
     color: #fff;
     font-size: 12.5px;
@@ -671,7 +681,7 @@ body {
 }
 .story-btn-text { display: block; }
 
-/* 旁白：旁白1 居中淡灰小字；旁白2 居中灰底黑字 */
+/* 旁白（参考 resources/Avatars/2_0、3_0：旁白1 近黑纯文字；旁白2 灰绿药丸 + 近黑字） */
 .narration {
     white-space: pre-wrap;
     word-break: break-word;
@@ -679,7 +689,7 @@ body {
 .narration1 {
     max-width: 100%;
     padding: 2px 10px;
-    color: #bfbfbf;
+    color: #2b2b2b;
     font-size: 12px;
     line-height: 1.55;
     text-align: center;
@@ -688,9 +698,9 @@ body {
     display: inline-block;
     max-width: min(300px, 82%);
     padding: 8px 14px;
-    background: #e9e9e9;
+    background: #dde6e5;
     border-radius: 8px;
-    color: #333;
+    color: #1a1a1a;
     font-size: 13px;
     line-height: 1.5;
     text-align: center;
@@ -1184,6 +1194,8 @@ textarea.modal-input {
     line-height: 1.5;
 }
 
+/* 历史遗留：短屏时给弹窗按钮吸底；差分选择器自己内部滚动，
+   不再需要吸底（否则在移动端滚动时按钮会盖住最后一排格子，看起来像重叠） */
 .modal-actions {
     display: flex;
     gap: 8px;
@@ -1195,6 +1207,10 @@ textarea.modal-input {
     padding-top: 6px;
     background: #fff;
 }
+.modal-content:has(.diff-wrap) .modal-actions { position: static; }
+/* 「追加」在卡片类消息后不可用时的置灰提示（点击会提示原因） */
+.append-btn.blocked { opacity: 0.55; }
+.box-action-btn.blocked { opacity: 0.55; }
 
 .modal-btn {
     flex: 1;
@@ -1850,31 +1866,49 @@ textarea.form-input { resize: vertical; min-height: 70px; line-height: 1.5; }
 }
 .diff-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* minmax(0, 1fr)：避免 1fr 的最小内容尺寸把某一列撑宽（窄屏会串列重叠） */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
     max-height: 46vh;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    align-content: start;
+    padding-right: 2px;
     -webkit-overflow-scrolling: touch;
 }
 .diff-cell {
+    display: block;
+    position: relative;
+    /* 用「高度 0 + 下内边距 100%」做正方形：不依赖 aspect-ratio，
+       旧版 Android WebView / 部分移动端浏览器不支持 aspect-ratio 时
+       格子高度会塌陷、图片溢出导致相邻格子重叠 */
+    height: 0;
+    padding: 0 0 100%;
     border: none;
     background: #f7f8fa;
     border-radius: 10px;
-    padding: 0;
     overflow: hidden;
     cursor: pointer;
-    aspect-ratio: 1 / 1;
-    position: relative;
+    min-width: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 .diff-cell img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: top center;
+    /* contain：完整显示差分图，不再按 cover 裁掉嘴部 / 下巴 */
+    object-fit: contain;
+    object-position: center;
     display: block;
     pointer-events: none;
+    background: #fff;
+    border-radius: inherit;
 }
 .diff-cell:active { opacity: 0.75; }
+.diff-wrap { display: flex; flex-direction: column; min-height: 0; }
 
 
 /* ================= 回复 / 好感故事：居中卡片 ================= */
@@ -1888,18 +1922,19 @@ textarea.form-input { resize: vertical; min-height: 70px; line-height: 1.5; }
 .reply-options { display: flex; flex-direction: column; gap: 6px; }
 .reply-option {
     width: 100%;
-    border: none;
+    border: 1px solid #b9c4c4;
     background: #fff;
     border-radius: 8px;
     padding: 9px 12px;
     font-size: 13px;
-    color: #4b5a66;
+    color: #4a5460;
     font-family: inherit;
     cursor: pointer;
     text-align: center;
     line-height: 1.45;
     word-break: break-word;
-    transition: background 0.15s;
+    box-shadow: 0 1px 2px rgba(70, 100, 120, 0.06);
+    transition: background 0.15s, border-color 0.15s;
 }
 .reply-option:hover { background: #f4fafd; }
 .reply-option:active { background: #eaf4fa; }
@@ -1983,3 +2018,262 @@ textarea.form-input { resize: vertical; min-height: 70px; line-height: 1.5; }
 }
 .anim-time-input:focus { border-color: var(--momotalk-pink); }
 .anim-time-unit { font-size: 12px; color: #999; }
+
+/* ================= 聊天列表：备注 / 标签 / 分组 / 置顶 / 拖动排序 ================= */
+.contact-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+.contact-name-row .contact-name { margin-bottom: 0; min-width: 0; }
+.contact-note {
+    font-size: 12px;
+    color: #a58a95;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+.contact-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    margin-left: 8px;
+    flex-shrink: 0;
+    max-width: 96px;
+}
+.contact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 4px;
+}
+.tag-chip {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 9px;
+    background: #fdeef2;
+    color: #d8788f;
+    font-size: 10px;
+    line-height: 1.5;
+    max-width: 88px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.tag-chip.more { background: #f4f4f4; color: #aaa; }
+.pin-chip {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+.pin-chip svg { width: 12px; height: 12px; fill: #f0a0b2; display: block; }
+.mode-chip {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 9px;
+    background: #eaf1fb;
+    color: #5b8fd5;
+    font-size: 10px;
+    line-height: 1.5;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.contact-item.pinned { background: #fffafb; }
+.contact-item.pinned .contact-name { color: #c76a82; }
+.contact-item.dragging {
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(240, 138, 156, 0.28);
+    border-radius: 12px;
+    opacity: 0.96;
+    position: relative;
+    z-index: 5;
+}
+.drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 44px;
+    margin-left: 4px;
+    flex-shrink: 0;
+    cursor: grab;
+    touch-action: none;
+    color: #dcdcdc;
+}
+.drag-handle svg { width: 16px; height: 16px; fill: currentColor; display: block; }
+.drag-handle:active { cursor: grabbing; color: #c9c9c9; }
+
+.contact-section { border-bottom: 8px solid #f7f7f7; }
+.contact-section:last-child { border-bottom: none; }
+.contact-section-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px 7px;
+    background: #fbfbfb;
+    border-bottom: 1px solid #f3f3f3;
+}
+.contact-section-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8b8b8b;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.contact-section-count {
+    font-size: 11px;
+    color: #b8b8b8;
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 0 6px;
+    line-height: 16px;
+}
+
+/* ================= 管理会话 / 分组管理 ================= */
+.manage-form { display: flex; flex-direction: column; gap: 10px; }
+.manage-row { display: flex; align-items: center; gap: 10px; }
+.manage-row .modal-input { flex: 1; margin: 0; }
+.manage-label { font-size: 12px; color: #888; width: 52px; flex-shrink: 0; text-align: right; }
+.manage-row-inline .switch { margin-left: auto; }
+.manage-form select.modal-input { appearance: none; -webkit-appearance: none; background-image: none; }
+.group-manager { display: flex; flex-direction: column; gap: 8px; }
+.group-row { display: flex; align-items: center; gap: 6px; }
+.group-row .modal-input { flex: 1; margin: 0; }
+.group-add-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.group-add-row .modal-input { flex: 1; margin: 0; }
+.group-empty { text-align: center; color: #bbb; font-size: 12px; padding: 12px 0; }
+
+/* ================= 导出聊天：分享方式 ================= */
+.mode-choice { display: flex; gap: 8px; margin-bottom: 6px; }
+.mode-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 9px 8px;
+    font-size: 12.5px;
+    color: #666;
+    cursor: pointer;
+    background: #fafafa;
+}
+.mode-option input { accent-color: var(--momotalk-pink); }
+.mode-option:has(input:checked) {
+    border-color: var(--momotalk-pink);
+    background: #fff5f8;
+    color: #c76a82;
+    font-weight: 600;
+}
+
+/* ================= 聊天页：播放模式 ================= */
+.chat-header-mode {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 10px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+/* 需求 7：播放时隐藏发送栏；播放模式（只读）同样隐藏 */
+#chat-page.playing .chat-input-area,
+#chat-page.play-mode .chat-input-area { display: none; }
+#chat-page.playing .chat-content,
+#chat-page.play-mode .chat-content { padding-bottom: 12px; }
+
+/* ================= 自定义学生：表情差分 / zip ================= */
+.custom-diff-block {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #f0e0e5;
+}
+.custom-diff-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.custom-diff-title { font-size: 13px; color: #555; font-weight: 600; flex: 1; }
+.small-action-btn {
+    border: 1px solid #f0c4cf;
+    background: #fff7f9;
+    color: #c76a82;
+    border-radius: 10px;
+    padding: 4px 9px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+}
+.small-action-btn:active { opacity: 0.85; }
+.small-action-btn.danger { border-color: #ffd0d0; background: #fff5f5; color: #d85c76; }
+.custom-diff-range {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #888;
+    flex-wrap: wrap;
+}
+.custom-diff-range-label { flex-shrink: 0; }
+.custom-diff-num {
+    width: 62px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #333;
+    outline: none;
+    text-align: center;
+    background: #fff;
+    user-select: text;
+    -webkit-user-select: text;
+}
+.custom-diff-num:focus { border-color: var(--momotalk-pink); }
+.custom-diff-num.invalid { border-color: #ff9db0; background: #fff5f7; }
+/* 起始编号固定为 001，不可编辑（避免用户以为从 0 开始） */
+.custom-diff-start-fixed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 1px dashed #f0c4cf;
+    background: #fdf3f6;
+    color: #c76a82;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    user-select: none;
+    -webkit-user-select: none;
+    box-sizing: border-box;
+}
+.custom-diff-range-hint {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #b8a8ae;
+    line-height: 1.5;
+}
+.custom-diff-range-hint.invalid { color: #d85c76; }
+.custom-diff-dash { color: #bbb; }
+.custom-diff-detected { font-size: 11px; color: #b8a8ae; margin-left: auto; }
+.custom-diff-preview { margin-top: 8px; }
+.diff-thumb-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.diff-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #f0e0e5;
+    background: #fafafa;
+}
+.diff-count { font-size: 11px; color: #a58a95; }
+.custom-zip-actions { display: flex; gap: 8px; margin-top: 10px; }
+.custom-zip-actions .box-action-btn { flex: 1; }
