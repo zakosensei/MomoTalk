@@ -22,6 +22,7 @@
                 <span id="app-name"></span>
             </div>
             <div class="header-tools">
+                <button class="tool-btn" id="btn-groups" onclick="openGroupManager()"></button>
                 <button class="tool-btn" id="btn-import" onclick="document.getElementById('file-import').click()"></button>
                 <button class="tool-btn" id="btn-export" onclick="exportData()"></button>
             </div>
@@ -48,8 +49,13 @@
             <div class="chat-header-info">
                 <img id="chat-header-avatar" class="chat-header-avatar" alt="avatar" referrerpolicy="no-referrer">
                 <div id="chat-header-name" class="chat-header-name"></div>
+                <span id="chat-mode-badge" class="chat-header-mode" style="display:none;"></span>
             </div>
             <div class="chat-header-tools">
+                <button class="chat-tool-btn" id="btn-export-chat" onclick="exportCurrentChat()" title="导出">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3h2v9.17l3.59-3.58L18 10l-6 6-6-6 1.41-1.41L11 12.17V3ZM5 19h14v2H5v-2Z"/></svg>
+                    <span id="btn-export-chat-text"></span>
+                </button>
                 <button class="chat-tool-btn" id="btn-play" onclick="togglePlayback()" title="播放">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                     <span id="btn-play-text"></span>
@@ -261,7 +267,33 @@
                         </div>
                     </div>
                     <input type="file" id="custom-avatar-file" accept="image/*" style="display:none" onchange="onCustomAvatarFile(event)">
+                    <div class="custom-diff-block">
+                        <div class="custom-diff-head">
+                            <span class="custom-diff-title" id="custom-diff-title"></span>
+                            <button type="button" class="small-action-btn" id="custom-diff-pick" onclick="document.getElementById('custom-diff-files').click()"></button>
+                            <button type="button" class="small-action-btn danger" id="custom-diff-clear" onclick="clearPendingCustomDiffs()" style="display:none"></button>
+                        </div>
+                        <div class="setting-hint" id="custom-diff-hint"></div>
+                        <div class="custom-diff-range">
+                            <span class="custom-diff-range-label" id="custom-diff-range-label"></span>
+                            <span class="custom-diff-start-fixed" id="custom-diff-start-fixed" title="编号固定从 001 开始">001</span>
+                            <!-- 起始编号固定为 1，仅保留隐藏字段供逻辑/测试读取 -->
+                            <input type="hidden" id="custom-diff-start" value="1" min="1">
+                            <span class="custom-diff-dash">–</span>
+                            <input type="number" class="custom-diff-num" id="custom-diff-end" min="1" step="1"
+                                   inputmode="numeric" placeholder="n" oninput="onDiffRangeInput()" onchange="onDiffRangeInput(true)">
+                            <span class="custom-diff-detected" id="custom-diff-detected"></span>
+                        </div>
+                        <div class="custom-diff-range-hint" id="custom-diff-range-hint"></div>
+                        <div class="custom-diff-preview" id="custom-diff-preview"></div>
+                        <input type="file" id="custom-diff-files" webkitdirectory directory multiple accept="image/*" style="display:none" onchange="onCustomDiffFiles(event)">
+                    </div>
                     <div class="custom-student-list" id="custom-student-list"></div>
+                    <div class="custom-zip-actions">
+                        <button type="button" class="box-action-btn" id="btn-import-custom-zip" onclick="document.getElementById('file-custom-zip').click()"></button>
+                        <button type="button" class="box-action-btn" id="btn-export-custom-zip" onclick="exportAllCustomStudents()"></button>
+                    </div>
+                    <input type="file" id="file-custom-zip" accept=".zip,application/zip,application/x-zip-compressed" style="display:none" onchange="importCustomStudentsZip(event)">
                 </div>
                 <div class="about-card">
                     <div class="about-section-title" id="student-play-title"></div>
@@ -323,6 +355,7 @@
 </div>
 
 <script src="./resources/chat_screenshot.js"></script>
+<script src="./resources/zip.js"></script>
 <script>
 const DATAS_URL = './resources/running_datas.json';
 
@@ -370,7 +403,10 @@ let studentsBaseUrl = new URL('./resources/students.json', location.href).href;
 let myStudents = [];
 let customStudents = [];
 let pendingCustomAvatar = '';
+let pendingCustomDiffs = [];      // 待添加自定义学生的表情差分：[{ n, src(dataURL) }]
 let chats = {};
+let groups = [];                  // 聊天分组：[{ id, name, order }]
+let progressMap = {};             // 播放模式进度：{ [chatId]: { boxIndex, itemIndex, choices, finished, updatedAt } }
 
 // 教程视频（resources/video.json）与本地设置（默认跳转视频网站等）
 let videos = [];
@@ -667,6 +703,7 @@ function fillStaticTexts() {
 
     set('btn-import', T('importBtn', null, '导入'));
     set('btn-export', T('exportBtn', null, '导出'));
+    set('btn-groups', T('groupManageEntry', null, '分组'));
     set('nav-messages', T('navMessages', null, '消息'));
     set('nav-more', T('navMore', null, '更多'));
     set('more-header-title', T('moreTitle', null, '更多'));
@@ -710,7 +747,7 @@ function fillStaticTexts() {
     updateSettingsUI();
 
     const si = document.getElementById('search-input');
-    if (si) si.placeholder = T('searchPlaceholder', null, '搜索已添加的学生或形态...');
+    if (si) si.placeholder = T('searchPlaceholder', null, '搜索姓名 / 标签 / 备注…');
     const ci = document.getElementById('chat-input');
     if (ci) ci.placeholder = T('chatPlaceholder', null, '输入消息或图片链接...');
     const sb = document.getElementById('send-btn');
@@ -721,6 +758,17 @@ function fillStaticTexts() {
     if (pt) pt.textContent = T('playBtn', null, '播放');
     const st = document.getElementById('btn-screenshot-text');
     if (st) st.textContent = T('screenshotBtn', null, '截图');
+    const ecb = document.getElementById('btn-export-chat-text');
+    if (ecb) ecb.textContent = T('chatExportBtn', null, '导出');
+    set('custom-diff-title', T('customDiffTitle', null, '表情差分'));
+    set('custom-diff-pick', T('customDiffPick', null, '选择差分文件夹'));
+    set('custom-diff-clear', T('customDiffClear', null, '清空差分'));
+    set('custom-diff-hint', T('customDiffHint', null, '文件夹结构：学生姓名/001.jpg … xxx.jpg（三位编号，必须从 001 开始，支持 jpg / png / webp）'));
+    set('custom-diff-range-label', T('customDiffRangeLabel', null, '编号范围'));
+    set('custom-diff-range-hint', T('customDiffRangeHint', null, '起始编号固定为 001，只需填写结束编号（≥1）'));
+    onDiffRangeInput();
+    set('btn-import-custom-zip', T('customStudentImportZip', null, '导入学生(.zip)'));
+    set('btn-export-custom-zip', T('customStudentExportAllZip', null, '导出全部(.zip)'));
     const ps = document.getElementById('btn-playback-stop');
     if (ps) ps.textContent = T('playbackStop', null, '停止');
     set('more-label-emoji', T('moreEmoji', null, '社团表情'));
@@ -1322,10 +1370,39 @@ function normalizeCustomStudents(raw) {
         const name = pickString(item.name != null ? item.name : item.displayName);
         if (!Number.isFinite(id) || id <= 0 || !name || used.has(id)) return;
         used.add(id);
+
+        // 表情差分：按编号保存（编号方式「学生姓名/001.jpg … xxx.jpg」，从 001 开始）
+        const diffs = [];
+        if (Array.isArray(item.diffs)) {
+            item.diffs.forEach(d => {
+                if (!d || typeof d !== 'object') return;
+                const n = Number(d.n);
+                const src = pickString(d.src);
+                if (!Number.isFinite(n) || n < 1 || !src) return;
+                if (diffs.some(x => x.n === n)) return;
+                diffs.push({ n: n, src: src });
+            });
+            diffs.sort((a, b) => a.n - b.n);
+        }
+
+        let diffRange = null;
+        if (item.diffRange && typeof item.diffRange === 'object') {
+            const s = Number(item.diffRange.start);
+            const e = Number(item.diffRange.end);
+            if (Number.isFinite(s) && Number.isFinite(e) && s >= 1 && e >= s) {
+                diffRange = { start: s, end: e };
+            }
+        }
+        if (!diffRange && diffs.length) {
+            diffRange = { start: diffs[0].n, end: diffs[diffs.length - 1].n };
+        }
+
         out.push({
             id: id,
             name: name,
-            avatar: pickString(item.avatar)
+            avatar: pickString(item.avatar),
+            diffs: diffs,
+            diffRange: diffRange
         });
     });
     return out;
@@ -1354,6 +1431,10 @@ function saveCustomStudents() {
 
 function customStudentToLibraryItem(rec) {
     const name = rec.name;
+    const diffs = Array.isArray(rec.diffs) ? rec.diffs.slice().sort((a, b) => a.n - b.n) : [];
+    const gallery = diffs.length
+        ? [{ title: T('customDiffTitle', null, '表情差分'), images: diffs.map(d => d.src) }]
+        : [];
     return {
         id: rec.id,
         baseId: rec.id,
@@ -1364,9 +1445,10 @@ function customStudentToLibraryItem(rec) {
         introduction: '',
         familyName: {},
         givenName: {},
-        gallery: [],
+        gallery: gallery,
         skinName: '',
         custom: true,
+        diffRange: rec.diffRange || null,
         searchText: name.toLowerCase()
     };
 }
@@ -1432,6 +1514,190 @@ function onCustomAvatarFile(event) {
     reader.readAsDataURL(file);
 }
 
+/* ---------- 表情差分（编号方式：学生姓名/001.jpg … xxx.jpg） ---------- */
+
+function padDiffNum(n) {
+    // 编号规则：从 001 开始（最小 1，三位补零）
+    const v = Math.max(1, Math.floor(Number(n) || 1));
+    return String(v).padStart(3, '0');
+}
+
+function diffExtFromDataUrl(src) {
+    const m = /^data:image\/([a-z0-9.+-]+)/i.exec(String(src || ''));
+    if (!m) return 'jpg';
+    const sub = m[1].toLowerCase();
+    if (sub === 'jpeg' || sub === 'jpg') return 'jpg';
+    if (sub === 'svg+xml') return 'svg';
+    if (sub === 'x-icon' || sub === 'vnd.microsoft.icon') return 'ico';
+    return sub.replace(/[^a-z0-9]/g, '') || 'jpg';
+}
+
+function diffFolderName(name) {
+    const s = String(name == null ? '' : name).replace(/[\\/:*?"<>|\u0000-\u001F]/g, '_').trim();
+    return s || 'student';
+}
+
+function readFileDataUrl(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(String(e.target.result || ''));
+        reader.onerror = () => reject(new Error('读取图片失败'));
+        reader.readAsDataURL(file);
+    });
+}
+
+/** 编号范围输入：起始编号固定为 001，只需要填写「结束编号」 */
+function onDiffRangeInput(commit) {
+    const endEl = document.getElementById('custom-diff-end');
+    const hintEl = document.getElementById('custom-diff-range-hint');
+    if (!endEl) return;
+    let raw = String(endEl.value).trim();
+
+    // 失焦/修改结束时把 0、负数纠正为 1（编号必须从 001 开始）
+    if (commit && raw !== '') {
+        const n0 = parseInt(raw, 10);
+        if (!Number.isFinite(n0) || n0 < 1) {
+            endEl.value = 1;
+            raw = '1';
+        }
+    }
+
+    const n = parseInt(raw, 10);
+    const invalid = raw !== '' && (!Number.isFinite(n) || n < 1);
+    endEl.classList.toggle('invalid', invalid);
+    if (hintEl) {
+        hintEl.classList.toggle('invalid', invalid);
+        hintEl.textContent = invalid
+            ? T('customDiffEndInvalid', null, '结束编号必须是不小于 1 的整数（编号从 001 开始）')
+            : T('customDiffRangeHint', null, '起始编号固定为 001，只需填写结束编号（≥1）');
+    }
+}
+
+/** 读取「编号范围」：返回 { start, end } 或 { error } */
+function pendingDiffRange() {
+    const sEl = document.getElementById('custom-diff-start');
+    const eEl = document.getElementById('custom-diff-end');
+    const sRaw = sEl ? String(sEl.value).trim() : '';
+    const eRaw = eEl ? String(eEl.value).trim() : '';
+    if (sRaw === '' || eRaw === '') return { error: 'required' };
+    const start = parseInt(sRaw, 10);
+    const end = parseInt(eRaw, 10);
+    if (!Number.isFinite(start) || !Number.isFinite(end)) return { error: 'invalid' };
+    // 编号必须从 001 开始
+    if (start < 1 || end < 1) return { error: 'start' };
+    if (end < start) return { error: 'invalid' };
+    return { start: start, end: end };
+}
+
+function renderPendingDiffPreview() {
+    const box = document.getElementById('custom-diff-preview');
+    const detected = document.getElementById('custom-diff-detected');
+    const clearBtn = document.getElementById('custom-diff-clear');
+    if (!box) return;
+    if (!pendingCustomDiffs.length) {
+        box.innerHTML = '';
+        if (detected) detected.textContent = '';
+        if (clearBtn) clearBtn.style.display = 'none';
+        return;
+    }
+    const nums = pendingCustomDiffs.map(d => d.n);
+    const start = Math.min.apply(null, nums);
+    const end = Math.max.apply(null, nums);
+    const sizeMb = (pendingCustomDiffs.reduce((n, d) => n + String(d.src || '').length, 0) * 0.75 / 1024 / 1024);
+    const thumbs = pendingCustomDiffs.slice(0, 6).map(d =>
+        `<img class="diff-thumb" src="${escapeHtml(d.src)}" alt="" referrerpolicy="no-referrer">`).join('');
+    box.innerHTML = `<div class="diff-thumb-row">${thumbs}<span class="diff-count">${escapeHtml(
+        T('customDiffFound', { n: pendingCustomDiffs.length, start: padDiffNum(start), end: padDiffNum(end) },
+            '已读取 {n} 张差分（{start}-{end}）'))}</span></div>`;
+    if (detected) detected.textContent = sizeMb.toFixed(1) + ' MB';
+    if (clearBtn) clearBtn.style.display = '';
+    if (sizeMb > 3.5) {
+        showToast(T('customDiffTooLarge', { size: sizeMb.toFixed(1) + ' MB' }, '差分图片较大（约 {size}）'));
+    }
+}
+
+function clearPendingCustomDiffs() {
+    pendingCustomDiffs = [];
+    const startEl = document.getElementById('custom-diff-start');
+    const endEl = document.getElementById('custom-diff-end');
+    if (startEl) startEl.value = 1;   // 起始编号固定 001
+    if (endEl) { endEl.value = ''; endEl.classList.remove('invalid'); }
+    onDiffRangeInput();
+    renderPendingDiffPreview();
+}
+
+async function compressDiffFiles(picked) {
+    const out = [];
+    for (let i = 0; i < picked.length; i++) {
+        let src = '';
+        try {
+            src = await readFileDataUrl(picked[i].file);
+        } catch (e) {
+            console.error('读取差分图片失败：', e);
+            continue;
+        }
+        try {
+            src = await compressImage(src, 720, 0.68);
+        } catch (e) {
+            // 压缩失败时保留原图（可能是 svg 等 canvas 画不了的格式）
+        }
+        out.push({ n: picked[i].n, src: src });
+    }
+    out.sort((a, b) => a.n - b.n);
+    pendingCustomDiffs = out;
+    renderPendingDiffPreview();
+}
+
+function onCustomDiffFiles(event) {
+    const input = event && event.target;
+    const files = Array.prototype.slice.call((input && input.files) || []);
+    if (input) input.value = '';
+    if (!files.length) return;
+
+    const nameInput = document.getElementById('custom-student-name');
+    const name = ((nameInput && nameInput.value) || '').trim();
+    if (!name) {
+        showToast(T('customDiffNeedName', null, '请先填写学生姓名，再选择差分文件夹'));
+        return;
+    }
+
+    let folder = '';
+    const picked = [];
+    files.forEach(f => {
+        const rel = String(f.webkitRelativePath || f.name || '').replace(/\\/g, '/');
+        const parts = rel.split('/').filter(Boolean);
+        if (parts.length >= 2 && !folder) folder = parts[0];
+        const base = parts.length ? parts[parts.length - 1] : '';
+        const m = /^(\d+)\.(jpe?g|png|webp|gif|bmp)$/i.exec(base);
+        if (!m) return;
+        const n = parseInt(m[1], 10);
+        // 编号必须从 001 开始：000.jpg 之类的文件直接忽略
+        if (!Number.isFinite(n) || n < 1) return;
+        if (picked.some(x => x.n === n)) return;
+        picked.push({ n: n, file: f });
+    });
+
+    if (!picked.length) {
+        showToast(T('customDiffEmpty', null, '未选择差分图片（编号需从 001 开始）'));
+        return;
+    }
+    if (folder && folder !== name) {
+        showToast(T('customDiffNameMismatch', { folder: folder, name: name },
+            '文件夹「{folder}」与当前学生姓名不同，图片会保存在「{name}」目录下'));
+    }
+
+    picked.sort((a, b) => a.n - b.n);
+    const startEl = document.getElementById('custom-diff-start');
+    const endEl = document.getElementById('custom-diff-end');
+    // 编号从 001 开始：起始固定为 1；只回填结束编号（缺号在添加时提示）
+    if (startEl) startEl.value = 1;
+    if (endEl) endEl.value = picked[picked.length - 1].n;
+    onDiffRangeInput();
+
+    showToast(T('customDiffLoading', null, '正在处理差分图片…'));
+    compressDiffFiles(picked);
+}
+
 function addCustomStudent() {
     if (!libraryReady) {
         showToast(T('notReadyTitle', null, '提示') + '：' + T('notReadyBody', null, '学生资料尚未加载完成，请稍候。'));
@@ -1443,8 +1709,49 @@ function addCustomStudent() {
         showToast(T('customStudentNameRequired', null, '请输入学生姓名'));
         return;
     }
+
+    // 表情差分：必须给出编号范围（0-n），只保留范围内的图片
+    let diffs = [];
+    let diffRange = null;
+    if (pendingCustomDiffs.length) {
+        const range = pendingDiffRange();
+        if (range.error === 'required') {
+            showToast(T('customDiffRangeRequired', null, '请填写编号范围的结束编号（起始编号固定为 001）'));
+            return;
+        }
+        if (range.error === 'start') {
+            showToast(T('customDiffStartFromOne', null, '编号必须从 001 开始（起始编号最小为 1）'));
+            return;
+        }
+        if (range.error) {
+            showToast(T('customDiffRangeInvalid', null, '编号范围无效：结束编号不能小于起始编号'));
+            return;
+        }
+        const inRange = pendingCustomDiffs.filter(d => d.n >= range.start && d.n <= range.end);
+        if (!inRange.length) {
+            showToast(T('customDiffEmpty', null, '未选择差分图片'));
+            return;
+        }
+        const present = new Set(inRange.map(d => d.n));
+        let missing = 0;
+        for (let n = range.start; n <= range.end; n++) {
+            if (!present.has(n)) missing++;
+        }
+        if (missing) {
+            showToast(T('customDiffMissing', { n: missing }, '编号范围内缺少 {n} 张图片'));
+        }
+        diffs = inRange;
+        diffRange = { start: range.start, end: range.end };
+    }
+
     const id = nextCustomStudentId();
-    const rec = { id: id, name: name, avatar: pendingCustomAvatar || '' };
+    const rec = {
+        id: id,
+        name: name,
+        avatar: pendingCustomAvatar || '',
+        diffs: diffs,
+        diffRange: diffRange
+    };
     customStudents.push(rec);
     if (!saveCustomStudents()) {
         customStudents.pop();
@@ -1454,6 +1761,7 @@ function addCustomStudent() {
     addStudentToMyList(id);
     if (nameInput) nameInput.value = '';
     resetCustomAvatarPreview();
+    clearPendingCustomDiffs();
     renderContactList();
     renderCustomStudentsUI();
     showToast(T('customStudentAdded', { name: name }, '已添加学生：{name}'));
@@ -1488,22 +1796,254 @@ function renderCustomStudentsUI() {
         } else {
             list.innerHTML = customStudents.map(rec => {
                 const avatar = rec.avatar || fallbackAvatar(rec.name);
+                const diffCount = Array.isArray(rec.diffs) ? rec.diffs.length : 0;
+                const metaParts = ['#' + rec.id];
+                if (diffCount) {
+                    const range = rec.diffRange;
+                    metaParts.push(T('customDiffCount', { n: diffCount }, '差分 {n} 张') +
+                        (range ? T('customDiffRangeDisplay',
+                            { start: padDiffNum(range.start), end: padDiffNum(range.end) },
+                            '（{start}-{end}）') : ''));
+                }
                 return `<div class="custom-student-item">
                     <img class="custom-student-avatar" src="${escapeHtml(avatar)}"
                          data-fallback="${escapeHtml(fallbackAvatar(rec.name))}" referrerpolicy="no-referrer" alt="">
                     <div class="custom-student-info">
                         <div class="custom-student-name">${escapeHtml(rec.name)}</div>
-                        <div class="custom-student-code">#${rec.id}</div>
+                        <div class="custom-student-code">${escapeHtml(metaParts.join(' · '))}</div>
                     </div>
+                    <button type="button" class="box-edit-op" data-export-custom="${rec.id}">${escapeHtml(T('customStudentExportZip', null, '导出'))}</button>
                     <button type="button" class="box-edit-op danger" data-delete-custom="${rec.id}">${escapeHtml(T('itemDelete', null, '删除'))}</button>
                 </div>`;
             }).join('');
             list.querySelectorAll('[data-delete-custom]').forEach(btn => {
                 btn.addEventListener('click', () => deleteCustomStudent(Number(btn.dataset.deleteCustom)));
             });
+            list.querySelectorAll('[data-export-custom]').forEach(btn => {
+                btn.addEventListener('click', () => exportCustomStudent(Number(btn.dataset.exportCustom)));
+            });
         }
     }
     updateCustomStudentIdDisplay();
+}
+
+/* ================= 自定义学生 .zip 导入 / 导出（含表情差分） ================= */
+
+function ensureZip() {
+    if (window.MomoZip && typeof window.MomoZip.create === 'function' && typeof window.MomoZip.read === 'function') {
+        return true;
+    }
+    showToast(T('customStudentZipUnsupported', null, '当前环境不支持 zip 读写（需要较新的浏览器）'));
+    return false;
+}
+
+function exportCustomStudent(id) {
+    const rec = customStudents.find(s => s.id === Number(id));
+    if (!rec) return;
+    exportCustomStudentsZip([rec], 'momotalk_student_' + diffFolderName(rec.name) + '_' + timestampForFile(new Date()) + '.zip');
+}
+
+function exportAllCustomStudents() {
+    if (!customStudents.length) {
+        showToast(T('customStudentExportEmpty', null, '没有可导出的自定义学生'));
+        return;
+    }
+    exportCustomStudentsZip(customStudents.slice(), 'momotalk_students_' + timestampForFile(new Date()) + '.zip');
+}
+
+/**
+ * zip 结构（编号方式：学生姓名/001.jpg … xxx.jpg）：
+ *   student.json（或 students.json）: { name, avatarPath, diffs: [{n, path}], diffRange }
+ *   学生姓名/avatar.jpg
+ *   学生姓名/001.jpg …
+ */
+async function exportCustomStudentsZip(list, filename) {
+    if (!ensureZip()) return null;
+    try {
+        const entries = [];
+        const metas = [];
+        list.forEach(rec => {
+            const folder = diffFolderName(rec.name);
+            const meta = { name: rec.name, avatarPath: '', diffs: [], diffRange: rec.diffRange || null };
+            if (rec.avatar && /^data:/i.test(rec.avatar)) {
+                const bytes = MomoZip.dataUrlToBytes(rec.avatar);
+                if (bytes && bytes.length) {
+                    const path = folder + '/avatar.' + diffExtFromDataUrl(rec.avatar);
+                    meta.avatarPath = path;
+                    entries.push({ path: path, data: bytes });
+                }
+            } else if (rec.avatar) {
+                meta.avatarUrl = rec.avatar;
+            }
+            (Array.isArray(rec.diffs) ? rec.diffs : []).forEach(d => {
+                const bytes = MomoZip.dataUrlToBytes(d.src);
+                if (!bytes || !bytes.length) return;
+                const path = folder + '/' + padDiffNum(d.n) + '.' + diffExtFromDataUrl(d.src);
+                entries.push({ path: path, data: bytes });
+                meta.diffs.push({ n: d.n, path: path });
+            });
+            metas.push(meta);
+        });
+        entries.push({
+            path: list.length === 1 ? 'student.json' : 'students.json',
+            data: JSON.stringify(list.length === 1 ? metas[0] : metas, null, 2)
+        });
+        const blob = await MomoZip.create(entries);
+        downloadBlob(blob, filename);
+        showToast(list.length === 1
+            ? T('customStudentExportDone', { name: list[0].name }, '已导出学生「{name}」')
+            : T('customStudentExportAllDone', { n: list.length }, '已导出 {n} 个自定义学生'));
+        return blob;
+    } catch (err) {
+        console.error('导出自定义学生失败：', err);
+        showModal(T('chatExportFail', null, '导出失败'),
+            `<div style="font-size:13px;color:#666;line-height:1.7;word-break:break-all;">${escapeHtml(err && err.message ? err.message : String(err))}</div>`,
+            [{ text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }]);
+        return null;
+    }
+}
+
+function findZipEntry(byPath, name) {
+    const lower = String(name).toLowerCase();
+    const keys = Object.keys(byPath);
+    for (let i = 0; i < keys.length; i++) {
+        const base = keys[i].split('/').pop().toLowerCase();
+        if (base === lower) return byPath[keys[i]];
+    }
+    return null;
+}
+
+function zipEntryDataUrl(entry) {
+    return MomoZip.bytesToDataUrl(entry.data, MomoZip.mimeForPath(entry.path));
+}
+
+function zipEntriesToStudentMetas(entries) {
+    const byPath = {};
+    entries.forEach(e => { byPath[e.path] = e; });
+
+    let metas = null;
+    const many = findZipEntry(byPath, 'students.json');
+    const single = findZipEntry(byPath, 'student.json');
+    try {
+        if (many) {
+            const parsed = JSON.parse(MomoZip.decodeText(many.data));
+            metas = Array.isArray(parsed) ? parsed : [parsed];
+        } else if (single) {
+            const parsed = JSON.parse(MomoZip.decodeText(single.data));
+            metas = Array.isArray(parsed) ? parsed : [parsed];
+        }
+    } catch (e) {
+        metas = null;
+    }
+    if (metas && metas.length) return { metas: metas, byPath: byPath };
+
+    // 兜底：没有索引文件时，按「学生姓名/001.jpg」目录结构推断
+    const folders = {};
+    entries.forEach(e => {
+        const parts = e.path.split('/');
+        if (parts.length < 2) return;
+        const folder = parts[0];
+        const base = parts[parts.length - 1];
+        const m = /^(\d+)\.(jpe?g|png|webp|gif|bmp)$/i.exec(base);
+        if (!m) return;
+        if (!folders[folder]) folders[folder] = { name: folder, avatarPath: '', diffs: [] };
+        folders[folder].diffs.push({ n: parseInt(m[1], 10), path: e.path });
+    });
+    metas = Object.keys(folders).map(k => folders[k]);
+    return { metas: metas, byPath: byPath };
+}
+
+function importCustomStudentsZip(event) {
+    const input = event && event.target;
+    const file = input && input.files && input.files[0];
+    if (input) input.value = '';
+    if (!file) return;
+    if (!ensureZip()) return;
+
+    showToast(T('customStudentImporting', null, '正在读取 zip…'));
+    MomoZip.read(file).then(entries => {
+        if (!entries.length) throw new Error(T('customStudentZipInvalid', null, '不是有效的学生 zip 文件'));
+        const parsed = zipEntriesToStudentMetas(entries);
+        const metas = parsed.metas;
+        const byPath = parsed.byPath;
+        if (!metas.length) throw new Error(T('customStudentImportNoStudent', null, 'zip 中没有找到学生数据'));
+
+        let nextId = nextCustomStudentId();
+        let added = 0;
+        let updated = 0;
+
+        metas.forEach(meta => {
+            if (!meta || typeof meta !== 'object') return;
+            const name = Array.from(pickString(meta.name)).slice(0, 20).join('');
+            if (!name) return;
+
+            const avatarPath = pickString(meta.avatarPath);
+            const avatarEntry = avatarPath ? (byPath[avatarPath] || findZipEntry(byPath, avatarPath.split('/').pop())) : null;
+            const avatar = avatarEntry ? zipEntryDataUrl(avatarEntry) : pickString(meta.avatarUrl || meta.avatar);
+
+            const diffs = [];
+            (Array.isArray(meta.diffs) ? meta.diffs : []).forEach(item => {
+                let n = NaN;
+                let path = '';
+                if (typeof item === 'number') { n = item; }
+                else if (typeof item === 'string') { path = item; }
+                else if (item && typeof item === 'object') {
+                    n = Number(item.n);
+                    path = pickString(item.path || item.src || item.file);
+                }
+                if (!Number.isFinite(n) && path) {
+                    const m = /(\d+)\.[a-z0-9]+$/i.exec(path);
+                    if (m) n = parseInt(m[1], 10);
+                }
+                if (!Number.isFinite(n) || n < 1) return;
+                const entry = path ? (byPath[path] || findZipEntry(byPath, path.split('/').pop())) : null;
+                if (!entry) return;
+                const src = zipEntryDataUrl(entry);
+                if (!src || diffs.some(d => d.n === n)) return;
+                diffs.push({ n: n, src: src });
+            });
+            diffs.sort((a, b) => a.n - b.n);
+
+            let diffRange = null;
+            if (meta.diffRange && typeof meta.diffRange === 'object') {
+                const s = Number(meta.diffRange.start);
+                const e = Number(meta.diffRange.end);
+                if (Number.isFinite(s) && Number.isFinite(e) && s >= 1 && e >= s) diffRange = { start: s, end: e };
+            }
+            if (!diffRange && diffs.length) {
+                diffRange = { start: diffs[0].n, end: diffs[diffs.length - 1].n };
+            }
+
+            const exist = customStudents.find(s => s.name === name);
+            if (exist) {
+                if (avatar) exist.avatar = avatar;
+                if (diffs.length) exist.diffs = diffs;
+                if (diffRange) exist.diffRange = diffRange;
+                updated++;
+            } else {
+                while (customStudents.some(s => s.id === nextId)) nextId++;
+                customStudents.push({ id: nextId, name: name, avatar: avatar || '', diffs: diffs, diffRange: diffRange });
+                nextId++;
+                added++;
+            }
+        });
+
+        saveCustomStudents();
+        mergeCustomStudentsIntoLibrary();
+        renderCustomStudentsUI();
+        renderContactList();
+
+        showModal(T('importDoneTitle', null, '导入结果'), `
+            <div style="font-size:14px;color:#333;line-height:1.8;">
+                ${escapeHtml(T('customStudentImportDone', { added: added, updated: updated },
+                    '导入完成：新增 {added} 个学生，更新 {updated} 个。'))}
+            </div>`, [{ text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }]);
+    }).catch(err => {
+        console.error('导入自定义学生失败：', err);
+        showModal(T('customStudentImportFail', null, '导入失败'),
+            `<div style="font-size:13px;color:#666;line-height:1.7;word-break:break-all;">${escapeHtml(err && err.message ? err.message : String(err))}</div>`,
+            [{ text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }]);
+    });
 }
 
 function matchStudent(s, q) {
@@ -1551,14 +2091,222 @@ async function loadLibrary() {
     }
 }
 
-function renderContactList() {
-    const list = document.getElementById('contact-list');
-    if (!libraryReady) return;
+/* ================= 聊天条目扩展：备注 / 标签 / 分组 / 排序 / 置顶 / 模式 ================= */
 
-    let entries = myStudents
+const NOTE_MAX = 30;
+const TAG_MAX = 8;
+
+function groupsKey() { return (CONFIG.storage && CONFIG.storage.groupsKey) || 'momotalk_groups_v1'; }
+function progressKey() { return (CONFIG.storage && CONFIG.storage.progressKey) || 'momotalk_progress_v1'; }
+
+function normalizeNote(raw) {
+    const s = pickString(raw).replace(/\s+/g, ' ');
+    return Array.from(s).slice(0, NOTE_MAX).join('');
+}
+
+function normalizeTags(raw) {
+    let list;
+    if (Array.isArray(raw)) list = raw.slice();
+    else list = String(raw == null ? '' : raw).split(/[,，、;；]+/);
+    const out = [];
+    list.forEach(t => {
+        const v = pickString(t).replace(/^#+/, '').trim();
+        if (v && out.indexOf(v) < 0 && out.length < TAG_MAX) out.push(v);
+    });
+    return out;
+}
+
+function normalizeChatMode(raw) {
+    return raw === 'play' ? 'play' : 'edit';
+}
+
+function normalizeGroups(raw) {
+    if (!Array.isArray(raw)) return [];
+    const out = [];
+    const used = new Set();
+    raw.forEach((item, i) => {
+        if (!item || typeof item !== 'object') return;
+        const name = Array.from(pickString(item.name)).slice(0, 20).join('');
+        if (!name) return;
+        let id = pickString(item.id) || ('g_' + (i + 1));
+        while (used.has(id)) id = id + '_' + (used.size + 1);
+        used.add(id);
+        out.push({ id: id, name: name, order: Number(item.order) || out.length });
+    });
+    out.sort((a, b) => a.order - b.order);
+    out.forEach((g, i) => { g.order = i; });
+    return out;
+}
+
+function loadGroups() {
+    try {
+        const raw = localStorage.getItem(groupsKey());
+        groups = raw ? normalizeGroups(JSON.parse(raw)) : [];
+    } catch (e) {
+        console.error('读取分组失败：', e);
+        groups = [];
+    }
+}
+
+function saveGroups() {
+    try {
+        localStorage.setItem(groupsKey(), JSON.stringify(groups));
+        return true;
+    } catch (e) {
+        console.error('保存分组失败：', e);
+        return false;
+    }
+}
+
+function normalizeProgressEntry(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const choices = {};
+    if (raw.choices && typeof raw.choices === 'object') {
+        Object.keys(raw.choices).forEach(k => {
+            const v = Number(raw.choices[k]);
+            if (Number.isFinite(v) && v >= 0) choices[k] = v;
+        });
+    }
+    const bi = Number(raw.boxIndex);
+    const ii = Number(raw.itemIndex);
+    return {
+        boxIndex: Number.isFinite(bi) && bi >= 0 ? Math.floor(bi) : 0,
+        itemIndex: Number.isFinite(ii) && ii >= 0 ? Math.floor(ii) : 0,
+        choices: choices,
+        finished: !!raw.finished,
+        updatedAt: Number(raw.updatedAt) || 0
+    };
+}
+
+function normalizeProgressMap(raw) {
+    const out = {};
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return out;
+    Object.keys(raw).forEach(k => {
+        const entry = normalizeProgressEntry(raw[k]);
+        if (entry) out[k] = entry;
+    });
+    return out;
+}
+
+function loadProgressMap() {
+    try {
+        const raw = localStorage.getItem(progressKey());
+        progressMap = raw ? normalizeProgressMap(JSON.parse(raw)) : {};
+    } catch (e) {
+        console.error('读取播放进度失败：', e);
+        progressMap = {};
+    }
+}
+
+function saveProgressMap() {
+    try {
+        localStorage.setItem(progressKey(), JSON.stringify(progressMap));
+        return true;
+    } catch (e) {
+        console.error('保存播放进度失败：', e);
+        return false;
+    }
+}
+
+/** 读取 / 写入单个会话的播放进度（播放模式自动保存用） */
+function chatProgress(chatId) {
+    return progressMap[String(chatId)] || null;
+}
+
+function setChatProgress(chatId, patch) {
+    const key = String(chatId);
+    const prev = progressMap[key] || { boxIndex: 0, itemIndex: 0, choices: {}, finished: false, updatedAt: 0 };
+    const next = {
+        boxIndex: patch.boxIndex != null ? Math.max(0, Math.floor(patch.boxIndex)) : prev.boxIndex,
+        itemIndex: patch.itemIndex != null ? Math.max(0, Math.floor(patch.itemIndex)) : prev.itemIndex,
+        choices: patch.choices ? Object.assign({}, patch.choices) : Object.assign({}, prev.choices),
+        finished: patch.finished != null ? !!patch.finished : prev.finished,
+        updatedAt: now()
+    };
+    progressMap[key] = next;
+    return next;
+}
+
+function clearChatProgress(chatId) {
+    delete progressMap[String(chatId)];
+    saveProgressMap();
+}
+
+function entryOf(chatId) {
+    const key = String(chatId);
+    return myStudents.find(s => s.id === key) || null;
+}
+
+function chatModeOf(chatId) {
+    const entry = entryOf(chatId);
+    return entry ? normalizeChatMode(entry.mode) : 'edit';
+}
+
+function isPlayChat(chatId) {
+    return chatModeOf(chatId) === 'play';
+}
+
+function groupById(id) {
+    return groups.find(g => g.id === id) || null;
+}
+
+function lastTimeOfEntry(entry) {
+    const last = getLastMsg(entry.chatId);
+    if (last && Number(last.time)) return Number(last.time);
+    return Number(entry.addedAt) || 0;
+}
+
+/** 已保存的手动顺序统一为 0..n-1；缺失 order 的条目按「最后消息时间」补到末尾 */
+function ensureChatOrder() {
+    let maxOrder = -1;
+    let changed = false;
+    myStudents.forEach(entry => {
+        const v = Number(entry.order);
+        if (Number.isFinite(v)) maxOrder = Math.max(maxOrder, v);
+    });
+    const missing = myStudents
+        .map((entry, index) => ({ entry: entry, index: index }))
+        .filter(x => !Number.isFinite(Number(x.entry.order)));
+    if (!missing.length) return false;
+    missing.sort((a, b) => lastTimeOfEntry(b.entry) - lastTimeOfEntry(a.entry) || a.index - b.index);
+    missing.forEach((x, i) => { x.entry.order = maxOrder + 1 + i; changed = true; });
+    return changed;
+}
+
+function minChatOrder() {
+    let min = 0;
+    myStudents.forEach(entry => {
+        const v = Number(entry.order);
+        if (Number.isFinite(v) && v < min) min = v;
+    });
+    return min;
+}
+
+/** 列表排序：置顶优先，其次手动顺序（拖动/新建），最后按最后消息时间 */
+function sortContactEntries(entries) {
+    return entries.sort((a, b) => {
+        if (!!a.pinned !== !!b.pinned) return a.pinned ? -1 : 1;
+        const oa = Number.isFinite(a.order) ? a.order : 0;
+        const ob = Number.isFinite(b.order) ? b.order : 0;
+        if (oa !== ob) return oa - ob;
+        return (b.lastTime || 0) - (a.lastTime || 0);
+    });
+}
+
+/** 搜索匹配：姓名 / 形态名 / 备注 / 标签 / 分组名 */
+function matchContactEntry(s, q) {
+    if (!q) return true;
+    const hay = [s.displayName, s.skinName, s.note, (s.tags || []).join(' '), s.groupName, s.shortName]
+        .filter(Boolean).join(' ').toLowerCase();
+    return hay.includes(q);
+}
+
+function contactEntries() {
+    return myStudents
         .map(entry => {
             const stu = libraryById[entry.studentId];
             if (!stu) return null;
+            const group = entry.groupId ? groupById(entry.groupId) : null;
             return {
                 chatId: entry.id,
                 studentId: stu.id,
@@ -1568,24 +2316,105 @@ function renderContactList() {
                 introduction: stu.introduction,
                 skinName: stu.skinName,
                 unread: entry.unread || 0,
-                addedAt: entry.addedAt || 0
+                addedAt: entry.addedAt || 0,
+                note: entry.note || '',
+                tags: Array.isArray(entry.tags) ? entry.tags : [],
+                groupId: (group ? group.id : ''),
+                groupName: group ? group.name : '',
+                pinned: !!entry.pinned,
+                order: Number.isFinite(Number(entry.order)) ? Number(entry.order) : 0,
+                mode: normalizeChatMode(entry.mode),
+                lastTime: lastTimeOfEntry({ chatId: entry.id, addedAt: entry.addedAt })
             };
         })
         .filter(Boolean);
+}
 
-    if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        entries = entries.filter(s => (s.displayName + ' ' + (s.skinName || '')).toLowerCase().includes(q));
+function contactItemHtml(s) {
+    const name = s.displayName;
+    const avatar = s.avatar || fallbackAvatar(name);
+    const last = getLastMsg(s.chatId);
+    // 同一角色可以存在多个会话：列表不显示编号，用淡灰字展示创建 / 最后修改时间
+    const createdTs = Number(s.addedAt) || 0;
+    const modifiedTs = last && Number(last.time) ? Number(last.time) : createdTs;
+    const datesHtml = `<div class="contact-dates">${escapeHtml(T('contactCreated', null, '创建'))} ${escapeHtml(formatChatDate(createdTs))} · ${escapeHtml(T('contactModified', null, '修改'))} ${escapeHtml(formatChatDate(modifiedTs))}</div>`;
+
+    let preview;
+    if (last) {
+        // 兜底：即使数据被外部改坏，也保证这里拿到的是字符串
+        const rawText = typeof last.text === 'string' ? last.text : String(last.text == null ? '' : last.text);
+        const isImg = isImageUrl(rawText);
+        let text = isImg ? T('imagePlaceholder', null, '[图片]') : rawText.replace(/\n/g, ' ');
+        if (text.length > 40) text = text.slice(0, 40) + '…';
+        preview = last.role === 'sensei'
+            ? `<span class="prefix-sensei">${escapeHtml(T('mePrefix', null, '[我]'))}</span> ${escapeHtml(text)}`
+            : escapeHtml(text);
+    } else if (s.skinName) {
+        preview = `<span class="skin-tag">${escapeHtml(T('skinPreview', null, '暂无消息'))}</span>`;
+    } else {
+        const intro = (s.introduction || '').replace(/\n/g, ' ').trim();
+        preview = intro
+            ? escapeHtml(intro.length > 60 ? intro.slice(0, 60) + '…' : intro)
+            : `<span style="color:#ccc;">${escapeHtml(T('startChat', { name: s.shortName }, '开始与 {name} 聊天吧'))}</span>`;
     }
 
-    entries.sort((a, b) => {
-        const la = getLastMsg(a.chatId);
-        const lb = getLastMsg(b.chatId);
-        // 缺少/非法的 time 要回退到 addedAt，否则 tb - ta 得到 NaN，列表顺序会随机跳动
-        const ta = (la && Number(la.time)) || a.addedAt || 0;
-        const tb = (lb && Number(lb.time)) || b.addedAt || 0;
-        return tb - ta;
-    });
+    const unreadHtml = s.unread > 0
+        ? `<div class="unread-badge">${s.unread > 99 ? '99+' : s.unread}</div>`
+        : '';
+
+    const noteHtml = s.note
+        ? `<div class="contact-note">${escapeHtml(s.note)}</div>`
+        : '';
+
+    // 标签显示在聊天条后方（右侧）
+    let tagsHtml = '';
+    if (s.tags.length) {
+        const shown = s.tags.slice(0, 2);
+        const rest = s.tags.length - shown.length;
+        tagsHtml = `<div class="contact-tags">${shown.map(t => `<span class="tag-chip">${escapeHtml(t)}</span>`).join('')}${rest > 0 ? `<span class="tag-chip more">+${rest}</span>` : ''}</div>`;
+    }
+
+    const pinHtml = s.pinned
+        ? `<span class="pin-chip" title="${escapeHtml(T('chatPinnedBadge', null, '置顶'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2 22 10l-2 2-1.6-.4-3.6 3.6.7 3.2-1.4 1.4-4.2-4.2L5 21l-2-2 5.4-4.9-4.2-4.2 1.4-1.4 3.2.7 3.6-3.6L12 3l2-1Z"/></svg></span>`
+        : '';
+
+    const modeHtml = s.mode === 'play'
+        ? `<span class="mode-chip" title="${escapeHtml(T('chatModePlay', null, '播放模式'))}">${escapeHtml(T('chatModePlay', null, '播放模式'))}</span>`
+        : '';
+
+    return `<div class="contact-item${s.pinned ? ' pinned' : ''}${s.mode === 'play' ? ' play-chat' : ''}" data-id="${escapeHtml(s.chatId)}">
+        <img class="contact-avatar" src="${escapeHtml(avatar)}"
+             data-fallback="${escapeHtml(fallbackAvatar(name))}"
+             referrerpolicy="no-referrer" alt="" loading="lazy">
+        <div class="contact-info">
+            <div class="contact-name-row">
+                <div class="contact-name">${escapeHtml(name)}</div>
+                ${modeHtml}
+                ${pinHtml}
+            </div>
+            ${noteHtml}
+            <div class="contact-preview">${preview}</div>
+            ${datesHtml}
+        </div>
+        <div class="contact-side">
+            ${tagsHtml}
+            ${unreadHtml}
+        </div>
+        <div class="drag-handle" title="${escapeHtml(T('dragHandleTitle', null, '拖动排序'))}" aria-hidden="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+        </div>
+    </div>`;
+}
+
+function renderContactList() {
+    const list = document.getElementById('contact-list');
+    if (!libraryReady) return;
+
+    let entries = contactEntries();
+    if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        entries = entries.filter(s => matchContactEntry(s, q));
+    }
 
     if (entries.length === 0) {
         list.innerHTML = `
@@ -1597,51 +2426,34 @@ function renderContactList() {
         return;
     }
 
-    list.innerHTML = entries.map(s => {
-        const name = s.displayName;
-        const avatar = s.avatar || fallbackAvatar(name);
-        const last = getLastMsg(s.chatId);
-        // 同一角色可以存在多个会话：列表不显示编号，用淡灰字展示创建 / 最后修改时间
-        const createdTs = Number(s.addedAt) || 0;
-        const modifiedTs = last && Number(last.time) ? Number(last.time) : createdTs;
-        const datesHtml = `<div class="contact-dates">${escapeHtml(T('contactCreated', null, '创建'))} ${escapeHtml(formatChatDate(createdTs))} · ${escapeHtml(T('contactModified', null, '修改'))} ${escapeHtml(formatChatDate(modifiedTs))}</div>`;
+    // 搜索时保持单列（不显示分组段），方便一眼看到所有命中项
+    if (searchQuery || !groups.length) {
+        list.innerHTML = sortContactEntries(entries).map(contactItemHtml).join('');
+        return;
+    }
 
-        let preview;
-        if (last) {
-            // 兜底：即使数据被外部改坏，也保证这里拿到的是字符串
-            const rawText = typeof last.text === 'string' ? last.text : String(last.text == null ? '' : last.text);
-            const isImg = isImageUrl(rawText);
-            let text = isImg ? T('imagePlaceholder', null, '[图片]') : rawText.replace(/\n/g, ' ');
-            if (text.length > 40) text = text.slice(0, 40) + '…';
-            preview = last.role === 'sensei'
-                ? `<span class="prefix-sensei">${escapeHtml(T('mePrefix', null, '[我]'))}</span> ${escapeHtml(text)}`
-                : escapeHtml(text);
-        } else if (s.skinName) {
-            preview = `<span class="skin-tag">${escapeHtml(T('skinPreview', null, '暂无消息'))}</span>`;
-        } else {
-            const intro = (s.introduction || '').replace(/\n/g, ' ').trim();
-            preview = intro
-                ? escapeHtml(intro.length > 60 ? intro.slice(0, 60) + '…' : intro)
-                : `<span style="color:#ccc;">${escapeHtml(T('startChat', { name: s.shortName }, '开始与 {name} 聊天吧'))}</span>`;
-        }
+    const sections = [];
+    groups.forEach(g => {
+        const items = sortContactEntries(entries.filter(s => s.groupId === g.id));
+        if (!items.length) return;
+        sections.push({ id: g.id, name: g.name, items: items });
+    });
+    const ungrouped = sortContactEntries(entries.filter(s => !s.groupId));
+    if (ungrouped.length) {
+        sections.push({ id: '', name: T('groupUngrouped', null, '未分组'), items: ungrouped });
+    }
 
-        const unreadHtml = s.unread > 0
-            ? `<div class="unread-badge">${s.unread > 99 ? '99+' : s.unread}</div>`
-            : '';
-
-        return `<div class="contact-item" data-id="${escapeHtml(s.chatId)}">
-            <img class="contact-avatar" src="${escapeHtml(avatar)}"
-                 data-fallback="${escapeHtml(fallbackAvatar(name))}"
-                 referrerpolicy="no-referrer" alt="" loading="lazy">
-            <div class="contact-info">
-                <div class="contact-name">${escapeHtml(name)}</div>
-                <div class="contact-preview">${preview}</div>
-                ${datesHtml}
+    list.innerHTML = sections.map(sec => `
+        <div class="contact-section" data-group-id="${escapeHtml(sec.id)}">
+            <div class="contact-section-head">
+                <span class="contact-section-name">${escapeHtml(sec.name)}</span>
+                <span class="contact-section-count">${sec.items.length}</span>
             </div>
-            ${unreadHtml}
-        </div>`;
-    }).join('');
+            ${sec.items.map(contactItemHtml).join('')}
+        </div>
+    `).join('');
 }
+
 
 /** 列表里的淡灰日期：今年只显示 MM-DD HH:mm，跨年显示 YYYY-MM-DD HH:mm */
 function formatChatDate(ts) {
@@ -1668,8 +2480,68 @@ function onSearch() {
     };
 
     let pressStart = null;
+    let drag = null;
+
+    // ---------- 拖动排序（只通过右侧拖动手柄触发，避免和点击 / 长按菜单冲突） ----------
+    const onDragMove = e => {
+        if (!drag) return;
+        const section = drag.section;
+        const y = e.clientY;
+        const items = Array.from(section.querySelectorAll('.contact-item')).filter(el => el !== drag.item);
+        let ref = null;
+        for (let i = 0; i < items.length; i++) {
+            const rect = items[i].getBoundingClientRect();
+            if (y < rect.top + rect.height / 2) { ref = items[i]; break; }
+        }
+        if (ref) {
+            if (drag.item.nextElementSibling !== ref) section.insertBefore(drag.item, ref);
+        } else if (items.length) {
+            const last = items[items.length - 1];
+            if (last.nextElementSibling !== drag.item) section.appendChild(drag.item);
+        }
+        drag.moved = true;
+        e.preventDefault();
+    };
+
+    const onDragEnd = () => {
+        if (!drag) return;
+        const d = drag;
+        drag = null;
+        d.item.classList.remove('dragging');
+        document.removeEventListener('pointermove', onDragMove, true);
+        document.removeEventListener('pointerup', onDragEnd, true);
+        document.removeEventListener('pointercancel', onDragEnd, true);
+        if (d.moved) {
+            longPressFired = true; // 松开后紧跟的 click 不要再打开聊天
+            const orderItems = Array.from(d.section.querySelectorAll('.contact-item'));
+            orderItems.forEach((el, i) => {
+                const entry = entryOf(el.dataset.id);
+                if (entry) entry.order = i;
+            });
+            saveMyStudents();
+        }
+        renderContactList();
+    };
 
     list.addEventListener('pointerdown', e => {
+        const handle = e.target.closest('.drag-handle');
+        if (!handle) return;
+        if (e.button !== undefined && e.button !== 0) return;
+        const item = handle.closest('.contact-item');
+        const section = item ? item.closest('.contact-section') : null;
+        if (!item || !section) return; // 搜索态 / 单列没有分组段，不支持拖动
+        clearTimer();
+        e.preventDefault();
+        drag = { item: item, section: section, moved: false, startY: e.clientY };
+        item.classList.add('dragging');
+        document.addEventListener('pointermove', onDragMove, true);
+        document.addEventListener('pointerup', onDragEnd, true);
+        document.addEventListener('pointercancel', onDragEnd, true);
+    });
+
+    list.addEventListener('pointerdown', e => {
+        if (drag) return;
+        if (e.target.closest('.drag-handle')) return;
         const item = e.target.closest('.contact-item');
         if (!item) return;
         // 只响应鼠标左键 / 触摸主指针
@@ -1701,6 +2573,8 @@ function onSearch() {
 
     list.addEventListener('click', e => {
         if (longPressFired) { longPressFired = false; return; }
+        if (drag) return;
+        if (e.target.closest('.drag-handle')) return;
         const item = e.target.closest('.contact-item');
         if (item) openChat(item.dataset.id);
     });
@@ -1719,13 +2593,63 @@ function showListContextMenu(chatId) {
     if (!stu || !entry) return;
 
     const msgCount = (chats[chatId] || []).length;
+    const groupOptions = groups.map(g =>
+        `<option value="${escapeHtml(g.id)}"${entry.groupId === g.id ? ' selected' : ''}>${escapeHtml(g.name)}</option>`
+    ).join('');
+    const mode = normalizeChatMode(entry.mode);
+
     const html = `
         <div style="font-size:13px;color:#888;margin-bottom:12px;text-align:center;">
             ${escapeHtml(T('manageSubtitle', { name: stu.displayName, count: msgCount }, '{name} · 共 {count} 条消息'))}
         </div>
-        <input type="number" class="modal-input" id="set-unread-input"
-               min="0" value="${entry.unread || 0}"
-               placeholder="${escapeHtml(T('unreadPlaceholder', null, '未读数量（仅列表显示）'))}">
+        <div class="manage-form">
+            <div class="manage-row">
+                <span class="manage-label">${escapeHtml(T('chatNoteLabel', null, '备注'))}</span>
+                <input type="text" class="modal-input" id="manage-note" maxlength="${NOTE_MAX}"
+                       value="${escapeHtml(entry.note || '')}"
+                       placeholder="${escapeHtml(T('chatNotePlaceholder', null, '聊天备注（不超过 30 字）'))}">
+            </div>
+            <div class="manage-row">
+                <span class="manage-label">${escapeHtml(T('chatTagsLabel', null, '标签'))}</span>
+                <input type="text" class="modal-input" id="manage-tags"
+                       value="${escapeHtml((entry.tags || []).join(', '))}"
+                       placeholder="${escapeHtml(T('chatTagsPlaceholder', null, '标签，用逗号分隔，如：主线, 甜, 虐'))}">
+            </div>
+            <div class="manage-row">
+                <span class="manage-label">${escapeHtml(T('chatGroupLabel', null, '分组'))}</span>
+                <select class="modal-input" id="manage-group">
+                    <option value=""${entry.groupId ? '' : ' selected'}>${escapeHtml(T('chatGroupNone', null, '不分组'))}</option>
+                    ${groupOptions}
+                    <option value="__new__">${escapeHtml(T('chatGroupNew', null, '＋ 新建分组'))}</option>
+                </select>
+            </div>
+            <div class="manage-row" id="manage-group-new-row" style="display:none;">
+                <span class="manage-label"></span>
+                <input type="text" class="modal-input" id="manage-group-new" maxlength="20"
+                       placeholder="${escapeHtml(T('chatGroupNewPlaceholder', null, '新分组名称'))}">
+            </div>
+            <div class="manage-row">
+                <span class="manage-label">${escapeHtml(T('chatModeLabel', null, '模式'))}</span>
+                <select class="modal-input" id="manage-mode">
+                    <option value="edit"${mode === 'edit' ? ' selected' : ''}>${escapeHtml(T('chatModeEdit', null, '编辑模式'))}</option>
+                    <option value="play"${mode === 'play' ? ' selected' : ''}>${escapeHtml(T('chatModePlay', null, '播放模式'))}</option>
+                </select>
+            </div>
+            <div class="setting-hint" style="margin:-4px 0 10px;">${escapeHtml(T('chatModePlayHint', null, '播放模式：打开聊天后自动播放，不能修改聊天内容。'))}</div>
+            <div class="manage-row manage-row-inline">
+                <span class="manage-label">${escapeHtml(T('chatPinnedLabel', null, '置顶聊天'))}</span>
+                <label class="switch">
+                    <input type="checkbox" id="manage-pinned" class="switch-input"${entry.pinned ? ' checked' : ''}>
+                    <span class="switch-track"></span>
+                </label>
+            </div>
+            <div class="manage-row">
+                <span class="manage-label">${escapeHtml(T('unreadPlaceholder', null, '未读'))}</span>
+                <input type="number" class="modal-input" id="set-unread-input"
+                       min="0" value="${entry.unread || 0}"
+                       placeholder="${escapeHtml(T('unreadPlaceholder', null, '未读数量（仅列表显示）'))}">
+            </div>
+        </div>
     `;
 
     showModal(T('manageTitle', null, '管理会话'), html, [
@@ -1746,6 +2670,8 @@ function showListContextMenu(chatId) {
             onClick: () => {
                 myStudents = myStudents.filter(s => s.id !== chatId);
                 delete chats[chatId];
+                delete progressMap[chatId];
+                saveProgressMap();
                 saveMyStudents();
                 saveChats();
                 renderContactList();
@@ -1755,14 +2681,161 @@ function showListContextMenu(chatId) {
         {
             text: T('manageSave', null, '保存'), class: 'confirm',
             onClick: () => {
-                const v = parseInt(document.getElementById('set-unread-input').value, 10);
+                const noteEl = document.getElementById('manage-note');
+                const tagsEl = document.getElementById('manage-tags');
+                const groupEl = document.getElementById('manage-group');
+                const groupNewEl = document.getElementById('manage-group-new');
+                const modeEl = document.getElementById('manage-mode');
+                const pinnedEl = document.getElementById('manage-pinned');
+                const unreadEl = document.getElementById('set-unread-input');
+
+                // 分组：选了「新建分组」时创建并归入
+                let groupId = groupEl ? groupEl.value : '';
+                if (groupId === '__new__') {
+                    const name = groupNewEl ? Array.from(groupNewEl.value.trim()).slice(0, 20).join('') : '';
+                    if (!name) {
+                        showToast(T('groupNameRequired', null, '请输入分组名称'));
+                        return;
+                    }
+                    const exist = groups.find(g => g.name === name);
+                    if (exist) {
+                        groupId = exist.id;
+                    } else {
+                        groupId = 'g_' + Date.now().toString(36);
+                        groups.push({ id: groupId, name: name, order: groups.length });
+                        saveGroups();
+                    }
+                } else if (groupId && !groupById(groupId)) {
+                    groupId = '';
+                }
+
+                entry.note = normalizeNote(noteEl ? noteEl.value : '');
+                entry.tags = normalizeTags(tagsEl ? tagsEl.value : '');
+                entry.groupId = groupId;
+                entry.pinned = !!(pinnedEl && pinnedEl.checked);
+
+                const newMode = normalizeChatMode(modeEl ? modeEl.value : 'edit');
+                if (newMode !== normalizeChatMode(entry.mode)) {
+                    entry.mode = newMode;
+                    // 切换模式后旧的播放进度不再适用
+                    delete progressMap[chatId];
+                    saveProgressMap();
+                } else {
+                    entry.mode = newMode;
+                }
+
+                const v = unreadEl ? parseInt(unreadEl.value, 10) : 0;
                 entry.unread = Number.isFinite(v) && v > 0 ? v : 0;
+
                 saveMyStudents();
                 renderContactList();
                 closeModal();
+                if (entry.mode === 'play') {
+                    showToast(T('playModeNoEdit', null, '播放模式不允许修改聊天内容'));
+                }
             }
         }
     ]);
+
+    const sel = document.getElementById('manage-group');
+    if (sel) {
+        sel.addEventListener('change', () => {
+            const row = document.getElementById('manage-group-new-row');
+            if (row) row.style.display = sel.value === '__new__' ? '' : 'none';
+            if (sel.value === '__new__') {
+                const input = document.getElementById('manage-group-new');
+                if (input) setTimeout(() => input.focus(), 50);
+            }
+        });
+    }
+}
+
+/* ================= 分组管理 ================= */
+
+function openGroupManager() {
+    const render = () => {
+        const rows = groups.length
+            ? groups.map(g => `
+                <div class="group-row" data-group-id="${escapeHtml(g.id)}">
+                    <input type="text" class="modal-input group-name-input" maxlength="20" value="${escapeHtml(g.name)}">
+                    <button type="button" class="box-edit-op" data-op="rename">${escapeHtml(T('groupRename', null, '重命名'))}</button>
+                    <button type="button" class="box-edit-op danger" data-op="delete">${escapeHtml(T('groupDelete', null, '删除'))}</button>
+                </div>`).join('')
+            : `<div class="group-empty">${escapeHtml(T('groupManageEmpty', null, '还没有分组，先在下面新建一个吧'))}</div>`;
+        return `
+            <div class="group-manager">
+                ${rows}
+                <div class="group-add-row">
+                    <input type="text" class="modal-input" id="group-add-name" maxlength="20"
+                           placeholder="${escapeHtml(T('groupNamePlaceholder', null, '分组名称'))}">
+                    <button type="button" class="box-action-btn" id="group-add-btn">${escapeHtml(T('groupManageAdd', null, '＋ 新建分组'))}</button>
+                </div>
+            </div>`;
+    };
+
+    showModal(T('groupManageTitle', null, '分组管理'), render(), [
+        {
+            text: T('closeBtn', null, '关闭'), class: 'confirm',
+            onClick: () => { closeModal(); renderContactList(); }
+        }
+    ]);
+
+    const body = document.getElementById('modal-body');
+    const refresh = () => {
+        const html = render();
+        body.innerHTML = html;
+    };
+
+    // 注意：modal-body 是常驻元素，这里必须用 onclick 覆盖而不是 addEventListener，
+    // 否则每次打开分组管理都会叠加一个监听器（点一次新建会建两个分组）
+    body.onclick = e => {
+        const addBtn = e.target.closest('#group-add-btn');
+        if (addBtn) {
+            const input = document.getElementById('group-add-name');
+            const name = Array.from((input ? input.value : '').trim()).slice(0, 20).join('');
+            if (!name) { showToast(T('groupNameRequired', null, '请输入分组名称')); return; }
+            if (groups.some(g => g.name === name)) { showToast(T('groupNameExists', null, '已有同名分组')); return; }
+            groups.push({ id: 'g_' + Date.now().toString(36), name: name, order: groups.length });
+            saveGroups();
+            refresh();
+            return;
+        }
+        const row = e.target.closest('.group-row');
+        if (!row) return;
+        const id = row.dataset.groupId;
+        const group = groupById(id);
+        if (!group) return;
+        const op = e.target.closest('[data-op]');
+        if (!op) return;
+        if (op.dataset.op === 'rename') {
+            const input = row.querySelector('.group-name-input');
+            const name = Array.from((input ? input.value.trim() : '')).slice(0, 20).join('');
+            if (!name) { showToast(T('groupNameRequired', null, '请输入分组名称')); return; }
+            if (groups.some(g => g.name === name && g.id !== id)) {
+                showToast(T('groupNameExists', null, '已有同名分组'));
+                return;
+            }
+            group.name = name;
+            saveGroups();
+            refresh();
+            return;
+        }
+        if (op.dataset.op === 'delete') {
+            const name = group.name;
+            confirmModal(T('groupDelete', null, '删除'),
+                escapeHtml(T('groupDeleteConfirm', { name: name }, '确定删除分组「{name}」吗？组内聊天会回到「未分组」。')),
+                () => {
+                    groups = groups.filter(g => g.id !== id);
+                    myStudents.forEach(entry => {
+                        if (entry.groupId === id) entry.groupId = '';
+                    });
+                    saveGroups();
+                    saveMyStudents();
+                    renderContactList();
+                    openGroupManager();
+                });
+        }
+    };
 }
 
 function openStudentPicker() {
@@ -1859,7 +2932,19 @@ function addStudentToMyList(studentId) {
     const stuId = Number(studentId);
     if (!libraryById[stuId]) return null;
     const chatId = newChatId(stuId);
-    myStudents.push({ id: chatId, studentId: stuId, unread: 0, addedAt: now() });
+    // 新会话排在最前面（手动排序的最小 order - 1）
+    myStudents.push({
+        id: chatId,
+        studentId: stuId,
+        unread: 0,
+        addedAt: now(),
+        note: '',
+        tags: [],
+        groupId: '',
+        pinned: false,
+        order: minChatOrder() - 1,
+        mode: 'edit'
+    });
     if (!Array.isArray(chats[chatId])) chats[chatId] = [];
     saveMyStudents();
     saveChats();
@@ -2084,6 +3169,45 @@ function isCenterItemType(type) {
     return type === 'reply' || type === 'story' || type === 'narration1' || type === 'narration2';
 }
 
+/* ---------- 追加限制：回复 / 好感故事 / 旁白 之后不允许追加信息 ---------- */
+
+function boxLastItem(box) {
+    if (!box || !Array.isArray(box.items) || !box.items.length) return null;
+    return box.items[box.items.length - 1];
+}
+
+function canAppendToBox(box) {
+    const it = boxLastItem(box);
+    if (!it) return false;
+    return !isCenterItemType(it.type);
+}
+
+function centerCardLabel(type) {
+    if (type === 'reply') return T('itemTypeReply', null, '回复');
+    if (type === 'story') return T('itemTypeStory', null, '好感故事');
+    if (type === 'narration1' || type === 'narration2') return T('appendLabelNarration', null, '旁白');
+    return '';
+}
+
+function notifyAppendBlocked(type) {
+    showToast(T('appendBlockedAfterCard', { label: centerCardLabel(type) },
+        '「{label}」后面不能追加信息，请用「发送」新建一条'));
+}
+
+/** 输入区「追加」按钮：卡片类消息后置灰并提示原因（点击会说明，不会静默失败） */
+function updateAppendButtonState() {
+    const btn = document.getElementById('append-btn');
+    if (!btn) return;
+    const playMode = !!(currentStudentId && isPlayChat(currentStudentId));
+    const boxes = currentStudentId ? chatBoxes() : [];
+    const last = boxes.length ? boxes[boxes.length - 1] : null;
+    const ok = !playback && !playMode && !!currentStudentId && canAppendToBox(last);
+    btn.classList.toggle('blocked', !ok);
+    btn.title = ok
+        ? T('appendBtn', null, '追加')
+        : T('appendUnavailableHint', null, '「回复 / 好感故事 / 旁白」后面不能追加信息');
+}
+
 function currentStudent() {
     if (!currentStudentId) return null;
     // currentStudentId 现在是「会话 id」（时间戳_角色编号），学生资料要按 entry.studentId 查
@@ -2140,6 +3264,19 @@ function openChat(chatId) {
     document.querySelector('.bottom-nav').classList.add('hidden');
 
     renderChat();
+    applyChatModeUI();
+    resetPlayButton();
+
+    // 播放模式：打开聊天后立刻开始播放（有未播完的进度则接着播）
+    if (isPlayChat(actualChatId)) {
+        const prog = chatProgress(actualChatId);
+        if (!prog || !prog.finished) {
+            const openId = actualChatId;
+            setTimeout(() => {
+                if (currentStudentId === openId && !playback) startPlayback({ playMode: true });
+            }, 40);
+        }
+    }
 }
 
 function closeChat() {
@@ -2162,6 +3299,8 @@ function closeChat() {
     const input = document.getElementById('chat-input');
     if (input) { input.value = ''; input.style.height = 'auto'; }
     currentStudentId = null;
+    applyChatModeUI();
+    resetPlayButton();
     renderContactList();
 }
 
@@ -2186,6 +3325,7 @@ function boxHtml(box) {
     const avatarHtml = isSensei ? '' :
         `<img class="box-avatar" src="${escapeHtml(avatar)}" data-fallback="${escapeHtml(avatarFallback)}"
               referrerpolicy="no-referrer" alt="">`;
+    // 老师消息不显示名字/标签（只有气泡）；学生消息显示名字
     const nameHtml = isSensei ? '' : `<div class="box-name">${escapeHtml(studentName)}</div>`;
 
     return `<div class="msg-box ${isSensei ? 'sensei' : 'student'}${hasCard ? ' card-box' : ''}" data-box-id="${escapeHtml(box.id)}">
@@ -2243,7 +3383,11 @@ function renderChat() {
     if (!stu) return;
 
     const container = document.getElementById('chat-content');
-    const boxes = chatBoxes();
+    const rawBoxes = chatBoxes();
+    // 播放模式：已选择过的回复直接显示为消息（结束后回复框不复原）
+    const boxes = isPlayChat(currentStudentId)
+        ? displayBoxesForPlayMode(currentStudentId, rawBoxes)
+        : rawBoxes;
 
     if (!boxes.length) {
         const intro = (stu.introduction || '').trim();
@@ -2251,12 +3395,14 @@ function renderChat() {
             ${escapeHtml(T('chatEmpty', { name: stu.displayName }, '与 {name} 的聊天从这里开始'))}
             ${intro ? `<div style="margin-top:12px;font-size:13px;color:#bbb;line-height:1.7;white-space:pre-wrap;">${escapeHtml(intro)}</div>` : ''}
         </div>`;
+        updateAppendButtonState();
         return;
     }
 
     container.innerHTML = boxes.map(boxHtml).join('');
     bindImageAutoScroll(container);
     scrollChatToBottom(container);
+    updateAppendButtonState();
 }
 
 // 图片是懒加载/异步加载的：加载完成后如果用户仍在底部附近，就继续贴底，
@@ -2330,7 +3476,7 @@ function refreshMoreTilesForRole() {
             <circle cx="10.5" cy="12" r="7.4" fill="none" stroke="#7a8aa0" stroke-width="1.7"/>
             <circle cx="8" cy="10" r="1" fill="#7a8aa0"/>
             <circle cx="13" cy="10" r="1" fill="#7a8aa0"/>
-            <path d="M7.6 13.9c.9 1.5 2.3 2.3 3.9 2.3s3-.8 3.9-2.3" fill="none" stroke="#7a8aa0" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M7.2 13.6c1 1.9 2.1 2.8 3.3 2.8s2.3-.9 3.3-2.8" fill="none" stroke="#7a8aa0" stroke-width="1.6" stroke-linecap="round"/>
             <path d="M19 3l.7 2.1 2.1.7-2.1.7L19 8.6l-.7-2.1-2.1-.7 2.1-.7L19 3Z" fill="#e8899c"/>
         </svg>
     </span><span class="more-tile-label">${escapeHtml(T('moreDiff', null, '表情差分'))}</span>`;
@@ -2345,6 +3491,10 @@ function refreshMoreTilesForRole() {
 function commitSendText(text, append) {
     if (!currentStudentId) return;
     const boxes = chatBoxes();
+    // 兜底：卡片类消息（回复 / 好感故事 / 旁白）之后不允许追加，退回「新建一条」
+    if (append && boxes.length && !canAppendToBox(boxes[boxes.length - 1])) {
+        append = false;
+    }
     if (append && boxes.length) {
         const box = boxes[boxes.length - 1];
         box.items.push(newItem('text', { text: text }));
@@ -2370,6 +3520,12 @@ function sendMessage(mode) {
 
     if (append && boxes.length) {
         const last = boxes[boxes.length - 1];
+        const lastItem = boxLastItem(last);
+        // 需求：「回复 / 好感故事 / 旁白」后面不允许追加信息
+        if (lastItem && isCenterItemType(lastItem.type)) {
+            notifyAppendBlocked(lastItem.type);
+            return;
+        }
         if (last.role !== currentRole) {
             const stu = currentStudent();
             const lastLabel = last.role === 'sensei'
@@ -2663,7 +3819,7 @@ function openReplyEditor(boxId, itemId) {
     ]);
 
     const body = document.getElementById('modal-body');
-    body.addEventListener('click', e => {
+    body.onclick = e => {
         const remove = e.target.closest('[data-remove-option]');
         if (remove) {
             const current = Array.from(body.querySelectorAll('.reply-option-input')).map(el => el.value);
@@ -2688,7 +3844,7 @@ function openReplyEditor(boxId, itemId) {
             const inputs = body.querySelectorAll('.reply-option-input');
             if (inputs.length) inputs[inputs.length - 1].focus();
         }
-    });
+    };
 }
 
 // 好感故事框：标题与按钮文案固定，不允许编辑；直接发送
@@ -2796,7 +3952,7 @@ function openDiffPicker() {
                      referrerpolicy="no-referrer" alt="" loading="lazy">
             </button>`
         ).join('');
-        return `<div class="diff-chips">${chips}</div><div class="diff-grid">${cells}</div>`;
+        return `<div class="diff-wrap"><div class="diff-chips">${chips}</div><div class="diff-grid">${cells}</div></div>`;
     };
 
     showModal(T('diffTitle', { name: stu.displayName }, '表情差分 · {name}'), renderBody(), [
@@ -2870,6 +4026,11 @@ function chooseReplyOption(btn) {
 
 function openBoxEditor(boxId) {
     if (!currentStudentId || playback) return;
+    // 播放模式不允许修改聊天内容（需求 6）
+    if (isPlayChat(currentStudentId)) {
+        showToast(T('playModeNoEdit', null, '播放模式不允许修改聊天内容'));
+        return;
+    }
     const boxes = chatBoxes();
     const idx = boxes.findIndex(b => b.id === boxId);
     if (idx < 0) return;
@@ -2909,7 +4070,7 @@ function openBoxEditor(boxId) {
         <div class="box-edit-list" id="box-edit-list">${itemsHtml}</div>
         <div class="box-edit-hint">${escapeHtml(T('boxSplitHint', null, '勾选消息后，可把它们独立为另一个信息盒子；未勾选的消息保留在原盒子'))}</div>
         <div class="box-edit-actions">
-            <button class="box-action-btn" type="button" data-action="append">＋ ${escapeHtml(T('boxAppend', null, '追加信息'))}</button>
+            <button class="box-action-btn${canAppendToBox(box) ? '' : ' blocked'}" type="button" data-action="append"${canAppendToBox(box) ? '' : ` title="${escapeHtml(T('appendUnavailableHint', null, '「回复 / 好感故事 / 旁白」后面不能追加信息'))}"`}>＋ ${escapeHtml(T('boxAppend', null, '追加信息'))}</button>
             <button class="box-action-btn" type="button" data-action="sender">${escapeHtml(T('boxChangeSender', null, '更换发送者'))}</button>
             <button class="box-action-btn" type="button" data-action="up" ${idx === 0 ? 'disabled' : ''}>↑ ${escapeHtml(T('boxMoveUp', null, '上移'))}</button>
             <button class="box-action-btn" type="button" data-action="down" ${idx === boxes.length - 1 ? 'disabled' : ''}>↓ ${escapeHtml(T('boxMoveDown', null, '下移'))}</button>
@@ -3078,6 +4239,11 @@ function openTextItemEditor(boxId, itemId) {
 function openAppendEditor(boxId) {
     const box = findBox(boxId);
     if (!box) return;
+    const lastItem = boxLastItem(box);
+    if (lastItem && isCenterItemType(lastItem.type)) {
+        notifyAppendBlocked(lastItem.type);
+        return;
+    }
     const html = `<textarea class="modal-input" id="append-text-input" placeholder="${escapeHtml(T('chatPlaceholder', null, '输入消息或图片链接...'))}"></textarea>`;
     showModal(T('boxAppend', null, '追加信息'), html, [
         { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: () => openBoxEditor(boxId) },
@@ -3087,6 +4253,12 @@ function openAppendEditor(boxId) {
                 const val = document.getElementById('append-text-input').value.trim();
                 if (!val) { showToast(T('replyEmpty', null, '内容不能为空')); return; }
                 const realBox = findBox(boxId);
+                if (!realBox) { closeModal(); return; }
+                const tail = boxLastItem(realBox);
+                if (tail && isCenterItemType(tail.type)) {
+                    notifyAppendBlocked(tail.type);
+                    return;
+                }
                 if (realBox) {
                     realBox.items.push(newItem('text', { text: val }));
                     realBox.time = now();
@@ -3100,11 +4272,16 @@ function openAppendEditor(boxId) {
     setTimeout(() => focusFormInput('append-text-input'), 100);
 }
 
-/* ================= 播放（打字动画） ================= */
+/* ================= 播放（打字动画 / 播放模式） ================= */
 
 function updatePlaybackProgress() {
     const el = document.getElementById('playback-progress');
     if (!el || !playback) return;
+    // 需求：播放模式不显示播放进度
+    if (playback.playMode) {
+        el.textContent = '';
+        return;
+    }
     if (playback.waitingReply) {
         el.textContent = T('playSelectReply', null, '请选择一个回复以继续');
         return;
@@ -3118,19 +4295,26 @@ function resetPlayButton() {
     const btn = document.getElementById('btn-play');
     const txt = document.getElementById('btn-play-text');
     if (btn) btn.classList.remove('playing');
-    if (txt) txt.textContent = T('playBtn', null, '播放');
+    if (txt) {
+        const playMode = !!(currentStudentId && isPlayChat(currentStudentId));
+        txt.textContent = playMode ? T('replayBtn', null, '重新播放') : T('playBtn', null, '播放');
+    }
     const bar = document.getElementById('playback-bar');
     if (bar) bar.classList.add('hidden');
     const area = document.getElementById('chat-input-area');
     if (area) area.classList.remove('disabled');
     const content = document.getElementById('chat-content');
     if (content) content.classList.remove('playing');
+    const page = document.getElementById('chat-page');
+    // 需求 7：播放时隐藏发送栏 —— 播放结束后恢复（播放模式由 .play-mode 保持隐藏）
+    if (page) page.classList.remove('playing');
     const input = document.getElementById('chat-input');
     if (input) input.disabled = false;
     ['send-btn', 'append-btn', 'btn-more'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = false;
     });
+    updateAppendButtonState();
 }
 
 function typingBoxHtml() {
@@ -3150,20 +4334,113 @@ function typingBoxHtml() {
     </div>`;
 }
 
-function startPlayback() {
+let playbackSaveTimer = null;
+
+/** 当前聊天是否处于「播放模式」（打开后自动播放、不允许修改内容） */
+function isPlaybackModeChat() {
+    return !!(currentStudentId && isPlayChat(currentStudentId));
+}
+
+function applyChatModeUI() {
+    const page = document.getElementById('chat-page');
+    if (!page) return;
+    const playMode = isPlaybackModeChat();
+    page.classList.toggle('play-mode', playMode);
+    const badge = document.getElementById('chat-mode-badge');
+    if (badge) {
+        badge.textContent = playMode ? T('chatModePlay', null, '播放模式') : '';
+        badge.style.display = playMode ? '' : 'none';
+    }
+    // 播放模式不允许修改聊天内容：发送栏始终隐藏（需求 6 / 7）
+    if (playMode && !playback) {
+        const area = document.getElementById('chat-input-area');
+        if (area) area.classList.add('disabled');
+    }
+}
+
+/** 把已选过的「回复」替换成普通消息：播放模式结束后回复框不复原（需求 6） */
+function applyChoicesToBoxes(boxes, choices) {
+    if (!choices || !Object.keys(choices).length) return boxes;
+    return boxes.map(box => {
+        let changed = false;
+        const items = (box.items || []).map(it => {
+            if (it.type !== 'reply') return it;
+            const idx = choices[it.id];
+            if (idx == null) return it;
+            const options = getReplyOptions(it);
+            const text = options[idx];
+            if (!text) return it;
+            changed = true;
+            return { id: it.id, type: 'text', text: text };
+        });
+        return changed ? { id: box.id, role: box.role, time: box.time, items: items } : box;
+    });
+}
+
+/** 播放模式的展示数据（已选择过的回复显示为消息） */
+function displayBoxesForPlayMode(chatId, boxes) {
+    const prog = chatProgress(chatId);
+    if (!prog) return boxes;
+    return applyChoicesToBoxes(boxes, prog.choices);
+}
+
+function persistPlaybackProgress() {
+    if (!playback || !playback.playMode || !playback.chatId) return;
+    const existing = progressMap[playback.chatId];
+    setChatProgress(playback.chatId, {
+        boxIndex: playback.boxIndex,
+        itemIndex: playback.itemIndex,
+        choices: playback.choices,
+        finished: existing ? !!existing.finished : false
+    });
+    saveProgressMap();
+}
+
+/** 自动保存播放进度（防抖：连续快进时不要每条消息都写 localStorage） */
+function schedulePersistPlaybackProgress() {
+    if (!playback || !playback.playMode) return;
+    if (playbackSaveTimer) clearTimeout(playbackSaveTimer);
+    playbackSaveTimer = setTimeout(() => {
+        playbackSaveTimer = null;
+        persistPlaybackProgress();
+    }, 120);
+}
+
+function startPlayback(opts) {
+    opts = opts || {};
     if (!currentStudentId || playback) return;
+    const entry = entryOf(currentStudentId);
+    const playMode = !!(entry && normalizeChatMode(entry.mode) === 'play') || !!opts.playMode;
     const boxes = chatBoxes();
     if (!boxes.length) {
         showToast(T('playEmpty', null, '还没有聊天内容可以播放'));
         return;
     }
     closeMorePanel();
-    playback = { boxes: copyBoxes(boxes), boxIndex: 0, itemIndex: 0, timer: null, boxEl: null };
+    const saved = playMode ? chatProgress(currentStudentId) : null;
+    playback = {
+        chatId: currentStudentId,
+        boxes: copyBoxes(boxes),
+        boxIndex: 0,
+        itemIndex: 0,
+        timer: null,
+        boxEl: null,
+        playMode: playMode,
+        choices: saved ? Object.assign({}, saved.choices) : {}
+    };
+    // 已选择过的回复：在播放副本里直接显示成消息
+    playback.boxes = applyChoicesToBoxes(playback.boxes, playback.choices);
 
     const container = document.getElementById('chat-content');
     container.innerHTML = '';
     container.classList.add('playing');
-    document.getElementById('playback-bar').classList.remove('hidden');
+    const page = document.getElementById('chat-page');
+    if (page) {
+        page.classList.toggle('play-mode', playMode);
+        page.classList.add('playing'); // 需求 7：播放时隐藏发送栏
+    }
+    // 需求 6：播放模式不显示播放进度（整条进度栏都不显示）
+    document.getElementById('playback-bar').classList.toggle('hidden', playMode);
     document.getElementById('btn-play').classList.add('playing');
     document.getElementById('btn-play-text').textContent = T('playStopBtn', null, '停止');
     document.getElementById('chat-input-area').classList.add('disabled');
@@ -3172,7 +4449,45 @@ function startPlayback() {
     document.getElementById('append-btn').disabled = true;
     document.getElementById('btn-more').disabled = true;
     updatePlaybackProgress();
+
+    // 继续上次进度：先把已播放内容一次性铺好，再接着播
+    if (playMode && saved && !saved.finished && (saved.boxIndex > 0 || saved.itemIndex > 0)) {
+        const total = playback.boxes.length;
+        let bi = Math.min(saved.boxIndex, total);
+        let ii = saved.itemIndex;
+        if (bi >= total) { bi = total - 1; ii = (playback.boxes[bi].items || []).length; }
+        renderPlaybackUpTo(bi, ii);
+        playback.boxIndex = bi;
+        playback.itemIndex = ii;
+        updatePlaybackProgress();
+        playback.timer = setTimeout(playbackNext, 240);
+        return;
+    }
     playbackNext();
+}
+
+/** 立即渲染 0..bi 盒子的内容（播放进度恢复用，无打字动画） */
+function renderPlaybackUpTo(bi, ii) {
+    if (!playback) return;
+    const container = document.getElementById('chat-content');
+    container.innerHTML = '';
+    playback.boxEl = null;
+    for (let b = 0; b < bi && b < playback.boxes.length; b++) {
+        const box = playback.boxes[b];
+        playback.boxEl = null;
+        ensurePlaybackBox(box);
+        (box.items || []).forEach(it => playbackAppendItem(box, it, true));
+    }
+    if (bi < playback.boxes.length) {
+        const box = playback.boxes[bi];
+        playback.boxEl = null;
+        ensurePlaybackBox(box);
+        const items = box.items || [];
+        for (let i = 0; i < ii && i < items.length; i++) {
+            playbackAppendItem(box, items[i], true);
+        }
+    }
+    scrollChatToBottom(container);
 }
 
 function copyBoxes(boxes) {
@@ -3194,8 +4509,9 @@ function ensurePlaybackBox(box) {
     const avatar = stu ? (stu.avatar || fallbackAvatar(stu.displayName)) : fallbackAvatar('?');
     const avatarHtml = isSensei ? '' :
         `<img class="box-avatar" src="${escapeHtml(avatar)}" data-fallback="${escapeHtml(fallbackAvatar(studentName || '?'))}" referrerpolicy="no-referrer" alt="">`;
-    const nameHtml = isSensei ? '' : `<div class="box-name">${escapeHtml(studentName)}</div>`;
     const hasCard = (box.items || []).some(it => isCenterItemType(it.type));
+    // 老师消息不显示名字（与 boxHtml 一致）
+    const nameHtml = isSensei ? '' : `<div class="box-name">${escapeHtml(studentName)}</div>`;
     const wrap = document.createElement('div');
     wrap.innerHTML = `<div class="msg-box ${isSensei ? 'sensei' : 'student'}${hasCard ? ' card-box' : ''}" data-box-id="${escapeHtml(box.id)}">
         ${avatarHtml}
@@ -3210,13 +4526,13 @@ function ensurePlaybackBox(box) {
     return el;
 }
 
-function playbackAppendItem(box, item) {
+function playbackAppendItem(box, item, skipScroll) {
     const boxEl = ensurePlaybackBox(box);
     const itemsEl = boxEl.querySelector('.box-items');
     const wrap = document.createElement('div');
     wrap.innerHTML = `<div class="msg-item" data-item-id="${escapeHtml(item.id)}">${itemHtml(item)}</div>`;
     itemsEl.appendChild(wrap.firstElementChild);
-    scrollChatToBottom(document.getElementById('chat-content'));
+    if (!skipScroll) scrollChatToBottom(document.getElementById('chat-content'));
 }
 
 // 学生消息前的打字动画：每条学生消息播放一次，一次动画周期内完成
@@ -3287,6 +4603,7 @@ function playbackNext() {
     const advance = () => {
         if (!playback) return;
         pb.itemIndex++;
+        schedulePersistPlaybackProgress();
         if (pb.itemIndex >= box.items.length) {
             pb.boxIndex++;
             pb.itemIndex = 0;
@@ -3328,10 +4645,15 @@ function resolvePlaybackReply(boxId, itemId, optionIndex) {
     if (!text) return;
 
     // 只在播放副本里把回复框替换成消息；绝不写回真实聊天数据。
-    // 播放结束/停止后 renderChat 会用原始数据重新渲染，回复框恢复原样。
+    // 播放模式（分享出去的聊天）下把选择记进播放进度，结束后「回复」框不复原。
     pItem.type = 'text';
     pItem.text = text;
     delete pItem.options;
+    if (pb.playMode) {
+        pb.choices = pb.choices || {};
+        pb.choices[itemId] = optionIndex;
+        persistPlaybackProgress();
+    }
 
     // 播放视图里把回复选择框替换成普通消息气泡
     const container = document.getElementById('chat-content');
@@ -3352,6 +4674,7 @@ function resolvePlaybackReply(boxId, itemId, optionIndex) {
 
     pb.waitingReply = null;
     pb.itemIndex++;
+    schedulePersistPlaybackProgress();
     if (pb.itemIndex >= pBox.items.length) {
         pb.boxIndex++;
         pb.itemIndex = 0;
@@ -3370,12 +4693,26 @@ function resolvePlaybackReply(boxId, itemId, optionIndex) {
 }
 
 function finishPlayback() {
+    // 播放模式：标记「已看完」，并把已选回复写进进度（结束后回复框不复原）
+    if (playback && playback.playMode && playback.chatId) {
+        if (playbackSaveTimer) { clearTimeout(playbackSaveTimer); playbackSaveTimer = null; }
+        setChatProgress(playback.chatId, {
+            boxIndex: playback.boxIndex,
+            itemIndex: playback.itemIndex,
+            choices: playback.choices,
+            finished: true
+        });
+        saveProgressMap();
+    }
     stopPlayback(false);
 }
 
 function stopPlayback(silent) {
     if (playback) {
         if (playback.timer) clearTimeout(playback.timer);
+        if (playbackSaveTimer) { clearTimeout(playbackSaveTimer); playbackSaveTimer = null; }
+        // 需求 6：播放模式自动保存播放进度
+        if (playback.playMode) persistPlaybackProgress();
         playback = null;
     }
     removePlaybackTyping();
@@ -3386,10 +4723,25 @@ function stopPlayback(silent) {
 function togglePlayback() {
     if (playback) {
         stopPlayback(false);
-    } else {
-        startPlayback();
+        return;
     }
+    // 播放模式：点播放键 = 重新播放（清空已保存的进度与已选回复）
+    if (isPlaybackModeChat()) {
+        delete progressMap[currentStudentId];
+        saveProgressMap();
+        startPlayback({ playMode: true });
+        return;
+    }
+    startPlayback();
 }
+
+// 切后台 / 关页面时把播放进度落盘，避免防抖窗口内丢进度
+window.addEventListener('pagehide', () => {
+    if (playback && playback.playMode) persistPlaybackProgress();
+});
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && playback && playback.playMode) persistPlaybackProgress();
+});
 
 /* ================= 截图 ================= */
 
@@ -3435,7 +4787,10 @@ function takeScreenshot() {
     if (playback) stopPlayback(false);
     const stu = currentStudent();
     if (!stu) return;
-    const boxes = chatBoxes();
+    // 播放模式：截图也使用「已选回复」的展示数据
+    const boxes = isPlayChat(currentStudentId)
+        ? displayBoxesForPlayMode(currentStudentId, chatBoxes())
+        : chatBoxes();
     if (!boxes.length) {
         showToast(T('playEmpty', null, '还没有聊天内容可以截图'));
         return;
@@ -3571,6 +4926,7 @@ function initChatInteractions() {
 
     container.addEventListener('pointerdown', e => {
         if (playback) return;
+        if (currentStudentId && isPlayChat(currentStudentId)) return; // 播放模式不允许编辑
         if (e.button !== undefined && e.button !== 0) return;
         if (morePanelOpen) { closeMorePanel(); return; }
         const boxEl = e.target.closest('.msg-box[data-box-id]');
@@ -3614,6 +4970,7 @@ function initChatInteractions() {
     });
 
     container.addEventListener('contextmenu', e => {
+        if (currentStudentId && isPlayChat(currentStudentId)) { e.preventDefault(); return; }
         const boxEl = e.target.closest('.msg-box[data-box-id]');
         if (!boxEl) return;
         e.preventDefault();
@@ -3857,7 +5214,13 @@ function loadUserData() {
                             id: chatId,
                             studentId: stuId,
                             unread: Number(x.unread) > 0 ? Number(x.unread) : 0,
-                            addedAt: Number(x.addedAt) || 0
+                            addedAt: Number(x.addedAt) || 0,
+                            note: normalizeNote(x.note),
+                            tags: normalizeTags(x.tags),
+                            groupId: pickString(x.groupId),
+                            pinned: !!x.pinned,
+                            order: Number.isFinite(Number(x.order)) ? Number(x.order) : undefined,
+                            mode: normalizeChatMode(x.mode)
                         };
                     })
                     .filter(Boolean);
@@ -3876,17 +5239,238 @@ function loadUserData() {
         // 旧版扁平数据迁移后立刻写入新 key，旧 key 保留不删
         if (migrated && Object.keys(chats).length) saveChats();
     } catch (e) { chats = {}; }
+
+    // 分组 / 播放进度 / 手动排序：在 chats 之后加载（排序需要最后消息时间）
+    loadGroups();
+    loadProgressMap();
+    if (ensureChatOrder()) saveMyStudents();
 }
 
 /* ---------- 导出 / 导入 ---------- */
 
+/* ---------- 单个聊天导出（分享方式 / 时间与版本 / 聊天备注 / 聊天内容） ---------- */
+
+function bindExportModeHint() {
+    const update = () => {
+        const hint = document.getElementById('export-mode-hint');
+        if (!hint) return;
+        let picked = 'edit';
+        document.querySelectorAll('input[name="export-mode"]').forEach(el => { if (el.checked) picked = el.value; });
+        hint.textContent = picked === 'play'
+            ? T('chatModePlayHint', null, '播放模式：打开聊天后自动播放，不能修改聊天内容。')
+            : T('chatModeEditHint', null, '编辑模式：收到后可以继续编辑聊天内容。');
+    };
+    document.querySelectorAll('input[name="export-mode"]').forEach(el => el.addEventListener('change', update));
+    update();
+}
+
+function chatExportFilename(entry) {
+    const stu = libraryById[entry.studentId];
+    const name = diffFolderName(stu ? stu.displayName : 'chat');
+    return T('chatExportFileName', null, 'momotalk_chat') + '_' + name + '_' + timestampForFile(new Date()) + '.json';
+}
+
+function buildSingleChatExport(entry, mode, note) {
+    const stu = libraryById[entry.studentId];
+    const boxes = cloneBoxes(chats[entry.id] || []);
+    const custom = (stu && stu.custom) ? (customStudents.find(s => s.id === entry.studentId) || null) : null;
+    return {
+        type: 'momotalk-chat',
+        version: 1,
+        appVersion: (CONFIG.about && CONFIG.about.version) || '',
+        exportedAt: new Date().toISOString(),
+        mode: normalizeChatMode(mode),
+        note: normalizeNote(note),
+        student: stu ? {
+            id: stu.id,
+            baseId: stu.baseId,
+            name: stu.displayName,
+            shortName: stu.shortName,
+            skinName: stu.skinName || '',
+            avatar: stu.avatar || ''
+        } : null,
+        customStudent: custom ? {
+            id: custom.id,
+            name: custom.name,
+            avatar: custom.avatar || '',
+            diffs: Array.isArray(custom.diffs) ? custom.diffs.slice() : [],
+            diffRange: custom.diffRange || null
+        } : null,
+        chat: {
+            id: entry.id,
+            tags: Array.isArray(entry.tags) ? entry.tags.slice() : [],
+            boxes: boxes
+        }
+    };
+}
+
+function exportCurrentChat() {
+    if (!currentStudentId) return;
+    const entry = entryOf(currentStudentId);
+    const stu = currentStudent();
+    if (!entry || !stu) return;
+    const boxes = chats[entry.id] || [];
+    if (!boxes.length) {
+        showToast(T('chatExportEmpty', null, '当前聊天还没有内容，无法导出'));
+        return;
+    }
+    const mode = normalizeChatMode(entry.mode);
+
+    const html = `
+        <div class="form-field">
+            <label class="form-label">${escapeHtml(T('chatExportShareMode', null, '分享方式'))}</label>
+            <div class="mode-choice">
+                <label class="mode-option">
+                    <input type="radio" name="export-mode" value="edit"${mode === 'edit' ? ' checked' : ''}>
+                    <span>${escapeHtml(T('chatModeEdit', null, '编辑模式'))}</span>
+                </label>
+                <label class="mode-option">
+                    <input type="radio" name="export-mode" value="play"${mode === 'play' ? ' checked' : ''}>
+                    <span>${escapeHtml(T('chatModePlay', null, '播放模式'))}</span>
+                </label>
+            </div>
+            <div class="setting-hint" id="export-mode-hint"></div>
+        </div>
+        <div class="form-field">
+            <label class="form-label">${escapeHtml(T('chatExportNoteLabel', null, '聊天备注'))}</label>
+            <input type="text" class="modal-input" id="export-note" maxlength="${NOTE_MAX}"
+                   value="${escapeHtml(entry.note || '')}"
+                   placeholder="${escapeHtml(T('chatNotePlaceholder', null, '聊天备注（不超过 30 字）'))}">
+        </div>
+        <div class="setting-hint">${escapeHtml(T('chatExportMeta', null, '导出内容：分享方式、时间和版本、聊天备注、聊天内容'))}</div>
+    `;
+
+    showModal(T('chatExportTitle', null, '导出聊天'), html, [
+        { text: T('manageCancel', null, '取消'), class: 'cancel', onClick: closeModal },
+        {
+            text: T('chatExportBtn', null, '导出'), class: 'confirm',
+            onClick: () => {
+                const noteEl = document.getElementById('export-note');
+                const note = normalizeNote(noteEl ? noteEl.value : '');
+                let picked = 'edit';
+                document.querySelectorAll('input[name="export-mode"]').forEach(el => { if (el.checked) picked = el.value; });
+
+                const payload = buildSingleChatExport(entry, picked, note);
+                entry.note = note;
+                entry.mode = normalizeChatMode(picked);
+                // 切到播放模式时清掉旧进度：分享出去的聊天从头开始播放
+                if (entry.mode === 'play') {
+                    delete progressMap[entry.id];
+                    saveProgressMap();
+                }
+                saveMyStudents();
+                renderContactList();
+                closeModal();
+                const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+                downloadBlob(blob, chatExportFilename(entry));
+                showToast(T('chatExportDone', null, '已导出聊天文件'));
+            }
+        }
+    ]);
+    bindExportModeHint();
+}
+
+/* ---------- 单个聊天导入 ---------- */
+
+function importCustomStudentFromChatFile(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const name = Array.from(pickString(raw.name)).slice(0, 20).join('');
+    if (!name) return null;
+    const exist = customStudents.find(s => s.name === name);
+    if (exist) return exist;
+    const diffs = [];
+    (Array.isArray(raw.diffs) ? raw.diffs : []).forEach(d => {
+        if (!d || typeof d !== 'object') return;
+        const n = Number(d.n);
+        const src = pickString(d.src);
+        if (!Number.isFinite(n) || n < 1 || !src) return;
+        diffs.push({ n: n, src: src });
+    });
+    diffs.sort((a, b) => a.n - b.n);
+    let diffRange = null;
+    if (raw.diffRange && typeof raw.diffRange === 'object') {
+        const s = Number(raw.diffRange.start);
+        const e = Number(raw.diffRange.end);
+        if (Number.isFinite(s) && Number.isFinite(e) && s >= 1 && e >= s) diffRange = { start: s, end: e };
+    }
+    let id = nextCustomStudentId();
+    while (customStudents.some(s => s.id === id)) id++;
+    const rec = { id: id, name: name, avatar: pickString(raw.avatar), diffs: diffs, diffRange: diffRange };
+    customStudents.push(rec);
+    saveCustomStudents();
+    mergeCustomStudentsIntoLibrary();
+    return rec;
+}
+
+/** 导入「单个聊天」文件；成功返回 { entry, boxes }，找不到学生时抛错 */
+function importSingleChatFile(parsed) {
+    let stuId = null;
+    const sid = parsed.student ? Number(parsed.student.id) : NaN;
+    if (Number.isFinite(sid) && libraryById[sid]) stuId = sid;
+
+    if (!stuId && parsed.student && pickString(parsed.student.name)) {
+        const name = pickString(parsed.student.name);
+        const found = library.find(s => s.displayName === name || s.shortName === name);
+        if (found) stuId = found.id;
+    }
+    if (!stuId && parsed.customStudent) {
+        const rec = importCustomStudentFromChatFile(parsed.customStudent);
+        if (rec) stuId = rec.id;
+    }
+    if (!stuId) {
+        const name = parsed.student ? pickString(parsed.student.name) : '';
+        if (name) {
+            // 学生库里没有这位学生（例如内置学生库更新前）：直接建一个自定义学生兜底
+            const rec = importCustomStudentFromChatFile({
+                name: name,
+                avatar: parsed.student.avatar,
+                diffs: [],
+                diffRange: null
+            });
+            if (rec) stuId = rec.id;
+        }
+    }
+    if (!stuId) throw new Error(T('importChatBlocked', null, '该聊天所在的学生不在学生库中，且文件未包含学生信息，已跳过。'));
+
+    const chatId = newChatId(stuId);
+    const boxesRaw = parsed.chat && Array.isArray(parsed.chat.boxes) ? parsed.chat.boxes : [];
+    const sanitized = sanitizeChats({ [chatId]: boxesRaw });
+    const boxes = sanitized[chatId] || [];
+    const mode = normalizeChatMode(parsed.mode);
+
+    const entry = {
+        id: chatId,
+        studentId: stuId,
+        unread: 0,
+        addedAt: now(),
+        note: normalizeNote(parsed.note || ''),
+        tags: normalizeTags(parsed.chat && parsed.chat.tags),
+        groupId: '',
+        pinned: false,
+        order: minChatOrder() - 1,
+        mode: mode
+    };
+    myStudents.push(entry);
+    chats[chatId] = boxes;
+    if (mode === 'play') {
+        delete progressMap[chatId];
+        saveProgressMap();
+    }
+    saveMyStudents();
+    saveChats();
+    if (libraryReady) renderContactList();
+    return { entry: entry, boxes: boxes };
+}
+
 function buildExportData() {
     return {
-        version: 5,
+        version: 6,
         exportedAt: new Date().toISOString(),
         myStudents: myStudents,
         customStudents: customStudents,
-        chats: chats
+        chats: chats,
+        groups: groups,
+        progress: progressMap
     };
 }
 
@@ -3907,6 +5491,23 @@ function importData(event) {
             let importedEntries = [];
             let importedChats = null;
             let importedCustomStudents = null;
+            let importedGroups = null;
+            let importedProgress = null;
+
+            // 「导出聊天」生成的单聊文件：只导入这一个聊天
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && parsed.type === 'momotalk-chat') {
+                if (!libraryReady) throw new Error(T('importLibNotReady', null, '学生资料尚未加载完成'));
+                const res = importSingleChatFile(parsed);
+                const stu = libraryById[res.entry.studentId];
+                const modeLabel = res.entry.mode === 'play'
+                    ? T('chatModePlay', null, '播放模式')
+                    : T('chatModeEdit', null, '编辑模式');
+                showModal(T('importDoneTitle', null, '导入结果'), `
+                    <div style="font-size:14px;color:#333;line-height:1.8;">
+                        ${escapeHtml(T('importChatDone', { name: stu ? stu.displayName : '', mode: modeLabel }, '已导入聊天：{name}（{mode}）'))}
+                    </div>`, [{ text: T('closeBtn', null, '关闭'), class: 'confirm', onClick: closeModal }]);
+                return;
+            }
 
             // 兼容三种输入：数字/字符串学生 id、旧格式 { id: studentId }、新格式 { id: chatId, studentId }
             const toEntry = x => {
@@ -3925,7 +5526,13 @@ function importData(event) {
                     chatId: chatId,
                     studentId: sid,
                     unread: Number(x.unread) > 0 ? Number(x.unread) : 0,
-                    addedAt: Number(x.addedAt) || 0
+                    addedAt: Number(x.addedAt) || 0,
+                    note: normalizeNote(x.note),
+                    tags: normalizeTags(x.tags),
+                    groupId: pickString(x.groupId),
+                    pinned: !!x.pinned,
+                    order: Number.isFinite(Number(x.order)) ? Number(x.order) : undefined,
+                    mode: normalizeChatMode(x.mode)
                 };
             };
 
@@ -3942,6 +5549,12 @@ function importData(event) {
                 }
                 if (Array.isArray(parsed.customStudents)) {
                     importedCustomStudents = normalizeCustomStudents(parsed.customStudents);
+                }
+                if (Array.isArray(parsed.groups)) {
+                    importedGroups = normalizeGroups(parsed.groups);
+                }
+                if (parsed.progress && typeof parsed.progress === 'object' && !Array.isArray(parsed.progress)) {
+                    importedProgress = normalizeProgressMap(parsed.progress);
                 }
             } else {
                 throw new Error(T('importUnknown', null, '无法识别的文件格式'));
@@ -3960,21 +5573,51 @@ function importData(event) {
                 mergeCustomStudentsIntoLibrary();
             }
 
+            // 分组：先并入（同 id 视为同一分组），再修正被导入会话的 groupId
+            if (importedGroups && importedGroups.length) {
+                importedGroups.forEach(g => {
+                    if (groups.some(x => x.id === g.id)) return;
+                    groups.push({ id: g.id, name: g.name, order: groups.length });
+                });
+                groups = normalizeGroups(groups);
+                saveGroups();
+            }
+
             const existing = new Set(myStudents.map(s => s.id));
             let added = 0, missing = 0;
             importedEntries.forEach(entry => {
                 if (!libraryById[entry.studentId]) { missing++; return; }
                 if (existing.has(entry.chatId)) return;
+                const groupId = (entry.groupId && groups.some(g => g.id === entry.groupId)) ? entry.groupId : '';
                 myStudents.push({
                     id: entry.chatId,
                     studentId: entry.studentId,
                     unread: entry.unread,
-                    addedAt: entry.addedAt || now() + added
+                    addedAt: entry.addedAt || now() + added,
+                    note: entry.note || '',
+                    tags: entry.tags || [],
+                    groupId: groupId,
+                    pinned: !!entry.pinned,
+                    order: Number.isFinite(entry.order) ? entry.order : undefined,
+                    mode: normalizeChatMode(entry.mode)
                 });
                 existing.add(entry.chatId);
                 added++;
             });
             const knownChatIds = new Set(myStudents.map(s => s.id));
+
+            // 播放进度：只保留属于已有会话、且更新的那一份
+            if (importedProgress) {
+                Object.keys(importedProgress).forEach(k => {
+                    if (!knownChatIds.has(k)) return;
+                    const incoming = importedProgress[k];
+                    const cur = progressMap[k];
+                    if (!cur || (Number(incoming.updatedAt) || 0) > (Number(cur.updatedAt) || 0)) {
+                        progressMap[k] = incoming;
+                    }
+                });
+                saveProgressMap();
+            }
 
             let chatMerged = 0;
             let addedBoxes = 0;
@@ -4004,6 +5647,9 @@ function importData(event) {
             saveMyStudents();
             renderContactList();
             renderCustomStudentsUI();
+
+            // 旧备份可能没有 order 字段：按最后消息时间补一遍，避免列表顺序随机
+            if (ensureChatOrder()) saveMyStudents();
 
             let doneHtml = `<div style="font-size:14px;color:#333;line-height:1.8;">${escapeHtml(
                 T('importDone', { added: added, merged: chatMerged },
@@ -4038,6 +5684,9 @@ const modalActions = document.getElementById('modal-actions');
 function showModal(title, bodyHtml, actions) {
     modalTitle.textContent = title;
     modalBody.innerHTML = bodyHtml;
+    // modal-body 是常驻元素：每次打开弹窗先清掉上一次挂的点击处理器，
+    // 否则多次打开同一类弹窗会重复触发（例如分组管理点一次建两个分组）
+    modalBody.onclick = null;
     modalActions.innerHTML = '';
     (actions || []).forEach(a => {
         const btn = document.createElement('button');
@@ -4075,6 +5724,9 @@ window.__mm = {
     chats: () => chats,
     settings: () => settings,
     myStudents: () => myStudents,
+    groups: () => groups,
+    progress: () => progressMap,
+    customStudents: () => customStudents,
     student: () => currentStudent(),
     openChat: openChat,
     closeChat: closeChat,
@@ -4094,7 +5746,33 @@ window.__mm = {
     isImageUrl: isImageUrl,
     escapeHtml: escapeHtml,
     setAnimationTime: setAnimationTime,
-    setAutoBackup: setAutoBackup
+    setAutoBackup: setAutoBackup,
+    // 单聊导出 / 导入
+    buildSingleChatExport: buildSingleChatExport,
+    exportCurrentChat: exportCurrentChat,
+    importSingleChatFile: importSingleChatFile,
+    // 列表管理
+    renderContactList: renderContactList,
+    contactEntries: contactEntries,
+    showListContextMenu: showListContextMenu,
+    openGroupManager: openGroupManager,
+    normalizeNote: normalizeNote,
+    normalizeTags: normalizeTags,
+    // 自定义学生 / 差分 / zip
+    renderCustomStudentsUI: renderCustomStudentsUI,
+    exportCustomStudent: exportCustomStudent,
+    exportAllCustomStudents: exportAllCustomStudents,
+    exportCustomStudentsZip: exportCustomStudentsZip,
+    importCustomStudentsZip: importCustomStudentsZip,
+    setPendingCustomDiffs: (diffs, start, end) => {
+        pendingCustomDiffs = Array.isArray(diffs) ? diffs.slice() : [];
+        const startEl = document.getElementById('custom-diff-start');
+        const endEl = document.getElementById('custom-diff-end');
+        if (startEl && start != null) startEl.value = start;
+        if (endEl && end != null) endEl.value = end;
+        renderPendingDiffPreview();
+    },
+    pendingCustomDiffs: () => pendingCustomDiffs
 };
 
 (async function boot() {
